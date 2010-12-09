@@ -104,3 +104,29 @@ install curl - required for cloudfusion:
 {{{sudo apt-get install curl libcurl3 libcurl3-dev php5-curl}}} 
 
 PHP MUST BE PART OF YOUR PATH! You'll know it's working if you type php on the command line and something starts happening rather than nothing happening :) 
+
+===MySQL Configs===
+
+You will have already set up your MySQL installation previous steps, but there's a couple of easy performance and internationalization tweaks to perform.
+
+_/etc/my.cnf_
+{{{
+[mysqld]
+default-character-set = utf8
+default-collation = utf8_unicode_ci
+query_cache_type = 1
+query_cache_size  = 32M
+}}}
+
+===FFMPEG===
+In order to do almost anything in this app on linux, you're going to need something like medibuntu - most importantly FFMPEG. You'll want to add the non-free versions to support MP3 appropriately. Read more about getting medibuntu set up here:
+
+[https://help.ubuntu.com/community/Medibuntu Setting Up Medibuntu]
+
+
+===Cleaning Up===
+restart both apache and mysql before you continue
+ 
+{{{/etc/init.d/apache2 restart}}} 
+
+{{{/etc/init.d/mysql restart}}} 
