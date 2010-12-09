@@ -99,10 +99,8 @@ once installed use the pear package manager to install apc and http_download
  * {{{sudo pear install APC}}}
  * {{{sudo pear install HTTP_Download}}}
 
-- increase max memory to 128M or higher in cli - 32MB or higher for web 
-- large libraries will demand more memory use during scanning and GD may need to process up to 10MP JPEG images for cover art
-curl required for cloudfusion: sudo apt-get install curl libcurl3 libcurl3-dev php5-curl 
+install curl - required for cloudfusion:
 
-You should validate your PHP install went right by running 
+{{{sudo apt-get install curl libcurl3 libcurl3-dev php5-curl}}} 
 
 PHP MUST BE PART OF YOUR PATH! You'll know it's working if you type php on the command line and something starts happening rather than nothing happening :) 
