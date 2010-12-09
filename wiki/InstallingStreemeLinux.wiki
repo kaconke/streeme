@@ -7,4 +7,78 @@ This is the Linux install guide - if you're looking for other platform installat
 
 Streeme requires the initial installation of a LAMP (Linux Apache MySQL PHP) web server package before the script can operate. I would write how to do this, but there is much sager advice, better presented on Linux help sites - you'll need to find the right packages for your flavor of Linux - I'll be showing how it works on Ubuntu server, a popular and thin linux installation. I prefer Ubuntu over some of the other linuxes mostly because of Medibuntu, which offers some excellent multimedia and transcoding support.
 
-=Let's Begin= 
+==Installing the Web Server== 
+
+please have a look at this wonderfully formatted and clear installation guide:
+
+https://help.ubuntu.com/community/ApacheMySQLPHP
+
+==Configuring the Server== 
+
+Now you've got your bare bones server installed, you'll need to make some edits to the config files before you can proceed. 
+
+===Apache Configs===
+The above guide will add apache in a modular setup - to enable/disable modules, you just copy/link from /etc/apache2/mods-available to /etc/apache2/mods-enabled. If you use a linux that doesn't have modules like this, please compile it with the right functionality:
+
+-add mod-rewrite    *required*
+-add mod-XSendFile  *optional*
+-add deflate_module *optional*
+
+choose the right timezone for {{{php date.timezone flag}}} make sure your PC clock is the same region and time. 
+
+create a virtual hosts:
+It's highly recommended that you choose two *random unused ports* between 1025-9800 and replace the example 8095/8096 pairs. One port is for the media stream and another is for HTML and program communication. Also make sure your paths are correct!
+
+_/etc/apache2/httpd.conf_
+{{{
+# This is the configuration for the streeme app communication path
+Listen *:8095
+
+# Be sure to only have this line once in your configuration
+NameVirtualHost *:8095
+
+<VirtualHost *:8095>
+  DocumentRoot "d:/web/streeme/web"
+  DirectoryIndex index.php
+  <Directory "d:/web/streeme/web">
+    AllowOverride All
+    Allow from All
+  </Directory>
+
+  Alias /sf "d:/web/streeme/lib/vendor/symfony/data/web/sf"
+  <Directory "d:/web/streeme/lib/vendor/symfony/data/web/sf">
+    AllowOverride All
+    Allow from All
+  </Directory>
+</VirtualHost>
+
+# This is the configuration for the music streamer
+Listen *:8096
+
+# Be sure to only have this line once in your configuration
+NameVirtualHost *:8096
+
+<VirtualHost *:8096>
+  DocumentRoot "d:/web/streeme/web"
+  DirectoryIndex index.php
+  <Directory "d:/web/streeme/web">
+    AllowOverride All
+    Allow from All
+  </Directory>
+</VirtualHost>
+
+#Disable SVN directory sniffing through apache
+<Directory ~ ".*\.svn"> 
+Order allow,deny 
+Deny from all 
+Satisfy All 
+</Directory> 
+}}}
+
+now validate you've made the correct changes by typing:
+
+{{{apache2ctl configtest}}}
+
+if all looks good, go ahead and restart apache, type:
+
+{{{/etc/init.d/apache2 restart}}} 
