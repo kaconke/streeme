@@ -1,0 +1,8 @@
+#summary Web Server Installation on Linux
+
+= Introduction =
+
+This is the Linux install guide - if you're looking for other platform installation guides, please go back to the [InstallingStreemeStartPage start page of the installation]
+
+= Details =
+
