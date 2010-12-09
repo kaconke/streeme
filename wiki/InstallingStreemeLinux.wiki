@@ -125,8 +125,10 @@ In order to do almost anything in this app on linux, you're going to need someth
 
 
 ===Cleaning Up===
-restart both apache and mysql before you continue
- 
-{{{/etc/init.d/apache2 restart}}} 
 
-{{{/etc/init.d/mysql restart}}} 
+Restart both apache and mysql before you continue:
+ 
+ * {{{/etc/init.d/apache2 restart}}} 
+ * {{{/etc/init.d/mysql restart}}} 
+
+Continue to [InstallingStreeme Installing Streeme >]
