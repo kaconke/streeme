@@ -1,8 +1,10 @@
 #summary Web Server Installation on Linux
+#labels Phase-Deploy
 
 = Introduction =
 
 This is the Linux install guide - if you're looking for other platform installation guides, please go back to the [InstallingStreemeStartPage start page of the installation]
 
-= Details =
+Streeme requires the initial installation of a LAMP (Linux Apache MySQL PHP) web server package before the script can operate. I would write how to do this, but there is much sager advice, better presented on Linux help sites - you'll need to find the right packages for your flavor of Linux - I'll be showing how it works on Ubuntu server, a popular and thin linux installation. I prefer Ubuntu over some of the other linuxes mostly because of Medibuntu, which offers some excellent multimedia and transcoding support.
 
+=Let's Begin= 
