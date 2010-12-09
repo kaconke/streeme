@@ -80,3 +80,29 @@ now validate you've made the correct changes by typing:
 if all looks good, go ahead and restart apache, type:
 
 {{{/etc/init.d/apache2 restart}}} 
+
+===PHP Configs===
+
+_/etc/php5/apache/php.ini_ = the apache version
+AND
+_/etc/php5/cli/php.ini_ = the command line version 
+
+ * set {{{magic_quotes_gpc = Off}}}
+ * set {{{short_open_tag = Off}}}
+ * set {{{memory_limit = 128M}}} or higher  
+
+install PEAR (PHP Extension and Application Repository)
+
+{{{sudo apt-get install php-pear}}}
+
+once installed use the pear package manager to install apc and http_download
+ * {{{sudo pear install APC}}}
+ * {{{sudo pear install HTTP_Download}}}
+
+- increase max memory to 128M or higher in cli - 32MB or higher for web 
+- large libraries will demand more memory use during scanning and GD may need to process up to 10MP JPEG images for cover art
+curl required for cloudfusion: sudo apt-get install curl libcurl3 libcurl3-dev php5-curl 
+
+You should validate your PHP install went right by running 
+
+PHP MUST BE PART OF YOUR PATH! You'll know it's working if you type php on the command line and something starts happening rather than nothing happening :) 
