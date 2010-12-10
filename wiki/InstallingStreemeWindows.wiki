@@ -1,4 +1,5 @@
 #summary Web Server Installation on Windows
+#labels Phase-Deploy
 
 = Introduction =
 
@@ -11,6 +12,24 @@ Streeme requires the initial installation of a web server package before the scr
 [http://www.apachefriends.org/en/xampp-windows.html#641 Install XAMPP (EXE Version)]
 
 There is a visual guide on the installation below the download.
+
+===Install Services
+
+after installing, please go to C:\xampp\apache
+
+run/double click {{{apache_installservice.bat}}}
+
+then go to C:\xampp\mysql
+
+run/double click {{{mysql_installservice.bat}}}
+
+===Configure Passwords for XAMPP===
+
+open a web browser and go to:
+
+[http://127.0.0.1] or [http://localhost]
+
+
 
 ==Configuring the Server== 
 
