@@ -24,8 +24,6 @@ The above guide will add apache in a modular setup - to enable/disable modules, 
  * add mod-XSendFile  *optional* [http://www.screenage.de/blog/2008/02/22/libapache2-mod-xsendfile-processes-x-sendfile-headers-with-apache2/ link]
  * add deflate_module *optional*
 
-choose the right timezone for {{{php date.timezone}}} flag in _etc/apache2/apache2.conf_ make sure your PC clock is the same region and time. 
-
 create a virtual hosts:
 It's highly recommended that you choose two *random unused ports* between 1025-9800 and replace the example 8095/8096 pairs. One port is for the media stream and another is for HTML and program communication. Also make sure your paths are correct!
 
