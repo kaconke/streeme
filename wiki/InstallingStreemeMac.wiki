@@ -10,6 +10,12 @@ Streeme requires the initial installation of a MAMP (Mac Apache MySQL PHP) web s
 ==Enabling PHP/Apache==
 
 Go to System Preferences > Sharing and enable "Web Sharing"
+
+on a commandline type:
+
+{{{sudo cp /etc/php.ini.default /etc/php.ini}}}
+
+you may want to chmod 666 your apache /etc/apache2/users/your_username.conf files and newly created  /etc/php.ini files so you can use them in a non UNIX editor.
  
 ==Installing MySQL==
 
@@ -31,6 +37,8 @@ type:
 
 copy:
 {{{cp /usr/local/mysql/support-files/my-huge.cnf /etc/my.cnf}}}
+
+chmod 666 on my.cnf while you're editing it unless you like VI or nano.
 
 
 ==Configuring the Server== 
@@ -137,14 +145,17 @@ query_cache_size  = 32M
 }}}
 
 ===FFMPEG===
-In order to do almost anything in this app on linux, you're going to need something like medibuntu - most importantly FFMPEG. You'll want to add the non-free versions to support MP3 appropriately. Read more about getting medibuntu set up here:
+[http://www.macports.org/install.php Install Macports]
 
-[https://help.ubuntu.com/community/Medibuntu Setting Up Medibuntu]
+restart your shell 
+
+type {{{sudo port install ffmpeg +gpl +lame +faac +libogg}}}
 
 
 ===Cleaning Up===
 
 Restart both apache and mysql before you continue:
+chmod all of your config files back to 644
  
  * {{{/etc/init.d/apache2 restart}}} 
  * {{{/etc/init.d/mysql restart}}} 
