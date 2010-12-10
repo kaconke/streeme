@@ -29,7 +29,11 @@ open a web browser and go to:
 
 [http://127.0.0.1] or [http://localhost]
 
+Click "Security" > [http://localhost/security/xamppsecurity.php]
 
+Set a password to Mysql, phpMyAdmin and XAMPP 
+
+XAMPP show tell you everything's secure!
 
 ==Configuring the Server== 
 
