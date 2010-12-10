@@ -53,7 +53,7 @@ LoadModule deflate_module modules/mod_deflate.so
 }}}
 
 Create the virtual hosts:
-It's highly recommended that you choose two *random unused ports* between 1025-9800 and replace the example 8095/8096 pairs. One port is for the media stream and another is for HTML and program communication. Also make sure your paths are correct! Add the following to the very bottom of your httpd.conf file:
+It's highly recommended that you choose two *random unused ports* between 1025-9800 and replace the example 8095/8096 pairs. One port is for the media stream and another is for HTML and program communication. Replace d:/web/streeme/web with your own path/to/streeme/web. You can always decide this later or just leave it and install your streeme project to D:/web/streeme. Add the following to the very bottom of your httpd.conf file:
 
 _C:\xampp\apache\conf\httpd.conf_
 {{{
@@ -99,39 +99,30 @@ Satisfy All
 </Directory> 
 }}}
 
-if all looks good, go ahead and restart apache, type:
+go: Control Panel>Administrative Tools>Services 
 
-{{{net }}} 
+find Apache and right click it, then choose {{{restart}}}
+
+If all went well, Windows will report that is "started" in the status column
 
 ===PHP Configs===
 
-_/etc/php5/apache/php.ini_ = the apache version
-AND
-_/etc/php5/cli/php.ini_ = the command line version 
+_C:\xampp\php\php.ini_
 
  * set {{{magic_quotes_gpc = Off}}}
  * set {{{short_open_tag = Off}}}
  * set {{{memory_limit = 128M}}} or higher  
 
-install PEAR (PHP Extension and Application Repository)
-
-{{{sudo apt-get install php-pear}}}
-
-once installed use the pear package manager to install apc and http_download
- * {{{sudo pear install APC}}}
- * {{{sudo pear install HTTP_Download}}}
-
-install curl - required for cloudfusion:
-
-{{{sudo apt-get install curl libcurl3 libcurl3-dev php5-curl}}} 
-
-PHP MUST BE PART OF YOUR PATH! You'll know it's working if you type php on the command line and something starts happening rather than nothing happening :) 
+go: start>applications>command prompt>right click and run command prompt as administrator
+type:
+ * {{{pear install APC}}}
+ * {{{pear install HTTP_Download}}}
 
 ===MySQL Configs===
 
 You will have already set up your MySQL installation previous steps, but there's a couple of easy performance and internationalization tweaks to perform.
 
-_/etc/my.cnf_
+_C:\xampp\mysql\my.cnf_
 {{{
 [mysqld]
 default-character-set = utf8
@@ -141,16 +132,28 @@ query_cache_size  = 32M
 }}}
 
 ===FFMPEG===
-In order to do almost anything in this app on linux, you're going to need something like medibuntu - most importantly FFMPEG. You'll want to add the non-free versions to support MP3 appropriately. Read more about getting medibuntu set up here:
+Installing FFMPEG for streeme will allow you to transcode music on the fly.
 
-[https://help.ubuntu.com/community/Medibuntu Setting Up Medibuntu]
+You'll need to download a compiled version of FFMPEG with libmp3 and ogg vorbis 
 
+Download and run the file from the following location
+
+[http://www.mtholyoke.edu/lits/18273.shtml Mount Holyoke Audacity Recording Download Instructions]
+
+download and install the executable in STEP 4 
+
+{{{FFmpeg_2009_01_08_for_Audacity_on_Windows.exe}}}
+
+keep the location of the install handy for configuring streeme
+
+
+===Tortoise SVN===
+This app relies on a file management and version control system called SVN. Windows users should download and install TortoiseSVN here:
+
+[http://tortoisesvn.net/downloads.html Get Tortoise SVN Here]
 
 ===Cleaning Up===
 
-Restart both apache and mysql before you continue:
- 
- * {{{/etc/init.d/apache2 restart}}} 
- * {{{/etc/init.d/mysql restart}}} 
+Restart both apache AND mysql services in the "services" panel before you continue:
 
 Continue to [InstallingStreeme Installing Streeme >]
