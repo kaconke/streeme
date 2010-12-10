@@ -15,10 +15,8 @@ Go to System Preferences > Sharing and enable "Web Sharing"
 
 Go to [http://www.mysql.com/downloads/mysql/] and install the latest 
 
-Copy the startup item to your startup as usual
+Copy the startup item to your startup as usual and install the app
 
-to add mysql to your path first discover its whole name 
-/usr/local/mysql then:
 {{{
 sudo vi /Users/your_user_name/.bash_profile
 
@@ -26,7 +24,7 @@ add the following lines:
 #inserting a path for mysql
 export PATH=/usr/local/mysql/bin:$PATH 
 }}}
-(<escape> :wq enter ) will write the file and quit VI
+(escape :wq enter ) will write the file and quit VI
 
 type:
 {{{mysqladmin -u your_database_username password your_database_password}}}
