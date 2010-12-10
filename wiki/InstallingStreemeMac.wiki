@@ -49,7 +49,7 @@ Now you've got your bare bones server installed, you'll need to make some edits 
 The above guide will add apache in a modular setup - to enable/disable modules, you just copy/link from /etc/apache2/mods-available to /etc/apache2/mods-enabled. If you use a linux that doesn't have modules like this, please compile it with the right functionality:
 
  * add mod-rewrite    *required*
- * add mod-XSendFile  *optional* [http://www.screenage.de/blog/2008/02/22/libapache2-mod-xsendfile-processes-x-sendfile-headers-with-apache2/ link]
+ * add mod-XSendFile  *optional*
  * add deflate_module *optional*
 
 create a virtual hosts:
@@ -101,33 +101,24 @@ Satisfy All
 
 now validate you've made the correct changes by typing:
 
-{{{apache2ctl configtest}}}
+{{{/usr/sbin/apache2ctl configtest}}}
 
 if all looks good, go ahead and restart apache, type:
 
-{{{/etc/init.d/apache2 restart}}} 
+{{{/usr/sbin/apache2ctl restart}}} 
 
 ===PHP Configs===
 
-_/etc/php5/apache/php.ini_ = the apache version
-AND
-_/etc/php5/cli/php.ini_ = the command line version 
+_/etc/php.ini_
 
  * set {{{magic_quotes_gpc = Off}}}
  * set {{{short_open_tag = Off}}}
- * set {{{memory_limit = 128M}}} or higher  
+ * set {{{memory_limit = 128M}}} or higher
+ * set {{{pdo_mysql.default_socket=/tmp/mysql.sock}}}  
 
-install PEAR (PHP Extension and Application Repository)
-
-{{{sudo apt-get install php-pear}}}
-
-once installed use the pear package manager to install apc and http_download
+Use the pear package manager to install apc and http_download
  * {{{sudo pear install APC}}}
  * {{{sudo pear install HTTP_Download}}}
-
-install curl - required for cloudfusion:
-
-{{{sudo apt-get install curl libcurl3 libcurl3-dev php5-curl}}} 
 
 PHP MUST BE PART OF YOUR PATH! You'll know it's working if you type php on the command line and something starts happening rather than nothing happening :) 
 
@@ -149,7 +140,11 @@ query_cache_size  = 32M
 
 restart your shell 
 
-type {{{sudo port install ffmpeg +gpl +lame +faac +libogg}}}
+type 
+{{{
+sudo port -v selfupdate
+sudo port install ffmpeg +gpl +lame +faac +libogg
+}}}
 
 
 ===Cleaning Up===
@@ -157,7 +152,7 @@ type {{{sudo port install ffmpeg +gpl +lame +faac +libogg}}}
 Restart both apache and mysql before you continue:
 chmod all of your config files back to 644
  
- * {{{/etc/init.d/apache2 restart}}} 
- * {{{/etc/init.d/mysql restart}}} 
+ * {{{sudo /Library/StartupItems/MySQLCOM restart}}} 
+ * {{{sudo /usr/sbin/apache2ctl restart}}} 
 
 Continue to [InstallingStreeme Installing Streeme >]
