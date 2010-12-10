@@ -5,7 +5,7 @@
 
 This is the Mac/OSX install guide - if you're looking for other platform installation guides, please go back to the [InstallingStreemeStartPage start page of the installation]
 
-Streeme requires the initial installation of a MAMP (Mac Apache MySQL PHP) web server package before the script can operate. Snow Leopard (OSX 6) has a built in Apache and PHP install, which is probably the easiest to get running - Mac Users, please contribute better ways to the project's team members, I'm still a bit fresh to OSX, but I was able to get a working environment using the plan below.
+Streeme requires the initial installation of a MAMP (Mac Apache MySQL PHP) web server package before the script can operate. Snow Leopard (OSX 6) has a built in Apache and PHP install, which is probably the easiest to get running - Mac Users, please contribute better ways to the project's team members, I'm still a bit fresh to OSX, but I was able to get a working environment using the plan below. One of my little worries about this is that it is controlled by apple, so future OSX major upgrades may mess with it
 
 ==Enabling PHP/Apache==
 
@@ -18,17 +18,21 @@ Go to [http://www.mysql.com/downloads/mysql/] and install the latest
 Copy the startup item to your startup as usual
 
 to add mysql to your path first discover its whole name 
-/usr/local/some_long_mysql_dir then:
+/usr/local/mysql then:
 {{{
 sudo vi /Users/your_user_name/.bash_profile
 
 add the following lines:
 #inserting a path for mysql
-export PATH=/usr/local/some_long_mysql_dir/bin:$PATH 
+export PATH=/usr/local/mysql/bin:$PATH 
 }}}
+(<escape> :wq enter ) will write the file and quit VI
 
+type:
 {{{mysqladmin -u your_database_username password your_database_password}}}
- 
+
+copy:
+{{{cp /usr/local/mysql/support-files/my-huge.cnf /etc/my.cnf}}}
 
 
 ==Configuring the Server== 
