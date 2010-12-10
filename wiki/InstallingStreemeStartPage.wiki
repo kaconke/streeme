@@ -1,9 +1,7 @@
 #summary How To Install Streeme from Scratch
 #labels Featured,Phase-Deploy
 
-= Introduction =
-
-For the first little while, Streeme will need to be installed by users familiar with PHP and Web servers - The roadmap for this project includes a handy VM sandbox in the near future. If you'd like to enjoy Streeme on your home network immediately, please follow this guide carefully and try not to skip steps if possible. 
+http://farm6.static.flickr.com/5241/5247838043_0167310ac7_b.jpg
 
 = Start Here! =
 
