@@ -364,7 +364,7 @@ streeme = {
 			url = mediaurl + '/play/' + streeme.queuedSongId + '?' + parameters.join('&');
 			
 			//firefox/chrome logging only 
-			console.log ( url );
+			//console.log ( url );
 			el = document.getElementById( 'musicplayer' );
 			el.src = ( url );
 			el.preload = 'none';

@@ -114,4 +114,13 @@ not send cookies, so it may be a security risk - no ogg support
   
 Android ( API V8 - ver 2.2.1 None ) 
 
+Credits
+---
+Thanks to Ryan Cumming for designing the model and scanner logic for
+streampod (previous project name) and streeme!    
 
+Copyright Notice
+---
+The artwork included with this package is copyright Richard Hoar (The Author)
+it may be reproduced for non-commercial purposes without asking permission from
+the Author or paying copyright royalty.
