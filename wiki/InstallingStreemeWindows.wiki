@@ -9,17 +9,19 @@ Streeme requires the initial installation of a web server package before the scr
 
 ==Installing the Web Server== 
 
+*Log in as an administrator throughout this process*
+
 [http://www.apachefriends.org/en/xampp-windows.html#641 Install XAMPP (EXE Version)]
 
 There is a visual guide on the installation below the download.
 
 ===Install Services===
 
-after installing, please go to C:\xampp\apache
+after installing, please go to _C:\xampp\apache_
 
 run/double click {{{apache_installservice.bat}}}
 
-then go to C:\xampp\mysql
+then go to _C:\xampp\mysql_
 
 run/double click {{{mysql_installservice.bat}}}
 
@@ -97,13 +99,9 @@ Satisfy All
 </Directory> 
 }}}
 
-now validate you've made the correct changes by typing:
-
-{{{apache2ctl configtest}}}
-
 if all looks good, go ahead and restart apache, type:
 
-{{{/etc/init.d/apache2 restart}}} 
+{{{net }}} 
 
 ===PHP Configs===
 
