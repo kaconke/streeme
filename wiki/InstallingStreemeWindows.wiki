@@ -13,7 +13,7 @@ Streeme requires the initial installation of a web server package before the scr
 
 There is a visual guide on the installation below the download.
 
-===Install Services
+===Install Services===
 
 after installing, please go to C:\xampp\apache
 
