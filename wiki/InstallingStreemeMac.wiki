@@ -38,6 +38,9 @@ type:
 copy:
 {{{cp /usr/local/mysql/support-files/my-huge.cnf /etc/my.cnf}}}
 
+link:
+{{{ln -s /tmp/mysql.sock /var/mysql/mysql.sock}}}
+
 chmod 666 on my.cnf while you're editing it unless you like VI or nano.
 
 
