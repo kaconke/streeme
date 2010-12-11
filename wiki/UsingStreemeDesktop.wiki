@@ -36,3 +36,22 @@ If you have enabled transcoding and a valid FFMPEG executable exists in your con
    # MP3 - change the format of this file to MP3
    # OGG - change the format of this file to OGG
  * To exit the settings window, click the wrench icon again. 
+
+===Player Controls===
+The player controls vary with each browser. They generally contain a play button, progress indicator/duration indicator and a volume control. The buttons immediately to the right skip to the [<]Previous and [>]Next songs. [RND] shuffles the current song selection.
+
+===Genre List===
+Pull down to see a list of Genres, you can scan through them by typing the first and second letters while the select box is highlighted
+
+===Alpha Bar===
+Streeme has a common UI element called the alpha bar for managing medium sized lists clicking a letter in the alpha bar will take you to the results starting with that letter or symbol.
+
+===Artist and Album List===
+The left sidebar contains your catalog of artist and albums. You can use the alpha bar or  global search to find artists and albums quickly. 
+
+===Global Search===
+When you enter search terms in this box, streeme will attempt to match artists, albums and songs to get you the most results. It searches progressively, so results should get better as you search. If you have already selected an artist/genre/playlist, adding your keywords to the active terms will search for items within those constraints.
+
+===Song List===
+The song list is paginated and can display many thousands of songs fairly quickly. The interface becomes quicker as you use it thanks to SQL caching. Music is ordered by latest library additions, but maintains a cookie to remember your settings per session. you may order by any column by clicking on the table's column headers. In addition to your ordering, streeme will attempt to group album track numbers so song play in the right order. 
+ * To play a song, either double click its entry in the songlist or hit the 1 click play button. On iPad, you should consistently touch the play icon, since double tapping a song will only zoom in.  
