@@ -59,7 +59,7 @@ in __your_streeme_dir/config__
 ----
 
 open a commandline and type 
-<br>
+<br/>
 {{{./symfony cc}}}
 
 *WINDOWS USERS* you can leave the "./" out of symfony commands
@@ -67,7 +67,7 @@ open a commandline and type
 ----
 
 Before going to the next step, run the *config checker*. go to _your_streeme_dir_ and type 
-<br>
+<br/>
 {{{php check_configuration}}} 
 <br/>
 if all went well, your install should show OK next to the parameters in the list.
