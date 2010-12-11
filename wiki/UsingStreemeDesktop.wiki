@@ -37,6 +37,9 @@ If you have enabled transcoding and a valid FFMPEG executable exists in your con
    # OGG - change the format of this file to OGG
  * To exit the settings window, click the wrench icon again. 
 
+===Exit App===
+The exit app button will return you to the player lobby. From there you may choose another player or logout. Streeme will confirm before it closes the session to prevent accidental tab or browser closure during playback. 
+
 ===Player Controls===
 The player controls vary with each browser. They generally contain a play button, progress indicator/duration indicator and a volume control. The buttons immediately to the right skip to the [<]Previous and [>]Next songs. [RND] shuffles the current song selection.
 
