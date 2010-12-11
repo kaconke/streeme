@@ -61,10 +61,12 @@ in __your_streeme_dir/config__
 open a commandline and type 
 <br/>
 {{{./symfony cc}}}
+<br/>
+This command will clear symfony's cache and should be run whenever you change the yml  configuration files. If you get strange 500 errors, always try running this first. 
 
 *WINDOWS USERS* you can leave the "./" out of symfony commands
 
-----
+== Testing Your Installation ==
 
 Before going to the next step, run the *config checker*. go to _your_streeme_dir_ and type 
 <br/>
