@@ -55,3 +55,9 @@ When you enter search terms in this box, streeme will attempt to match artists, 
 ===Song List===
 The song list is paginated and can display many thousands of songs fairly quickly. The interface becomes quicker as you use it thanks to SQL caching. Music is ordered by latest library additions, but maintains a cookie to remember your settings per session. you may order by any column by clicking on the table's column headers. In addition to your ordering, streeme will attempt to group album track numbers so song play in the right order. 
  * To play a song, either double click its entry in the songlist or hit the 1 click play button. On iPad, you should consistently touch the play icon, since double tapping a song will only zoom in.  
+ * the playing song row will turn a faint blue to indicate it is the currently selected (and playing) track
+
+<br/>
+[UsingStreemeMobile Continue to Using Streeme Mobile]
+<br/>
+<br/>
