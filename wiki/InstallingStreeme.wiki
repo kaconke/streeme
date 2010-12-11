@@ -35,7 +35,7 @@ edit this file with a text editor
  * *Allow FFMpeg Transcoding* - You may enable FFMpeg functionality if you require transcoding capabilities. I've been able to run this on even pretty frail hardware, but you may not be able to make many connections if every authorized device is transcoding simultaneously
  * *FFMpeg Executable* - the full path to your FFMpeg application file
 {{{
-examples: if you don't know where ffmpeg is, search using locate on the commandline or using windows explorer.
+examples: if you do not know where ffmpeg is, search using locate on the commandline or using windows explorer:
 Windows: "C:\Program Files\FFmpeg for Audacity\ffmpeg.exe
 Linux: "/usr/bin/ffmpeg"
 OSX: "/opt/local/var/macports/software/ffmpeg/version/opt/local/bin/ffmpeg"
