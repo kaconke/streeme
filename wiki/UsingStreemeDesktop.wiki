@@ -10,4 +10,16 @@ Streeme Desktop is the more powerful interface of the two supplied music players
 
 http://farm6.static.flickr.com/5284/5251054510_04330b59d1_o.jpg
 
+===Album Art===
+Your album art appears in the top left corner of the app. click on the art to magnify it. 
 
+===Song Info===
+The currently playing song will be detailed above the player controls. The artist, album and song name are all visible during playback.
+
+===Playlists===
+You can make unlimisted amounts of playlists with streeme. click the folder icon to expose the playlist sub menu. You will see a list of playlists and an Add a playlist button.
+ * To add to a playlist, single click on one of the playlists in the list. It will turn blue when it is active. At this point you can use the Add to playlist buttons to add artists albums and songs. 
+ * To choose a playlist for playback, either double click the playlist entry or click the play button.
+ * To stop vieiwing a playlist, click the eject icon.
+ * To erase a playlist, click the delete button.
+ * To exit the playlist window, click the folder icon again.
