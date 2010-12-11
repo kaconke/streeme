@@ -94,6 +94,9 @@ class MediaProxy
     $this->source_filename     = $file_info[ 'filename' ];
     $this->source_file_length  = $fstat[ 'size' ];
     $this->source_file_mtime   = $fstat[ 'mtime' ];
+    
+    $result->free();
+    unset( $result );
   }
   
   /**

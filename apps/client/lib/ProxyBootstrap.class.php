@@ -3,11 +3,11 @@
 # This bootstrap provides basic framework functionality and authorization for the media streaming scripts
 #
 ob_start();
+
 require_once(dirname(__FILE__).'/../../../config/ProjectConfiguration.class.php');
 
 $configuration = ProjectConfiguration::getApplicationConfiguration('client', 'prod', false);
 $context = sfContext::createInstance($configuration);
-new sfDatabaseManager( $configuration );
 
 $authenticated = false;
 
@@ -50,8 +50,11 @@ if ( sfContext::hasInstance()
   {
     $authenticated = true;
   }
+  $q->free();
 }
+
 ob_end_clean();
+
 if( !$authenticated )
 {
   header( "HTTP/1.1 403 Forbidden" );
@@ -59,4 +62,4 @@ if( !$authenticated )
 }
 
 //clean up
-unset( $configuration, $context, $q, $authenticated );
+unset( $configuration, $q, $authenticated );

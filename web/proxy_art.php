@@ -5,5 +5,11 @@
 #
 require_once( dirname(__FILE__) . '/../apps/client/lib/ProxyBootstrap.class.php' ); 
 $art_proxy = new ArtProxy( $_REQUEST[ 'hash' ],  $_REQUEST[ 'size' ] );
+
+//shut down the symfony context so it doesn't lock up symfony while streaming
+global $context;
+$context->shutdown();
+unset( $context);
+
 $art_proxy->getImage();
 exit;

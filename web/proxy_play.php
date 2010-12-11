@@ -23,5 +23,10 @@ if( isset( $_REQUEST[ 'is_icy_response' ] ) && !empty(  $_REQUEST[ 'is_icy_respo
   $mediaplayer->setIsIcyResponse( $_REQUEST[ 'is_icy_response' ] );
 }
 
+//shut down the symfony context so it doesn't lock up symfony while streaming
+global $context;
+$context->shutdown();
+unset( $context);
+
 //play the media file
 $mediaplayer->play();
