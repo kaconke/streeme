@@ -1,5 +1,5 @@
 #summary How to scan your music library
-#labels Phase-Support
+#labels Usage
 
 = Introduction =
 
