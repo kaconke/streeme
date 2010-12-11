@@ -38,3 +38,6 @@ Custom Genres Removed: 1
 }}}
 
 Future scans will be a lot faster as the database keeps a manifest of what has changed and   what's new or incoming. 
+<br/>
+[AlbumArtScanning Continue to Album Art Scanning >]
+<br/>
