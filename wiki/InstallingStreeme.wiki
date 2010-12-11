@@ -11,4 +11,17 @@ use SVN to checkout the code from Google code. If you know how to use SVN, run t
 
 {{{svn checkout http://streeme.googlecode.com/svn/trunk/ streeme-read-only}}}
 
-[UsingSVN Help! I've never done this before - show me what to do!]  
+[UsingSVN Help! I've never done this before - show me what to do!]
+
+
+== Configure Streeme == 
+
+in _your_streeme_dir/config/_
+rename databases.template.yml to databases.yml
+edit this file with a text editor
+{{{
+      username: your_mysql_username
+      password: your_mysql_pass
+}}}
+
+  
