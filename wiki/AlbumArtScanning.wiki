@@ -23,3 +23,6 @@ Scan your library for art embedded in the containing folders
 <br/>
 {{{./symfony scan-art --source=folders}}}
 <br/>
+<br/>
+[AddingUsers Continue to Adding Users >]
+<br/>
