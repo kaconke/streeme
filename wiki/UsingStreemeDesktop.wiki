@@ -3,12 +3,11 @@
 
 = Introduction =
 
-Streeme Desktop is the more powerful interface of the two supplied music players. 
+Streeme Desktop is the more powerful interface of the two supplied music players. Streeme uses your browser's HTML5 audio player to play back. As more and more browsers get turned onto HTML5, the support for streeme will broaden. At this time, your best bet is to use Google Chrome or Apple Safari to run the app. 
 
 
-= Details =
+= The UI Groups =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+http://farm6.static.flickr.com/5284/5251054510_04330b59d1_o.jpg
+
+
