@@ -1,0 +1,14 @@
+#summary Installing the Streeme Application on your Webserver
+#labels Phase-Deploy
+
+= Introduction =
+
+It's time to install the streeme application - most of this is configuration, so just go through and see what parts you'll need in your app.
+
+
+== Check out the Code ==
+use SVN to checkout the code from Google code. If you know how to use SVN, run the following command in your streeme directory:
+
+{{{svn checkout http://streeme.googlecode.com/svn/trunk/ streeme-read-only}}}
+
+[UsingSVN Help! I've never done this before - show me what to do!]  
