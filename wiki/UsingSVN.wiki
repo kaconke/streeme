@@ -1,10 +1,6 @@
 #summary A quick how-to on SVN for installing and updating streeme
 #labels Phase-Support
 
-= Introduction =
-
-If you've never used SVN before it's a bit daunting, just follow these quick steps and you'll be up and running in a couple of minutes! 
-
 = Windows using Tortoise SVN =
 
 http://farm6.static.flickr.com/5169/5250859580_fd18cea55b_o.jpg
