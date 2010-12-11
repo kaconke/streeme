@@ -17,9 +17,10 @@ Your album art appears in the top left corner of the app. click on the art to ma
 The currently playing song will be detailed above the player controls. The artist, album and song name are all visible during playback.
 
 ===Playlists===
-You can make unlimisted amounts of playlists with streeme. click the folder icon to expose the playlist sub menu. You will see a list of playlists and an Add a playlist button.
- * To add to a playlist, single click on one of the playlists in the list. It will turn blue when it is active. At this point you can use the Add to playlist buttons to add artists albums and songs. 
+You can make unlimited amounts of playlists with Streeme. Click the folder icon to expose the playlist sub menu. You will see a list of playlists and an Add a playlist button.
+ * To add items to a playlist, single click on one of the playlists in the list. It will turn blue when it is active. At this point you can use the Add to playlist buttons to add artists albums and songs. 
  * To choose a playlist for playback, either double click the playlist entry or click the play button.
  * To stop vieiwing a playlist, click the eject icon.
  * To erase a playlist, click the delete button.
+ * To add a new playlist, click Add New Playlist... and give your playlist a name. 
  * To exit the playlist window, click the folder icon again.
