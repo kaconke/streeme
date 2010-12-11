@@ -1,4 +1,5 @@
 #summary A quick how-to on SVN for installing and updating streeme
+#labels Phase-Support
 
 = Introduction =
 
@@ -21,3 +22,20 @@ Wherever you set the folder in step 2, make sure that your Apache configs know t
 Once downloaded, please continue with the [InstallingStreeme Installing Streeme Tutorial]
 
 = *nix =
+
+http://farm6.static.flickr.com/5290/5250267619_3761e82d53_o.jpg
+
+checking out svn on linux/osx is amazingly easy, if you can't see the image above, simply create a streeme folder in your /Users/your_username/Sites/ or ~/web/ folder. 
+
+then run something like 
+{{{
+notroot@ubuntu:~/sites$ mkdir streeme
+notroot@ubuntu:~/sites$ cd streeme
+notroot@ubuntu:~/sites/streeme$ svn co svn checkout http://streeme.googlecode.com/svn/trunk . streeme-read-only
+}}}
+
+It should checkout a bunch of stuff and you're ready to go! 
+
+if you need to update later, just enter your streeme directory and type
+
+{{{svn up}}}
