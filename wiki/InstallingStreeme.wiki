@@ -24,4 +24,16 @@ edit this file with a text editor
       password: your_mysql_pass
 }}}
 
+in _your_streeme_dir/apps/client/config_ 
+ * rename app.template.yml to app.yml
+edit this file with a text editor
+ * iTunes XML Location - if you plan to use the itunes media scanner, enter the full path to your itunes xml file
+ * Watched folders: if you plan to use the filesystem scanner to import your music, these are the folders that will be scanned periodically for new music - add a folder per line preceded with a "-" as shown in the example
+ * If your music is predominantly stored on NAS drives on Windows, please remap the locations from the itunes style full paths to the windows style sharing paths using forward slashes only required for itunes scanning. examples given in file.
+
+
+in _your_streeme_dir/_
+ * rename .htaccess.template .htaccess
+
+
   
