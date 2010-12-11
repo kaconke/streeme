@@ -24,12 +24,12 @@ edit this file with a text editor
       password: your_mysql_pass
 }}}
 
----- 
+----
 
 in _your_streeme_dir/_
  * rename .htaccess.template .htaccess
 
----- 
+----
 
 in _your_streeme_dir/apps/client/config_ 
  * rename app.template.yml to app.yml
@@ -51,8 +51,8 @@ OSX: "/opt/local/var/macports/software/ffmpeg/version/opt/local/bin/ffmpeg"
  * *Send Cookies with Request* when requesting music on devices that cannot send cookies for Audio or art requests, this option allows for a workaround - it sends the remember key cookie value with the request and verifies it against the IP given at last login. This is mostly to support Palm/HP Pre and WebOS devices, don't turn it on if your phone can properly send cookies
  * *remember_key_expiration_age* - This setting will keep users selecting "remember me" at login time logged in for approximately 300 days. If you run a tighter ship, consider changing this number - time denoted in seconds
 
----- 
+----
 
 in __your_streeme_dir/config__
-* rename .htaccess.template .htaccess
+ * rename .htaccess.template .htaccess
   
