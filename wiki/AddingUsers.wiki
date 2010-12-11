@@ -23,5 +23,6 @@ in your_ip_address:your_port/
 eg http://127.0.0.1:8095
 
 The login screen will come up, just enter your username and password and you're IN!
-
+<br/>
 [UsingStreemeDesktop Continue to Using Streeme Desktop >] 
+<br/>
