@@ -65,7 +65,7 @@ open a commandline and type
 This command will clear symfony's cache and should be run whenever you change the yml  configuration files. If you get strange 500 errors, always try running this first. 
 
 *WINDOWS USERS* you can leave the "./" out of symfony commands
-<br/><br/>
+<br/>
 == Testing Your Installation ==
 
 Now run the *config checker*. go to _your_streeme_dir_ and type 
@@ -73,8 +73,9 @@ Now run the *config checker*. go to _your_streeme_dir_ and type
 {{{php check_configuration}}} 
 <br/>
 if all went well, your install should show OK next to the parameters in the list.
-
+<br/>
 == Initializing your Music Library == 
+
 now type 
 <br/>
 {{{./symfony doctrine:build --all --and-load}}}
