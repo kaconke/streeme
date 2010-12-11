@@ -81,5 +81,8 @@ now type
 {{{./symfony doctrine:build --all --and-load}}}
 <br/>
 
-
-  
+[MusicScanning Continue to Music Scanning >] 
+<br/>
+<br/>
+<br/>
+<br/>
