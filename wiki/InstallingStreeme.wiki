@@ -54,5 +54,12 @@ OSX: "/opt/local/var/macports/software/ffmpeg/version/opt/local/bin/ffmpeg"
 ----
 
 in __your_streeme_dir/config__
- * rename .htaccess.template .htaccess
+ * rename cloudfusion.template.php cloudfusion.php
+ * edit this file and follow the directions to register for an Amazon PAS account 
+----
+
+open a commandline and type 
+<br>
+{{{./symfony cc}}}
+<br/>
   
