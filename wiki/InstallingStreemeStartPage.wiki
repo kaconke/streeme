@@ -15,5 +15,4 @@ To break up the process of setting up Streeme, the setup will comprise of a few 
 
  * [InstallingStreemeMac Installing Streeme on Mac >]
 
-[InstallingStreeme I've already got a LAMP/MAMP/XAMPP server set up >]
  
