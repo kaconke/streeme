@@ -17,6 +17,7 @@ To change your password, type:
 {{{./symfony guard:change-password your_username your_new_password}}}
 <br/>
 
+= It's Time to Make Some Noise! = 
 Now you've got an account, you can launch Streeme by opening Chrome or Safari and typing 
 in your_ip_address:your_port/
 eg http://127.0.0.1:8095
