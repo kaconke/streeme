@@ -34,7 +34,10 @@ edit this file with a text editor
  * *Results Per Page* - The default list length per page
  * *Allow FFMpeg Transcoding* - You may enable FFMpeg functionality if you require transcoding capabilities. 
  * *FFMpeg Executable* - the full path to your FFMpeg application file
-   # 
+   # Windows: "C:\Program Files\FFmpeg for Audacity\ffmpeg.exe
+   # Linux: "/usr/bin/ffmpeg"
+   # OSX: "/opt/local/var/macports/software/ffmpeg/version/opt/local/bin/ffmpeg"
+
 
 
 
