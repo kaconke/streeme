@@ -6,6 +6,8 @@ If you've never used SVN before it's a bit daunting, just follow these quick ste
 
 = Windows using Tortoise SVN =
 
+http://farm6.static.flickr.com/5169/5250859580_fd18cea55b_o.jpg
+
 Please read the following tutorial and get to know tortoise SVN  - it will show you the basics of checking out and updating.
 
 [http://cjcat.blogspot.com/2009/06/using-tortoisesvn-to-check-out-files.html#6950097685236424422 Using TortoiseSVN to check out files from Google Code repositories]
