@@ -24,3 +24,15 @@ You can make unlimited amounts of playlists with Streeme. Click the folder icon 
  * To erase a playlist, click the delete button.
  * To add a new playlist, click Add New Playlist... and give your playlist a name. 
  * To exit the playlist window, click the folder icon again.
+
+===Settings===
+If you have enabled transcoding and a valid FFMPEG executable exists in your configuration, you may change attributes about your output file in this sub menu. Click the wrench icon to open the menu and select your options:
+ * Target bitrate: 
+   # Play original - will not modify the file's bitrate. 
+   # Auto will automatically set the bitrate based on your connection speed, this is read by transferring a file from your streeme server to your device.
+   # Static Bitrate - will pick a bitrate roughly equivalent to the number shown depending on the format
+ * Target format:
+   # Play original - will not modify the file format
+   # MP3 - change the format of this file to MP3
+   # OGG - change the format of this file to OGG
+ * To exit the settings window, click the wrench icon again. 
