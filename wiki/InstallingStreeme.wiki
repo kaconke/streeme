@@ -59,11 +59,12 @@ in __your_streeme_dir/config__
 ----
 
 open a commandline and type 
-<br>
+<br><br/>
 {{{./symfony cc}}}
 
 *WINDOWS USERS* you can leave the "./" out of symfony commands
 
 ----
-<br/>
+
+
   
