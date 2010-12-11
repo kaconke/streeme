@@ -16,8 +16,8 @@ use SVN to checkout the code from Google code. If you know how to use SVN, run t
 
 == Configure Streeme == 
 
-in _your_streeme_dir/config/_
-rename databases.template.yml to databases.yml
+in _your_streeme_dir/config/_ 
+ * rename databases.template.yml to databases.yml
 edit this file with a text editor
 {{{
       username: your_mysql_username
