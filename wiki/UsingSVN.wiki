@@ -1,0 +1,21 @@
+#summary A quick how-to on SVN for installing and updating streeme
+
+= Introduction =
+
+If you've never used SVN before it's a bit daunting, just follow these quick steps and you'll be up and running in a couple of minutes! 
+
+= Windows using Tortoise SVN =
+
+Please read the following tutorial and get to know tortoise SVN  - it will show you the basics of checking out and updating.
+
+[http://cjcat.blogspot.com/2009/06/using-tortoisesvn-to-check-out-files.html#6950097685236424422 Using TortoiseSVN to check out files from Google Code repositories]
+
+the "URL of Repository" when used with tortoise is: 
+
+{{{https://streeme.googlecode.com/svn/trunk/}}}
+
+Wherever you set the folder in step 2, make sure that your Apache configs know the directory name in the virtual host entries! For example, I store mine in D:/web/streeme.
+
+Once downloaded, please continue with the [InstallingStreeme Installing Streeme Tutorial]
+
+= *nix =
