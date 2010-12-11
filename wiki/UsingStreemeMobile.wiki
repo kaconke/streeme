@@ -1,0 +1,13 @@
+#summary Using Streeme Mobile
+
+= Introduction =
+
+Streeme mobile is a cut down mobile optimized version of the desktop app. The Mobile app works on many Webkit based handsets including iPhone, iPad, iPod touch, Palm Pre and Android (2.3). It uses a familiar interface and simple controls to load up and play in an instant.
+
+
+= The UI =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
