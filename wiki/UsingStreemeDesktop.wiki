@@ -1,0 +1,14 @@
+#summary Using Streeme Desktop
+#labels Usage
+
+= Introduction =
+
+Streeme Desktop is the more powerful interface of the two supplied music players. 
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
