@@ -5,7 +5,6 @@
 
 Streeme mobile is a cut down mobile optimized version of the desktop app. The Mobile app works on many Webkit based handsets including iPhone, iPad, iPod touch, Palm Pre and Android (2.3). It uses a familiar interface and simple controls to load up and play in an instant.
 
-
 = The UI Groups =
 
 http://farm6.static.flickr.com/5248/5253227672_7f9f8eb46c_o.jpg
@@ -54,7 +53,6 @@ The currently playing song will be detailed above the player controls. The artis
 ===Player Controls===
 The player controls vary with each mobile browser. They generally contain a play button, progress indicator/duration indicator. Some handsets simply do not feature playback controls. The Palm Pre for instance, does not support controls and the API is quite primitive, so you can't even count on duration indicators, so I'm not going to get carried away with building a UI until a new WebOS edition hits the Pre.
 
-<br/>
 ===Adding Streeme to your Home Screen/bookmarks===
 In order to get back to Streeme quickly, it's a good idea to add your public URL to the bookmarks on your phone.
 
@@ -63,7 +61,7 @@ In order to get back to Streeme quickly, it's a good idea to add your public URL
  * Click "Add to Home Screen"
  * Choose a Name to show on your home screen, the icon for Streeme will download automatically.
  * From now on, you can access Streeme from your home screen like any other app.
-<br/><br/>
+<br/>
 *Palm Pre / WebOS*
  * While Using Streeme Mobile, Click the Web button in the top left corner of the screen
  * Tap Page>Add to Launcher
