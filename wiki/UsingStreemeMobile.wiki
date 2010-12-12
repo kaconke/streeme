@@ -9,3 +9,29 @@ Streeme mobile is a cut down mobile optimized version of the desktop app. The Mo
 = The UI Groups =
 
 http://farm6.static.flickr.com/5248/5253227672_7f9f8eb46c_o.jpg
+
+===Card Title===
+The UI is broken into cards - each card has a unique set of content on it, one may contain the player interface, another may contain a songlist. To make it clear what card you are on, simple refer to the car name in the hading. 
+
+===Exit App===
+This button will return you to the lobby. Because not all mobile phones support the {{{onbeforeunload()}}} javascript command, the app does not warn you if you click this element. 
+
+===Global Search===
+Most cards feature a magnifying glass icon indicateing search. Click the button and type in your search terms. You will see a list of songs related to your keywords. to exit the universal search and go back to your last search, click the Back to menu button once.
+
+===Back to Menu===
+Most cards feature 3 solid horizontal lines in the top right. This button will return you to the welcome screen from any other card.
+
+===Card List===
+The card list is the jump off point for using the mobile interface. here's a quick breakdown of the functions of each menu button
+ * *Artists* - This button takes you to a list of artists in your library 
+ * *Albums* - This button takes you to a list of albums in your library
+ * *Songs* - This button will take you to a list of songs - on first load, it will show the newest songs in your library, otherwise it will show the last state you left the songlist in.
+ * *Playing* - At any time, you can see what's currently playing in the player using this button
+ * *Newest Songs* - This button loads the songlist with your library ordered by newest  library additions
+ * *Shuffle all Songs* - This button loads the songlist with your library in a radnom order
+ * *Genres* - This button takes you to a list of active genres in your library
+ * *Playlists* - Any playlists you make in the desktop will be instantly available to your mobile device as well. This button takes you to a list of playlists.
+ * *Settings* This button will take you to similar settings as seen in the desktop app. 
+
+===Alpha Bar===
