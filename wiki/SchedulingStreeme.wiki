@@ -7,6 +7,29 @@ Now you've got a working Streeme copy of your own, it's time to take a moment to
 
 = Scheduling on Windows =
 
+===Windows Vista and W7===
+Scheduling is located in Control Panel -> Administrative Tools -> Task Scheduler
+
+Make sure that you run this task as an admin
+
+http://farm6.static.flickr.com/5122/5253134077_b7059db30c_o.jpg
+
+Create a new task, add a little descriptive text and check high privilege
+
+http://farm6.static.flickr.com/5204/5253742954_3a64869325_o.jpg
+
+Set up the timing under triggers - I like to run mine daily.
+
+http://farm6.static.flickr.com/5245/5253743098_81eefbcb6c_o.jpg
+
+Set up the Action part - you'll need to make sure it starts in the same directory as your project
+
+http://farm6.static.flickr.com/5289/5253134241_3793dcda5c_o.jpg
+
+There are other settings that you can play around with, but these settings should begin your daily scan.
+
+
+
 
 
 = Scheduling on Unix and Linux =
