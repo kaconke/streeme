@@ -66,5 +66,12 @@ In order to get back to Streeme quickly, it's a good idea to add your public URL
  * While Using Streeme Mobile, Click the Web button in the top left corner of the screen
  * Tap Page>Add to Launcher
  * Choose a Name to show on your home screen, if the icon's not quite centered, click it and you'll be able to create an icon from the page 
+<br/>
+*Android*
+ * Click the Star button to the right of the URL for streeme mobile.
+ * Click "Add" and enter a name
+ * Now you'll be able to refer to streeme using a bookmark
+
+[SchedulingStreeme Next Topic: Scheduling Streeme]
 
    
