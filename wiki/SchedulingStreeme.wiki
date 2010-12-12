@@ -33,3 +33,16 @@ There are other settings that you can play around with, but these settings shoul
 
 
 = Scheduling on Unix and Linux =
+
+enter a terminal and type
+
+{{{
+crontab -e 
+}}}
+
+choose an editor and then add a line something like
+
+{{{
+0 0 * * * cd "/home/notroot/web/streeme"; ./symfony schedule-scan
+}}}
+This will perform a daily scan of your music for changes/updates to songs and art files. 
