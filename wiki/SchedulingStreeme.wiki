@@ -1,0 +1,8 @@
+#summary One-sentence summary of this page.
+#labels Phase-Deploy,Usage
+
+= Introduction =
+
+Now you've got a working Streeme copy of your own, it's time to take a moment to learn how to schedule scanning tasks, so you don't have to run scans manually. On most unix and linux system, this is taken care of by a program called crontab. On Windows, you'll use Windows Scheduler. Let's have a look at how to make scanning music and art an automated task. 
+
+= Details =
