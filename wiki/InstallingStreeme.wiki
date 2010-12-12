@@ -50,7 +50,7 @@ OSX: "/opt/local/var/macports/software/ffmpeg/version/opt/local/bin/ffmpeg"
  * *Music Proxy Port* select a port for music communications enter here whatever you put in your virtual host setup in the first step
  * *Send Cookies with Request* when requesting music on devices that cannot send cookies for Audio or art requests, this option allows for a workaround - it sends the remember key cookie value with the request and verifies it against the IP given at last login. This is mostly to support Palm/HP Pre and WebOS devices, don't turn it on if your phone can properly send cookies
  * *remember_key_expiration_age* - This setting will keep users selecting "remember me" at login time logged in for approximately 300 days. If you run a tighter ship, consider changing this number - time denoted in seconds
- * *Scheduling your library scanning* Streeme uses a task to coordinate automated scans of your music library. The list of options will istruct streeme how to scan you library and in what order. Simple comment out the items you don't use and add in the ones that you do. 
+ * *Scheduling your library scanning* Streeme uses a task to coordinate automated scans of your music library. The list of options will istruct streeme how to scan you library and in what order. Simply comment out the items you don't use and add in the ones that you do. You can read more about scheduling in a later step [SchedulingStreeme located here]. 
 
 ----
 
