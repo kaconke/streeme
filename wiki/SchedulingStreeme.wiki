@@ -32,7 +32,7 @@ There are other settings that you can play around with, but these settings shoul
 
 
 
-= Scheduling on Unix and Linux =
+= Scheduling on OSX, Unix and Linux =
 
 enter a terminal and type
 
