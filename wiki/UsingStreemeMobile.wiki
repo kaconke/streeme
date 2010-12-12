@@ -58,11 +58,15 @@ The player controls vary with each mobile browser. They generally contain a play
 ===Adding Streeme to your Home Screen/bookmarks===
 In order to get back to Streeme quickly, it's a good idea to add your public URL to the bookmarks on your phone.
 
-*iPhone/iPod Touch*
+*iPhone/iPod Touch/iPad*
  * While Using Streeme Mobile, Click the "+" at the bottom of the screen
  * Click "Add to Home Screen"
  * Choose a Name to show on your home screen, the icon for Streeme will download automatically.
  * From now on, you can access Streeme from your home screen like any other app.
+<br/><br/>
+*Palm Pre / WebOS*
+ * While Using Streeme Mobile, Click the Web button in the top left corner of the screen
+ * Tap Page>Add to Launcher
+ * Choose a Name to show on your home screen, the icon for Streeme will download 
 
    
-
