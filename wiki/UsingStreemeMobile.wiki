@@ -65,6 +65,6 @@ In order to get back to Streeme quickly, it's a good idea to add your public URL
 *Palm Pre / WebOS*
  * While Using Streeme Mobile, Click the Web button in the top left corner of the screen
  * Tap Page>Add to Launcher
- * Choose a Name to show on your home screen, the icon for Streeme will download 
+ * Choose a Name to show on your home screen, if the icon's not quite centered, click it and you'll be able to create an icon from the page 
 
    
