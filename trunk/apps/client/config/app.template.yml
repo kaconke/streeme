@@ -48,3 +48,14 @@ all:
   #set the default cookie lifetime for auth
   sf_guard_plugin:
      remember_key_expiration_age: 25920000   # 300 days in seconds
+
+  #set up your media scan plan - you can customize how your library is scanned
+  #remove the pound (#) sign to enable scan if you'd like to change the order
+  #just move the items up or down in the list
+  msp:
+    media_scan_plan:
+      #- 'scan-media --type=itunes'
+      - 'scan-media --type=filesystem'
+      #- 'scan-art --source=amazon'
+      - 'scan-art --source=meta'
+      - 'scan-art --source=folders'
