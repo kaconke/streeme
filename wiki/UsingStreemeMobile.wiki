@@ -35,3 +35,34 @@ The card list is the jump off point for using the mobile interface. here's a qui
  * *Settings* This button will take you to similar settings as seen in the desktop app. 
 
 ===Alpha Bar===
+Streeme has a common UI element called the alpha bar for managing medium sized lists clicking a letter in the alpha bar will take you to the results starting with that letter or symbol. There's on small change to the way it works on mobile - the alpha bar sends a request to your server asking for new content. so be patient while the list updates.
+
+===Navigate to the Previous Card===
+Some cards feature a navigation element in the top left corner. This button will switch back to the previous card. 
+
+===Album Art===
+Your album art appears in the player card (Playing from the menu while a song is playing back). Tap the art to toggle pause/play. To each side of the album art, there are buttons indicating skip to the next and previous track. If the button is a lighter color, there are no more songs in that direction. 
+
+===Song List===
+The song list is paginated and can display many thousands of songs fairly quickly. The interface becomes quicker as you use it thanks to SQL caching. Music is ordered by latest library additions, but maintains a cookie to remember your settings per session. you may order by any column by clicking on the table's column headers. In addition to your ordering, streeme will attempt to group album track numbers so song play in the right order. 
+ * To play a song,tap the appropriate row
+ * the playing song row will turn a faint blue to indicate it is the currently selected (and playing) track
+
+===Song Info===
+The currently playing song will be detailed above the player controls. The artist, album and song name are all visible during playback.
+
+===Player Controls===
+The player controls vary with each mobile browser. They generally contain a play button, progress indicator/duration indicator. Some handsets simply do not feature playback controls. The Palm Pre for instance, does not support controls and the API is quite primitive, so you can't even count on duration indicators, so I'm not going to get carried away with building a UI until a new WebOS edition hits the Pre.
+
+<br/>
+===Adding Streeme to your Home Screen/bookmarks===
+In order to get back to Streeme quickly, it's a good idea to add your public URL to the bookmarks on your phone.
+
+*iPhone/iPod Touch*
+ * While Using Streeme Mobile, Click the "+" at the bottom of the screen
+ * Click "Add to Home Screen"
+ * Choose a Name to show on your home screen, the icon for Streeme will download automatically.
+ * From now on, you can access Streeme from your home screen like any other app.
+
+   
+
