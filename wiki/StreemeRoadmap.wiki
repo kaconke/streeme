@@ -9,9 +9,9 @@ Streeme is very much in its infancy and there are multiple new features that spr
 = Summary =
 
  * [StreemeRoadmap#Implement_a_Resume_Feature Implement a resume feature to support audio books and long mixes]
- * [StreemeRoadmap#fastforward Implement a fast forward method for browsers without HTML5 controls]
- * [StreemeRoadmap#android Deliver better mobile support for the Android platform]
- * [StreemeRoadmap#podcasts Import podcasts]
+ * [StreemeRoadmap#Implement_a_Fast_Forward_UI Implement a fast forward method for browsers without HTML5 controls]
+ * [StreemeRoadmap#Better_Support_for_Android_Devices Deliver better mobile support for the Android platform]
+ * [StreemeRoadmap#Import_Podcasts Import podcasts]
  * [StreemeRoadmap#playlists Import playlists]
  * [StreemeRoadmap#otherlists Support other jukebox software lists]
  * [StreemeRoadmap#virtualmachine Create a Virtual Machine version of Streeme]
@@ -21,30 +21,23 @@ Streeme is very much in its infancy and there are multiple new features that spr
 ===Implement a Resume Feature===
 For users with FFMPEG installed, offer a feature to resume a song or audiobook from a specific position. This feature should record its position in the song database on a per song scope. The user shall be asked if they would like to resume or start from the beginning of the song or audio book. The player will check in at a regular interval on the current position in the file using a javascript/php interface.
 
-<a name="fastforward"></a>
-===Implement a fast forward method===
+===Implement a Fast Forward UI===
 For devices and browsers that support the HTML5 API, create a button to tell the playback agent to scan forward or back in preset intervals or implement a seek bar to seek through the file visually. 
 
-<a name="android"></a>
-===Better support for Android devices===
+===Better Support for Android Devices===
 I lack the testing facilities for Android phones and the emulator seems to differ from real devices. If you have feedback on android or can help develop for it, please contact the project owner to be added to the commit group.
 
-<a name="podcasts"></a>
-===Import podcasts===
+===Import Podcasts===
 Podcasts are traditionally downloaded to a user's computer and then synced to a device. I'd like to either support this facility completely wirelessly or make an automation that syncs a users podcast list automatically with their scheduled tasks.
 
-<a name="playlists"></a>
 ===Import Playlists===
 Many MP3s come with an M3U file and iTunes maintains its own playlist mechanisms, it would be nice to add an automatic import feature to merge predefined playlists with the current playlist system where possible.
 
-<a name="otherlists"></a>
 ===Support music importing from other Jukeboxes===
 Ideally streeme should support any jukebox software for managing song lists. If you have a favorite library management software, please help develop or bug test an importer for other software packages.
 
-<a name="virtualmachine"></a>
 ===Create a Virtual Machine===
 Exposing your server to the 'net carries a few risks and is inherently more difficult to support. Let's create a solid VMWare image that requires relatively few setup parameters and can take the brunt of living in a router DMZ. Just mount your read only shares and a sacrificial Streeme VM will be up and running on a VMWare or equivalent player.
 
-<a name="i18n"></a>
 ===Language Packs===
 The Streeme project is looking for XLIFF translations to German, Spanish and French at minimum before 1.0 is released. Any language packs are appreciated.
