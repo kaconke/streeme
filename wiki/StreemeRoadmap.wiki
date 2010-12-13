@@ -8,7 +8,7 @@ Streeme is very much in its infancy and there are multiple new features that spr
 
 = Summary =
 
- * [StreemeRoadmap#resume Implement a resume feature to support audio books and long mixes]
+ * [StreemeRoadmap#Implement_a_Resume_Feature Implement a resume feature to support audio books and long mixes]
  * [StreemeRoadmap#fastforward Implement a fast forward method for browsers without HTML5 controls]
  * [StreemeRoadmap#android Deliver better mobile support for the Android platform]
  * [StreemeRoadmap#podcasts Import podcasts]
@@ -18,8 +18,7 @@ Streeme is very much in its infancy and there are multiple new features that spr
  * [StreemeRoadmap#i18n Create Language Packs for Streeme]
 
 =Details=
-[#resume]
-===Implement a Resume feature===
+===Implement a Resume Feature===
 For users with FFMPEG installed, offer a feature to resume a song or audiobook from a specific position. This feature should record its position in the song database on a per song scope. The user shall be asked if they would like to resume or start from the beginning of the song or audio book. The player will check in at a regular interval on the current position in the file using a javascript/php interface.
 
 <a name="fastforward"></a>
