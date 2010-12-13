@@ -66,15 +66,15 @@ Listen *:8095
 NameVirtualHost *:8095
 
 <VirtualHost *:8095>
-  DocumentRoot "d:/web/streeme/web"
+  DocumentRoot "/Users/username/Sites/streeme/web"
   DirectoryIndex index.php
-  <Directory "d:/web/streeme/web">
+  <Directory "/Users/username/Sites/streeme/web">
     AllowOverride All
     Allow from All
   </Directory>
 
-  Alias /sf "d:/web/streeme/lib/vendor/symfony/data/web/sf"
-  <Directory "d:/web/streeme/lib/vendor/symfony/data/web/sf">
+  Alias /sf "/Users/username/Sites/streeme/lib/vendor/symfony/data/web/sf"
+  <Directory "/Users/username/Sites/streeme/lib/vendor/symfony/data/web/sf">
     AllowOverride All
     Allow from All
   </Directory>
@@ -86,9 +86,9 @@ Listen *:8096
 NameVirtualHost *:8096
 
 <VirtualHost *:8096>
-  DocumentRoot "d:/web/streeme/web"
+  DocumentRoot "/Users/username/Sites/streeme/web"
   DirectoryIndex index.php
-  <Directory "d:/web/streeme/web">
+  <Directory "/Users/username/Sites/streeme/web">
     AllowOverride All
     Allow from All
   </Directory>
