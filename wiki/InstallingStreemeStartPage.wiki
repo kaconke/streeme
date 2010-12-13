@@ -1,4 +1,4 @@
-#summary How To Install Streeme from Scratch!
+#summary How To Install Streeme from Scratch
 #labels Featured,Phase-Deploy
 
 http://farm6.static.flickr.com/5241/5247838043_0167310ac7_b.jpg
