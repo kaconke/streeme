@@ -1,5 +1,5 @@
 #summary A quick how-to on SVN for installing and updating streeme
-#labels Phase-Support
+#labels Help
 
 = Windows using Tortoise SVN =
 
@@ -17,7 +17,7 @@ Wherever you set the folder in step 2, make sure that your Apache configs know t
 
 Once downloaded, please continue with the [InstallingStreeme Installing Streeme Tutorial]
 
-= *nix =
+= Linux/Unix =
 
 http://farm6.static.flickr.com/5126/5250280669_82ddd1c258_o.jpg
 
