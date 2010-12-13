@@ -37,4 +37,7 @@ Many MP3s come with an M3U file and iTunes maintains its own playlist mechanisms
 Ideally streeme should support any jukebox software for managing song lists. If you have a favorite library management software, please help develop or bug test an importer for other software packages.
 
 ===Create a Virtual Machine===
-Exposing your server to the 'net carries a few risks and is inherently more difficult to support. Let's create a solid VMWare or 
+Exposing your server to the 'net carries a few risks and is inherently more difficult to support. Let's create a solid VMWare image that requires relatively few setup parameters and can take the brunt of living in a router DMZ. Just mount your read only shares and a sacrificial Streeme VM will be up and running on a VMWare or equivalent player.
+
+===Language Packs===
+The Streeme project is looking for XLIFF translations to German, Spanish and French at minimum before 1.0 is released. Any language packs are appreciated.
