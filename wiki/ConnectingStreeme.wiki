@@ -9,7 +9,7 @@ Once you get the hang of how to install and use streeme, it's time to leave the 
 ===Configuring your Firewall===
 
 ====Windows====
-When you start Apache with your Streeeme configurations, windows will prompt you to allow the application access for the specfic ports it needs. Simply allow apache to make the modifications to your Windows Firewall. The other option is to simply kill Windows firewall by stoppi g the service, though it opens your computer to higher risk.
+When you start Apache with your Streeeme configurations, windows will prompt you to allow the application access for the specfic ports it needs. Simply allow apache to make the modifications to your Windows Firewall. The other option is to simply kill Windows firewall by stopping the service, though it opens your computer to higher risk.
 
 ====Mac====
 Firewalls are turned off on Snow Leopard by default. If you have enabled a software firewall, please allow the ports you chose for Streeme to communicate.
