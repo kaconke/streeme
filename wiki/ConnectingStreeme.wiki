@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Once you get the hang of how to install and use streeme, it's time to leave the house - with your music! You'll need to configure your home router and change your firewall settings a bit to allow this and you'll need to discover your external IP address. Please follow this guide to make your imusic collection available on the Internet.
+Once you get the hang of how to install and use streeme, it's time to leave the house - with your music! You'll need to configure your home router and change your firewall settings a bit to allow this and you'll need to discover your external IP address. Please follow this guide to make your music collection available on the Internet.
 
 
 ===Configuring your Firewall===
@@ -21,3 +21,7 @@ Ubuntu may or may not have a firewall to start with.. here's a helpful guide to 
 ===Discovering your IP===
 Go Here and memorize the IP address it shows, this is your public IP for outside your house/office<br/>
 [http://www.whatismyip.com What is My IP?]
+<br/>
+To access your collection while outside or while on a cellular data plan, use this IP and your first port in your apache config. example http://27.34.109.168:8095
+
+===Configuring Your Router===
