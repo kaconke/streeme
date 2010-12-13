@@ -1,5 +1,5 @@
 #summary Learn how to connect to Streeme once your installation is operational
-#labels Usage
+#labels Usage,Phase-Deploy
 
 = Introduction =
 
