@@ -1,0 +1,18 @@
+#summary Roadmap to release 1.0
+#labels Phase-Requirements,Phase-Design
+
+= Introduction =
+
+Streeme is very much in its infancy and there are multiple new features that spring to mind. Release 1.0 has no solid deadline at this time, but it will likely be somewhere near summe 2011. The following lists details some key features and bundling deliverables for this timeline. If you think you can help with any of these features, please let the project owner know!
+
+
+= Summary =
+
+ * Implement a resume feature to support audio books and long mixes
+ * Implement a fast forward method for browsers without HTML5 controls
+ * Deliver better mobile support for the Android platform
+ * Import podcasts
+ * Import playlists 
+ * Support other jukebox software lists
+ * Create a Virtual Machine version of Streeme
+
