@@ -16,3 +16,18 @@ Streeme is very much in its infancy and there are multiple new features that spr
  * Support other jukebox software lists
  * Create a Virtual Machine version of Streeme
 
+=Details=
+===Implement a Resume feature===
+For users with FFMPEG installed, offer a feature to resume a song or audiobook from a specific position. This feature should record its position in the song database on a per song scope. The user shall be asked if they would like to resume or start from the beginning of the song or audio book. The player will check in at a regular interval on the current position in the file using a javascript/php interface.
+
+===Implement a fast forward method===
+For devices and browsers that support the HTML5 API, create a button to tell the playback agent to scan forward or back in preset intervals or implement a seek bar to seek through the file visually. 
+
+===Better support for Android devices===
+I lack the testing facilities for Android phones and the emulator seems to differ from real devices. If you have feedback on android or can help develop for it, please contact the project owner to be added to the commit group.
+
+===Import podcasts===
+Podcasts are traditionally downloaded to a user's computer and then synced to a device. I'd like to either support this facility completely wirelessly or make an automation that syncs a users podcast list automatically with their scheduled tasks.
+
+===Import Playlists===
+Many MP3s come with an M3U file and iTunes maintains its own playlist mechanisms, it would be nice to add an automatic import feature to merge predfined playlists with the current playlist system where possible
