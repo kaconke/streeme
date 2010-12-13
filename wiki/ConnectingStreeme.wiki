@@ -1,0 +1,23 @@
+#summary Learn how to connect to Streeme once your installation is operational
+#labels Usage
+
+= Introduction =
+
+Once you get the hang of how to install and use streeme, it's time to leave the house - with your music! You'll need to configure your home router and change your firewall settings a bit to allow this and you'll need to discover your external IP address. Please follow this guide to make your imusic collection available on the Internet.
+
+
+===Configuring your Firewall===
+
+====Windows====
+When you start Apache with your Streeeme configurations, windows will prompt you to allow the application access for the specfic ports it needs. Simply allow apache to make the modifications to your Windows Firewall. The other option is to simply kill Windows firewall by stoppi g the service, though it opens your computer to higher risk.
+
+====Mac====
+Firewalls are turned off on Snow Leopard by default. If you have enabled a software firewall, please allow the ports you chose for Streeme to communicate.
+
+====Linux====
+Ubuntu may or may not have a firewall to start with.. here's a helpful guide to learn how to adjust your firewall settings in ubuntu [https://help.ubuntu.com/6.06/ubuntu/serverguide/C/firewall-configuration.html]
+
+
+===Discovering your IP===
+Go Here and memorize the IP address it shows, this is your public IP for outside your house/office<br/>
+[http://www.whatismyip.com What is My IP?]
