@@ -18,7 +18,7 @@ Streeme is very much in its infancy and there are multiple new features that spr
  * [StreemeRoadmap#i18n Create Language Packs for Streeme]
 
 =Details=
-<a name="resume"></a>
+[#resume]
 ===Implement a Resume feature===
 For users with FFMPEG installed, offer a feature to resume a song or audiobook from a specific position. This feature should record its position in the song database on a per song scope. The user shall be asked if they would like to resume or start from the beginning of the song or audio book. The player will check in at a regular interval on the current position in the file using a javascript/php interface.
 
