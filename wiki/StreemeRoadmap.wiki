@@ -12,10 +12,10 @@ Streeme is very much in its infancy and there are multiple new features that spr
  * [StreemeRoadmap#Implement_a_Fast_Forward_UI Implement a fast forward method for browsers without HTML5 controls]
  * [StreemeRoadmap#Better_Support_for_Android_Devices Deliver better mobile support for the Android platform]
  * [StreemeRoadmap#Import_Podcasts Import podcasts]
- * [StreemeRoadmap#playlists Import playlists]
- * [StreemeRoadmap#otherlists Support other jukebox software lists]
- * [StreemeRoadmap#virtualmachine Create a Virtual Machine version of Streeme]
- * [StreemeRoadmap#i18n Create Language Packs for Streeme]
+ * [StreemeRoadmap#Import_Playlists Import playlists]
+ * [StreemeRoadmap#Support_Music_Importing_from_Other_Jukeboxes Support other jukebox software lists]
+ * [StreemeRoadmap#Create_a_Virtual_Machine Create a Virtual Machine version of Streeme]
+ * [StreemeRoadmap#Language_Packs Create Language Packs for Streeme]
 
 =Details=
 ===Implement a Resume Feature===
@@ -33,7 +33,7 @@ Podcasts are traditionally downloaded to a user's computer and then synced to a 
 ===Import Playlists===
 Many MP3s come with an M3U file and iTunes maintains its own playlist mechanisms, it would be nice to add an automatic import feature to merge predefined playlists with the current playlist system where possible.
 
-===Support music importing from other Jukeboxes===
+===Support Music Importing from Other Jukeboxes===
 Ideally streeme should support any jukebox software for managing song lists. If you have a favorite library management software, please help develop or bug test an importer for other software packages.
 
 ===Create a Virtual Machine===
