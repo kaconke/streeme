@@ -15,6 +15,7 @@ Streeme is very much in its infancy and there are multiple new features that spr
  * Import playlists 
  * Support other jukebox software lists
  * Create a Virtual Machine version of Streeme
+ * Create Language Packs for Streeme
 
 =Details=
 ===Implement a Resume feature===
@@ -30,4 +31,10 @@ I lack the testing facilities for Android phones and the emulator seems to diffe
 Podcasts are traditionally downloaded to a user's computer and then synced to a device. I'd like to either support this facility completely wirelessly or make an automation that syncs a users podcast list automatically with their scheduled tasks.
 
 ===Import Playlists===
-Many MP3s come with an M3U file and iTunes maintains its own playlist mechanisms, it would be nice to add an automatic import feature to merge predfined playlists with the current playlist system where possible
+Many MP3s come with an M3U file and iTunes maintains its own playlist mechanisms, it would be nice to add an automatic import feature to merge predefined playlists with the current playlist system where possible.
+
+===Support music importing from other Jukeboxes===
+Ideally streeme should support any jukebox software for managing song lists. If you have a favorite library management software, please help develop or bug test an importer for other software packages.
+
+===Create a Virtual Machine===
+Exposing your server to the 'net carries a few risks and is inherently more difficult to support. Let's create a solid VMWare or 
