@@ -92,14 +92,17 @@ _/etc/php5/cli/php.ini_ = the command line version
  * set {{{magic_quotes_gpc = Off}}}
  * set {{{short_open_tag = Off}}}
  * set {{{memory_limit = 128M}}} or higher  
+ * set {{{extension=apc.so}}} if installing APC
 
 install PEAR (PHP Extension and Application Repository)
 
 {{{sudo apt-get install php-pear}}}
+{{{sudo apt-get inatall php5-dev apache2-dev}}}
+{{{ln -s /usr/bin/apxs2 /usr/bin/apxs}}}
 
 once installed use the pear package manager to install apc and http_download
- * {{{sudo pear install APC}}}
  * {{{sudo pear install HTTP_Download}}}
+ * {{{sudo pecl install APC}}}
 
 install curl - required for cloudfusion:
 
