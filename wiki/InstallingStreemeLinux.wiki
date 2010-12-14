@@ -81,6 +81,10 @@ if all looks good, go ahead and restart apache, type:
 
 ===PHP Configs===
 
+install php5 cli 
+
+{{{sudo apt-get install php5-cli}}}
+
 _/etc/php5/apache2/php.ini_ = the apache version
 AND
 _/etc/php5/cli/php.ini_ = the command line version 
