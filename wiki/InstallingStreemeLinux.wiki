@@ -94,6 +94,10 @@ _/etc/php5/cli/php.ini_ = the command line version
  * set {{{memory_limit = 128M}}} or higher  
  * set {{{extension=apc.so}}} if installing APC
 
+Install XSL
+
+{{{sudo apt-get install libapache2-modxslt php5-xsl}}} you may need to enable the module in apache after.
+
 install PEAR (PHP Extension and Application Repository)
 
 {{{sudo apt-get install php-pear}}}
