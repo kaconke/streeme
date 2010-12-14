@@ -9,7 +9,10 @@ It's time to install the streeme application - most of this is configuration, so
 == Check out the Code ==
 use SVN to checkout the code from Google code. If you know how to use SVN, run the following command in your streeme directory:
 
-{{{svn checkout http://streeme.googlecode.com/svn/trunk/ streeme-read-only}}}
+{{{
+cd /path/to/your/streeme/install
+svn checkout http://streeme.googlecode.com/svn/trunk/ .
+}}}
 
 [UsingSVN Help! I've never done this before - show me what to do!]
 
