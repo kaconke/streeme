@@ -21,7 +21,6 @@ Now you've got your bare bones server installed, you'll need to make some edits 
 The above guide will add apache in a modular setup - to enable/disable modules, you just copy/link from /etc/apache2/mods-available to /etc/apache2/mods-enabled. If you use a linux that doesn't have modules like this, please compile it with the right functionality:
 
  * add mod-rewrite    *required*
- * add mod-XSendFile  *optional* [http://www.screenage.de/blog/2008/02/22/libapache2-mod-xsendfile-processes-x-sendfile-headers-with-apache2/ link]
  * add deflate_module *optional*
 
 create a virtual hosts:
