@@ -62,7 +62,7 @@ example
 sudo mount -t smbfs "//192.168.1.105/Music/iTunes/iTunes Media" /home/notroot/music -o username=sillyme,password=$ecret
 }}}
 
-if you'd like to mount a drive permanently, so it always reappears after shutdown, please follow [https://wiki.ubuntu.com/MountWindowsSharesPermanently this guide]
+ * If you'd like to mount a drive permanently, so it always reappears after shutdown, please follow [https://wiki.ubuntu.com/MountWindowsSharesPermanently this guide]
 <br/>
 *Last Steps!*
 
