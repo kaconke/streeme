@@ -43,7 +43,9 @@ sudo passwd notroot
 
  * *Now choose a new password for your server* - make it over 12 characters, mix in a number and change the case. 
 
-*Mount your music drive*
+*Step Four *
+
+ * Mount your music drive
 
 {{{
  sudo mount -t smbfs //your_media_pc_ip_address/your_folder/ /home/notroot/music -o username=Guest,password=
