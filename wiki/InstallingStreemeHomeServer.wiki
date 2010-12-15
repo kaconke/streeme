@@ -95,3 +95,8 @@ Now Scan your music!
 For info on art scanning, please read the [AlbumArtScanning Album Art Scanning wiki]
 
 If you use a router, please read the [ConnectingStreeme Connecting Streeme Wiki]
+
+To discover your Streeme Home Server IP from the commandline, type:
+{{{
+curl whatismyip.org
+}}}
