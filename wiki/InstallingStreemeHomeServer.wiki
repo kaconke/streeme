@@ -42,6 +42,12 @@ sudo passwd notroot
 }}}
 
  * *Now choose a new password for your server* - make it over 12 characters, mix in a number and change the case. 
+ * Now things are a bit more secure, get an IP address assigned to your new server 
+{{{
+sudo dhclient -r
+sudo dhclient
+}}}
+ * Take note of the dhpack and bound ip addresses. they should match and that will be how you can access your server in your house. eg. http://192.168.1.111:8095 
 <br/>
 *Step Four *
 
