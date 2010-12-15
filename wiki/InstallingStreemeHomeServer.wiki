@@ -60,6 +60,8 @@ example
 sudo mount -t smbfs "//192.168.1.105/Music/iTunes/iTunes Media" /home/notroot/music -o username=sillyme,password=$ecret
 }}}
 
+if you'd like to mount a drive permanently, so it always reappears after shutdown, please follow [https://wiki.ubuntu.com/MountWindowsSharesPermanently this guide]
+
 *Last Steps!*
 
 Run these commands in order to upgrade and initialize streeme 
@@ -88,4 +90,6 @@ Now Scan your music!
 ./symfony scan-media --type=filesystem 
 }}} 
 
-For info on art scanning, please read the full [AlbumArtScanning Album Art Scanning wiki]
+For info on art scanning, please read the [AlbumArtScanning Album Art Scanning wiki]
+
+If you use a router, please read the [http://code.google.com/p/streeme/wiki/ConnectingStreeme Connecting Streeme Wiki]
