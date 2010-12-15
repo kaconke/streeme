@@ -35,3 +35,31 @@ This project features a premade virtual appliance for Vmware that significantly 
 login: notroot
 password: streeme
 }}}
+
+ * Once you gain access, immediately type:
+{{{
+sudo passwd notroot
+}}}
+*Now choose a new password for your server* - make it over 12 characters, mix in a number and change the case. Alternatively you can change to [ssh with proper rsa keys] using the bundled putty or the ssh command on linux.
+
+*Step Four*
+Run these commands in order to upgrade and initialize streeme 
+{{{
+cd /home/notroot/sites/streeme
+svn update
+./symfony doctrine:build --all --and-load
+}}} 
+
+Now add your streeme users - do this for each of the devices (your phone, office, gym.. you name it) that will attach to your home server install
+
+{{{
+./symfony guard:create-user your_username your_password
+}}}
+
+Now Scan your music!
+
+{{{
+./symfony scan-media --type=filesystem 
+}}} 
+
+for info on art scanning, please read the full [config wiki]
