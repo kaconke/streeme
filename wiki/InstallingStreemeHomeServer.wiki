@@ -23,13 +23,15 @@ This project features a premade virtual appliance for Vmware that significantly 
 = Installing Streeme Home Server =
 
 *Step One*
-----
-[http://www.vmware.com/products/player/ Get a copy of vmware player - free download]
-
+ * [http://www.vmware.com/products/player/ Get a copy of vmware player - free download]
+<br/>
 *Step Two*
-----
-Download the [Streeme Home Server Virtual Appliance] and unzip it to somewhere safe 
-
+ * Download the [Streeme Home Server Virtual Appliance] and unzip it to somewhere safe 
+<br/>
 *Step Three* 
-----
-Double click 
+
+ * Double click or load ubuntu-server-10.04-i386.vmx in vmware player and hit start - when prompted, say you "copied it" and the appliance will boot to a login screen. 
+{{{
+login: notroot
+password: streeme
+}}}
