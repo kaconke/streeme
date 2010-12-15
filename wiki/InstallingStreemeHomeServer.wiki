@@ -1,0 +1,25 @@
+#summary How to install Streeme Home Server
+#labels Phase-Deploy
+
+= Introduction =
+
+This project features a premade virtual machine that significantly reduces the time to install Streeme. This manual covers the steps you need to take to install Streeme Home Server on any Windows or Vmware compatible linux distribution. StreemeHome Server is not compatible with OSX yet, so please follow [InstallingStreemeMac The Mac Install Guide]. If you use bootcamp, you can evaluate streeme on your Windows partition before installing more permanently.
+
+= Streeme Home Server =
+
+===Bundled Features===
+ * Filesystem media scanning using Windows File Sharing or SMB on your NAS
+ * Comprehensive art scanning - use Amazon PAS, id3 tags and 
+ * Fully bridges to your network for use anywhere
+ * Preconfigured and ready to go - just add permissions and music.    
+
+===Requirements===
+ * 1GB RAM 
+ * 1GHz or greater PC
+ * Windows XP or better
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
