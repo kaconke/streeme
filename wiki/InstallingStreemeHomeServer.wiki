@@ -40,7 +40,8 @@ password: streeme
 {{{
 sudo passwd notroot
 }}}
-*Now choose a new password for your server* - make it over 12 characters, mix in a number and change the case. Alternatively you can change to [ssh with proper rsa keys] using the bundled putty or the ssh command on linux.
+
+ * *Now choose a new password for your server* - make it over 12 characters, mix in a number and change the case. 
 
 *Step Four*
 
