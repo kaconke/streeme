@@ -42,7 +42,7 @@ sudo passwd notroot
 }}}
 
  * *Now choose a new password for your server* - make it over 12 characters, mix in a number and change the case. 
-
+<br/>
 *Step Four *
 
  * Mount your music drive
@@ -63,7 +63,7 @@ sudo mount -t smbfs "//192.168.1.105/Music/iTunes/iTunes Media" /home/notroot/mu
 }}}
 
 if you'd like to mount a drive permanently, so it always reappears after shutdown, please follow [https://wiki.ubuntu.com/MountWindowsSharesPermanently this guide]
-
+<br/>
 *Last Steps!*
 
 Run these commands in order to upgrade and initialize streeme 
