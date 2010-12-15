@@ -3,7 +3,7 @@
 
 = Introduction =
 
-This project features a premade virtual machine that significantly reduces the time to install Streeme. This manual covers the steps you need to take to install Streeme Home Server on any Windows or Vmware compatible linux distribution. StreemeHome Server is not compatible with OSX yet, so please follow [InstallingStreemeMac The Mac Install Guide]. If you use bootcamp, you can evaluate streeme on your Windows partition before installing more permanently.
+This project features a premade virtual appliance for Vmware that significantly reduces the time to install Streeme while suporting most of Streeme's core features. This manual covers the steps you need to take to install Streeme Home Server on any Windows or Vmware compatible linux distribution. StreemeHome Server is not compatible with OSX yet, so please follow [InstallingStreemeMac The Mac Install Guide]. If you use bootcamp, you can evaluate streeme on your Windows partition before installing more permanently.
 
 = Streeme Home Server =
 
@@ -16,10 +16,20 @@ This project features a premade virtual machine that significantly reduces the t
 ===Requirements===
  * 1GB RAM 
  * 1GHz or greater PC
- * Windows XP or better
-= Details =
+ * Windows XP or "better" and many popular linuxes
+ * [http://www.vmware.com/products/player/ vmware player software]
+ * A computer you can leave on 
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= Installing Streeme Home Server =
+
+*Step One*
+----
+[http://www.vmware.com/products/player/ Get a copy of vmware player - free download]
+
+*Step Two*
+----
+Download the [Streeme Home Server Virtual Appliance] and unzip it to somewhere safe 
+
+*Step Three* 
+----
+Double click 
