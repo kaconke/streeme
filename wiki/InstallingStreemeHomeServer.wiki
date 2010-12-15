@@ -43,7 +43,24 @@ sudo passwd notroot
 
  * *Now choose a new password for your server* - make it over 12 characters, mix in a number and change the case. 
 
-*Step Four*
+*Mount your music drive*
+
+{{{
+ sudo mount -t smbfs //your_media_pc_ip_address/your_folder/ /home/notroot/music -o username=Guest,password=
+}}}
+
+ * your_media_pc_ip_address - The IP address of your media pc or Network attached storage
+ * your_folder - the folder where you store your music
+ * username=Guest is the default, but if your share requires a username, put it here
+ * password=  the password is empty by default, but if you need to use a password enter it here
+ * *please make sure your music shared drive in in read only mode for guests*
+
+example
+{{{
+sudo mount -t smbfs "//192.168.1.105/Music/iTunes/iTunes Media" /home/notroot/music -o username=sillyme,password=$ecret
+}}}
+
+*Last Steps!*
 
 Run these commands in order to upgrade and initialize streeme 
 
