@@ -58,6 +58,12 @@ Now add your streeme users - do this for each of the devices (your phone, office
 ./symfony guard:create-user your_username your_password
 }}}
 
+Once you're done, clear the cache to add all the edits items you've just made
+
+{{{
+./symfony cc
+}}}
+
 Now Scan your music!
 
 {{{
