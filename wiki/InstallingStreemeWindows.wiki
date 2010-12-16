@@ -117,7 +117,7 @@ go: start>applications>command prompt>right click and run command prompt as admi
 type:
  * {{{pear install HTTP_Download}}}
 
-note: If your command prompt can't find the file pear, you have to change you windows path . To do that, go Control Panel>System>Advanced>Environment Variables. In the upper window you'll see the word Path. Edit the path entry and add ;C:/xampp/php to the end of the entry. 
+note: If your command prompt can't find the file pear (the php application and extension repository command), you have to change you windows path . To do that, go Control Panel>System>Advanced>Environment Variables. In the upper window you'll see the word Path. Edit Path and add {{{;C:/xampp/php}}} to the end of the entry. Click ok and restart you command prompt. Pear should run now. 
 
 ===MySQL Configs===
 
