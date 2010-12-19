@@ -6,7 +6,7 @@
   
 class MediaScan extends StreemePDODatabase
 {
-  protected 
+  protected
        $last_scan_id,
        $skipped_songs,
        $added_songs,
@@ -31,7 +31,7 @@ class MediaScan extends StreemePDODatabase
     $this->added_songs = 0;
     $this->added_albums = 0;
     $this->added_artists = 0;
-    $this->added_genres = 0;   
+    $this->added_genres = 0;
     $this->removed_songs = 0;
     $this->removed_albums = 0;
     $this->removed_artists = 0;
@@ -48,29 +48,22 @@ class MediaScan extends StreemePDODatabase
     $this->finalize_scan();
     $summary = $this->summarize();
   
-    echo $summary;      
+    echo $summary;
   }
   
   /**
-  * initializes a scan session - insert a new entry into the scan log  
-  * sets the class variable last_scan_id, which is used to syncronize 
-  * the song records and speed up future scans 
+  * initializes a scan session - insert a new entry into the scan log
+  * sets the class variable last_scan_id, which is used to syncronize
+  * the song records and speed up future scans
   */
   private function initialize_scan()
   {
-    $parameters = array();
-    
-    $query  = 'INSERT INTO ';
-    $query .= ' scan ';
-    $query .= ' SET ';
-    $query .= ' scan_time = NOW(), ';
-    $query .= ' scan_type = "library" ';
-    
-    $extras = array();
-  
-    $result = $this->insert( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
-    
-    $this->last_scan_id = $result;
+    $scan = Doctrine_Core::getTable('Song');
+    $scan->scan_time = date('Y-m-d h:i:s');
+    $scan->scan_type = 'library';
+    $scan->save();
+    $this->last_scan_id = $scan->getId();
+    $scan->free();
   }
   
   
@@ -85,46 +78,41 @@ class MediaScan extends StreemePDODatabase
   
   /**
   * Check if the file we're about to add is already in the database and return true if it's scanned
-  * this function will also increment the last scan id
-  * @param $filename   str itunes style filename
-  * @param $mtime      int time modified unix timestamp
-  * $return         bool: if is scanned = true|false
+  * this function will also increment the last scan id to mark that the song is still in the database
+  * @param $filename str itunes style filename
+  * @param $mtime    int time modified unix timestamp
+  * $return          bool: if is scanned = true|false
   */
   public function is_scanned( $filename, $mtime )
   {
-    if ( empty( $this->last_scan_id ) ) return false; 
+    if ( empty( $this->last_scan_id ) ) return false;
   
-    $this->total_songs++;       
-  
-    $parameters = array();
+    $this->total_songs++;
     
-    $query  = 'UPDATE ';
-    $query .= ' song ';
-    $query .= 'SET ';
-    $query .= ' last_scan_id = :last_scan_id ';
-    $query .= 'WHERE ';
-    $query .= ' filename = :filename ';
-    $query .= ' AND mtime = :mtime ';
-  
-    $extras     = array();
-  
-    $parameters[] = array( 'last_scan_id', $this->last_scan_id, 'int' );
-    $parameters[] = array( 'filename', $filename );
-    $parameters[] = array( 'mtime', $mtime );
-  
-    $result = $this->update( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
-  
-    if ( $this->get_affected_row_count() )
+    $song = Doctrine::getTable( 'Song' )->findByFilenameAndMtime( $filename, $mtime );
+    
+    if( is_object( $song ) && !empty( $song->id ))
     {
+      //tag as updated
+      $scan = Doctrine::getTable('song')->find( $song->id );
+      $scan->last_scan_id = $last_scan_id;
+      $scan->save();
+      $scan->free();
+      $song->free();
+      
       $this->skipped_songs++;
+      
       return true;
     }
-  
-    return false;
+    else
+    {
+      //no results found - it hasn't be seen before
+      return false;
+    }
   }
   
   /**
-  * Populate the song list from an array 
+  * Populate the song list from an array
   * Parameter order is not important
   * @param $song_array array
   *   artist_name     str name of the artist
@@ -214,7 +202,7 @@ class MediaScan extends StreemePDODatabase
     $query .= ' song ';
     $query .= ' ( unique_id, artist_id, album_id, genre_id, last_scan_id, name, length, accurate_length, filesize, bitrate, yearpublished, tracknumber, label, mtime, atime, filename ) ';
     $query .= 'VALUES ( ';
-    $query .= ' "' . sha1( uniqid( '', true ) . mt_rand( 1, 99999999 ) ) . '", '; //adds a unique id for each song 
+    $query .= ' "' . sha1( uniqid( '', true ) . mt_rand( 1, 99999999 ) ) . '", '; //adds a unique id for each song
     $query .= ' COALESCE( (SELECT ar.id FROM artist AS ar WHERE ar.name = :artist_name ), 0), ';
     $query .= ' COALESCE( (SELECT al.id FROM album AS al WHERE al.name = :album_name ), 0 ), ';
     $query .= ' COALESCE( (SELECT gn.id FROM genre AS gn WHERE gn.name = :genre_name ), :id3_genre_id ), ';
@@ -234,7 +222,7 @@ class MediaScan extends StreemePDODatabase
     $query .= 'ON DUPLICATE KEY UPDATE ';
     $query .= ' artist_id = VALUES( artist_id ), ';
     $query .= ' album_id = VALUES( album_id ), ';
-    $query .= ' genre_id = VALUES( genre_id ), '; 
+    $query .= ' genre_id = VALUES( genre_id ), ';
     $query .= ' last_scan_id = VALUES( last_scan_id ),';
     $query .= ' name = VALUES( name ), ';
     $query .= ' length = VALUES( length ), ';
@@ -249,19 +237,19 @@ class MediaScan extends StreemePDODatabase
     
     $parameters[] = array( 'artist_name', $song_array['artist_name'] );
     $parameters[] = array( 'album_name', $song_array['album_name'] );
-    $parameters[] = array( 'song_name', $song_array['song_name'] );   
+    $parameters[] = array( 'song_name', $song_array['song_name'] );
     $parameters[] = array( 'genre_name', $song_array['genre_name'] );
     $parameters[] = array( 'id3_genre_id', $song_array['id3_genre_id'], 'int' );
-    $parameters[] = array( 'last_scan_id', $this->last_scan_id, 'int' );    
+    $parameters[] = array( 'last_scan_id', $this->last_scan_id, 'int' );
     $parameters[] = array( 'song_length', $song_array['song_length'], 'int' );
     $parameters[] = array( 'accurate_length', $song_array['accurate_length'], 'int' );
-    $parameters[] = array( 'size', $song_array['size'], 'int' ); 
+    $parameters[] = array( 'size', $song_array['size'], 'int' );
     $parameters[] = array( 'bitrate', $song_array['bitrate'], 'int' );
     $parameters[] = array( 'year', $song_array['year'], 'int' );
-    $parameters[] = array( 'track_number', $song_array['track_number'], 'int' );     
+    $parameters[] = array( 'track_number', $song_array['track_number'], 'int' );
     $parameters[] = array( 'label', $song_array['label'] );
-    $parameters[] = array( 'mtime', $song_array['mtime'], 'int' );  
-    $parameters[] = array( 'atime', $song_array['atime'], 'int' ); 
+    $parameters[] = array( 'mtime', $song_array['mtime'], 'int' );
+    $parameters[] = array( 'atime', $song_array['atime'], 'int' );
     $parameters[] = array( 'filename', $song_array['filename'] );
                            
     $song_insert_id = $this->insert( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
@@ -275,7 +263,7 @@ class MediaScan extends StreemePDODatabase
   }
   
   /**
-  * Finalizes the scan - removes old artists/albums/songs that the user has removed 
+  * Finalizes the scan - removes old artists/albums/songs that the user has removed
   * from the library
   */
   private function finalize_scan()
@@ -283,7 +271,7 @@ class MediaScan extends StreemePDODatabase
     //disable database I/U/D auto limiting for the following operations
     $extras     = array( 'disable_limiting' => true );
   
-    //delete songs not found in the last scan 
+    //delete songs not found in the last scan
     $parameters = array();
   
    	$query  = 'DELETE FROM ';
@@ -326,7 +314,7 @@ class MediaScan extends StreemePDODatabase
     $query .= 'WHERE ';
     $query .= ' id NOT IN (SELECT s.artist_id FROM song AS s)';
   
-    $result = $this->delete( $query, $parameters, $extras,  get_class( $this ) . '/'. __FUNCTION__ ); 
+    $result = $this->delete( $query, $parameters, $extras,  get_class( $this ) . '/'. __FUNCTION__ );
   
     if ( $this->get_affected_row_count() )
     {
@@ -342,7 +330,7 @@ class MediaScan extends StreemePDODatabase
     $query .= ' id NOT IN (SELECT s.genre_id FROM song AS s)';
     $query .= ' AND id > 125 ';
   
-    $result = $this->delete( $query, $parameters, $extras,  get_class( $this ) . '/'. __FUNCTION__ ); 
+    $result = $this->delete( $query, $parameters, $extras,  get_class( $this ) . '/'. __FUNCTION__ );
   
     if ( $this->get_affected_row_count() )
     {
@@ -374,10 +362,10 @@ class MediaScan extends StreemePDODatabase
     $string .= 'Custom Genres Added: ' . (string) $this->added_genres . " \r\n";
     $string .= 'Songs Removed: ' . (string) $this->removed_songs . " \r\n";
     $string .= 'Albums Removed: ' . (string) $this->removed_albums . " \r\n";
-    $string .= 'Artists Removed: ' . (string) $this->removed_artists . " \r\n";      
-    $string .= 'Custom Genres Removed: ' . (string) $this->removed_genres . " \r\n";   
+    $string .= 'Artists Removed: ' . (string) $this->removed_artists . " \r\n";
+    $string .= 'Custom Genres Removed: ' . (string) $this->removed_genres . " \r\n";
   
-    return $string; 
+    return $string;
   }
   
 }
