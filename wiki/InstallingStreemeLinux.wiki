@@ -101,7 +101,7 @@ install PEAR (PHP Extension and Application Repository)
 
 {{{
 sudo apt-get install php-pear
-sudo apt-get inatall php5-dev apache2-dev
+sudo apt-get install php5-dev apache2-dev
 ln -s /usr/bin/apxs2 /usr/bin/apxs
 }}}
 
