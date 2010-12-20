@@ -116,7 +116,7 @@ if you have problems with installing APC, please check [http://serverfault.com/q
 
 install curl - required for cloudfusion:
 
-{{{sudo apt-get install curl libcurl3 libcurl3-dev php5-curl}}} 
+{{{sudo apt-get install curl php5-curl}}} 
 
 PHP MUST BE PART OF YOUR PATH! You'll know it's working if you type php on the command line and something starts happening rather than nothing happening :) 
 
