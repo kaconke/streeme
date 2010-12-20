@@ -95,17 +95,21 @@ _/etc/php5/cli/php.ini_ = the command line version
 
 Install XSL
 
-{{{sudo apt-get install libapache2-modxslt php5-xsl}}} you may need to enable the module in apache after.
+{{{sudo apt-get install php5-xsl}}} you may need to enable the module in apache after.
 
 install PEAR (PHP Extension and Application Repository)
 
-{{{sudo apt-get install php-pear}}}
-{{{sudo apt-get inatall php5-dev apache2-dev}}}
-{{{ln -s /usr/bin/apxs2 /usr/bin/apxs}}}
+{{{
+sudo apt-get install php-pear
+sudo apt-get inatall php5-dev apache2-dev
+ln -s /usr/bin/apxs2 /usr/bin/apxs
+}}}
 
 once installed use the pear package manager to install apc and http_download
  * {{{sudo pear install HTTP_Download}}}
  * {{{sudo pecl install APC}}}
+
+if you have problems with installing APC, please check [http://serverfault.com/questions/206633/failed-to-instal-apc-via-pecl-install-apc this guide] - some setups don't have all of the dependencies needed :/
 
 install curl - required for cloudfusion:
 
