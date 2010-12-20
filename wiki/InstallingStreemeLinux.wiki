@@ -121,7 +121,7 @@ PHP MUST BE PART OF YOUR PATH! You'll know it's working if you type php on the c
 
 You will have already set up your MySQL installation previous steps, but there's a couple of easy performance and internationalization tweaks to perform.
 
-_/etc/my.cnf_
+_/etc/mysql/my.cnf_
 {{{
 [mysqld]
 default-character-set = utf8
