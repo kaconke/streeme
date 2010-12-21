@@ -32,4 +32,6 @@ It should checkout a bunch of stuff and you're ready to go!
 
 if you need to update later, just enter your streeme directory and type
 
-{{{svn up}}}
+{{{
+svn up
+}}}
