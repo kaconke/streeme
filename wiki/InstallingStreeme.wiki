@@ -32,6 +32,11 @@ edit this file with a text editor
 in _your_streeme_dir/_
  * rename .htaccess.template .htaccess
 
+ *linux and mac users
+{{{  
+chmod 777 log cache
+}}}
+
 ----
 
 in _your_streeme_dir/apps/client/config_ 
