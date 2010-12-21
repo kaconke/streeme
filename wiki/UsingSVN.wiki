@@ -19,9 +19,7 @@ Once downloaded, please continue with the [InstallingStreeme Installing Streeme 
 
 = Linux/Unix =
 
-http://farm6.static.flickr.com/5126/5250280669_82ddd1c258_o.jpg
-
-checking out svn on linux/osx is amazingly easy, if you can't see the image above, simply create a streeme folder in your /Users/your_username/Sites/ or ~/sites/ folder. 
+Checking out svn on linux/osx is amazingly easy, if you can't see the image above, simply create a streeme folder in your /Users/your_username/Sites/ or ~/sites/ folder. 
 
 then run something like 
 {{{
