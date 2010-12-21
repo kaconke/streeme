@@ -27,7 +27,7 @@ then run something like
 {{{
 notroot@ubuntu:~/sites$ mkdir streeme
 notroot@ubuntu:~/sites$ cd streeme
-notroot@ubuntu:~/sites/streeme$ svn checkout http://streeme.googlecode.com/svn/trunk . streeme-read-only
+notroot@ubuntu:~/sites/streeme$ svn checkout http://streeme.googlecode.com/svn/trunk .
 }}}
 
 It should checkout a bunch of stuff and you're ready to go! 
