@@ -18,6 +18,7 @@ This project features a premade virtual appliance for Vmware that significantly 
 
 ===Requirements===
  * 1GB RAM 
+ * 1GB HD space
  * 1GHz or greater PC
  * Windows XP or "better" and many popular linuxes
  * [http://www.vmware.com/products/player/ vmware player software]
