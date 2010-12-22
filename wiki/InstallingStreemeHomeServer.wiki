@@ -1,8 +1,8 @@
 #summary How to install Streeme Home Server
 #labels Phase-Deploy
 
-= *********************  COMING SOON! ****************** =
-
+=  COMING SOON!  =
+<br/>
 
 = Introduction =
 
