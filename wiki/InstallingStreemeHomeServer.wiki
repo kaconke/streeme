@@ -34,7 +34,7 @@ Streeme Home Server V.0.1.1 MD5: bc64edf756206e4694f8428a394cd211
 <br/>
 *Step Three* 
 
- * Double click or load ubuntu-server-10.04-i386.vmx in vmware player and hit start - when prompted, say you "copied it" and the appliance will boot to a login screen. 
+ * Double click or load {{{Streeme Home Server.vmx}}} in vmware player and hit start - when prompted, say you "copied it" and the appliance will boot to a login screen. 
 {{{
 login: notroot
 password: streeme
