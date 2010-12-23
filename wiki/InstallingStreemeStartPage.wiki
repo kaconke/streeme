@@ -9,6 +9,12 @@ To break up the process of setting up Streeme, the setup will comprise of a few 
 
 ==Please Choose an appropriate guide for your platform==
 
+===Use a Virtual Server - Streeme Home Server===
+
+ * [InstallingStreemeHomeServer Audit and try out Streeme using VMWare]
+
+===Custom Installation (Reccomended)===
+
  * [InstallingStreemeLinux Installing Streeme on Linux >]
 
  * [InstallingStreemeWindows Installing Streeme on Windows >]
