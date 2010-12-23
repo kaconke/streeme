@@ -12,6 +12,8 @@ Streeme requires the initial installation of a LAMP (Linux Apache MySQL PHP) web
 please have a look at this wonderfully formatted and clear installation guide:
 
 https://help.ubuntu.com/community/ApacheMySQLPHP
+<br/><br/>
+*Debian Users*, please note there is an issue in installing PDO on Lenny, use the squeeze repo instead.
 
 ==Configuring the Server== 
 
