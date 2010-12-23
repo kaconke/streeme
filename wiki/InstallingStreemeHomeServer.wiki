@@ -1,9 +1,6 @@
 #summary How to install Streeme Home Server
 #labels Phase-Deploy
 
-=  COMING SOON!  =
-<br/>
-
 = Introduction =
 
 This project features a premade virtual appliance for Vmware that significantly reduces the time to install Streeme while suporting most of Streeme's core features. This manual covers the steps you need to take to install Streeme Home Server on any Windows or Vmware compatible linux distribution. StreemeHome Server is not compatible with OSX yet, so please follow [InstallingStreemeMac The Mac Install Guide]. If you use bootcamp, you can evaluate streeme on your Windows partition before installing more permanently.
