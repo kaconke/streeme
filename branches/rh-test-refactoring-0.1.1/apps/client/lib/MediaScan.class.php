@@ -84,6 +84,10 @@ class MediaScan
     {
       $this->last_scan_id = $id;
     }
+    else
+    {
+      throw new Exception( 'Could not get a new scan id - please check your database is set up correctly' );
+    }
     $scan->free();
   }
   
@@ -95,4 +99,62 @@ class MediaScan
   {
     return $this->last_scan_id;
   }
+  
+  /**
+   * Check if the file we're about to add is already in the database and return true if it's scanned
+   * 
+   * @param $filename  str itunes style filename
+   * @param $mtime     int time modified unix timestamp
+   * $return           bool: if is scanned = true|false
+   */
+  public function is_scanned( $filename, $mtime )
+  {
+    //increment the total song count 
+    $this->total_songs++; 
+
+    //have we seen this song before? 
+    $song = Doctrine_Core::getTable( 'Song' )->findByFilenameAndMtime( $filename, $mtime );
+    
+    if( is_object( $song ) )
+    {
+      $song->last_scan_id = $this->last_scan_id;
+      $song->save();
+      $song->free();
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+  /*
+    
+    $this->total_songs++;       
+  
+    $parameters = array();
+    
+    $query  = 'UPDATE ';
+    $query .= ' song ';
+    $query .= 'SET ';
+    $query .= ' last_scan_id = :last_scan_id ';
+    $query .= 'WHERE ';
+    $query .= ' filename = :filename ';
+    $query .= ' AND mtime = :mtime ';
+  
+    $extras     = array();
+  
+    $parameters[] = array( 'last_scan_id', $this->last_scan_id, 'int' );
+    $parameters[] = array( 'filename', $filename );
+    $parameters[] = array( 'mtime', $mtime );
+  
+    $result = $this->update( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
+  
+    if ( $this->get_affected_row_count() )
+    {
+      $this->skipped_songs++;
+      return true;
+    }
+  
+    return false;
+  */
 }
