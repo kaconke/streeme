@@ -127,34 +127,130 @@ class MediaScan
       return false;
     }
   }
-  /*
-    
-    $this->total_songs++;       
   
+  /**
+  * Populate the song list from an array 
+  * Parameter order is not important
+  * @param $song_array array
+  *   artist_name     str name of the artist
+  *   album_name      str name of the album
+  *   genre_name      str genre name
+  *   id3_genre_id    int id3 V1 or winamp extension ID eg. 0 - 125
+  *   song_name       str name of the song
+  *   song_length     str mins:secs
+  *   accurate_length int milliseconds
+  *   size            int file size
+  *   bitrate         int bitrate
+  *   year            int year
+  *   track_number    int track number on the album
+  *   label           str label
+  *   mtime           int time modified unix timestamp
+  *   atime           int time added to itunes unix timestamp
+  *   filename        str itunes style filename
+  *  @return      true on successful completion | false on failure
+  */
+  public function add_song( $song_array )
+  {
+    $artist_id = $this->get_artist_id( $song_array['artist_name'] );
+    $album_id = $this->get_album_id( $song_array['album_name'] );
+    $genre_id = $this->get_genre_id( $song_array['genre_name'] );
+    
+    //add song
     $parameters = array();
-    
-    $query  = 'UPDATE ';
-    $query .= ' song ';
-    $query .= 'SET ';
-    $query .= ' last_scan_id = :last_scan_id ';
-    $query .= 'WHERE ';
-    $query .= ' filename = :filename ';
-    $query .= ' AND mtime = :mtime ';
-  
     $extras     = array();
   
-    $parameters[] = array( 'last_scan_id', $this->last_scan_id, 'int' );
-    $parameters[] = array( 'filename', $filename );
-    $parameters[] = array( 'mtime', $mtime );
+    //catch any input problems before the query tries to execute
+    if( !isset( $song_array[ 'id3_genre_id' ] ) || empty( $song_array[ 'id3_genre_id' ] ) )
+    {
+      $song_array[ 'id3_genre_id' ] = 0;
+    }
   
-    $result = $this->update( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
+    $query  = 'INSERT INTO ';
+    $query .= ' song ';
+    $query .= ' ( unique_id, artist_id, album_id, genre_id, last_scan_id, name, length, accurate_length, filesize, bitrate, yearpublished, tracknumber, label, mtime, atime, filename ) ';
+    $query .= 'VALUES ( ';
+    $query .= ' "' . sha1( uniqid( '', true ) . mt_rand( 1, 99999999 ) ) . '", '; //adds a unique id for each song 
+    $query .= ' COALESCE( (SELECT ar.id FROM artist AS ar WHERE ar.name = :artist_name ), 0), ';
+    $query .= ' COALESCE( (SELECT al.id FROM album AS al WHERE al.name = :album_name ), 0 ), ';
+    $query .= ' COALESCE( (SELECT gn.id FROM genre AS gn WHERE gn.name = :genre_name ), :id3_genre_id ), ';
+    $query .= ' COALESCE( :last_scan_id, 0 ), ';
+    $query .= ' :song_name, ';
+    $query .= ' :song_length, ';
+    $query .= ' COALESCE( :accurate_length , 0 ), ';
+    $query .= ' COALESCE( :size, 0), ';
+    $query .= ' COALESCE( :bitrate, 0 ), ';
+    $query .= ' COALESCE( :year, 0 ), ';
+    $query .= ' COALESCE( :track_number, 0 ), ';
+    $query .= ' :label, ';
+    $query .= ' COALESCE( :mtime, 0 ), ';
+    $query .= ' COALESCE( :atime, 0 ), ';
+    $query .= ' :filename ';
+    $query .= ' ) ';
+    $query .= 'ON DUPLICATE KEY UPDATE ';
+    $query .= ' artist_id = VALUES( artist_id ), ';
+    $query .= ' album_id = VALUES( album_id ), ';
+    $query .= ' genre_id = VALUES( genre_id ), '; 
+    $query .= ' last_scan_id = VALUES( last_scan_id ),';
+    $query .= ' name = VALUES( name ), ';
+    $query .= ' length = VALUES( length ), ';
+    $query .= ' filesize = VALUES( filesize ), ';
+    $query .= ' bitrate = VALUES( bitrate ), ';
+    $query .= ' yearpublished = VALUES( yearpublished ), ';
+    $query .= ' tracknumber = VALUES( tracknumber ) , ';
+    $query .= ' label = VALUES( label ), ';
+    $query .= ' mtime = VALUES( mtime ), ';
+    $query .= ' atime = VALUES( atime ), ';
+    $query .= ' filename = VALUES( filename ) ';
+    
+    $parameters[] = array( 'artist_name', $song_array['artist_name'] );
+    $parameters[] = array( 'album_name', $song_array['album_name'] );
+    $parameters[] = array( 'song_name', $song_array['song_name'] );   
+    $parameters[] = array( 'genre_name', $song_array['genre_name'] );
+    $parameters[] = array( 'id3_genre_id', $song_array['id3_genre_id'], 'int' );
+    $parameters[] = array( 'last_scan_id', $this->last_scan_id, 'int' );    
+    $parameters[] = array( 'song_length', $song_array['song_length'], 'int' );
+    $parameters[] = array( 'accurate_length', $song_array['accurate_length'], 'int' );
+    $parameters[] = array( 'size', $song_array['size'], 'int' ); 
+    $parameters[] = array( 'bitrate', $song_array['bitrate'], 'int' );
+    $parameters[] = array( 'year', $song_array['year'], 'int' );
+    $parameters[] = array( 'track_number', $song_array['track_number'], 'int' );     
+    $parameters[] = array( 'label', $song_array['label'] );
+    $parameters[] = array( 'mtime', $song_array['mtime'], 'int' );  
+    $parameters[] = array( 'atime', $song_array['atime'], 'int' ); 
+    $parameters[] = array( 'filename', $song_array['filename'] );
+                           
+    $song_insert_id = $this->insert( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
+
+    if ( $this->get_affected_row_count() )
+    {
+       $this->added_songs++;
+    }
+  
+    return $song_insert_id;
+  }
+
+  /**
+   * Add an Artist
+   * @param artist_name 
+   */  
+  private function get_artist_id( $artist_name )
+  {
+      //add artist
+    $parameters = array();
+    $extras     = array();
+  
+    $query  = 'INSERT IGNORE INTO ';
+    $query .= ' artist ';
+    $query .= ' SET ';
+    $query .= ' name = :artist_name ';
+    
+    $parameters[] = array( 'artist_name', $song_array['artist_name'] );
+  
+    $artist_insert_id = $this->insert( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
   
     if ( $this->get_affected_row_count() )
     {
-      $this->skipped_songs++;
-      return true;
+       $this->added_artists++;
     }
-  
-    return false;
-  */
+  }
 }
