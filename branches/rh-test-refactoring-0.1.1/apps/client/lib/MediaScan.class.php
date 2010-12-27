@@ -16,7 +16,7 @@ class MediaScan
   /**
    * int: Stores the last scan id for this scanning session
    */
-  public $last_scan_id = 0;
+  public $last_scan_id = false;
   
   /**
    * int: This is a counter for songs skipped during the scan
@@ -75,17 +75,21 @@ class MediaScan
   {
     // Begin a new scan session by writing an entry to the scan table
     // capture the scan id from this new record
-    $scan = Doctrine_Core::getTable( 'Scan' );
+    $scan = new Scan;
     $scan->scan_time = date( 'Y-m-d h:i:s' );
     $scan->scan_type = 'library';
     $scan->save();
-    $this->last_scan_id = $scan->getId();
+    $id = $scan->getId();
+    if( $id )
+    {
+      $this->last_scan_id = $id;
+    }
     $scan->free();
   }
   
   /**
    *  return the current last_scan_id in the scanning sequence
-   *  @return        int:last_scan_id
+   *  @return        int:last_scan_id or false
    */
   public function get_last_scan_id()
   {
