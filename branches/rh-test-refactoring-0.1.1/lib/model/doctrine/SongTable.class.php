@@ -48,6 +48,7 @@ class SongTable extends Doctrine_Table
     $song->save();
     $id = $song->getId();
     $song->free();
+    
     return $id;
   }
   
