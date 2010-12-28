@@ -151,10 +151,16 @@ class MediaScan
   */
   public function add_song( $song_array )
   {
-    $artist_id = DoctrineCore::getTable('Artist')->add( $song_array['artist_name'] );
-    $album_id = $this->get_album_id( $song_array['album_name'] );
-    $genre_id = $this->get_genre_id( $song_array['genre_name'] );
-    $song_id =
+    $artist_id = Doctrine_Core::getTable('Artist')->addArtist( $song_array['artist_name'] );
+    $album_id = Doctrine_Core::getTable('Album')->addAlbum( $song_array['album_name'] );
+    $genre_id = Doctrine_Core::getTable('Genre')->addGenre( $song_array['genre_name'] );
+    $song_id = Doctrine_Core::getTable('Genre')->addSong( $artist_id, $album_id, $genre_id, $song_array );
+    
+    if ( $this->get_affected_row_count() )
+    {
+       $this->added_songs++;
+    }
+    
     
     //add song
     $parameters = array();

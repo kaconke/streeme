@@ -16,7 +16,41 @@ class SongTable extends Doctrine_Table
   {
     return Doctrine_Core::getTable('Song');
   }
-    
+  
+  /**
+   * Add a song to the library
+   * @param artist_id  int: the related artist primary key
+   * @param album_id   int: the related album primary key
+   * @param genre_id   int: the related genre primary key
+   * @param song_array array: the array of song info
+   * @return          int: the song insert id
+   * @see apps/client/lib/MediaScan.class.php for information about the song_array
+   */
+  public function addSong( $artist_id, $album_id, $genre_id, $last_scan_id, $song_array )
+  {
+    $song = new Song;
+    $song->unique_id = sha1( uniqid( '', true ) . mt_rand( 1, 99999999 ) );
+    $song->artist_id = $artist_id;
+    $song->album_id = $album_id;
+    $song->genre_id = ( $genre_id ) ? $genre_id : $song_array[ 'id3_genre_id' ];
+    $song->last_scan_id = $last_scan_id;
+    $song->name = $song_array[ 'song_name' ];
+    $song->length = $song->$song_array[ 'song_length ' ];
+    $song->accurate_length = $song_array[ 'accurate_length' ];
+    $song->size = $song_array[ 'size' ];
+    $song->bitrate = $song_array[ 'bitrate' ];
+    $song->year = $song_array[ 'year' ];
+    $song->track_number = $song_array[ 'track_number' ];
+    $song->label = $song_array[ 'label' ];
+    $song->mtime = $song_array[ 'mtime' ];
+    $song->atime = $song_array[ 'atime' ];
+    $song->filename = $song_array[ 'filename' ];
+    $song->save();
+    $id = $song->getId();
+    $song->free();
+    return $id;
+  }
+  
   /**
   * Fetch a single song by its id
   *

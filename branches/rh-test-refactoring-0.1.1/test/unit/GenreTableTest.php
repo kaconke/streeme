@@ -8,13 +8,13 @@ $genre_table = Doctrine_Core::getTable('Genre');
 
 $t->comment( '->addGenre' );
 $first_insert_id = $genre_table->addGenre( 'Electronic' );
-$t->is( $first_insert_id, '53', 'Successfully added an existing genre.' );
+$t->is( $first_insert_id, '53', 'Successfully selected an existing genre.' );
 $second_insert_id = $genre_table->addGenre( 'Electronic' );
 $t->is( $first_insert_id, $second_insert_id, 'Got the same genre fixture.');
 $third_insert_id = $genre_table->addGenre( 'Some Awesome Custom Genre! Woo!' );
-$t->like( $third_insert_id, '/\d+/', 'Successfully another artist entry.' );
+$t->like( $third_insert_id, '/\d+/', 'Successfully a new genre entry.' );
 $fourth_insert_id = $genre_table->addGenre( 'Some Awesome Custom Genre! Woo!' );
-$t->is( $third_insert_id, $fourth_insert_id, 'Updated an identical artist entry for second artist entry.');
+$t->is( $third_insert_id, $fourth_insert_id, 'Selected retargeted the second genre entry.');
 
 $t->comment( '->getList' );
 $list = $genre_table->getList( 'all' );
