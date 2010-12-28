@@ -102,17 +102,17 @@ class MediaScan
   
   /**
    * Check if the file we're about to add is already in the database and return true if it's scanned
-   * 
+   *
    * @param $filename  str itunes style filename
    * @param $mtime     int time modified unix timestamp
    * $return           bool: if is scanned = true|false
    */
   public function is_scanned( $filename, $mtime )
   {
-    //increment the total song count 
-    $this->total_songs++; 
+    //increment the total song count
+    $this->total_songs++;
 
-    //have we seen this song before? 
+    //have we seen this song before?
     $song = Doctrine_Core::getTable( 'Song' )->findByFilenameAndMtime( $filename, $mtime );
     
     if( is_object( $song ) )
@@ -129,7 +129,7 @@ class MediaScan
   }
   
   /**
-  * Populate the song list from an array 
+  * Populate the song list from an array
   * Parameter order is not important
   * @param $song_array array
   *   artist_name     str name of the artist
@@ -151,9 +151,10 @@ class MediaScan
   */
   public function add_song( $song_array )
   {
-    $artist_id = $this->get_artist_id( $song_array['artist_name'] );
+    $artist_id = DoctrineCore::getTable('Artist')->add( $song_array['artist_name'] );
     $album_id = $this->get_album_id( $song_array['album_name'] );
     $genre_id = $this->get_genre_id( $song_array['genre_name'] );
+    $song_id =
     
     //add song
     $parameters = array();
@@ -169,7 +170,7 @@ class MediaScan
     $query .= ' song ';
     $query .= ' ( unique_id, artist_id, album_id, genre_id, last_scan_id, name, length, accurate_length, filesize, bitrate, yearpublished, tracknumber, label, mtime, atime, filename ) ';
     $query .= 'VALUES ( ';
-    $query .= ' "' . sha1( uniqid( '', true ) . mt_rand( 1, 99999999 ) ) . '", '; //adds a unique id for each song 
+    $query .= ' "' . sha1( uniqid( '', true ) . mt_rand( 1, 99999999 ) ) . '", '; //adds a unique id for each song
     $query .= ' COALESCE( (SELECT ar.id FROM artist AS ar WHERE ar.name = :artist_name ), 0), ';
     $query .= ' COALESCE( (SELECT al.id FROM album AS al WHERE al.name = :album_name ), 0 ), ';
     $query .= ' COALESCE( (SELECT gn.id FROM genre AS gn WHERE gn.name = :genre_name ), :id3_genre_id ), ';
@@ -189,7 +190,7 @@ class MediaScan
     $query .= 'ON DUPLICATE KEY UPDATE ';
     $query .= ' artist_id = VALUES( artist_id ), ';
     $query .= ' album_id = VALUES( album_id ), ';
-    $query .= ' genre_id = VALUES( genre_id ), '; 
+    $query .= ' genre_id = VALUES( genre_id ), ';
     $query .= ' last_scan_id = VALUES( last_scan_id ),';
     $query .= ' name = VALUES( name ), ';
     $query .= ' length = VALUES( length ), ';
@@ -204,19 +205,19 @@ class MediaScan
     
     $parameters[] = array( 'artist_name', $song_array['artist_name'] );
     $parameters[] = array( 'album_name', $song_array['album_name'] );
-    $parameters[] = array( 'song_name', $song_array['song_name'] );   
+    $parameters[] = array( 'song_name', $song_array['song_name'] );
     $parameters[] = array( 'genre_name', $song_array['genre_name'] );
     $parameters[] = array( 'id3_genre_id', $song_array['id3_genre_id'], 'int' );
-    $parameters[] = array( 'last_scan_id', $this->last_scan_id, 'int' );    
+    $parameters[] = array( 'last_scan_id', $this->last_scan_id, 'int' );
     $parameters[] = array( 'song_length', $song_array['song_length'], 'int' );
     $parameters[] = array( 'accurate_length', $song_array['accurate_length'], 'int' );
-    $parameters[] = array( 'size', $song_array['size'], 'int' ); 
+    $parameters[] = array( 'size', $song_array['size'], 'int' );
     $parameters[] = array( 'bitrate', $song_array['bitrate'], 'int' );
     $parameters[] = array( 'year', $song_array['year'], 'int' );
-    $parameters[] = array( 'track_number', $song_array['track_number'], 'int' );     
+    $parameters[] = array( 'track_number', $song_array['track_number'], 'int' );
     $parameters[] = array( 'label', $song_array['label'] );
-    $parameters[] = array( 'mtime', $song_array['mtime'], 'int' );  
-    $parameters[] = array( 'atime', $song_array['atime'], 'int' ); 
+    $parameters[] = array( 'mtime', $song_array['mtime'], 'int' );
+    $parameters[] = array( 'atime', $song_array['atime'], 'int' );
     $parameters[] = array( 'filename', $song_array['filename'] );
                            
     $song_insert_id = $this->insert( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
@@ -227,30 +228,5 @@ class MediaScan
     }
   
     return $song_insert_id;
-  }
-
-  /**
-   * Add an Artist
-   * @param artist_name 
-   */  
-  private function get_artist_id( $artist_name )
-  {
-      //add artist
-    $parameters = array();
-    $extras     = array();
-  
-    $query  = 'INSERT IGNORE INTO ';
-    $query .= ' artist ';
-    $query .= ' SET ';
-    $query .= ' name = :artist_name ';
-    
-    $parameters[] = array( 'artist_name', $song_array['artist_name'] );
-  
-    $artist_insert_id = $this->insert( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
-  
-    if ( $this->get_affected_row_count() )
-    {
-       $this->added_artists++;
-    }
   }
 }
