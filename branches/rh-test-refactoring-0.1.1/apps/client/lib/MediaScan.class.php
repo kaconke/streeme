@@ -73,7 +73,7 @@ class MediaScan
    */
   public function __construct()
   {
-    $this->last_scan_id = Doctrine_Core::getTable('Scan')->createNewScan( 'library' );
+    $this->last_scan_id = Doctrine_Core::getTable('Scan')->addScan( 'library' );
   }
   
   /**

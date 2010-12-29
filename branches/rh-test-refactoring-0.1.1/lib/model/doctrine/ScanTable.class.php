@@ -22,11 +22,11 @@ class ScanTable extends Doctrine_Table
      * @param scan_type str: the plaintext id of the scan (eg. library)
      * @return scan_id
      */
-    public function createNewScan( $scan_type )
+    public function addScan( $scan_type )
     {
       $scan = new Scan;
       $scan->scan_time = date( 'Y-m-d h:i:s' );
-      $scan->scan_type = 'library';
+      $scan->scan_type = $scan_type;
       $scan->save();
       $id = $scan->getId();
       $scan->free();

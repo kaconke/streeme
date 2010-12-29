@@ -19,6 +19,7 @@ class SongTable extends Doctrine_Table
   
   /**
    * Add a song to the library
+   *
    * @param artist_id  int: the related artist primary key
    * @param album_id   int: the related album primary key
    * @param genre_id   int: the related genre primary key
@@ -28,44 +29,44 @@ class SongTable extends Doctrine_Table
    */
   public function addSong( $artist_id, $album_id, $genre_id, $last_scan_id, $song_array )
   {
-    $song = new Song;
-    $song->unique_id = sha1( uniqid( '', true ) . mt_rand( 1, 99999999 ) );
-    $song->artist_id = $artist_id;
-    $song->album_id = $album_id;
-    $song->genre_id = ( $genre_id ) ? $genre_id : $song_array[ 'id3_genre_id' ];
-    $song->last_scan_id = $last_scan_id;
-    $song->name = $song_array[ 'song_name' ];
-    $song->length = $song->$song_array[ 'song_length ' ];
-    $song->accurate_length = $song_array[ 'accurate_length' ];
-    $song->size = $song_array[ 'size' ];
-    $song->bitrate = $song_array[ 'bitrate' ];
-    $song->year = $song_array[ 'year' ];
-    $song->track_number = $song_array[ 'track_number' ];
-    $song->label = $song_array[ 'label' ];
-    $song->mtime = $song_array[ 'mtime' ];
-    $song->atime = $song_array[ 'atime' ];
-    $song->filename = $song_array[ 'filename' ];
-    $song->save();
-    $id = $song->getId();
-    $song->free();
-    
-    return $id;
+    if(
+      isset( $song_array['filename'] )
+      &&
+      !empty( $song_array['filename'] )
+      &&
+      isset( $song_array['mtime'] )
+      &&
+      !empty( $song_array['mtime'] )
+      &&
+      $last_scan_id
+    )
+    {
+      $song = new Song();
+      $song->unique_id = sha1( uniqid( '', true ) . mt_rand( 1, 99999999 ) );
+      $song->artist_id = $artist_id;
+      $song->album_id = $album_id;
+      $song->genre_id = ( $genre_id ) ? $genre_id : $song_array[ 'id3_genre_id' ];
+      $song->last_scan_id = $last_scan_id;
+      $song->name = $song_array[ 'song_name' ];
+      $song->length = $song_array[ 'song_length' ];
+      $song->accurate_length = $song_array[ 'accurate_length' ];
+      $song->filesize = $song_array[ 'filesize' ];
+      $song->bitrate = $song_array[ 'bitrate' ];
+      $song->yearpublished = $song_array[ 'yearpublished' ];
+      $song->tracknumber = $song_array[ 'tracknumber' ];
+      $song->label = $song_array[ 'label' ];
+      $song->mtime = $song_array[ 'mtime' ];
+      $song->atime = $song_array[ 'atime' ];
+      $song->filename = $song_array[ 'filename' ];
+      $song->save();
+      $id = $song->getId();
+      $song->free();
+      
+      return $id;
+    }
+    return false;
   }
   
-  /**
-  * Fetch a single song by its id
-  *
-  * @param song_id str unique_id field
-  * @return        object single DQL fetchone
-  */
-  public function getSongByUniqueId( $unique_song_id )
-  {
-    //get the song from the database
-    $q = Doctrine_Query::create()
-          ->from( 'Song s' )
-          ->where( 's.unique_id = ?', $unique_song_id );
-    return $q->fetchOne();
-  }
   /**
    * Find a song record by filename and mtime
    *
@@ -79,6 +80,21 @@ class SongTable extends Doctrine_Table
       ->from( 'Song s' )
       ->where( 's.mtime = ?', $mtime )
       ->andWhere( 's.filename = ?', $filename );
+    return $q->fetchOne();
+  }
+  
+  /**
+   * Fetch a single song by its unique id
+   *
+   * @param unique_song_id str: unique_id field
+   * @return               obj: single DQL fetchone with the song row
+   */
+  public function getSongByUniqueId( $unique_song_id )
+  {
+    //get the song from the database
+    $q = Doctrine_Query::create()
+          ->from( 'Song s' )
+          ->where( 's.unique_id = ?', $unique_song_id );
     return $q->fetchOne();
   }
 }
