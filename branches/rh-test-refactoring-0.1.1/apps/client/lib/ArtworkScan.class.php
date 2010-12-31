@@ -29,7 +29,6 @@ Class ArtworkScan
     $this->scan_id = Doctrine_Core::getTable('Scan')->addScan( 'artwork' );
   }
   
-  
   /**
    *  return the current scan_id in the scanning sequence
    *  @return        int:scan_id
@@ -38,55 +37,7 @@ Class ArtworkScan
   {
     return $this->scan_id;
   }
-  
-  /**
-   *  return a pair of artist and album for scanning - skip previously flagged scans
-   *  @return        array: artist and song names
-   */
-  public function get_unscanned_artwork_list()
-  {
-    $parameters = array();
     
-    $query  = 'SELECT DISTINCT ';
-    $query .= ' album.id as album_id, album.name as album_name, artist.name as artist_name, song.filename as song_filename ';
-    $query .= 'FROM ';
-    $query .= ' song ';
-    $query .= 'LEFT JOIN ';
-    $query .= ' album ON song.album_id = album.id ';
-    $query .= 'LEFT JOIN ';
-    $query .= ' artist ON song.artist_id = artist.id ';
-    $query .= 'WHERE ';
-    $query .= ' album.id IS NOT NULL ';
-    switch ( $this->source )
-    {
-      case 'amazon':
-        $query .= ' AND album.amazon_flagged != 1 ';
-        break;
-      
-      case 'meta':
-        $query .= ' AND album.meta_flagged != 1 ';
-        break;
-        
-      case 'folders':
-        $query .= ' AND album.folders_flagged != 1 ';
-        break;
-        
-      case 'service':
-        $query .= ' AND album.service_flagged != 1 ';
-        break;
-    }
-    $query .= ' AND album.has_art != 1 ';
-    $query .= ' ORDER BY album.id ASC ';
-    
-    $extras = array(
-                'fetch' => 'all',
-                'disable_limiting' => true
-               );
-    $settings = array();
-    $result = $this->select( $query, $parameters, $extras, $settings, get_class( $this ) . '/'. __FUNCTION__ );
-    return $result;
-  }
-  
   /**
    * flag an album as skipped for album art - the source images were not available
    * @param album_id  int: the album's database ID
@@ -95,47 +46,6 @@ Class ArtworkScan
   {
     if ( empty( $this->scan_id ) ) return false;
     
-    $parameters = array();
-    
-    $query  = 'UPDATE ';
-    $query .= ' album ';
-    $query .= 'SET ';
-    switch ( $this->source )
-    {
-      case 'amazon':
-        $query .= ' amazon_flagged = 1, ';
-        break;
-      
-      case 'meta':
-        $query .= ' meta_flagged = 1, ';
-        break;
-        
-      case 'folders':
-        $query .= ' folders_flagged = 1, ';
-        break;
-      
-      case 'service':
-        $query .= ' service_flagged = 1, ';
-        break;
-    }
-    $query .= ' album.scan_id = :scan_id ';
-    $query .= 'WHERE ';
-    $query .= ' album.id = :album_id ';
-    
-    $extras     = array();
-    
-    $parameters[] = array( 'scan_id', $this->scan_id, 'int' );
-    $parameters[] = array( 'album_id', $album_id );
-    
-    $result = $this->update( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
-  
-    if ( $this->get_affected_row_count() )
-    {
-      $this->skipped_artwork++;
-      return true;
-    }
-    
-    return false;
   }
   
   /**

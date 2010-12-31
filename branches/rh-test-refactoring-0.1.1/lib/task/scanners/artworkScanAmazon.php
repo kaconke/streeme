@@ -3,6 +3,7 @@
  * artworkScanAmazon
  * 
  * Read album art from Amazon PAS service
+ * Bes sure to review and complete the cloudfusion configuration in config/
  * 
  * @package    streeme
  * @author     Richard Hoar
@@ -14,7 +15,7 @@ require_once( dirname( __FILE__ ) . '/../../vendor/cloudfusion/cloudfusion.class
 $artwork_scanner        = new ArtworkScan( 'amazon' );
 $associate_services     = new AmazonPAS();
 
-$artwork_list = $artwork_scanner->get_unscanned_artwork_list();
+$artwork_list           = Doctrine::getTable( 'Album' )->getUnscannedArtList( 'amazon' );
 $current_album_id       = 0;
 
 if ( !$artwork_list )

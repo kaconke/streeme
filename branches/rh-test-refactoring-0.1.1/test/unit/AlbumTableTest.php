@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 11, new lime_output_color() );
+$t = new lime_test( 13, new lime_output_color() );
 
 $album_table = Doctrine_Core::getTable('Album');
 
@@ -40,3 +40,9 @@ $list = $album_table->getList( 'all', $id1 );
 $count3 = count( $list );
 $t->is( $count3, 1, 'correct record count for artist listing' );
 $t->is( $list[0]['name'], 'með suð í eyrum við spilum endalaust', 'Successfully narrowed list by artist id' );
+
+$t->comment( '->setSourceScanned' );
+$bool1 = $album_table->setSourceScanned( '1', '1', 'amazon' );
+$t->is( $bool1, true, 'Marked Album as scanned for amazon web service source type' );
+$bool2 = $album_table->setSourceScanned( '12', '1', 'amazon' );
+$t->is( $bool2, false, 'Out of bounds/nonexistent mark returns false' );

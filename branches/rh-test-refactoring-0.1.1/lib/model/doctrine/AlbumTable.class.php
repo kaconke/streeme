@@ -67,4 +67,53 @@ class AlbumTable extends Doctrine_Table
     $q->orderBy( 'a.name ASC' );
     return $q->fetchArray();
   }
+  
+  /**
+   * Update an album to flag it as scanned for a give source
+   * @param album_id int: the album id field to update
+   * @param scan_id  int: the scan id 
+   * @param source   str: the artwork source: amazon|meta|folders|service etc.
+   * @return         bool: true if record updated, otherwise false
+   */
+  public function setSourceScanned( $album_id, $scan_id, $source )
+  {  
+    $query  = 'UPDATE ';
+    $query .= ' album ';
+    $query .= 'SET ';
+    switch ( $source )
+    {
+      case 'amazon':
+        $query .= ' amazon_flagged = 1, ';
+        break;
+      
+      case 'meta':
+        $query .= ' meta_flagged = 1, ';
+        break;
+        
+      case 'folders':
+        $query .= ' folders_flagged = 1, ';
+        break;
+      
+      case 'service':
+        $query .= ' service_flagged = 1, ';
+        break;
+    }
+    $query .= ' album.scan_id = :scan_id ';
+    $query .= 'WHERE ';
+    $query .= ' album.id = :album_id ';
+    
+    $params = array( 
+                    'scan_id' => $scan_id,
+                    'album_id' => $album_id,
+                   );
+    
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
+    $stmt = $dbh->prepare( $query );
+    $result = $stmt->execute( $params );
+    if ( $stmt->rowCount() > 0 )
+    {
+      return true;
+    }
+    return false;
+  }
 }

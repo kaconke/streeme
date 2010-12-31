@@ -97,4 +97,46 @@ class SongTable extends Doctrine_Table
           ->where( 's.unique_id = ?', $unique_song_id );
     return $q->fetchOne();
   }
+  
+  /**
+   * Fetch a list of albums that have not been scanned for art yet 
+   * @param source str: the artwork source: amazon|meta|folders|service etc.
+   * @return       array: unscanned artwork list
+   */
+  public function getUnscannedArtList( $source )
+  {    
+    $query  = 'SELECT DISTINCT ';
+    $query .= ' album.id as album_id, album.name as album_name, artist.name as artist_name, song.filename as song_filename ';
+    $query .= 'FROM ';
+    $query .= ' song ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' album ON song.album_id = album.id ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' artist ON song.artist_id = artist.id ';
+    $query .= 'WHERE ';
+    $query .= ' album.id IS NOT NULL ';
+    switch ( $source )
+    {
+      case 'amazon':
+        $query .= ' AND album.amazon_flagged != 1 ';
+        break;
+      
+      case 'meta':
+        $query .= ' AND album.meta_flagged != 1 ';
+        break;
+        
+      case 'folders':
+        $query .= ' AND album.folders_flagged != 1 ';
+        break;
+        
+      case 'service':
+        $query .= ' AND album.service_flagged != 1 ';
+        break;
+    }
+    $query .= ' AND album.has_art != 1 ';
+    $query .= ' ORDER BY album.id ASC ';
+    
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
+    return $dbh->query( $query )->fetchAll(); 
+  }
 }
