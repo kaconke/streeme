@@ -6,7 +6,7 @@
  * and cleanup old
  *
  * @package    streeme
- * @subpackage model
+ * @subpackage media scanner
  * @author     Richard Hoar
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
@@ -73,7 +73,7 @@ class MediaScan
    */
   public function __construct()
   {
-    $this->last_scan_id = Doctrine_Core::getTable('Scan')->addScan( 'library' );
+    $this->scan_id = Doctrine_Core::getTable('Scan')->addScan( 'library' );
   }
   
   /**
@@ -82,7 +82,7 @@ class MediaScan
    */
   public function get_last_scan_id()
   {
-    return $this->last_scan_id;
+    return $this->scan_id;
   }
   
   /**
@@ -102,7 +102,7 @@ class MediaScan
     
     if( is_object( $song ) )
     {
-      $song->last_scan_id = $this->last_scan_id;
+      $song->last_scan_id = $this->scan_id;
       $song->save();
       $song->free();
       return true;
@@ -139,7 +139,7 @@ class MediaScan
     $artist_id = Doctrine_Core::getTable('Artist')->addArtist( $song_array['artist_name'] );
     $album_id = Doctrine_Core::getTable('Album')->addAlbum( $song_array['album_name'] );
     $genre_id = Doctrine_Core::getTable('Genre')->addGenre( $song_array['genre_name'] );
-    $song_id = Doctrine_Core::getTable('Song')->addSong( $artist_id, $album_id, $genre_id, $this->last_scan_id, $song_array );
+    $song_id = Doctrine_Core::getTable('Song')->addSong( $artist_id, $album_id, $genre_id, $this->scan_id, $song_array );
     $this->added_songs++;
    
     return $song_id;

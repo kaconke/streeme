@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 7, new lime_output_color() );
+$t = new lime_test( 9, new lime_output_color() );
 
 $artist_table = Doctrine_Core::getTable('Artist');
 
@@ -24,3 +24,7 @@ $list2 = $artist_table->getList( 'S' );
 $count2 = count( $list2 );
 $t->is( $list2[0]['name'], 'Sigur Rós', 'Successfully selected Letter S in alpha grouping' );
 $t->is( $count2, 1, 'List narrowed to 1 result by alpha group');
+$list2 = $artist_table->getList( 's' );
+$count2 = count( $list2 );
+$t->is( $list2[0]['name'], 'Sigur Rós', 'Successfully selected Letter S in alpha grouping' );
+$t->is( $count2, 1, 'Alpha char is case insensitive');

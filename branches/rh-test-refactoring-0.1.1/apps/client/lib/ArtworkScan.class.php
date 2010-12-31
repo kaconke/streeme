@@ -1,81 +1,48 @@
 <?php
-#
-# Data Access Object for Artwork Scan
-# If the Database is not yet initialized, please see the DAOLibraryinit library for a setup script
-#
+/**
+ * Artwork Scanner
+ *
+ * This class manages the library scanning process for a users artwork library. It will scan
+ * using a number of sources and caches retrieved imaged to speed up future scans
+ *
+ * @package    streeme
+ * @subpackage artwork scanner
+ * @author     Richard Hoar
+ * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
+ */
 
-Class ArtworkScan extends StreemePDODatabase
+Class ArtworkScan
 {
-  protected 
-     $scan_id,
-     $total_artwork,
-     $skipped_artwork,
-     $added_artwork,
-     $source;
+  public $scan_id = 0;
+  public $total_artwork = 0;
+  public $skipped_artwork = 0;
+  public $added_artwork = 0;
+  public $source;
     
   /**
-  * initialize the library scan by setting a new scan_id for the session
-  */
+   * initialize the library scan by setting a new scan_id for the session
+   * @param source str: amazon|meta|folders|service
+   */
   public function __construct( $source )
   {
-    parent::__construct();
-    
     $this->source = $source;
-    
-    $this->total_artwork = 0;
-    $this->skipped_artwork = 0;
-    $this->added_artwork = 0;
-    
-    $this->initialize_scan();
-  }
-  
-  /**
-  * clean up files that have moved or no longer exist in the database and summarize library changes for the user
-  */
-  public function __destruct()
-  {
-    $this->finalize_scan();
-    $summary = $this->summarize();
-    
-    echo $summary;      
-  }
-  
-  /**
-  * initializes a scan session - insert a new entry into the scan log  
-  * sets the class variable scan_id, which is used to syncronize 
-  * the artwork records and speed up future scans 
-  */
-  private function initialize_scan()
-  {
-    $parameters = array();
-    
-    $query  = 'INSERT INTO ';
-    $query .= ' scan ';
-    $query .= ' SET ';
-    $query .= ' scan_time = NOW(), ';
-    $query .= ' scan_type = "artwork" ';
-    
-    $extras = array();
-    
-    $result = $this->insert( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
-    
-    $this->scan_id = $result;
+    $this->scan_id = Doctrine_Core::getTable('Scan')->addScan( 'artwork' );
   }
   
   
   /**
-  *  return the current scan_id in the scanning sequence
-  *  @return        int:scan_id
-  */
+   *  return the current scan_id in the scanning sequence
+   *  @return        int:scan_id
+   */
   public function get_scan_id()
   {
     return $this->scan_id;
   }
   
   /**
-  *  return a pair of artist and album for scanning - skip previously flagged scans
-  *  @return        array: artist and song names
-  */
+   *  return a pair of artist and album for scanning - skip previously flagged scans
+   *  @return        array: artist and song names
+   */
   public function get_unscanned_artwork_list()
   {
     $parameters = array();
@@ -84,9 +51,9 @@ Class ArtworkScan extends StreemePDODatabase
     $query .= ' album.id as album_id, album.name as album_name, artist.name as artist_name, song.filename as song_filename ';
     $query .= 'FROM ';
     $query .= ' song ';
-    $query .= 'LEFT JOIN '; 
+    $query .= 'LEFT JOIN ';
     $query .= ' album ON song.album_id = album.id ';
-    $query .= 'LEFT JOIN '; 
+    $query .= 'LEFT JOIN ';
     $query .= ' artist ON song.artist_id = artist.id ';
     $query .= 'WHERE ';
     $query .= ' album.id IS NOT NULL ';
@@ -108,10 +75,10 @@ Class ArtworkScan extends StreemePDODatabase
         $query .= ' AND album.service_flagged != 1 ';
         break;
     }
-    $query .= ' AND album.has_art != 1 '; 
+    $query .= ' AND album.has_art != 1 ';
     $query .= ' ORDER BY album.id ASC ';
     
-    $extras = array( 
+    $extras = array(
                 'fetch' => 'all',
                 'disable_limiting' => true
                );
@@ -121,12 +88,12 @@ Class ArtworkScan extends StreemePDODatabase
   }
   
   /**
-  * flag an album as skipped for album art - the source images were not available
-  * @param album_id  int: the album's database ID
-  */
+   * flag an album as skipped for album art - the source images were not available
+   * @param album_id  int: the album's database ID
+   */
   public function flag_as_skipped( $album_id )
   {
-    if ( empty( $this->scan_id ) ) return false; 
+    if ( empty( $this->scan_id ) ) return false;
     
     $parameters = array();
     
@@ -172,12 +139,12 @@ Class ArtworkScan extends StreemePDODatabase
   }
   
   /**
-  * Artwork files were successfully added for this album, so flag an album as having album art to speed up future scans
-  * @param album_id  int: the album's database ID
-  */
+   * Artwork files were successfully added for this album, so flag an album as having album art to speed up future scans
+   * @param album_id  int: the album's database ID
+   */
   public function flag_as_added( $album_id )
   {
-    if ( empty( $this->scan_id ) ) return false; 
+    if ( empty( $this->scan_id ) ) return false;
     
     $parameters = array();
     
@@ -223,9 +190,9 @@ Class ArtworkScan extends StreemePDODatabase
   }
   
   /**
-  * Finalizes the scan - removes old artists/albums/songs that the user has removed 
-  * from the library
-  */
+   * Finalizes the scan - removes old artists/albums/songs that the user has removed
+   * from the library
+   */
   private function finalize_scan()
   {
   //disable database I/U/D auto limiting for the following operations
@@ -237,13 +204,13 @@ Class ArtworkScan extends StreemePDODatabase
   
   $query = 'OPTIMIZE TABLE `album`';
   
-  $result = $this->update( $query, $parameters, $extras,  get_class( $this ) . '/'. __FUNCTION__ );      
+  $result = $this->update( $query, $parameters, $extras,  get_class( $this ) . '/'. __FUNCTION__ );
   }
   
   /**
-  * Get the final counts of total albums and the ones that have art for the summary
-  * @return array
-  */
+   * Get the final counts of total albums and the ones that have art for the summary
+   * @return array
+   */
   private function get_total_art_counts()
   {
     $parameters = array();
@@ -252,7 +219,7 @@ Class ArtworkScan extends StreemePDODatabase
     $query .= ' ( SELECT count(*) from album WHERE 1 ) as total_albums, ';
     $query .= ' ( SELECT count(*) from album WHERE has_art = 1 ) as has_artwork ';
     
-    $extras     = array( 
+    $extras     = array(
                             'fetch' => 'all',
                             'disable_limiting' => true
                        );
@@ -263,9 +230,9 @@ Class ArtworkScan extends StreemePDODatabase
   
   
   /**
-  * Summarizes Details from the Scan
-  * @return         str summary log string
-  */
+   * Summarizes Details from the Scan
+   * @return         str summary log string
+   */
   public function summarize()
   {
     $totals = $this->get_total_art_counts();
@@ -275,7 +242,7 @@ Class ArtworkScan extends StreemePDODatabase
     $string .= 'Artwork Unavailable this Scan: ' . (string) $this->skipped_artwork . " \r\n";
     $string .= 'Artwork Added this Scan: ' . (string) $this->added_artwork . " \r\n";
     
-    return $string; 
+    return $string;
   }
 }
 ?>
