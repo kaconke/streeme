@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 13, new lime_output_color() );
+$t = new lime_test( 17, new lime_output_color() );
 
 $album_table = Doctrine_Core::getTable('Album');
 
@@ -41,8 +41,20 @@ $count3 = count( $list );
 $t->is( $count3, 1, 'correct record count for artist listing' );
 $t->is( $list[0]['name'], 'með suð í eyrum við spilum endalaust', 'Successfully narrowed list by artist id' );
 
-$t->comment( '->setSourceScanned' );
-$bool1 = $album_table->setSourceScanned( '1', '1', 'amazon' );
+$t->comment( '->setAlbumArtSourceScanned' );
+$bool1 = $album_table->setAlbumArtSourceScanned( '1', '1', 'amazon' );
 $t->is( $bool1, true, 'Marked Album as scanned for amazon web service source type' );
-$bool2 = $album_table->setSourceScanned( '12', '1', 'amazon' );
+$bool2 = $album_table->setAlbumArtSourceScanned( '12', '1', 'amazon' );
 $t->is( $bool2, false, 'Out of bounds/nonexistent mark returns false' );
+
+$t->comment( '->setAlbumArtAdded' );
+$bool1 = $album_table->setAlbumArtAdded( '2', '1', 'folders' );
+$t->is( $bool1, true, 'Marked Album as scanned for amazon web service source type' );
+$bool2 = $album_table->setAlbumArtAdded( '12', '1', 'folders' );
+$t->is( $bool2, false, 'Out of bounds/nonexistent mark returns false' );
+
+$t->comment( '->getTotalAlbumsCount' );
+$t->is( $album_table->getTotalAlbumsCount(), 2, 'Got correct total album count' );
+
+$t->comment( '->getTotalAlbumsCount' );
+$t->is( $album_table->getAlbumsWithArtCount(), 1, 'Got correct count of albums with artwork' );

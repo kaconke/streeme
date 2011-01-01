@@ -69,51 +69,119 @@ class AlbumTable extends Doctrine_Table
   }
   
   /**
-   * Update an album to flag it as scanned for a give source
+   * Update an album to flag it as scanned but failed to add art for a given source
    * @param album_id int: the album id field to update
-   * @param scan_id  int: the scan id 
+   * @param scan_id  int: the scan id
    * @param source   str: the artwork source: amazon|meta|folders|service etc.
    * @return         bool: true if record updated, otherwise false
    */
-  public function setSourceScanned( $album_id, $scan_id, $source )
-  {  
-    $query  = 'UPDATE ';
-    $query .= ' album ';
-    $query .= 'SET ';
-    switch ( $source )
+  public function setAlbumArtSourceScanned( $album_id, $scan_id, $source )
+  {
+    $id = 0;
+    $q = $this->find( $album_id );
+    if ( is_object( $q ) )
     {
-      case 'amazon':
-        $query .= ' amazon_flagged = 1, ';
-        break;
-      
-      case 'meta':
-        $query .= ' meta_flagged = 1, ';
-        break;
+      switch ( $source )
+      {
+        case 'amazon':
+          $q->amazon_flagged = true;
+          break;
         
-      case 'folders':
-        $query .= ' folders_flagged = 1, ';
-        break;
-      
-      case 'service':
-        $query .= ' service_flagged = 1, ';
-        break;
+        case 'meta':
+          $q->meta_flagged = true;
+          break;
+          
+        case 'folders':
+          $q->folders_flagged = true;
+          break;
+        
+        case 'service':
+          $q->service_flagged = true;
+          break;
+      }
+      $q->scan_id = $scan_id;
+      $q->save();
+      $id = $q->getId();
+      $q->free();
     }
-    $query .= ' album.scan_id = :scan_id ';
-    $query .= 'WHERE ';
-    $query .= ' album.id = :album_id ';
-    
-    $params = array( 
-                    'scan_id' => $scan_id,
-                    'album_id' => $album_id,
-                   );
-    
-    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
-    $stmt = $dbh->prepare( $query );
-    $result = $stmt->execute( $params );
-    if ( $stmt->rowCount() > 0 )
+
+    if ( $id > 0 )
     {
       return true;
     }
+
     return false;
+  }
+  
+  /**
+   * Update an album record to indicate that the scan has successfully retrieved
+   * album artwork from a given source
+   * @param album_id int: the album id field to updateA
+   * @return         bool: true if record updated, otherwise false
+   */
+  public function setAlbumArtAdded( $album_id, $scan_id, $source )
+  {
+    $id = 0;
+    $q = $this->find( $album_id );
+    if ( is_object( $q ) )
+    {
+      switch ( $source )
+      {
+        case 'amazon':
+          $q->amazon_flagged = true;
+          break;
+        
+        case 'meta':
+          $q->meta_flagged = true;
+          break;
+          
+        case 'folders':
+          $q->folders_flagged = true;
+          break;
+        
+        case 'service':
+          $q->service_flagged = true;
+          break;
+      }
+      $q->has_art = true;
+      $q->scan_id = $scan_id;
+      $q->save();
+      $id = $q->getId();
+      $q->free();
+    }
+
+    if ( $id > 0 )
+    {
+      return true;
+    }
+
+    return false;
+  }
+  
+  /**
+   * Get total album count
+   * @return       int: total album count in database
+   */
+  public function getTotalAlbumsCount()
+  {
+    $q = Doctrine_Query::create()
+      ->select( 'COUNT(a.id) as total_albums' )
+      ->from( 'Album a' );
+    $ret = $q->fetchOne();
+    return $ret->total_albums;
+  }
+  
+  /**
+   * Get count of albums with album art
+   * @return       int: number of albums with art
+   */
+  public function getAlbumsWithArtCount()
+  {
+    $q = Doctrine_Query::create()
+      ->select( 'COUNT(a.id) as albums_with_art' )
+      ->from( 'Album a' )
+      ->where( 'a.has_art = ?', true );
+    $ret = $q->fetchOne();
+    return $ret->albums_with_art;
   }
 }

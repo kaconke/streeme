@@ -10,11 +10,11 @@ class scheduledscanTask extends sfBaseTask
 
     $this->namespace        = '';
     $this->name             = 'schedule-scan';
-    $this->briefDescription = 'Permits scheduled scans for use with crons and windows task scheduler ';
+    $this->briefDescription = 'Permits scheduled scans for use with crons and windows task scheduler';
     $this->detailedDescription = <<<EOF
 The [schedule-scan|INFO] will perform a scan of your music library and art
 on a schedule defined by crontab or windows task scheduler. You can edit the
-order and components of the scan in your apps/client/config/app.yml 
+order and components of the scan in your apps/client/config/app.yml
 
 Call it with:
 
@@ -27,7 +27,7 @@ EOF;
     //bootstrap "client" context
     require_once( dirname(__FILE__) . '/../../config/ProjectConfiguration.class.php' );
     $configuration = ProjectConfiguration::getApplicationConfiguration( 'client', 'dev', true );
-    $context = sfContext::createInstance( $configuration );  
+    $context = sfContext::createInstance( $configuration );
     
     $scan_list = sfConfig::get('app_msp_media_scan_plan');
     $root_dir = sfConfig::get('sf_root_dir');
