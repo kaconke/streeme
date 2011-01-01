@@ -139,4 +139,243 @@ class SongTable extends Doctrine_Table
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
     return $dbh->query( $query )->fetchAll(); 
   }
+  
+  /**
+   * Get a list of songs 
+   * @param parameters    array: search and pagination options
+   * @param result_count  OUT int: the resulting number of records in search before pagination 
+   * @param result_list   OUT array: the resulting data set 
+   * @return              bool: true if results exist, otherwise false 
+   * @see paramters list below in 'list defaults'
+   */
+  public function getList( $parameters=array(), &$result_count, &$result_list )
+  {
+    //list defaults 
+    $settings = array( 
+                         'limit'          => 50,     //int
+                         'offset'         => '0',    //int
+                         'order'          => 'desc', //str: asc|desc
+                         'search'         => null,   //str
+                         'artist_id'      => null,   //int
+                         'album_id'       => null,   //int
+                         'song_id'        => null,   //int
+                         'genre_id'       => null,   //int
+                         'playlist_id'    => null,   //int
+                         'sortcolumn'     => 0,      //int
+                         'sortdirection'  => 'desc', //str: asc|desc
+                         'random'         => false,  //bool
+                         'by_alpha'       => null,   //str: A-Z
+                         'by_number'      => null,   //
+                      );
+    $result_count = 0;
+    $result_list = array();
+                      
+    //import user paramters
+    foreach ( $parameters as $name => $value )
+    {
+       $settings[ $name ] = $value;
+    }
+    
+    //check for special space-separated search syntax eg( shuffle:true artistid:1 )
+    $components = explode ( ' ', $settings[ 'search' ] );
+    foreach( $components as $k=>$v )
+    {
+       //if playlistid: is set, change to a playlist songlist
+       if ( stristr( $v, 'playlistid:' ) )
+       {
+         $match = explode( ':', $v );
+         if ( is_array( $match ) )
+         {
+            $settings[ 'playlist_id' ] = $match[1]; 
+            unset( $components[ $k ] ); 
+         }
+       }
+    
+       //if artistid: is set, add artistid to the where clause
+       if ( stristr( $v, 'artistid:' ) )
+       {
+         $match = explode( ':', $v );
+         if ( is_array( $match ) )
+         {
+            $settings[ 'artist_id' ] = $match[1]; 
+            unset( $components[ $k ] ); 
+         }
+       }
+    
+       //if albumid: is set, add albumid to the where clause
+       if ( stristr( $v, 'albumid:' ) )
+       {
+         $match = explode( ':', $v );
+         if ( is_array( $match ) )
+         {
+            $settings[ 'album_id' ] = $match[1]; 
+            unset( $components[ $k ] ); 
+         }
+       }
+    
+       //if genreid: is set, add genreid to the where clause
+       if ( stristr( $v, 'genreid:' ) )
+       {
+         $match = explode( ':', $v );
+         if ( is_array( $match ) )
+         {
+            $settings[ 'genre_id' ] = $match[1]; 
+            unset( $components[ $k ] ); 
+         }
+       } 
+        
+       //if by_alpha: is set, add an alpha LIKE to the where clause
+       if ( stristr( $v, 'by_alpha:' ) )
+       {
+         $match = explode( ':', $v );
+         if ( is_array( $match ) )
+         {
+            if ( $match[1] != "#" )
+            {
+               $settings[ 'by_alpha' ] = $match[1]; 
+               unset( $components[ $k ] ); 
+            }
+            else
+            {
+               $settings[ 'by_number' ] = $match[1]; 
+               unset( $components[ $k ] );
+            }
+         }
+       } 
+  
+       //if shuffle: is set, add genreid to the where clause
+       if ( stristr( $v, 'shuffle:' ) )
+       {
+         $match = explode( ':', $v );
+         if ( is_array( $match ) )
+         {
+            $settings[ 'random' ] = true; 
+            $settings[ 'sortcolumn' ] = 8;
+            unset( $components[ $k ] ); 
+         }
+       } 
+    }
+    
+    //search should now be valid keywords, join them with spaces
+    $settings[ 'search' ] = join( ' ', $components );
+  
+      //this array contains the decoded sort information
+    $order_by = ( $settings['sortdirection'] == 'asc') ? ' ASC ' : ' DESC ';
+    $column_sql = array( 
+                        0 => ' song.id ' . $order_by,
+                        1 => ' song.name ' . $order_by,
+                        2 => ' album.name ' . $order_by . ', song.tracknumber ASC ', 
+                        3 => ' artist.name ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
+                        4 => ' song.mtime ' . $order_by .  ', album.name DESC, song.tracknumber ASC ',
+                        5 => ' song.yearpublished ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
+                        6 => ' song.length ' . $order_by, 
+                        7 => ' song.tracknumber ' . $order_by,
+                        8 => ' RAND() '
+                     );
+    $order_by_string = $column_sql[ (int) $settings[ 'sortcolumn' ] ];
+    
+    $parameters = array();
+    
+    $query  = 'SELECT ';
+    $query .= ' song.unique_id, song.name, album.name as album_name, artist.name as artist_name, FROM_UNIXTIME( song.mtime, "%Y-%m-%d" ) as date_modified, song.yearpublished, song.length, song.tracknumber ';
+    $query .= 'FROM ';
+    if( !is_null( $settings['playlist_id'] ) )
+    {
+      $query .= ' playlist_files, ';
+    } 
+    $query .= ' song ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' artist ';
+    $query .= 'ON song.artist_id = artist.id '; 
+    $query .= 'LEFT JOIN ';
+    $query .= ' album ';
+    $query .= 'ON song.album_id = album.id '; 
+    $query .= 'LEFT JOIN ';
+    $query .= ' genre ';
+    $query .= 'ON song.genre_id = genre.id '; 
+    $query .= 'WHERE TRUE ';
+    if( !is_null( $settings['playlist_id'] ) )
+    {
+      $query .= ' AND playlist_files.playlist_id = :playlist_id ';
+      $query .= ' AND playlist_files.filename = song.filename ';
+      $parameters[ 'playlist_id' ] = $settings[ 'playlist_id' ];
+    }
+    if ( !is_null(  $settings[ 'song_id' ] ) )
+    {
+      $query .= ' AND song.id = :song_id ';
+      $parameters[ 'song_id' ] = $settings[ 'song_id' ];
+    } 
+    if ( !is_null(  $settings[ 'album_id' ] ) )
+    {
+      $query .= ' AND song.album_id = :album_id ';
+      $parameters[ 'album_id' ] = $settings[ 'album_id' ];
+    } 
+    if ( !is_null(  $settings[ 'artist_id' ] ) )
+    {
+      $query .= ' AND song.artist_id = :artist_id ';
+      $parameters[ 'artist_id' ] = $settings[ 'artist_id' ];
+    } 
+    if ( !is_null(  $settings[ 'genre_id' ] ) )
+    {
+      $query .= ' AND song.genre_id = :genre_id ';
+      $parameters[ 'genre_id' ] = $settings[ 'genre_id' ];
+    } 
+    if ( !is_null(  $settings[ 'by_alpha' ] ) )
+    {
+      $query .= ' AND song.name LIKE :by_alpha ';
+      $parameters[ 'by_alpha' ] = $settings[ 'by_alpha' ] . '%';
+    } 
+    if ( !is_null(  $settings[ 'by_number' ] ) )
+    {
+      $query .= ' AND ( song.name LIKE "0%" ';
+      $query .= ' OR song.name LIKE "1%" ';
+      $query .= ' OR song.name LIKE "2%" ';
+      $query .= ' OR song.name LIKE "3%" ';
+      $query .= ' OR song.name LIKE "4%" ';
+      $query .= ' OR song.name LIKE "5%" ';
+      $query .= ' OR song.name LIKE "6%" ';
+      $query .= ' OR song.name LIKE "7%" ';
+      $query .= ' OR song.name LIKE "8%" ';
+      $query .= ' OR song.name LIKE "9%" ) ';
+    } 
+    if ( !is_null(  $settings[ 'search' ] ) && ( !empty( $settings[ 'search' ] ) || $settings[ 'search' ] === '0'  ) )
+    {
+      $query .= ' AND ( song.name LIKE :search OR album.name LIKE :search OR artist.name LIKE :search ) ';
+      $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
+    } 
+    $query .= 'ORDER BY ';
+    $query .= $order_by_string . ' ';
+    
+    //get a count of rows returned by this query before applying pagination
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
+    $stmt = $dbh->prepare( $query );
+    $success = $stmt->execute( $parameters );
+    if( $success )
+    {
+      $result_count = $stmt->rowCount();
+    }
+    else
+    {
+      return false;
+    }    
+    
+    //get the data set
+    $query .= ' LIMIT ';
+    $query .= (int) $settings[ 'limit' ];
+    $query .= ' OFFSET ';
+    $query .= (int) $settings[ 'offset' ];
+    
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
+    $stmt = $dbh->prepare( $query );
+    $success = $stmt->execute( $parameters );
+    if( $success )
+    {
+      $result_list = $stmt->fetchAll();
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
 }

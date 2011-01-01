@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 7, new lime_output_color() );
+$t = new lime_test( 18, new lime_output_color() );
 
 $song_table = Doctrine_Core::getTable('Song');
 
@@ -99,7 +99,7 @@ $t->is( $song->id, 2, 'Fetch Record by filename and mtime');
 
 $t->comment( '->getSongByUniqueId');
 $unique_song = $song_table->getSongByUniqueId( $song->unique_id );
-$t->is( $unique_song->id, 2, 'Fetch Record by filename and mtime');
+$t->is( $unique_song->id, 2, 'Fetch record by unique id');
 
 $t->comment( '->getUnscannedArtList' );
 $album_table = Doctrine_Core::getTable( 'Album' );
@@ -111,3 +111,35 @@ $artist_table->addArtist( 'Sigur Rós' );
 $list = $song_table->getUnscannedArtList( 'amazon' );
 $count1 = count( $list );
 $t->is( $count1, 2, 'Got a list of unscanned art' );
+
+$t->comment( '->getList' );
+$result_count = $result_list = null;
+$result = $song_table->getList( array(), $result_count, $result_list );
+$t->is( $result_count, 3, 'List length is correct for default settings' );
+$result_count = $result_list = $array_count = null;
+$result = $song_table->getList( array( 'limit' => 2 ), $result_count, $result_list );
+$array_count = count( $result_list );
+$t->is( $result_count, 3, 'List length is correct for a limited result set' );
+$t->is( $array_count, 2, 'Results list is the correct length for a limited set' );
+$result_count = $result_list = $array_count = null;
+$result = $song_table->getList( array( 'offset' => 1 ), $result_count, $result_list );
+$array_count = count( $result_list );
+$t->is( $result_count, 3, 'List length is correct for an offset result set' );
+$t->is( $array_count, 2, 'Results list is the correct length for an offset set' );
+$result_count = $result_list = null;
+$result = $song_table->getList( array( 'search' => 'dót' ), $result_count, $result_list );
+$t->is( $result_count, 1, 'List length is correct for a search result set' );
+$t->is( $result_list[0]['name'], 'dót widget', 'Keyword search narrowed results correctly' );
+$result_count = $result_list = null;
+$result = $song_table->getList( array( 'artist_id' => '1' ), $result_count, $result_list );
+$t->is( $result_list[0]['artist_name'], 'Gorillas', 'Narrowed list by artist id' );
+$result_count = $result_list = null;
+$result = $song_table->getList( array( 'album_id' => '2' ), $result_count, $result_list );
+$t->is( $result_list[0]['album_name'], 'með suð í eyrum við spilum endalaust', 'Narrowed list by album id' );
+$result_count = $result_list = null;
+$result = $song_table->getList( array( 'genre_id' => '1' ), $result_count, $result_list );
+$t->is( $result_count, 3, 'Narrowed list by genre id' );
+$result_count = $result_list = null;
+$result = $song_table->getList( array( 'playlist_id' => '1' ), $result_count, $result_list );
+$t->is( $result_count, 0, 'Narrowed list by playlist id' );
+
