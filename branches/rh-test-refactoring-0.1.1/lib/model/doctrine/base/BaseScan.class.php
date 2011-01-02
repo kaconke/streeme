@@ -30,27 +30,15 @@ abstract class BaseScan extends sfDoctrineRecord
         $this->setTableName('scan');
         $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
              'primary' => true,
              'autoincrement' => true,
              ));
         $this->hasColumn('scan_time', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              'length' => 255,
              ));
         $this->hasColumn('scan_type', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              'length' => 255,
              ));
 
@@ -61,7 +49,6 @@ abstract class BaseScan extends sfDoctrineRecord
               0 => 'scan_type',
              ),
              ));
-        $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');
         $this->option('charset', 'utf8');
     }

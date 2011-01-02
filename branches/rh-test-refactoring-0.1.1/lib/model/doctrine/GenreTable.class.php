@@ -55,10 +55,10 @@ class GenreTable extends Doctrine_Table
       ->select( 'g.id, g.name' )
       ->from( 'Genre g, Song s' )
       ->where( 'g.id = s.genre_id' )
-      ->andWhere( 'g.name != ""' );
+      ->andWhere( 'g.name IS NOT NULL' );
     if( $alpha !== 'all' )
     {
-      $q->andWhere( 'g.name LIKE ?', substr( $alpha, 0, 1 ) . '%' );
+      $q->andWhere( 'upper( g.name ) LIKE ?', strtoupper( substr( $alpha, 0, 1 ) ) . '%' );
     }
     $q->distinct()
       ->orderBy( 'g.name ASC' );

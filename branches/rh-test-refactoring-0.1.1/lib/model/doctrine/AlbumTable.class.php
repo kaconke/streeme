@@ -39,6 +39,7 @@ class AlbumTable extends Doctrine_Table
     {
       $item = new Album;
       $item->name = $name;
+      $item->scan_id = 1;
       $item->save();
       return $item->getId();
     }
@@ -57,7 +58,7 @@ class AlbumTable extends Doctrine_Table
       ->where( 'a.id = s.album_id' );
     if( $alpha !== 'all' )
     {
-      $q->andWhere( 'a.name LIKE ?', substr( $alpha, 0, 1 ) . '%' );
+      $q->andWhere( 'upper( a.name ) LIKE ?', strtoupper( substr( $alpha, 0, 1 ) ) . '%' );
     }
     if( $artist_id !== 'all' )
     {
@@ -84,19 +85,19 @@ class AlbumTable extends Doctrine_Table
       switch ( $source )
       {
         case 'amazon':
-          $q->amazon_flagged = true;
+          $q->amazon_flagged = 1;
           break;
         
         case 'meta':
-          $q->meta_flagged = true;
+          $q->meta_flagged = 1;
           break;
           
         case 'folders':
-          $q->folders_flagged = true;
+          $q->folders_flagged = 1;
           break;
         
         case 'service':
-          $q->service_flagged = true;
+          $q->service_flagged = 1;
           break;
       }
       $q->scan_id = $scan_id;
@@ -128,22 +129,22 @@ class AlbumTable extends Doctrine_Table
       switch ( $source )
       {
         case 'amazon':
-          $q->amazon_flagged = true;
+          $q->amazon_flagged = 1;
           break;
         
         case 'meta':
-          $q->meta_flagged = true;
+          $q->meta_flagged = 1;
           break;
           
         case 'folders':
-          $q->folders_flagged = true;
+          $q->folders_flagged = 1;
           break;
         
         case 'service':
-          $q->service_flagged = true;
+          $q->service_flagged = 1;
           break;
       }
-      $q->has_art = true;
+      $q->has_art = 1;
       $q->scan_id = $scan_id;
       $q->save();
       $id = $q->getId();
@@ -165,10 +166,9 @@ class AlbumTable extends Doctrine_Table
   public function getTotalAlbumsCount()
   {
     $q = Doctrine_Query::create()
-      ->select( 'COUNT(a.id) as total_albums' )
+      ->select( 'a.id' )
       ->from( 'Album a' );
-    $ret = $q->fetchOne();
-    return $ret->total_albums;
+    return $q->count();
   }
   
   /**
@@ -178,10 +178,9 @@ class AlbumTable extends Doctrine_Table
   public function getAlbumsWithArtCount()
   {
     $q = Doctrine_Query::create()
-      ->select( 'COUNT(a.id) as albums_with_art' )
+      ->select( 'a.id' )
       ->from( 'Album a' )
-      ->where( 'a.has_art = ?', true );
-    $ret = $q->fetchOne();
-    return $ret->albums_with_art;
+      ->where( 'a.has_art = ?', 1 );
+    return $q->count();
   }
 }

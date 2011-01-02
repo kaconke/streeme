@@ -13,8 +13,8 @@ abstract class BaseScanFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'scan_time' => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'scan_type' => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'scan_time' => new sfWidgetFormFilterInput(),
+      'scan_type' => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(

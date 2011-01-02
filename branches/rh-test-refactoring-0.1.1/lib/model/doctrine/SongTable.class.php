@@ -277,7 +277,7 @@ class SongTable extends Doctrine_Table
     $parameters = array();
     
     $query  = 'SELECT ';
-    $query .= ' song.unique_id, song.name, album.name as album_name, artist.name as artist_name, FROM_UNIXTIME( song.mtime, "%Y-%m-%d" ) as date_modified, song.yearpublished, song.length, song.tracknumber ';
+    $query .= ' song.unique_id, song.name, album.name as album_name, artist.name as artist_name, song.mtime as date_modified, song.yearpublished, song.length, song.tracknumber ';
     $query .= 'FROM ';
     if( !is_null( $settings['playlist_id'] ) )
     {

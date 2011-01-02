@@ -58,7 +58,7 @@ class ArtistTable extends Doctrine_Table
       ->from( 'Artist a' );
     if( $alpha !== 'all' )
     {
-      $q->where( 'a.name LIKE ?', substr( $alpha, 0, 1 ) . '%' );
+      $q->where( 'upper( a.name ) LIKE ?', strtoupper( substr( $alpha, 0, 1 ) ) . '%' );
     }
     $q->orderBy( 'a.name ASC' );
     return $q->fetchArray();
