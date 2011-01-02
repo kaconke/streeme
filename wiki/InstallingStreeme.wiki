@@ -79,7 +79,7 @@ This command will clear symfony's cache and should be run whenever you change th
 
 Now run the *config checker*. go to _your_streeme_dir_ and type 
 <br/>
-{{{php check_configuration}}} 
+{{{php check_configuration.php}}} 
 <br/>
 if all went well, your install should show OK next to the parameters in the list.
 <br/>
