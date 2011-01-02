@@ -15,6 +15,9 @@ Streeme requires the initial installation of a web server package before the scr
 
 There is a visual guide on the installation below the download.
 
+*Be sure to turn off IIS* before proceeding with installing xampp. To do that, go to: control panel>administrative tools>services then stop and disable www publishing or World Wide Publishing, whichever it may be. 
+
+
 ===Install Services===
 
 after installing, please go to _C:\xampp\apache_
