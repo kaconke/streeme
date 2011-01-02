@@ -51,7 +51,7 @@ edit this file with a text editor
  * *FFMpeg Executable* - the full path to your FFMpeg application file
 {{{
 examples: if you do not know where ffmpeg is, search using locate on the commandline or using windows explorer:
-Windows: "C:\Program Files\FFmpeg for Audacity\ffmpeg.exe
+Windows: "C:\Program Files\FFmpeg for Audacity\ffmpeg.exe"
 Linux: "/usr/bin/ffmpeg"
 OSX: "/opt/local/var/macports/software/ffmpeg/version/opt/local/bin/ffmpeg"
 }}}
