@@ -141,6 +141,33 @@ class SongTable extends Doctrine_Table
   }
   
   /**
+   * Get file list 
+   * @param id   str: song unique id | album and artist id
+   * @param type str: song | album | artists
+   * @return     array: list of filenames for each song 
+   */
+  public function getFileList( $id, $type )
+  {
+    $q = Doctrine_Query::create()
+      ->select( 's.filename' )
+      ->from( 'Song s' )
+      ->where( true );
+    switch( $type ) 
+    {
+      case 'artist':
+        $q->andWhere( 's.artist_id = ?', $id );
+        break;
+      case 'album':
+        $q->andWhere( 's.album_id = ?', $id );
+        break;
+      case 'song':
+        $q->andWhere( 'unique_id = ?', $id );
+        break;     
+    }
+    return $q->fetchArray();
+  }
+  
+  /**
    * Get a list of songs 
    * @param parameters    array: search and pagination options
    * @param result_count  OUT int: the resulting number of records in search before pagination 
