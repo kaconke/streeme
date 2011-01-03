@@ -151,7 +151,7 @@ class SongTable extends Doctrine_Table
     $q = Doctrine_Query::create()
       ->select( 's.filename' )
       ->from( 'Song s' )
-      ->where( true );
+      ->where( 'TRUE' );
     switch( $type ) 
     {
       case 'artist':

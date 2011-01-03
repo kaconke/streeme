@@ -7,15 +7,15 @@
  */
 class PlaylistFilesTable extends Doctrine_Table
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object PlaylistFilesTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('PlaylistFiles');
-    }
+  /**
+   * Returns an instance of this class.
+   *
+   * @return object PlaylistFilesTable
+   */
+  public static function getInstance()
+  {
+      return Doctrine_Core::getTable('PlaylistFiles');
+  }
     
   /**
    * Add a songs/albums/artists to the playlist 

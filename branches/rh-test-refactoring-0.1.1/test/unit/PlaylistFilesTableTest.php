@@ -7,9 +7,7 @@ $t = new lime_test( 4, new lime_output_color() );
 $playlist_files_table = Doctrine_Core::getTable('PlaylistFiles');
 
 //add the required fixtures
-$fixture_sql = file_get_contents( dirname(__FILE__).'/../fixtures/playlistfilesfixtures.sql' );
-$dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
-$dbh->query( $fixture_sql ); 
+Doctrine::loadData(sfConfig::get('sf_test_dir').'/fixtures/00_PlaylistFilesTable');
 
 $t->comment( 'addPlaylistFile' );
 $result = $playlist_files_table->addPlaylistFiles( 1, '9ewf9ewjfa0jew90fejf9fje' , 'song' );
