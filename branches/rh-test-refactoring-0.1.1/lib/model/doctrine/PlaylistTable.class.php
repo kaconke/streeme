@@ -39,11 +39,18 @@ class PlaylistTable extends Doctrine_Table
    */
   public function deletePlaylist( $playlist_id )
   {
-    $q = Doctrine_Query::create()
+    //delete playlist entry
+    $qp = Doctrine_Query::create()
       ->delete( 'Playlist p' )
       ->where( 'p.id = ?', $playlist_id )
       ->execute();
-    return $q;
+      
+    //delete associated playlist files  
+    $qpf = Doctrine_Query::create()
+      ->delete( 'PlaylistFiles pf' )
+      ->where( 'pf.playlist_id = ?', playlist_id  )
+      ->execute();
+    return ( $qp + $qpf );
   }
     
   /**
