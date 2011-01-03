@@ -17,13 +17,8 @@ $fourth_insert_id = $album_table->addAlbum( 'gorillaz compilation' );
 $t->is( $third_insert_id, $fourth_insert_id, 'Updated an identical album entry for second album.');
 
 $t->comment( '->getList' );
-//add minimal song data to test the relationship
-$artist_table = Doctrine_Core::getTable('Artist');
-$id1 = $artist_table->addArtist('Sigur Ros');
-$id2 = $artist_table->addArtist('Gorillaz');
-$song_table = Doctrine_Core::getTable( 'Song' );
-$song_table->addSong( $id1, $first_insert_id, null, 1, array( 'filename' => 'file://localhost/file.1', 'mtime' => '0202002' ) );
-$song_table->addSong( $id2, $third_insert_id, null, 1, array( 'filename' => 'file://localhost/file.2', 'mtime' => '0202020' ) );
+//add the required fixtures
+Doctrine::loadData(sfConfig::get('sf_test_dir').'/fixtures/30_AlbumTable');
 
 $list = $album_table->getList( 'all', 'all' );
 $count = count( $list );
@@ -36,7 +31,7 @@ $list = $album_table->getList( 'G', 'all' );
 $count4 = count( $list );
 $t->is( $count4, 1, 'correct record count for alphabetical listing' );
 $t->is( $list[0]['name'], 'gorillaz compilation', 'Alpha char is case insensitive' );
-$list = $album_table->getList( 'all', $id1 );
+$list = $album_table->getList( 'all', 1 );
 $count3 = count( $list );
 $t->is( $count3, 1, 'correct record count for artist listing' );
 $t->is( $list[0]['name'], 'með suð í eyrum við spilum endalaust', 'Successfully narrowed list by artist id' );
