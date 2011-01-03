@@ -102,12 +102,8 @@ $unique_song = $song_table->getSongByUniqueId( $song->unique_id );
 $t->is( $unique_song->id, 2, 'Fetch record by unique id');
 
 $t->comment( '->getUnscannedArtList' );
-$album_table = Doctrine_Core::getTable( 'Album' );
-$album_table->addAlbum('You Love Electro');
-$album_table->addAlbum('með suð í eyrum við spilum endalaust');
-$artist_table = Doctrine_Core::getTable( 'Artist' );
-$artist_table->addArtist( 'Gorillas' );
-$artist_table->addArtist( 'Sigur Rós' );
+//add the required fixtures
+Doctrine::loadData(sfConfig::get('sf_test_dir').'/fixtures/10_SongTable');
 $list = $song_table->getUnscannedArtList( 'amazon' );
 $count1 = count( $list );
 $t->is( $count1, 2, 'Got a list of unscanned art' );

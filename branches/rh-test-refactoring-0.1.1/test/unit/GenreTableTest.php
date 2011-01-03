@@ -21,11 +21,8 @@ $sixth_insert_id = $genre_table->addGenre( 'Русский' );
 $t->is( $fifth_insert_id, $sixth_insert_id, 'Got the same genre fixture in UTF-8.');
 
 $t->comment( '->getList' );
-$song_table = Doctrine_Core::getTable( 'Song' );
-$song_table->addSong( null, null, $first_insert_id, 1, array( 'filename' => 'file://localhost/file.1', 'mtime' => '0202002' ) );
-$song_table->addSong( null, null, $third_insert_id, 1, array( 'filename' => 'file://localhost/file.2', 'mtime' => '0202020' ) );
-$song_table->addSong( null, null, $fifth_insert_id, 1, array( 'filename' => 'file://localhost/file.3', 'mtime' => '2200200' ) );
-
+//add the required fixtures
+Doctrine::loadData(sfConfig::get('sf_test_dir').'/fixtures/20_GenreTable');
 $list = $genre_table->getList( 'all' );
 $count = count( $list );
 $t->is( $count, '3', 'Successfully listed all genres' );
