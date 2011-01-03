@@ -63,7 +63,11 @@ EOF;
         
         require_once( dirname( __FILE__ ) . '/scanners/mediaScanFilesystem.php' );
         
-        break;   
+        break;
+
+      default:
+        echo 'No Valid Type Specified - Aborting';
+        break;
     }
     echo "\r\n";
   }

@@ -168,6 +168,18 @@ class SongTable extends Doctrine_Table
   }
   
   /**
+   * Get total song count
+   * @return       int: total album count in database
+   */
+  public function getTotalSongCount()
+  {
+    $q = Doctrine_Query::create()
+      ->select( 's.id' )
+      ->from( 'Song s' );
+    return $q->count();
+  }
+  
+  /**
    * Get a list of songs 
    * @param parameters    array: search and pagination options
    * @param result_count  OUT int: the resulting number of records in search before pagination 
@@ -397,7 +409,7 @@ class SongTable extends Doctrine_Table
     $success = $stmt->execute( $parameters );
     if( $success )
     {
-      $result_list = $stmt->fetchAll();
+      $result_list = $stmt->fetchAll(Doctrine::FETCH_ASSOC);
       return true;
     }
     else

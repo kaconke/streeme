@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 21, new lime_output_color() );
+$t = new lime_test( 22, new lime_output_color() );
 
 $song_table = Doctrine_Core::getTable('Song');
 
@@ -113,11 +113,14 @@ $result = $song_table->getFileList( '1', 'artist' );
 $count2 = count( $result );
 $t->is( $count2, 2, 'Got a file listing by artist');
 $result = $song_table->getFileList( '2', 'album' );
-$count2 = count( $result );
-$t->is( $count2, 1, 'Got a file listing by album');
+$count3 = count( $result );
+$t->is( $count3, 1, 'Got a file listing by album');
 $result = $song_table->getFileList( $song->unique_id, 'song' );
-$count2 = count( $result );
-$t->is( $count2, 1, 'Got a file listing by song unique_id');
+$count4 = count( $result );
+$t->is( $count4, 1, 'Got a file listing by song unique_id');
+
+$t->comment( '->getTotalSongCount' );
+$t->is( $song_table->getTotalSongCount(), 3, 'correct total song count' ); 
 
 $t->comment( '->getList' );
 $result_count = $result_list = null;

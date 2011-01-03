@@ -36,7 +36,6 @@ class listSongsAction extends sfAction
   */
   private function create_response()
   {
-    $song = new SongService();
     $args = array(
                    'disable_limiting' => false,
                    'search'           => $this->sSearch,
@@ -45,10 +44,13 @@ class listSongsAction extends sfAction
                    'sortcolumn'       => $this->iSortCol_0,
                    'sortdirection'    => $this->sSortDir_0                
              );
-  
-    $song_array    = $song->get_song_list( $args );
-    $found_rows    = $song->get_found_rows();
-    $total_library = $song->get_library_metrics(); 
+    
+    $result_count = $result_list = null;
+    $result = Doctrine_Core::getTable('Song')->getList( $args, $result_count, $result_list );  
+
+    $song_array    = $result_list;
+    $found_rows    = $result_count;
+    $total_library = Doctrine_Core::getTable('Song')->getTotalSongCount();
     
     switch( $this->output_format )
     {
@@ -112,7 +114,7 @@ class listSongsAction extends sfAction
        $flattened = null;
     }
     $aadata[ 'sEcho' ] = (int) $this->sEcho; 
-    $aadata[ 'iTotalRecords' ] = (int) $total_library[0][ 'song_count' ];
+    $aadata[ 'iTotalRecords' ] = (int) Doctrine_Core::getTable('Song')->getTotalSongCount();
     $aadata[ 'iTotalDisplayRecords' ] = (int) $found_rows; 
     $aadata[ 'aaData' ] = ( $flattened ) ? $flattened : $empty_resultset;
     
