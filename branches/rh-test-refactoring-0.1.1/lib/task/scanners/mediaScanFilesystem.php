@@ -112,10 +112,10 @@ function scan_directory( $path, $allowed_filetypes, $media_scanner, $id3_scanner
     @$song_array[ 'song_length' ]      = $value[ 'playtime_string' ] ;
     @$song_array[ 'accurate_length' ]  = ( floor( ( (float) $value[ 'playtime_seconds' ] ) * 1000 ) );
     @$song_array[ 'genre_name' ]       = ( $tags['ape'][ 'genre' ][0] )  ? $tags['ape'][ 'genre' ][0]  : ( ( $tags['id3v2'][ 'genre' ] ) ? $tags['id3v2'][ 'genre' ][0] :  ( ( $tags['id3v1'][ 'genre' ][0] )  ? $tags['id3v1'][ 'genre' ][0]  : null ) );
-    @$song_array[ 'size' ]             = $file_stat[ 'size' ];
+    @$song_array[ 'filesize' ]             = $file_stat[ 'size' ];
     @$song_array[ 'bitrate' ]          = ( floor ( ( (int) $value[ 'audio' ][ 'bitrate' ] ) / 1000 ) );
-    @$song_array[ 'year' ]             = ( $tags['ape'][ 'year' ][0] )   ? $tags['ape'][ 'year' ][0]   : ( ($tags['id3v2'][ 'year' ][0] ) ? $tags['id3v2'][ 'year' ][0] : ( ( $tags['id3v1'][ 'year' ][0] )  ? $tags['id3v1'][ 'year' ][0]  : null ) );
-    @$song_array[ 'track_number']      = $tracknumber; 
+    @$song_array[ 'yearpublished' ]             = ( $tags['ape'][ 'year' ][0] )   ? $tags['ape'][ 'year' ][0]   : ( ($tags['id3v2'][ 'year' ][0] ) ? $tags['id3v2'][ 'year' ][0] : ( ( $tags['id3v1'][ 'year' ][0] )  ? $tags['id3v1'][ 'year' ][0]  : null ) );
+    @$song_array[ 'tracknumber']      = $tracknumber; 
     @$song_array[ 'label' ]            = ( $tags['ape'][ 'label' ][0] )  ? $tags['ape'][ 'label' ][0]  : ( ( $tags['id3v2'][ 'label' ][0] ) ? $tags['id3v2'][ 'label' ][0] : null ) ; //not available in V1
     @$song_array[ 'mtime' ]            = $file_stat[ 'mtime' ];
     @$song_array[ 'atime' ]            = $file_stat[ 'atime' ];

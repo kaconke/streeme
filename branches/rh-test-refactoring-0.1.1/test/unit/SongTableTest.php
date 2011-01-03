@@ -152,4 +152,3 @@ $t->is( $result_count, 3, 'Narrowed list by genre id' );
 $result_count = $result_list = null;
 $result = $song_table->getList( array( 'playlist_id' => '1' ), $result_count, $result_list );
 $t->is( $result_count, 0, 'Narrowed list by playlist id' );
-

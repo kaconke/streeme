@@ -102,6 +102,10 @@ class listSongsAction extends sfAction
              {
                $playsongbutton = '<div class="ps"></div>';
              }
+             if( $key == 'date_modified')
+             {
+               $value = date( 'Y-m-d', $value );
+             }
              $string .= ( ( $value ) ?  $addtoplaylistbutton . $playsongbutton . $value : '0' ) . '%*=*=*%';
           }
           $convert = explode( '%*=*=*%', rtrim( $string, '%*=*=*%' ) );
