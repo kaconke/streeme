@@ -64,4 +64,20 @@ class GenreTable extends Doctrine_Table
       ->orderBy( 'g.name ASC' );
     return $q->fetchArray();
   }
+  
+  /**
+   * Remove album records with no song relation
+   *
+   * @param last_scan_id int: this should be the id of the latest library scan
+   * @return             array: number of records removed
+   */
+  public function finalizeScan()
+  {
+    $q = Doctrine_Query::create()
+      ->delete('Genre g')
+      ->where('g.id NOT IN (SELECT s.genre_id FROM song AS s)')
+      ->andWhere( 'g.id > 125' )
+      ->execute();
+    return $q;
+  }
 }

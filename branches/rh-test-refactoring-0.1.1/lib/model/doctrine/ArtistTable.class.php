@@ -63,4 +63,19 @@ class ArtistTable extends Doctrine_Table
     $q->orderBy( 'a.name ASC' );
     return $q->fetchArray();
   }
+  
+  /**
+   * Remove album records with no song relation
+   *
+   * @param last_scan_id int: this should be the id of the latest library scan
+   * @return             array: number of records removed
+   */
+  public function finalizeScan()
+  {
+    $q = Doctrine_Query::create()
+      ->delete('Artist a')
+      ->where('a.id NOT IN (SELECT s.artist_id FROM song AS s)')
+      ->execute();
+    return $q;
+  }
 }

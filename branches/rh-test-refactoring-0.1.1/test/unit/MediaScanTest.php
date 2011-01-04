@@ -23,7 +23,7 @@ $valid_test_song = array(
                         );
 
 $utf8_test_song = array(
-                          'last_scan_id' => 1, //int: scan primary key
+                          'last_scan_id' => 2, //int: scan primary key
                           'artist_name' => 'Sigur Rós', //string
                           'album_name' => 'með suð í eyrum við spilum endalaust', //string
                           'genre_name' => 'Русский', //string
@@ -55,6 +55,9 @@ $second_insert_id = $media_scan->add_song( $utf8_test_song );
 $t->like( $second_insert_id, '/\d+/', 'Successfully added a UTF-8 Song entry.' );
 $t->is( $media_scan->is_scanned( 'file://localhost/home/notroot/music/Fließgewässer.mp3', '1293300023' ), true, 'is_scanned sucessfully found UTF-8 filename' );
 
+$t->comment( '->finalize_scan()' );
+$records_deleted = $media_scan->finalize_scan();
+$t-is( $records_deleted, '4', 'Removed Song and Associations')
 
 
 

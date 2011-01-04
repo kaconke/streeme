@@ -183,4 +183,19 @@ class AlbumTable extends Doctrine_Table
       ->where( 'a.has_art = ?', 1 );
     return $q->count();
   }
+  
+  /**
+   * Remove album records with no song relation
+   *
+   * @param last_scan_id int: this should be the id of the latest library scan
+   * @return             array: number of records removed
+   */
+  public function finalizeScan()
+  {
+    $q = Doctrine_Query::create()
+      ->delete('Album a')
+      ->where('a.id NOT IN (SELECT s.album_id FROM song AS s)')
+      ->execute();
+    return $q;
+  }
 }

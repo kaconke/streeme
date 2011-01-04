@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 11, new lime_output_color() );
+$t = new lime_test( 12, new lime_output_color() );
 
 $genre_table = Doctrine_Core::getTable('Genre');
 
@@ -34,3 +34,6 @@ $list2 = $genre_table->getList( 's' );
 $count3 = count( $list2 );
 $t->is( $count3, 1, 'List narrowed to 1 result by alpha group');
 $t->is( $list2[0]['name'], 'Some Awesome Custom Genre! Woo!', 'Alpha char is case insensitive' );
+
+$t->comment( '->finalizeScan' );
+$t->is( $genre_table->finalizeScan(), 1, 'finalized scan successfully' );

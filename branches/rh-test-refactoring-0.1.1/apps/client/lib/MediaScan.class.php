@@ -16,7 +16,7 @@ class MediaScan
   /**
    * int: Stores the last scan id for this scanning session
    */
-  public $last_scan_id = false;
+  protected $last_scan_id = false;
   
   /**
    * int: This is a counter for songs skipped during the scan
@@ -143,5 +143,16 @@ class MediaScan
     $this->added_songs++;
    
     return $song_id;
+  }
+  
+  /**
+   * Finalize Scan - remove all out of date/missing songs and associations
+   */
+  public function finalize_scan()
+  {
+    $this->removed_songs = Doctrine_Core::getTable('Song')->finalizeScan( $this->last_scan_id );
+    $this->removed_artists = Doctrine_Core::getTable('Artist')->finalizeScan();
+    $this->removed_albums = Doctrine_Core::getTable('Album')->finalizeScan();
+    $this->removed_genres = Doctrine_Core::getTable('Genre')->finalizeScan();
   }
 }

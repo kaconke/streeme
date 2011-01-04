@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 17, new lime_output_color() );
+$t = new lime_test( 18, new lime_output_color() );
 
 $album_table = Doctrine_Core::getTable('Album');
 
@@ -53,3 +53,7 @@ $t->is( $album_table->getTotalAlbumsCount(), 2, 'Got correct total album count' 
 
 $t->comment( '->getTotalAlbumsCount' );
 $t->is( $album_table->getAlbumsWithArtCount(), 1, 'Got correct count of albums with artwork' );
+
+$t->comment( '->finalizeScan' );
+$album_table->addAlbum( 'should get deleted on finalize scan' );
+$t->is( $album_table->finalizeScan(), 1, 'finalized scan successfully' );

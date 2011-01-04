@@ -50,14 +50,14 @@ class SongTable extends Doctrine_Table
       $song->name = $song_array[ 'song_name' ];
       $song->length = $song_array[ 'song_length' ];
       $song->accurate_length = (int) $song_array[ 'accurate_length' ];
-      $song->filesize = $song_array[ 'filesize' ];
+      $song->filesize = (int) $song_array[ 'filesize' ];
       $song->bitrate = (int) $song_array[ 'bitrate' ];
       $song->yearpublished = (int) $song_array[ 'yearpublished' ];
       $song->tracknumber = (int) $song_array[ 'tracknumber' ];
       $song->label = $song_array[ 'label' ];
       $song->mtime = (int) $song_array[ 'mtime' ];
       $song->atime = (int) $song_array[ 'atime' ];
-      $song->filename = (int) $song_array[ 'filename' ];
+      $song->filename = $song_array[ 'filename' ];
       $song->save();
       $id = $song->getId();
       $song->free();
@@ -99,12 +99,12 @@ class SongTable extends Doctrine_Table
   }
   
   /**
-   * Fetch a list of albums that have not been scanned for art yet 
+   * Fetch a list of albums that have not been scanned for art yet
    * @param source str: the artwork source: amazon|meta|folders|service etc.
    * @return       array: unscanned artwork list
    */
   public function getUnscannedArtList( $source )
-  {    
+  {
     $query  = 'SELECT DISTINCT ';
     $query .= ' album.id as album_id, album.name as album_name, artist.name as artist_name, song.filename as song_filename ';
     $query .= 'FROM ';
@@ -136,15 +136,15 @@ class SongTable extends Doctrine_Table
     $query .= ' AND album.has_art != 1 ';
     $query .= ' ORDER BY album.id ASC ';
     
-    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
-    return $dbh->query( $query )->fetchAll(); 
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    return $dbh->query( $query )->fetchAll();
   }
   
   /**
-   * Get file list 
+   * Get file list
    * @param id   str: song unique id | album and artist id
    * @param type str: song | album | artists
-   * @return     array: list of filenames for each song 
+   * @return     array: list of filenames for each song
    */
   public function getFileList( $id, $type )
   {
@@ -152,7 +152,7 @@ class SongTable extends Doctrine_Table
       ->select( 's.filename' )
       ->from( 'Song s' )
       ->where( 'TRUE' );
-    switch( $type ) 
+    switch( $type )
     {
       case 'artist':
         $q->andWhere( 's.artist_id = ?', $id );
@@ -162,7 +162,7 @@ class SongTable extends Doctrine_Table
         break;
       case 'song':
         $q->andWhere( 'unique_id = ?', $id );
-        break;     
+        break;
     }
     return $q->fetchArray();
   }
@@ -180,17 +180,17 @@ class SongTable extends Doctrine_Table
   }
   
   /**
-   * Get a list of songs 
+   * Get a list of songs
    * @param parameters    array: search and pagination options
-   * @param result_count  OUT int: the resulting number of records in search before pagination 
-   * @param result_list   OUT array: the resulting data set 
-   * @return              bool: true if results exist, otherwise false 
+   * @param result_count  OUT int: the resulting number of records in search before pagination
+   * @param result_list   OUT array: the resulting data set
+   * @return              bool: true if results exist, otherwise false
    * @see paramters list below in 'list defaults'
    */
   public function getList( $parameters=array(), &$result_count, &$result_list )
   {
-    //list defaults 
-    $settings = array( 
+    //list defaults
+    $settings = array(
                          'limit'          => 50,     //int
                          'offset'         => '0',    //int
                          'order'          => 'desc', //str: asc|desc
@@ -225,8 +225,8 @@ class SongTable extends Doctrine_Table
          $match = explode( ':', $v );
          if ( is_array( $match ) )
          {
-            $settings[ 'playlist_id' ] = $match[1]; 
-            unset( $components[ $k ] ); 
+            $settings[ 'playlist_id' ] = $match[1];
+            unset( $components[ $k ] );
          }
        }
     
@@ -236,8 +236,8 @@ class SongTable extends Doctrine_Table
          $match = explode( ':', $v );
          if ( is_array( $match ) )
          {
-            $settings[ 'artist_id' ] = $match[1]; 
-            unset( $components[ $k ] ); 
+            $settings[ 'artist_id' ] = $match[1];
+            unset( $components[ $k ] );
          }
        }
     
@@ -247,8 +247,8 @@ class SongTable extends Doctrine_Table
          $match = explode( ':', $v );
          if ( is_array( $match ) )
          {
-            $settings[ 'album_id' ] = $match[1]; 
-            unset( $components[ $k ] ); 
+            $settings[ 'album_id' ] = $match[1];
+            unset( $components[ $k ] );
          }
        }
     
@@ -258,10 +258,10 @@ class SongTable extends Doctrine_Table
          $match = explode( ':', $v );
          if ( is_array( $match ) )
          {
-            $settings[ 'genre_id' ] = $match[1]; 
-            unset( $components[ $k ] ); 
+            $settings[ 'genre_id' ] = $match[1];
+            unset( $components[ $k ] );
          }
-       } 
+       }
         
        //if by_alpha: is set, add an alpha LIKE to the where clause
        if ( stristr( $v, 'by_alpha:' ) )
@@ -271,16 +271,16 @@ class SongTable extends Doctrine_Table
          {
             if ( $match[1] != "#" )
             {
-               $settings[ 'by_alpha' ] = $match[1]; 
-               unset( $components[ $k ] ); 
+               $settings[ 'by_alpha' ] = $match[1];
+               unset( $components[ $k ] );
             }
             else
             {
-               $settings[ 'by_number' ] = $match[1]; 
+               $settings[ 'by_number' ] = $match[1];
                unset( $components[ $k ] );
             }
          }
-       } 
+       }
   
        //if shuffle: is set, add genreid to the where clause
        if ( stristr( $v, 'shuffle:' ) )
@@ -288,11 +288,11 @@ class SongTable extends Doctrine_Table
          $match = explode( ':', $v );
          if ( is_array( $match ) )
          {
-            $settings[ 'random' ] = true; 
+            $settings[ 'random' ] = true;
             $settings[ 'sortcolumn' ] = 8;
-            unset( $components[ $k ] ); 
+            unset( $components[ $k ] );
          }
-       } 
+       }
     }
     
     //search should now be valid keywords, join them with spaces
@@ -300,14 +300,14 @@ class SongTable extends Doctrine_Table
   
       //this array contains the decoded sort information
     $order_by = ( $settings['sortdirection'] == 'asc') ? ' ASC ' : ' DESC ';
-    $column_sql = array( 
+    $column_sql = array(
                         0 => ' song.id ' . $order_by,
                         1 => ' song.name ' . $order_by,
-                        2 => ' album.name ' . $order_by . ', song.tracknumber ASC ', 
+                        2 => ' album.name ' . $order_by . ', song.tracknumber ASC ',
                         3 => ' artist.name ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
                         4 => ' song.mtime ' . $order_by .  ', album.name DESC, song.tracknumber ASC ',
                         5 => ' song.yearpublished ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
-                        6 => ' song.length ' . $order_by, 
+                        6 => ' song.length ' . $order_by,
                         7 => ' song.tracknumber ' . $order_by,
                         8 => ' RAND() '
                      );
@@ -321,17 +321,17 @@ class SongTable extends Doctrine_Table
     if( !is_null( $settings['playlist_id'] ) )
     {
       $query .= ' playlist_files, ';
-    } 
+    }
     $query .= ' song ';
     $query .= 'LEFT JOIN ';
     $query .= ' artist ';
-    $query .= 'ON song.artist_id = artist.id '; 
+    $query .= 'ON song.artist_id = artist.id ';
     $query .= 'LEFT JOIN ';
     $query .= ' album ';
-    $query .= 'ON song.album_id = album.id '; 
+    $query .= 'ON song.album_id = album.id ';
     $query .= 'LEFT JOIN ';
     $query .= ' genre ';
-    $query .= 'ON song.genre_id = genre.id '; 
+    $query .= 'ON song.genre_id = genre.id ';
     $query .= 'WHERE TRUE ';
     if( !is_null( $settings['playlist_id'] ) )
     {
@@ -343,27 +343,27 @@ class SongTable extends Doctrine_Table
     {
       $query .= ' AND song.id = :song_id ';
       $parameters[ 'song_id' ] = $settings[ 'song_id' ];
-    } 
+    }
     if ( !is_null(  $settings[ 'album_id' ] ) )
     {
       $query .= ' AND song.album_id = :album_id ';
       $parameters[ 'album_id' ] = $settings[ 'album_id' ];
-    } 
+    }
     if ( !is_null(  $settings[ 'artist_id' ] ) )
     {
       $query .= ' AND song.artist_id = :artist_id ';
       $parameters[ 'artist_id' ] = $settings[ 'artist_id' ];
-    } 
+    }
     if ( !is_null(  $settings[ 'genre_id' ] ) )
     {
       $query .= ' AND song.genre_id = :genre_id ';
       $parameters[ 'genre_id' ] = $settings[ 'genre_id' ];
-    } 
+    }
     if ( !is_null(  $settings[ 'by_alpha' ] ) )
     {
       $query .= ' AND song.name LIKE :by_alpha ';
       $parameters[ 'by_alpha' ] = $settings[ 'by_alpha' ] . '%';
-    } 
+    }
     if ( !is_null(  $settings[ 'by_number' ] ) )
     {
       $query .= ' AND ( song.name LIKE "0%" ';
@@ -376,17 +376,17 @@ class SongTable extends Doctrine_Table
       $query .= ' OR song.name LIKE "7%" ';
       $query .= ' OR song.name LIKE "8%" ';
       $query .= ' OR song.name LIKE "9%" ) ';
-    } 
+    }
     if ( !is_null(  $settings[ 'search' ] ) && ( !empty( $settings[ 'search' ] ) || $settings[ 'search' ] === '0'  ) )
     {
       $query .= ' AND ( song.name LIKE :search OR album.name LIKE :search OR artist.name LIKE :search ) ';
       $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
-    } 
+    }
     $query .= 'ORDER BY ';
     $query .= $order_by_string . ' ';
     
     //get a count of rows returned by this query before applying pagination
-    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $dbh->prepare( $query );
     $success = $stmt->execute( $parameters );
     if( $success )
@@ -396,7 +396,7 @@ class SongTable extends Doctrine_Table
     else
     {
       return false;
-    }    
+    }
     
     //get the data set
     $query .= ' LIMIT ';
@@ -404,7 +404,7 @@ class SongTable extends Doctrine_Table
     $query .= ' OFFSET ';
     $query .= (int) $settings[ 'offset' ];
     
-    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh(); 
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $dbh->prepare( $query );
     $success = $stmt->execute( $parameters );
     if( $success )
@@ -416,5 +416,20 @@ class SongTable extends Doctrine_Table
     {
       return false;
     }
+  }
+  
+  /**
+   * Remove song records not found in the specified scan
+   *
+   * @param last_scan_id int: this should be the id of the latest library scan
+   * @return             array: number of records removed
+   */
+  public function finalizeScan( $last_scan_id )
+  {
+    $q = Doctrine_Query::create()
+      ->delete('Song s')
+      ->where('s.last_scan_id = ?', $last_scan_id)
+      ->execute();
+    return $q;
   }
 }

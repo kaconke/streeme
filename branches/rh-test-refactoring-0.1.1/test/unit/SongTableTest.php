@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 22, new lime_output_color() );
+$t = new lime_test( 23, new lime_output_color() );
 
 $song_table = Doctrine_Core::getTable('Song');
 
@@ -63,7 +63,7 @@ $empty_test_song = array(
                           'filename' => '', //txt: protocol file style
                          );
 
-//simulate a UTF-8 entry 
+//simulate a UTF-8 entry
 $utf8_test_song = array(
                           'last_scan_id' => 1, //int: scan primary key
                           'artist_name' => 'Sigur Rós', //string
@@ -120,7 +120,7 @@ $count4 = count( $result );
 $t->is( $count4, 1, 'Got a file listing by song unique_id');
 
 $t->comment( '->getTotalSongCount' );
-$t->is( $song_table->getTotalSongCount(), 3, 'correct total song count' ); 
+$t->is( $song_table->getTotalSongCount(), 3, 'correct total song count' );
 
 $t->comment( '->getList' );
 $result_count = $result_list = null;
@@ -152,3 +152,6 @@ $t->is( $result_count, 3, 'Narrowed list by genre id' );
 $result_count = $result_list = null;
 $result = $song_table->getList( array( 'playlist_id' => '1' ), $result_count, $result_list );
 $t->is( $result_count, 0, 'Narrowed list by playlist id' );
+
+$t->comment( '->finalizeScan' );
+$t->is( $song_table->finalizeScan( 1 ), 2, 'finalized scan successfully' );
