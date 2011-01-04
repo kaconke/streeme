@@ -19,18 +19,20 @@ class ArtProxy
   
   /**
   * Constructor
-  * @param hash: the identifier for the album art - created by md5( artist_name + album_name )
-  * @param size: the size to respond with large (500x500) | medium (200x200) | small (100x100)
+  * @param hash     str: the identifier for the album art - created by md5( artist_name + album_name )
+  * @param size     str: the size to respond with large (500x500) | medium (200x200) | small (100x100)
+  * @param art_dir  str: the directory where the album art is stored
   */  
-  public function __construct( $hash = null, $size = null )
+  public function __construct( $hash = null, $size = null, $art_dir = null )
   {
-    $this->art_dir = dirname( __FILE__ ) . '/../../../data/album_art';
+    $this->art_dir = $art_dir;
     $this->hash    = $hash;
     $this->size    = strtolower( $size );
   }
   
   /**
   * Get the image 
+  * @return        str: hash name / image size (useful for tests)  
   */
   public function getImage()
   {
@@ -49,6 +51,7 @@ class ArtProxy
     if ( is_readable( $this->art_dir . '/' . $this->hash . '/' . $this->size . '.jpg' ) === false )
     {
       $image_download->setFile( $this->art_dir . '/placeholder/' . $this->size . '.jpg' );
+      $this->hash = 'placeholder';
     }
     else
     {
@@ -57,7 +60,7 @@ class ArtProxy
     
     $image_download->send();
     
-    exit;
+    return $this->hash . '/' . $this->size . '.jpg';
   }  
 }
 ?>
