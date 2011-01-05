@@ -23,6 +23,13 @@ foreach ( $watched_folders as $key => $path )
   scan_directory( $path, $allowed_filetypes, $media_scanner, $id3_scanner );
 } 
 
+//finalize the scan 
+$media_scanner->finalize_scan();
+
+//summarize the results of the scan
+echo "\r\n";
+echo $media_scanner->get_summary();
+
 /**
 * Recursive directory scanner 
 *

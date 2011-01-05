@@ -61,4 +61,11 @@ foreach( $plist[ 'Tracks' ] as $key => $value )
      $media_scanner->add_song( $song_array );
   }
 }
+
+//finalize the scan 
+$media_scanner->finalize_scan();
+
+//summarize the results of the scan
+echo "\r\n";
+echo $media_scanner->get_summary();
 ?>

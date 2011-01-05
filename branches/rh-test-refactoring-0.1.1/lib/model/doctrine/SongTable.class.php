@@ -428,7 +428,7 @@ class SongTable extends Doctrine_Table
   {
     $q = Doctrine_Query::create()
       ->delete('Song s')
-      ->where('s.last_scan_id = ?', $last_scan_id)
+      ->where('s.last_scan_id != ?', $last_scan_id )
       ->execute();
     return $q;
   }

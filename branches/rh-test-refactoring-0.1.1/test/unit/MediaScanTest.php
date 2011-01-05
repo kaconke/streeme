@@ -55,7 +55,7 @@ $t->like( $second_insert_id, '/\d+/', 'Successfully added a UTF-8 Song entry.' )
 $t->is( $media_scan->is_scanned( 'file://localhost/home/notroot/music/Fließgewässer.mp3', '1293300023' ), true, 'is_scanned sucessfully found UTF-8 filename' );
 
 $t->comment( '->finalize_scan()' );
-$t->is( $media_scan->finalize_scan(), 4, 'Removed Song and Associations' );
+$t->is( $media_scan->finalize_scan(), 3, 'Removed Song and Associations' );
 
 $t->comment( '->get_summary()' );
 $t->is( is_string( $media_scan->get_summary() ), true, 'returned string' );

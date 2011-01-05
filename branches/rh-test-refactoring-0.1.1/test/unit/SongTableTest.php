@@ -154,4 +154,4 @@ $result = $song_table->getList( array( 'playlist_id' => '1' ), $result_count, $r
 $t->is( $result_count, 0, 'Narrowed list by playlist id' );
 
 $t->comment( '->finalizeScan' );
-$t->is( $song_table->finalizeScan( 1 ), 2, 'finalized scan successfully' );
+$t->is( $song_table->finalizeScan( 1 ), 1, 'finalized scan successfully' );
