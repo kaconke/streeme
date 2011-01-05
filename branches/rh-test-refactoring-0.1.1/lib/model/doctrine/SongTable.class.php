@@ -151,7 +151,7 @@ class SongTable extends Doctrine_Table
     $q = Doctrine_Query::create()
       ->select( 's.filename' )
       ->from( 'Song s' )
-      ->where( 'TRUE' );
+      ->where( '( 1 = 1 )' );
     switch( $type )
     {
       case 'artist':
@@ -332,7 +332,7 @@ class SongTable extends Doctrine_Table
     $query .= 'LEFT JOIN ';
     $query .= ' genre ';
     $query .= 'ON song.genre_id = genre.id ';
-    $query .= 'WHERE TRUE ';
+    $query .= 'WHERE ( 1 = 1 ) ';
     if( !is_null( $settings['playlist_id'] ) )
     {
       $query .= ' AND playlist_files.playlist_id = :playlist_id ';
@@ -382,8 +382,6 @@ class SongTable extends Doctrine_Table
       $query .= ' AND ( song.name LIKE :search OR album.name LIKE :search OR artist.name LIKE :search ) ';
       $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
     }
-    $query .= 'ORDER BY ';
-    $query .= $order_by_string . ' ';
     
     //get a count of rows returned by this query before applying pagination
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
@@ -391,14 +389,16 @@ class SongTable extends Doctrine_Table
     $success = $stmt->execute( $parameters );
     if( $success )
     {
-      $result_count = $stmt->rowCount();
+      while( $row = $stmt->fetch() ) $result_count++;
     }
     else
     {
       return false;
     }
     
-    //get the data set
+    //get the data set with pagination and ordering
+    $query .= 'ORDER BY ';
+    $query .= $order_by_string . ' ';
     $query .= ' LIMIT ';
     $query .= (int) $settings[ 'limit' ];
     $query .= ' OFFSET ';

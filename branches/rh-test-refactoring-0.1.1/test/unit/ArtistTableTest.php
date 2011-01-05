@@ -19,7 +19,7 @@ $t->is( $third_insert_id, $fourth_insert_id, 'Updated an identical artist entry 
 $t->comment( '->getList' );
 $list = $artist_table->getList( 'all' );
 $count = count( $list );
-$t->is( $count, '2', 'Successfully listed all artists' );
+$t->is( $count, 2, 'Successfully listed all artists' );
 $list2 = $artist_table->getList( 'S' );
 $count2 = count( $list2 );
 $t->is( $list2[0]['name'], 'Sigur Rós', 'Successfully selected Letter S in alpha grouping' );
