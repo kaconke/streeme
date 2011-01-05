@@ -48,7 +48,7 @@ class PlaylistTable extends Doctrine_Table
     //delete associated playlist files  
     $qpf = Doctrine_Query::create()
       ->delete( 'PlaylistFiles pf' )
-      ->where( 'pf.playlist_id = ?', playlist_id  )
+      ->where( 'pf.playlist_id = ?', $playlist_id  )
       ->execute();
     return ( $qp + $qpf );
   }

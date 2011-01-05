@@ -3,7 +3,7 @@
  * Media Scanner
  *
  * This class manages the library scanning process for a users music library. It will scan and update/add songs
- * and cleanup old
+ * and cleanup songs that have been removed or are out of date
  *
  * @package    streeme
  * @subpackage media scanner
@@ -16,7 +16,7 @@ class MediaScan
   /**
    * int: Stores the last scan id for this scanning session
    */
-  protected $last_scan_id = false;
+  public $scan_id = false;
   
   /**
    * int: This is a counter for songs skipped during the scan
@@ -36,17 +36,17 @@ class MediaScan
   /**
    * int: count artists added during the scan
    */
-  public $added_artists= 0;
+  public $added_artists= array();
   
   /**
    * int: count albums added during the scan
    */
-  public $added_albums= 0;
+  public $added_albums= array();
   
   /**
    * int: count custom genres added during the scan
    */
-  public $added_genres= 0;
+  public $added_genres= array();
   
   /**
    * int: count songs removed during the scan
@@ -114,31 +114,43 @@ class MediaScan
   }
   
   /**
-  * Populate the song list from an array
-  * Parameter order is not important
-  * @param $song_array array - contents
-  *   artist_name     str name of the artist
-  *   album_name      str name of the album
-  *   genre_name      str genre name
-  *   id3_genre_id    int id3 V1 or winamp extension ID eg. 0 - 125
-  *   song_name       str name of the song
-  *   song_length     str mins:secs
-  *   accurate_length int milliseconds
-  *   size            int file size
-  *   bitrate         int bitrate
-  *   year            int year
-  *   track_number    int track number on the album
-  *   label           str label
-  *   mtime           int time modified unix timestamp
-  *   atime           int time added to itunes unix timestamp
-  *   filename        str itunes style filename
-  *  @return          int: new song id
-  */
+   * Populate the song list from an array
+   * Parameter order is not important
+   * @param $song_array array - contents
+   *   artist_name     str name of the artist
+   *   album_name      str name of the album
+   *   genre_name      str genre name
+   *   id3_genre_id    int id3 V1 or winamp extension ID eg. 0 - 125
+   *   song_name       str name of the song
+   *   song_length     str mins:secs
+   *   accurate_length int milliseconds
+   *   size            int file size
+   *   bitrate         int bitrate
+   *   year            int year
+   *   track_number    int track number on the album
+   *   label           str label
+   *   mtime           int time modified unix timestamp
+   *   atime           int time added to itunes unix timestamp
+   *   filename        str itunes style filename
+   *  @return          int: new song id
+   */
   public function add_song( $song_array )
   {
     $artist_id = Doctrine_Core::getTable('Artist')->addArtist( $song_array['artist_name'] );
+    if( !empty( $artist_id ) )
+    {
+      $this->added_artists[ $artist_id ] = 1;
+    }
     $album_id = Doctrine_Core::getTable('Album')->addAlbum( $song_array['album_name'] );
+    if( !empty( $album_id ) )
+    {
+      $this->added_albums[ $album_id ] = 1;
+    }
     $genre_id = Doctrine_Core::getTable('Genre')->addGenre( $song_array['genre_name'] );
+    if( !empty( $genre_id ) && $genre_id > 126 )
+    {
+      $this->added_genres[ $genre_id ] = 1;
+    }
     $song_id = Doctrine_Core::getTable('Song')->addSong( $artist_id, $album_id, $genre_id, $this->scan_id, $song_array );
     $this->added_songs++;
    
@@ -146,13 +158,37 @@ class MediaScan
   }
   
   /**
-   * Finalize Scan - remove all out of date/missing songs and associations
+   * Clean up songs that did not check in during the scan - remove their associated
+   * relations to genre, albums, artists as well
+   * @return           int total records removed in the cleanup 
    */
   public function finalize_scan()
   {
-    $this->removed_songs = Doctrine_Core::getTable('Song')->finalizeScan( $this->last_scan_id );
+    $this->removed_songs   = Doctrine_Core::getTable('Song')->finalizeScan( $this->scan_id );
     $this->removed_artists = Doctrine_Core::getTable('Artist')->finalizeScan();
-    $this->removed_albums = Doctrine_Core::getTable('Album')->finalizeScan();
-    $this->removed_genres = Doctrine_Core::getTable('Genre')->finalizeScan();
+    $this->removed_albums  = Doctrine_Core::getTable('Album')->finalizeScan();
+    $this->removed_genres  = Doctrine_Core::getTable('Genre')->finalizeScan();
+    return $this->removed_songs + $this->removed_artists + $this->removed_albums + $this->removed_genres;
+  }
+  
+  /**
+   * Summarize changes made to a user's library at the very end of a scan
+   * @return           str an summary of actions taken during scanning
+   */
+  public function get_summary()
+  {
+    $string  = null;
+    $string .= 'Total Songs Scanned: ' . (string) $this->total_songs . " \r\n";
+    $string .= 'Songs Skipped: ' . (string) $this->skipped_songs . " \r\n";
+    $string .= 'Songs Added: ' . (string) $this->added_songs . " \r\n";
+    $string .= 'Albums Added: ' . (string) count( $this->added_albums ) . " \r\n";
+    $string .= 'Artists Added: ' . (string) count( $this->added_artists ) . " \r\n";
+    $string .= 'Custom Genres Added: ' . (string) count( $this->added_genres ) . " \r\n";
+    $string .= 'Songs Removed: ' . (string) $this->removed_songs . " \r\n";
+    $string .= 'Albums Removed: ' . (string) $this->removed_albums . " \r\n";
+    $string .= 'Artists Removed: ' . (string) $this->removed_artists . " \r\n";      
+    $string .= 'Custom Genres Removed: ' . (string) $this->removed_genres . " \r\n";   
+  
+    return $string; 
   }
 }

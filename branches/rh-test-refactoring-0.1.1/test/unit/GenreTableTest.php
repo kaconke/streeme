@@ -36,4 +36,5 @@ $t->is( $count3, 1, 'List narrowed to 1 result by alpha group');
 $t->is( $list2[0]['name'], 'Some Awesome Custom Genre! Woo!', 'Alpha char is case insensitive' );
 
 $t->comment( '->finalizeScan' );
+$genre_table->addGenre( 'This should be deleted on next finalize' );
 $t->is( $genre_table->finalizeScan(), 1, 'finalized scan successfully' );

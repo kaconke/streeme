@@ -2,10 +2,9 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 6, new lime_output_color() );
+$t = new lime_test( 8, new lime_output_color() );
 
 $valid_test_song = array(
-                          'last_scan_id' => 1, //int: scan primary key
                           'artist_name' => 'Gorillaz', //string
                           'album_name' => 'Gorillaz Compilation', //string
                           'genre_name' => 'Electronic', //string
@@ -23,7 +22,6 @@ $valid_test_song = array(
                         );
 
 $utf8_test_song = array(
-                          'last_scan_id' => 2, //int: scan primary key
                           'artist_name' => 'Sigur Rós', //string
                           'album_name' => 'með suð í eyrum við spilum endalaust', //string
                           'genre_name' => 'Русский', //string
@@ -51,13 +49,13 @@ $t->like( $first_insert_id, '/\d+/', 'Successfully added a song to the database'
 $t->is( $media_scan->is_scanned( 'file://localhost/home/notroot/music/test.mp3', '1293300000' ), true, 'Song Record Exists Now' );
 
 $t->comment( '->add_song()' );
+$media_scan = new MediaScan();
 $second_insert_id = $media_scan->add_song( $utf8_test_song );
 $t->like( $second_insert_id, '/\d+/', 'Successfully added a UTF-8 Song entry.' );
 $t->is( $media_scan->is_scanned( 'file://localhost/home/notroot/music/Fließgewässer.mp3', '1293300023' ), true, 'is_scanned sucessfully found UTF-8 filename' );
 
 $t->comment( '->finalize_scan()' );
-$records_deleted = $media_scan->finalize_scan();
-$t-is( $records_deleted, '4', 'Removed Song and Associations')
+$t->is( $media_scan->finalize_scan(), 4, 'Removed Song and Associations' );
 
-
-
+$t->comment( '->get_summary()' );
+$t->is( is_string( $media_scan->get_summary() ), true, 'returned string' );

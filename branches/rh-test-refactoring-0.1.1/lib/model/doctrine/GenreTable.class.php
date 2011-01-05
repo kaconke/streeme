@@ -76,7 +76,7 @@ class GenreTable extends Doctrine_Table
     $q = Doctrine_Query::create()
       ->delete('Genre g')
       ->where('g.id NOT IN (SELECT s.genre_id FROM song AS s)')
-      ->andWhere( 'g.id > 125' )
+      ->andWhere( 'g.id > 126' )
       ->execute();
     return $q;
   }
