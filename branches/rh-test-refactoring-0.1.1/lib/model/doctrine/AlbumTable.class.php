@@ -70,6 +70,51 @@ class AlbumTable extends Doctrine_Table
   }
   
   /**
+  *  return a pair of artist and album for scanning - skip previously flagged scans
+  *  @param source  str: the art source: amazon|meta|folders|service
+  *  @return        array: artist and song names
+  */
+  public function getUnscannedArtList( $source )
+  {
+    $query  = 'SELECT DISTINCT ';
+    $query .= ' album.id as album_id, album.name as album_name, artist.name as artist_name, song.filename as song_filename ';
+    $query .= 'FROM ';
+    $query .= ' song ';
+    $query .= 'LEFT JOIN '; 
+    $query .= ' album ON song.album_id = album.id ';
+    $query .= 'LEFT JOIN '; 
+    $query .= ' artist ON song.artist_id = artist.id ';
+    $query .= 'WHERE ';
+    $query .= ' album.id IS NOT NULL ';
+    switch ( $source )
+    {
+      case 'amazon':
+        $query .= ' AND album.amazon_flagged != 1 ';
+        break;
+      
+      case 'meta':
+        $query .= ' AND album.meta_flagged != 1 ';
+        break;
+        
+      case 'folders':
+        $query .= ' AND album.folders_flagged != 1 ';
+        break;
+        
+      case 'service':
+        $query .= ' AND album.service_flagged != 1 ';
+        break;
+    }
+    $query .= ' AND album.has_art != 1 '; 
+    $query .= ' ORDER BY album.id ASC ';
+    
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $stmt = $dbh->prepare( $query );
+    $stmt->execute( array() );
+    
+    return $stmt->fetchAll(Doctrine::FETCH_ASSOC);
+  }
+  
+  /**
    * Update an album to flag it as scanned but failed to add art for a given source
    * @param album_id int: the album id field to update
    * @param scan_id  int: the scan id

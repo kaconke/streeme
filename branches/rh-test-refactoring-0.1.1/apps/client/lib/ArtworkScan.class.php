@@ -33,14 +33,22 @@ Class ArtworkScan
    *  return the current scan_id in the scanning sequence
    *  @return        int:scan_id
    */
-  public function get_scan_id()
+  public function get_last_scan_id()
   {
     return $this->scan_id;
   }
-    
+
+  /**
+   * return the source type
+   */
+  public function get_source()
+  {
+    return $this->source;
+  }
+  
   public function get_unscanned_artwork_list()
   {
-    return Doctrine::getTable( 'Album' )->getUnscannedArtList( $this->source );
+    return Doctrine::getTable( 'Album' )->getUnscannedArtList( $this->get_source() );
   }
   
   /**
@@ -82,10 +90,10 @@ Class ArtworkScan
   }
     
   /**
-   * Summarizes Details from the Scan
-   * @return         str summary log string
+   * Summarize changes made to a user's library at the very end of a scan
+   * @return           str an summary of actions taken during scanning
    */
-  public function summarize()
+  public function get_summary()
   {
     $total_albums = Doctrine_Core::getTable( 'Album' )->getTotalAlbumsCount();
     $albums_with_art = Doctrine_Core::getTable( 'Album' )->getAlbumsWithArtCount();
