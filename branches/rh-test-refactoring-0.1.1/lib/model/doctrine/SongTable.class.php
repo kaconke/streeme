@@ -389,7 +389,18 @@ class SongTable extends Doctrine_Table
     $success = $stmt->execute( $parameters );
     if( $success )
     {
-      while( $row = $stmt->fetch() ) $result_count++;
+      $row_count = $stmt->rowCount();
+      
+      if( $row_count > 1 )
+      {
+        //most databases have an optimized rowCount API
+        $result_count = $row_count;
+      }
+      else
+      { 
+        //sqlite compatibility: rowCount will only return 0 or 1
+        while( $row = $stmt->fetch() ) $result_count++;
+      }
     }
     else
     {

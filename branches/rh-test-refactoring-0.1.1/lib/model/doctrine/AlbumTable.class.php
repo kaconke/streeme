@@ -23,7 +23,7 @@ class AlbumTable extends Doctrine_Table
    * @return     int: the primary key added or found
    */
   public function addAlbum( $name )
-  {
+  {    
     //is this name already in the collection?
     $q = Doctrine_Query::create()
       ->select( 'a.id' )
