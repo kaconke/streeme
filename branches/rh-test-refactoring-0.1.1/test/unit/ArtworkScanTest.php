@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 1, new lime_output_color() );
+$t = new lime_test( 12, new lime_output_color() );
 
 //add the required fixtures
 Doctrine::loadData(sfConfig::get('sf_test_dir').'/fixtures/40_ArtworkScan');

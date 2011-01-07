@@ -138,6 +138,9 @@ foreach( $artwork_list as $key => $value )
   }
 } 
 
+//summarize the results of the scan
+echo "\r\n";
+echo $artwork_scanner->get_summary();
   
 /**
 * generates a constrained image and returns the data stream 

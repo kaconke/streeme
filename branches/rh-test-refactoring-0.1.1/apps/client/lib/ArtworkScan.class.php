@@ -15,7 +15,7 @@ Class ArtworkScan
 {
   protected $scan_id = 0;
   protected $total_artwork = 0;
-  protected $skipped_artwork = 0;
+  protected $skipped_artwork = array();
   protected $added_artwork = 0;
   protected $source;
     
@@ -61,7 +61,7 @@ Class ArtworkScan
     $success = Doctrine_Core::getTable( 'Album' )->setAlbumArtSourceScanned( $album_id, $this->scan_id , $this->source );
     if( $success )
     {
-      $this->skipped_artwork++;
+      $this->skipped_artwork[ $album_id ] = 1;
       return true;
     }
     else
@@ -97,10 +97,11 @@ Class ArtworkScan
   {
     $total_albums = Doctrine_Core::getTable( 'Album' )->getTotalAlbumsCount();
     $albums_with_art = Doctrine_Core::getTable( 'Album' )->getAlbumsWithArtCount();
+    $skipped_artwork = count( $this->skipped_artwork );
     $string  = null;
     $string .= 'Total Albums: ' . $total_albums . " \r\n";
     $string .= 'Total Albums with Art: ' .  $albums_with_art . ' (' . @( floor ( ( $albums_with_art / $total_albums ) * 100 ) ) . '%)' . "\r\n";
-    $string .= 'Artwork Unavailable this Scan: ' . (string) $this->skipped_artwork . " \r\n";
+    $string .= 'Artwork Unavailable this Scan: ' . (string) $skipped_artwork . " \r\n";
     $string .= 'Artwork Added this Scan: ' . (string) $this->added_artwork . " \r\n";
     
     return $string;

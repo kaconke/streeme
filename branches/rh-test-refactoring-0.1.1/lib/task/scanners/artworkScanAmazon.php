@@ -18,10 +18,9 @@ $associate_services     = new AmazonPAS();
 $artwork_list           = $artwork_scanner->get_unscanned_artwork_list();
 $current_album_id       = 0;
 
-if ( !$artwork_list )
+if ( count( $artwork_list ) == 0 )
 {
   echo( "*** Songs have all been cross-checked with Amazon ***" );
-  $artwork_list = array();
 }
 
 foreach( $artwork_list as $key => $value )
@@ -114,5 +113,9 @@ foreach( $artwork_list as $key => $value )
  
   $artwork_scanner->flag_as_added( $value[ 'album_id' ] );
 }
+
+//summarize the results of the scan
+echo "\r\n";
+echo $artwork_scanner->get_summary();
 
 ?>

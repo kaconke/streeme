@@ -70,10 +70,10 @@ class AlbumTable extends Doctrine_Table
   }
   
   /**
-  *  return a pair of artist and album for scanning - skip previously flagged scans
-  *  @param source  str: the art source: amazon|meta|folders|service
-  *  @return        array: artist and song names
-  */
+   *  return a pair of artist and album for scanning - skip previously flagged scans
+   *  @param source  str: the art source: amazon|meta|folders|service
+   *  @return        array: artist and song names
+   */
   public function getUnscannedArtList( $source )
   {
     $query  = 'SELECT DISTINCT ';
