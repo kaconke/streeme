@@ -574,7 +574,7 @@ streeme = {
 			if( $( '#random' ) )
 			{
 			  $( '#random' ).addClass( 'randomsong' );  
-				$( '#random' ).removeClass( 'randomsongactive' )  
+			  $( '#random' ).removeClass( 'randomsongactive' )  
 			}
 
 			streeme.random = false;
@@ -913,6 +913,9 @@ streeme = {
 		{
 			$( '#songlist_filter input' ).val( '' );
 			$( '#songlist_filter input' ).trigger('keyup');
+			$( '#random' ).addClass( 'randomsong' );  
+			$( '#random' ).removeClass( 'randomsongactive' );
+			streeme.random = false;
 			streeme.playingPlaylist = false;
 			streeme.showPlaylistButtons();
 		}
