@@ -5,7 +5,9 @@ class scheduledscanTask extends sfBaseTask
   protected function configure()
   {
     $this->addOptions(array(
-      new sfCommandOption('type', null, sfCommandOption::PARAMETER_REQUIRED, 'The type of scan to run - see opts'),
+      new sfCommandOption( 'application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'client' ),
+      new sfCommandOption( 'env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod' ),
+      new sfCommandOption( 'connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine' ),
     ));
 
     $this->namespace        = '';
@@ -24,10 +26,9 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    //bootstrap "client" context
-    require_once( dirname(__FILE__) . '/../../config/ProjectConfiguration.class.php' );
-    $configuration = ProjectConfiguration::getApplicationConfiguration( 'client', 'prod', false );
-    $context = sfContext::createInstance( $configuration );
+    // initialize the database connection
+    $databaseManager = new sfDatabaseManager($this->configuration);
+    $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     
     $scan_list = sfConfig::get('app_msp_media_scan_plan');
     $root_dir = sfConfig::get('sf_root_dir');
