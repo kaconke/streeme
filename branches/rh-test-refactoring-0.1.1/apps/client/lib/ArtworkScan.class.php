@@ -25,6 +25,8 @@ Class ArtworkScan
    */
   public function __construct( $source )
   {
+    //Since this class services a batch script, stop Doctrine from leaving objects in memory
+    Doctrine_Manager::connection()->setAttribute(Doctrine_Core::ATTR_AUTO_FREE_QUERY_OBJECTS, true );
     $this->source = $source;
     $this->scan_id = Doctrine_Core::getTable('Scan')->addScan( 'artwork' );
   }

@@ -21,3 +21,4 @@ all:
       attributes:
         default_table_collate: utf8_general_ci
         default_table_charset: utf8
+      profiler: false
