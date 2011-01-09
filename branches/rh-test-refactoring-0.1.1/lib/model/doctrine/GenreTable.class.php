@@ -25,6 +25,16 @@ class GenreTable extends Doctrine_Table
   public function addGenre( $name )
   {
     //is this name already in the collection?
+    if( is_numeric( $name ) && $name < 127 )
+    {
+      $result = $this->find( $name );
+    }
+    
+    if( is_numeric( $name ) && $name > 126 )
+    {
+      $name = 'Uncategorized';
+    }
+  
     $q = Doctrine_Query::create()
       ->select( 'g.id' )
       ->from( 'Genre g' )

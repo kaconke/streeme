@@ -138,31 +138,39 @@ class MediaScan
    */
   public function add_song( $song_array )
   {
-    $artist_id = Doctrine_Core::getTable('Artist')->addArtist( $song_array['artist_name'] );
+    $artist_name = ( $song_array['artist_name'] ) ? $song_array['artist_name'] : 'Unknown Artist';
+    $artist_id = Doctrine_Core::getTable('Artist')->addArtist( $artist_name );
     if( !empty( $artist_id ) )
     {
       $this->added_artists[ $artist_id ] = 1;
     }
-    $album_id = Doctrine_Core::getTable('Album')->addAlbum( $song_array['album_name'] );
+    
+    $album_name = ( $song_array['album_name'] ) ? $song_array['album_name'] : 'Unknown Album';
+    $album_id = Doctrine_Core::getTable('Album')->addAlbum( $album_name );
     if( !empty( $album_id ) )
     {
       $this->added_albums[ $album_id ] = 1;
     }
-    $genre_id = Doctrine_Core::getTable('Genre')->addGenre( $song_array['genre_name'] );
+    
+    $genre_name = ( $song_array['genre_name'] ) ? $song_array['genre_name'] : 'Uncategorized';
+    $genre_id = Doctrine_Core::getTable('Genre')->addGenre( $genre_name );
     if( !empty( $genre_id ) && $genre_id > 126 )
     {
       $this->added_genres[ $genre_id ] = 1;
     }
+    
     $song_id = Doctrine_Core::getTable('Song')->addSong( $artist_id, $album_id, $genre_id, $this->scan_id, $song_array );
     $this->added_songs++;
-   
+
+    unset( $artist_name, $artist_id, $album_name, $album_id, $genre_name, $genre_id, $song_array );
+    
     return $song_id;
   }
   
   /**
    * Clean up songs that did not check in during the scan - remove their associated
    * relations to genre, albums, artists as well
-   * @return           int total records removed in the cleanup 
+   * @return           int total records removed in the cleanup
    */
   public function finalize_scan()
   {
@@ -188,9 +196,9 @@ class MediaScan
     $string .= 'Custom Genres Added: ' . (string) count( $this->added_genres ) . " \r\n";
     $string .= 'Songs Removed: ' . (string) $this->removed_songs . " \r\n";
     $string .= 'Albums Removed: ' . (string) $this->removed_albums . " \r\n";
-    $string .= 'Artists Removed: ' . (string) $this->removed_artists . " \r\n";      
-    $string .= 'Custom Genres Removed: ' . (string) $this->removed_genres . " \r\n";   
+    $string .= 'Artists Removed: ' . (string) $this->removed_artists . " \r\n";
+    $string .= 'Custom Genres Removed: ' . (string) $this->removed_genres . " \r\n";
   
-    return $string; 
+    return $string;
   }
 }

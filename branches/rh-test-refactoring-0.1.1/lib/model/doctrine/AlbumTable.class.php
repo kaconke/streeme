@@ -23,7 +23,7 @@ class AlbumTable extends Doctrine_Table
    * @return     int: the primary key added or found
    */
   public function addAlbum( $name )
-  {    
+  {
     //is this name already in the collection?
     $q = Doctrine_Query::create()
       ->select( 'a.id' )
@@ -39,6 +39,10 @@ class AlbumTable extends Doctrine_Table
     {
       $item = new Album;
       $item->name = $name;
+      if( $name == 'Unknown Album' )
+      {
+        $item->has_art = 1; //there's no point scanning an unknown album for art
+      }
       $item->scan_id = 1;
       $item->save();
       return $item->getId();
@@ -80,9 +84,9 @@ class AlbumTable extends Doctrine_Table
     $query .= ' album.id as album_id, album.name as album_name, artist.name as artist_name, song.filename as song_filename ';
     $query .= 'FROM ';
     $query .= ' song ';
-    $query .= 'LEFT JOIN '; 
+    $query .= 'LEFT JOIN ';
     $query .= ' album ON song.album_id = album.id ';
-    $query .= 'LEFT JOIN '; 
+    $query .= 'LEFT JOIN ';
     $query .= ' artist ON song.artist_id = artist.id ';
     $query .= 'WHERE ';
     $query .= ' album.id IS NOT NULL ';
@@ -104,7 +108,7 @@ class AlbumTable extends Doctrine_Table
         $query .= ' AND album.service_flagged != 1 ';
         break;
     }
-    $query .= ' AND album.has_art != 1 '; 
+    $query .= ' AND album.has_art != 1 ';
     $query .= ' ORDER BY album.id ASC ';
     
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
