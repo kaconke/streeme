@@ -100,12 +100,9 @@ class MediaScan
     $this->total_songs++;
     
     //have we seen this song before?
-    $song = Doctrine_Core::getTable( 'Song' )->findByFilenameAndMtime( $filename, $mtime );
-    if( is_object( $song ) )
+    $song = Doctrine_Core::getTable( 'Song' )->updateScanId( $filename, $mtime, $this->scan_id );
+    if( $song > 0 )
     {
-      $song->last_scan_id = $this->scan_id;
-      $song->save();
-      $song->free();
       $this->skipped_songs++;
       return true;
     }

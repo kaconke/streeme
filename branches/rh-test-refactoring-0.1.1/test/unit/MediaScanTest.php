@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 26, new lime_output_color() );
+$t = new lime_test( 25, new lime_output_color() );
 
 $valid_test_song = array(
                           'artist_name' => 'Gorillaz', //string
@@ -46,13 +46,14 @@ $t->comment( '->is_scanned()');
 $t->is( $media_scan->is_scanned( 'file://localhost/home/notroot/music/test.mp3', '1293300000' ), false, 'Song should not exist yet' );
 $first_insert_id = $media_scan->add_song( $valid_test_song );
 $t->like( $first_insert_id, '/\d+/', 'Successfully added a song to the database' );
-$t->is( $media_scan->is_scanned( 'file://localhost/home/notroot/music/test.mp3', '1293300000' ), true, 'Song Record Exists Now' );
 
 $t->comment( '->add_song()' );
 $media_scan = new MediaScan();
 $second_insert_id = $media_scan->add_song( $utf8_test_song );
 $t->like( $second_insert_id, '/\d+/', 'Successfully added a UTF-8 Song entry.' );
-$t->is( $media_scan->is_scanned( 'file://localhost/home/notroot/music/Fließgewässer.mp3', '1293300023' ), true, 'is_scanned sucessfully found UTF-8 filename' );
+$t->is( $media_scan->is_scanned( 'file://localhost/home/notroot/music/test.mp3', '1293300000' ), true, 'Updated old record to new scan id number' );
+$media_scan = new MediaScan();
+$second_insert_id = $media_scan->add_song( $utf8_test_song );
 
 //Test Data Integrity after add
 $song_integrity_test = Doctrine_Core::getTable('Song')->find(2);
@@ -79,7 +80,7 @@ $t->is( $song_integrity_test->atime, 1293300011, 'integrity: last access unix ti
 $t->is( $song_integrity_test->filename, 'file://localhost/home/notroot/music/Fließgewässer.mp3', 'integrity: utf8 filename');
 
 $t->comment( '->finalize_scan()' );
-$t->is( $media_scan->finalize_scan(), 3, 'Removed Song and Associations' );
+$t->is( $media_scan->finalize_scan(), 4, 'Removed Song and Associations' );
 
 $t->comment( '->get_summary()' );
 $t->is( is_string( $media_scan->get_summary() ), true, 'returned string' );

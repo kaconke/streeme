@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 23, new lime_output_color() );
+$t = new lime_test( 24, new lime_output_color() );
 
 $song_table = Doctrine_Core::getTable('Song');
 
@@ -101,6 +101,10 @@ $t->comment( '->getSongByUniqueId');
 $unique_song = $song_table->getSongByUniqueId( $song->unique_id );
 $t->is( $unique_song->id, 2, 'Fetch record by unique id');
 
+$t->comment( '->updateScanId()');
+$affected_rows = $song_table->updateScanId( 'file://localhost/home/notroot/music/Fließgewässer.mp3', 1293300023, 2 );
+$t->is( $affected_rows, 1, 'Updated a song with a scan id');
+
 $t->comment( '->getUnscannedArtList' );
 //add the required fixtures
 Doctrine::loadData(sfConfig::get('sf_test_dir').'/fixtures/10_SongTable');
@@ -154,4 +158,4 @@ $result = $song_table->getList( array( 'playlist_id' => '1' ), $result_count, $r
 $t->is( $result_count, 0, 'Narrowed list by playlist id' );
 
 $t->comment( '->finalizeScan' );
-$t->is( $song_table->finalizeScan( 1 ), 1, 'finalized scan successfully' );
+$t->is( $song_table->finalizeScan( 1 ), 2, 'finalized scan successfully' );

@@ -99,6 +99,42 @@ class SongTable extends Doctrine_Table
   }
   
   /**
+   * Try to mark a song as scanned by filename and mtime
+   * 
+   * @param filename str: the itunes style filename of the file
+   * @param mtime    int: the timestamp we're looking for
+   * @param last_scan_id int: scan id value to update
+   * @return         rows affected
+   */
+  public function updateScanId( $filename, $mtime, $last_scan_id )
+  {
+    $query  = 'UPDATE ';
+    $query .= ' song ';
+    $query .= 'SET ';
+    $query .= ' last_scan_id = :last_scan_id ';
+    $query .= 'WHERE ';
+    $query .= ' mtime = :mtime ';   
+    $query .= ' AND filename = :filename ';
+    
+    $parameters = array();
+    $parameters['last_scan_id'] = $last_scan_id;
+    $parameters['mtime'] = $mtime;
+    $parameters['filename'] = $filename;
+  
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $stmt = $dbh->prepare( $query );
+    $success = $stmt->execute( $parameters );
+    if( $success )
+    {
+      return $stmt->rowCount();
+    }
+    else
+    {
+      return 0;
+    }
+  }
+  
+  /**
    * Fetch a list of albums that have not been scanned for art yet
    * @param source str: the artwork source: amazon|meta|folders|service etc.
    * @return       array: unscanned artwork list
