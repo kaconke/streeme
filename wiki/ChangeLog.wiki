@@ -8,7 +8,7 @@
  * Added a unit test suite 
  * Streeme now works on Postgresql, mySQL and SQLite
  * UI fixes and cleaner fail cases for songs with no albums/artists
- * Album listings on mobile interfaces work better now
+ * Fixes a problem in Album Views on mobile devices, where the data was incorrect
 
 === Version 0.1.1 ===
  * Fixed a problem on single thread PHP editions where symfony would stop servicing new responses when streaming
