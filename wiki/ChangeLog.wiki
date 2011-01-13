@@ -1,0 +1,22 @@
+#summary Changes in Versions of Streeme
+#labels Phase-Implementation
+
+= CHANGELOG =
+
+=== Version 0.2.0 ===
+ - Migrated old daabase code to Doctrine ORM 
+ - Added a unit test suite 
+ - Streeme now works on Postgresql, mySQL and SQLite
+ - UI fixes and cleaner fail cases for songs with no albums/artists
+ - Album listings on mobile interfaces work better now
+
+=== Version 0.1.1 ===
+ - Fixed a problem on single thread PHP editions where symfony would stop servicing new responses when streaming
+ - Left a console.log in javascript code 
+ - Added copyright notice for artwork / documentation and a setup readme file
+ - Added a scheduler task to schedule both music and art scans 
+ - Created a VM edition of Streeme called [InstallingStreemeHomeServer Streeme Home Server]
+
+=== Version 0.1.0 ===
+
+ - First Import - Basic music player functionality ready for release
