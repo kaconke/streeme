@@ -72,146 +72,64 @@ abstract class BaseSong extends sfDoctrineRecord
         $this->setTableName('song');
         $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
              'primary' => true,
              'autoincrement' => true,
              ));
         $this->hasColumn('unique_id', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => 255,
              ));
         $this->hasColumn('artist_id', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'default' => '0',
-             'notnull' => true,
-             'autoincrement' => false,
+             'default' => 0,
              ));
         $this->hasColumn('album_id', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'default' => '0',
-             'notnull' => true,
-             'autoincrement' => false,
+             'default' => 0,
              ));
         $this->hasColumn('genre_id', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'default' => '0',
-             'notnull' => true,
-             'autoincrement' => false,
+             'default' => 0,
              ));
         $this->hasColumn('last_scan_id', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
              'default' => '0',
-             'notnull' => true,
-             'autoincrement' => false,
              ));
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => 255,
              ));
         $this->hasColumn('length', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => 255,
              ));
         $this->hasColumn('accurate_length', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              ));
         $this->hasColumn('filesize', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              ));
         $this->hasColumn('bitrate', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              ));
         $this->hasColumn('yearpublished', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              ));
         $this->hasColumn('tracknumber', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              ));
         $this->hasColumn('label', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              'length' => 255,
              ));
         $this->hasColumn('mtime', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              ));
         $this->hasColumn('atime', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              ));
         $this->hasColumn('filename', 'text', null, array(
              'type' => 'text',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => false,
-             'autoincrement' => false,
              ));
 
 
@@ -269,7 +187,6 @@ abstract class BaseSong extends sfDoctrineRecord
               0 => 'length',
              ),
              ));
-        $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');
         $this->option('charset', 'utf8');
     }

@@ -13,8 +13,8 @@ abstract class BasePlaylistFilesFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'playlist_id' => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'filename'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'playlist_id' => new sfWidgetFormFilterInput(),
+      'filename'    => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(

@@ -22,8 +22,8 @@ abstract class BaseScanForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'        => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'scan_time' => new sfValidatorString(array('max_length' => 255)),
-      'scan_type' => new sfValidatorString(array('max_length' => 255)),
+      'scan_time' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'scan_type' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('scan[%s]');

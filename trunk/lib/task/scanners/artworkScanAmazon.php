@@ -1,27 +1,27 @@
 <?php
 /**
  * artworkScanAmazon
- * 
+ *
  * Read album art from Amazon PAS service
- * 
+ * Bes sure to review and complete the cloudfusion configuration in config/
+ *
  * @package    streeme
  * @author     Richard Hoar
  */
 error_reporting( 0 );
 require_once( dirname( __FILE__ ) . '/../../../config/cloudfusion.php' );
-require_once( dirname( __FILE__ ) . '/../../vendor/cloudfusion/cloudfusion.class.php' );   
+require_once( dirname( __FILE__ ) . '/../../vendor/cloudfusion/cloudfusion.class.php' );
 
 $artwork_scanner        = new ArtworkScan( 'amazon' );
 $associate_services     = new AmazonPAS();
 
-$artwork_list = $artwork_scanner->get_unscanned_artwork_list();
+$artwork_list           = $artwork_scanner->get_unscanned_artwork_list();
 $current_album_id       = 0;
 
-if ( !$artwork_list )
+if ( count( $artwork_list ) == 0 )
 {
   echo( "*** Songs have all been cross-checked with Amazon ***" );
-  $artwork_list = array();
-} 
+}
 
 foreach( $artwork_list as $key => $value )
 {
@@ -32,9 +32,9 @@ foreach( $artwork_list as $key => $value )
   
   echo 'Scanning: ' .  $value[ 'album_name' ] . ' by: ' .  $value[ 'artist_name' ] . "\r\n";
   
-  $opts = array( 
-              'Artist' => $value['artist_name'], 
-              'Creator' => $value['artist_name'], 
+  $opts = array(
+              'Artist' => $value['artist_name'],
+              'Creator' => $value['artist_name'],
               'SearchIndex' => 'Music',
               'ResponseGroup' => 'Medium'
            );
@@ -75,23 +75,23 @@ foreach( $artwork_list as $key => $value )
   {
     if( !isset( $imageurls['small'] ) )
     {
-      $imageurls['small']  = (string) $v->SmallImage->URL;  
+      $imageurls['small']  = (string) $v->SmallImage->URL;
     }
     if( !isset( $imageurls['medium'] ) )
     {
-      $imageurls['medium'] = (string) $v->MediumImage->URL; 
+      $imageurls['medium'] = (string) $v->MediumImage->URL;
     }
-    if( !isset( $imageurls['large'] ) )   
+    if( !isset( $imageurls['large'] ) )
     {
-      $imageurls['large']  = (string) $v->LargeImage->URL;  
+      $imageurls['large']  = (string) $v->LargeImage->URL;
     }
   }
 
   //Load the selected image url contents into a buffer
   $images = array();
-  $images['small']  = @file_get_contents( $imageurls['small'] );  
-  $images['medium'] = @file_get_contents( $imageurls['medium'] ); 
-  $images['large']  = @file_get_contents( $imageurls['large'] ); 
+  $images['small']  = @file_get_contents( $imageurls['small'] );
+  $images['medium'] = @file_get_contents( $imageurls['medium'] );
+  $images['large']  = @file_get_contents( $imageurls['large'] );
 
   //create a specially encoded directory: an md5 hash of the artist and album
   if ( !file_exists( $art_dir ) )
@@ -102,7 +102,7 @@ foreach( $artwork_list as $key => $value )
      }
   }
 
-  //write all the sizes to the directory 
+  //write all the sizes to the directory
   foreach( $images as $k => $v )
   {
      file_put_contents( $art_dir . '/' . $k . '.jpg', $v);
@@ -113,5 +113,9 @@ foreach( $artwork_list as $key => $value )
  
   $artwork_scanner->flag_as_added( $value[ 'album_id' ] );
 }
+
+//summarize the results of the scan
+echo "\r\n";
+echo $artwork_scanner->get_summary();
 
 ?>

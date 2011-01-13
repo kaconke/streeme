@@ -13,7 +13,7 @@ abstract class BaseGenreFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'name' => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'name' => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(

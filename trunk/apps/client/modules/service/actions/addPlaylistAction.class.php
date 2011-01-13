@@ -10,9 +10,8 @@ class addPlaylistAction extends sfAction
 		$name = $request->getParameter( 'name' );
     if( !isset( $name ) || empty( $name ) ) $this->forward404();
 
-    //add content
-    $playlist = new PlaylistService();
-		$playlist->add_playlist( $name );
+    //add playlist
+    Doctrine_Core::getTable('Playlist')->addPlaylist( $name );
 		exit;
   }
 }

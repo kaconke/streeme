@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-us">
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
   <?php echo get_slot( 'metaHTML' ); ?>
   <title><?php echo get_slot( 'title' ); ?></title>
   <meta name="description" content="<?php echo get_slot( 'description' ); ?>" />

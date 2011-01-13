@@ -10,9 +10,8 @@ class deletePlaylistAction extends sfAction
 		$playlist_id = $request->getParameter( 'playlist_id' );
     if( !isset( $playlist_id ) || empty( $playlist_id ) ) $this->forward404();
 
-    //add content
-    $playlist = new PlaylistService();
-		$playlist->delete_playlist( $playlist_id );
+    //delete playlist entry and all associated content
+    Doctrine_Core::getTable('Playlist')->deletePlaylist( $request->getParameter( 'playlist_id' ) );
 		exit;
   }
 }
