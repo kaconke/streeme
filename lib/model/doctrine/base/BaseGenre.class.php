@@ -27,23 +27,14 @@ abstract class BaseGenre extends sfDoctrineRecord
         $this->setTableName('genre');
         $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
              'primary' => true,
              'autoincrement' => true,
              ));
         $this->hasColumn('name', 'string', 255, array(
              'type' => 'string',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
-             'unique' => 'true;',
              'length' => 255,
              ));
 
-        $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');
         $this->option('charset', 'utf8');
     }

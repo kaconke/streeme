@@ -9,9 +9,8 @@ class addPlaylistContentAction extends sfAction
 		//validate required fields
     if ( $request->getParameter( 'playlist_id' ) == 'false' ) $this->forward404();
 
-    //add content
-    $playlist = new PlaylistService();
-		$playlist->add_to_playlist( $request->getParameter( 'playlist_id' ), $request->getParameter( 'id' ), $request->getParameter( 'type' ) );
+    //add playlist content
+    Doctrine_Core::getTable('PlaylistFiles')->addPlaylistFiles( $request->getParameter( 'playlist_id' ), $request->getParameter( 'id' ), $request->getParameter( 'type' ) );
 		exit;
   }
 }

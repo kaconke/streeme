@@ -30,30 +30,17 @@ abstract class BasePlaylistFiles extends sfDoctrineRecord
         $this->setTableName('playlist_files');
         $this->hasColumn('id', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
              'primary' => true,
              'autoincrement' => true,
              ));
         $this->hasColumn('playlist_id', 'integer', null, array(
              'type' => 'integer',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'default' => '0',
-             'notnull' => true,
-             'autoincrement' => false,
+             'default' => 0,
              ));
         $this->hasColumn('filename', 'text', null, array(
              'type' => 'text',
-             'fixed' => 0,
-             'unsigned' => false,
-             'primary' => false,
-             'notnull' => true,
-             'autoincrement' => false,
              ));
 
-        $this->option('type', 'MyISAM');
         $this->option('collate', 'utf8_unicode_ci');
         $this->option('charset', 'utf8');
     }

@@ -1,281 +1,112 @@
 <?php
-#
-# Data Access Object for Artwork Scan
-# If the Database is not yet initialized, please see the DAOLibraryinit library for a setup script
-#
+/**
+ * Artwork Scanner
+ *
+ * This class manages the library scanning process for a users artwork library. It will scan
+ * using a number of sources and caches retrieved imaged to speed up future scans
+ *
+ * @package    streeme
+ * @subpackage artwork scanner
+ * @author     Richard Hoar
+ * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
+ */
 
-Class ArtworkScan extends StreemePDODatabase
+Class ArtworkScan
 {
-  protected 
-     $scan_id,
-     $total_artwork,
-     $skipped_artwork,
-     $added_artwork,
-     $source;
+  protected $scan_id = 0;
+  protected $total_artwork = 0;
+  protected $skipped_artwork = array();
+  protected $added_artwork = 0;
+  protected $source;
     
   /**
-  * initialize the library scan by setting a new scan_id for the session
-  */
+   * initialize the library scan by setting a new scan_id for the session
+   * @param source str: amazon|meta|folders|service
+   */
   public function __construct( $source )
   {
-    parent::__construct();
-    
+    //Since this class services a batch script, stop Doctrine from leaving objects in memory
+    Doctrine_Manager::connection()->setAttribute(Doctrine_Core::ATTR_AUTO_FREE_QUERY_OBJECTS, true );
     $this->source = $source;
-    
-    $this->total_artwork = 0;
-    $this->skipped_artwork = 0;
-    $this->added_artwork = 0;
-    
-    $this->initialize_scan();
+    $this->scan_id = Doctrine_Core::getTable('Scan')->addScan( 'artwork' );
   }
   
   /**
-  * clean up files that have moved or no longer exist in the database and summarize library changes for the user
-  */
-  public function __destruct()
-  {
-    $this->finalize_scan();
-    $summary = $this->summarize();
-    
-    echo $summary;      
-  }
-  
-  /**
-  * initializes a scan session - insert a new entry into the scan log  
-  * sets the class variable scan_id, which is used to syncronize 
-  * the artwork records and speed up future scans 
-  */
-  private function initialize_scan()
-  {
-    $parameters = array();
-    
-    $query  = 'INSERT INTO ';
-    $query .= ' scan ';
-    $query .= ' SET ';
-    $query .= ' scan_time = NOW(), ';
-    $query .= ' scan_type = "artwork" ';
-    
-    $extras = array();
-    
-    $result = $this->insert( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
-    
-    $this->scan_id = $result;
-  }
-  
-  
-  /**
-  *  return the current scan_id in the scanning sequence
-  *  @return        int:scan_id
-  */
-  public function get_scan_id()
+   *  return the current scan_id in the scanning sequence
+   *  @return        int:scan_id
+   */
+  public function get_last_scan_id()
   {
     return $this->scan_id;
   }
-  
+
   /**
-  *  return a pair of artist and album for scanning - skip previously flagged scans
-  *  @return        array: artist and song names
-  */
+   * return the source type
+   */
+  public function get_source()
+  {
+    return $this->source;
+  }
+  
   public function get_unscanned_artwork_list()
   {
-    $parameters = array();
-    
-    $query  = 'SELECT DISTINCT ';
-    $query .= ' album.id as album_id, album.name as album_name, artist.name as artist_name, song.filename as song_filename ';
-    $query .= 'FROM ';
-    $query .= ' song ';
-    $query .= 'LEFT JOIN '; 
-    $query .= ' album ON song.album_id = album.id ';
-    $query .= 'LEFT JOIN '; 
-    $query .= ' artist ON song.artist_id = artist.id ';
-    $query .= 'WHERE ';
-    $query .= ' album.id IS NOT NULL ';
-    switch ( $this->source )
-    {
-      case 'amazon':
-        $query .= ' AND album.amazon_flagged != 1 ';
-        break;
-      
-      case 'meta':
-        $query .= ' AND album.meta_flagged != 1 ';
-        break;
-        
-      case 'folders':
-        $query .= ' AND album.folders_flagged != 1 ';
-        break;
-        
-      case 'service':
-        $query .= ' AND album.service_flagged != 1 ';
-        break;
-    }
-    $query .= ' AND album.has_art != 1 '; 
-    $query .= ' ORDER BY album.id ASC ';
-    
-    $extras = array( 
-                'fetch' => 'all',
-                'disable_limiting' => true
-               );
-    $settings = array();
-    $result = $this->select( $query, $parameters, $extras, $settings, get_class( $this ) . '/'. __FUNCTION__ );
-    return $result;
+    return Doctrine::getTable( 'Album' )->getUnscannedArtList( $this->get_source() );
   }
   
   /**
-  * flag an album as skipped for album art - the source images were not available
-  * @param album_id  int: the album's database ID
-  */
+   * flag an album as skipped for album art - the source images were not available
+   * @param album_id  int: the album's database ID
+   */
   public function flag_as_skipped( $album_id )
   {
-    if ( empty( $this->scan_id ) ) return false; 
-    
-    $parameters = array();
-    
-    $query  = 'UPDATE ';
-    $query .= ' album ';
-    $query .= 'SET ';
-    switch ( $this->source )
+    if ( empty( $this->scan_id ) ) return false;
+    $success = Doctrine_Core::getTable( 'Album' )->setAlbumArtSourceScanned( $album_id, $this->scan_id , $this->source );
+    if( $success )
     {
-      case 'amazon':
-        $query .= ' amazon_flagged = 1, ';
-        break;
-      
-      case 'meta':
-        $query .= ' meta_flagged = 1, ';
-        break;
-        
-      case 'folders':
-        $query .= ' folders_flagged = 1, ';
-        break;
-      
-      case 'service':
-        $query .= ' service_flagged = 1, ';
-        break;
-    }
-    $query .= ' album.scan_id = :scan_id ';
-    $query .= 'WHERE ';
-    $query .= ' album.id = :album_id ';
-    
-    $extras     = array();
-    
-    $parameters[] = array( 'scan_id', $this->scan_id, 'int' );
-    $parameters[] = array( 'album_id', $album_id );
-    
-    $result = $this->update( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
-  
-    if ( $this->get_affected_row_count() )
-    {
-      $this->skipped_artwork++;
+      $this->skipped_artwork[ $album_id ] = 1;
       return true;
     }
-    
-    return false;
+    else
+    {
+      return false;
+    }
   }
   
   /**
-  * Artwork files were successfully added for this album, so flag an album as having album art to speed up future scans
-  * @param album_id  int: the album's database ID
-  */
+   * Artwork files were successfully added for this album, so flag an album as having album art to speed up future scans
+   * @param album_id  int: the album's database ID
+   */
   public function flag_as_added( $album_id )
   {
-    if ( empty( $this->scan_id ) ) return false; 
-    
-    $parameters = array();
-    
-    $query  = 'UPDATE ';
-    $query .= ' album ';
-    $query .= 'SET ';
-    switch ( $this->source )
-    {
-      case 'amazon':
-        $query .= ' amazon_flagged = 1, ';
-        break;
-      
-      case 'meta':
-        $query .= ' meta_flagged = 1, ';
-        break;
-        
-      case 'folders':
-        $query .= ' folders_flagged = 1, ';
-        break;
-      
-      case 'service':
-        $query .= ' service_flagged = 1, ';
-        break;
-    }
-    $query .= ' has_art = 1, ';
-    $query .= ' album.scan_id = :scan_id ';
-    $query .= 'WHERE ';
-    $query .= ' album.id = :album_id ';
-    
-    $extras     = array();
-    
-    $parameters[] = array( 'scan_id', $this->scan_id, 'int' );
-    $parameters[] = array( 'album_id', $album_id );
-    
-    $result = $this->update( $query, $parameters, $extras, get_class( $this ) . '/'. __FUNCTION__ );
-    
-    if ( $this->get_affected_row_count() )
+    if ( empty( $this->scan_id ) ) return false;
+    $success = Doctrine_Core::getTable( 'Album' )->setAlbumArtAdded( $album_id, $this->scan_id , $this->source );
+    if( $success )
     {
       $this->added_artwork++;
       return true;
     }
-    return false;
+    else
+    {
+      return false;
+    }
   }
-  
-  /**
-  * Finalizes the scan - removes old artists/albums/songs that the user has removed 
-  * from the library
-  */
-  private function finalize_scan()
-  {
-  //disable database I/U/D auto limiting for the following operations
-  $extras     = array( 'disable_limiting' => true );
-  
-  //becuase of the I/U/D activity in this script, we'll need to remove table overhead/
-  //defragment at the end of the scan
-  $parameters = array();
-  
-  $query = 'OPTIMIZE TABLE `album`';
-  
-  $result = $this->update( $query, $parameters, $extras,  get_class( $this ) . '/'. __FUNCTION__ );      
-  }
-  
-  /**
-  * Get the final counts of total albums and the ones that have art for the summary
-  * @return array
-  */
-  private function get_total_art_counts()
-  {
-    $parameters = array();
     
-    $query  = 'SELECT ';
-    $query .= ' ( SELECT count(*) from album WHERE 1 ) as total_albums, ';
-    $query .= ' ( SELECT count(*) from album WHERE has_art = 1 ) as has_artwork ';
-    
-    $extras     = array( 
-                            'fetch' => 'all',
-                            'disable_limiting' => true
-                       );
-    $settings = array();
-    $result = $this->select( $query, $parameters, $extras, $settings, get_class( $this ) . '/'. __FUNCTION__ );
-    return $result;
-  }
-  
-  
   /**
-  * Summarizes Details from the Scan
-  * @return         str summary log string
-  */
-  public function summarize()
+   * Summarize changes made to a user's library at the very end of a scan
+   * @return           str an summary of actions taken during scanning
+   */
+  public function get_summary()
   {
-    $totals = $this->get_total_art_counts();
+    $total_albums = Doctrine_Core::getTable( 'Album' )->getTotalAlbumsCount();
+    $albums_with_art = Doctrine_Core::getTable( 'Album' )->getAlbumsWithArtCount();
+    $skipped_artwork = count( $this->skipped_artwork );
     $string  = null;
-    $string .= 'Total Albums: ' . (string) $totals[0]['total_albums'] . " \r\n";
-    $string .= 'Total Albums with Art: ' .  (string) $totals[0]['has_artwork'] . ' (' . @( floor ( ( $totals[0]['has_artwork'] / $totals[0]['total_albums'] ) * 100 ) ) . '%)' . "\r\n";
-    $string .= 'Artwork Unavailable this Scan: ' . (string) $this->skipped_artwork . " \r\n";
+    $string .= 'Total Albums: ' . $total_albums . " \r\n";
+    $string .= 'Total Albums with Art: ' .  $albums_with_art . ' (' . @( floor ( ( $albums_with_art / $total_albums ) * 100 ) ) . '%)' . "\r\n";
+    $string .= 'Artwork Unavailable this Scan: ' . (string) $skipped_artwork . " \r\n";
     $string .= 'Artwork Added this Scan: ' . (string) $this->added_artwork . " \r\n";
     
-    return $string; 
+    return $string;
   }
 }
 ?>

@@ -107,7 +107,11 @@ foreach( $artwork_list as $key => $value )
     $artwork_scanner->flag_as_skipped( $value[ 'album_id' ] );
   } 
 }
-  
+
+//summarize the results of the scan
+echo "\r\n";
+echo $artwork_scanner->get_summary();
+
 /**
 * generates a constrained image and returns the data stream 
 *	Good for making thumbnails or just constraining all  uploaded images. 

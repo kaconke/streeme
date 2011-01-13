@@ -21,12 +21,8 @@ abstract class BaseArtistForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'   => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'name' => new sfValidatorString(array('max_length' => 255)),
+      'name' => new sfValidatorString(array('max_length' => 255, 'required' => false)),
     ));
-
-    $this->validatorSchema->setPostValidator(
-      new sfValidatorDoctrineUnique(array('model' => 'Artist', 'column' => array('name')))
-    );
 
     $this->widgetSchema->setNameFormat('artist[%s]');
 

@@ -13,13 +13,13 @@ abstract class BaseAlbumFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'scan_id'         => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'name'            => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'amazon_flagged'  => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'meta_flagged'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'folders_flagged' => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'service_flagged' => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'has_art'         => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'scan_id'         => new sfWidgetFormFilterInput(),
+      'name'            => new sfWidgetFormFilterInput(),
+      'amazon_flagged'  => new sfWidgetFormFilterInput(),
+      'meta_flagged'    => new sfWidgetFormFilterInput(),
+      'folders_flagged' => new sfWidgetFormFilterInput(),
+      'service_flagged' => new sfWidgetFormFilterInput(),
+      'has_art'         => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(

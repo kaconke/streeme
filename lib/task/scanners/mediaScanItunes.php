@@ -7,9 +7,8 @@
  * @package    streeme
  * @author     Richard Hoar
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
- */
-error_reporting( 0 ); 
-@ require_once( dirname(__FILE__) . '/../../vendor/CFPropertyList-1.1.1/CFPropertyList.php' ); //muted - throws strict warnings 
+ */ 
+require_once( dirname(__FILE__) . '/../../vendor/CFPropertyList-1.1.1/CFPropertyList.php' );
    
 $itunes_music_library   = sfConfig::get( 'app_itunes_xml_location' );
 $mapped_drive_locations = sfConfig::get( 'app_mdl_mapped_drive_locations' );
@@ -47,10 +46,10 @@ foreach( $plist[ 'Tracks' ] as $key => $value )
   $song_array[ 'song_length' ]      = @$minutes . ':' . $seconds;
   $song_array[ 'accurate_length' ]  = @$value[ 'Total Time' ];
   $song_array[ 'genre_name' ]       = @$value[ 'Genre' ];
-  $song_array[ 'size' ]             = @$value[ 'Size' ];
+  $song_array[ 'filesize' ]         = @$value[ 'Size' ];
   $song_array[ 'bitrate' ]          = @$value[ 'Bit Rate' ];
-  $song_array[ 'year' ]             = @$value[ 'Year' ];
-  $song_array[ 'track_number']      = @$value[ 'Track Number' ];  
+  $song_array[ 'yearpublished' ]    = @$value[ 'Year' ];
+  $song_array[ 'tracknumber']       = @$value[ 'Track Number' ];  
   $song_array[ 'label' ]            = @null; //not available from itunes xml
   $song_array[ 'mtime' ]            = @$value[ 'Date Modified' ];
   $song_array[ 'atime' ]            = @$value[ 'Date Added' ];
@@ -62,4 +61,11 @@ foreach( $plist[ 'Tracks' ] as $key => $value )
      $media_scanner->add_song( $song_array );
   }
 }
+
+//finalize the scan 
+$media_scanner->finalize_scan();
+
+//summarize the results of the scan
+echo "\r\n";
+echo $media_scanner->get_summary();
 ?>

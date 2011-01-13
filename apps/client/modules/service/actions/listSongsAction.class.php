@@ -3,8 +3,8 @@ class listSongsAction extends sfAction
 {
   /**
   * Modelled on Datatables API. See their API docs for the entire request docs
-  * @see http://datatables.net/usage/server-side 
-  */ 
+  * @see http://datatables.net/usage/server-side
+  */
   protected
     $iDisplayStart,  // int Display start point
     $iDisplayLength, // int Number of records to display
@@ -36,19 +36,21 @@ class listSongsAction extends sfAction
   */
   private function create_response()
   {
-    $song = new SongService();
     $args = array(
                    'disable_limiting' => false,
                    'search'           => $this->sSearch,
                    'limit'            => $this->iDisplayLength,
-                   'offset'           => $this->iDisplayStart,  
+                   'offset'           => $this->iDisplayStart,
                    'sortcolumn'       => $this->iSortCol_0,
-                   'sortdirection'    => $this->sSortDir_0                
+                   'sortdirection'    => $this->sSortDir_0
              );
-  
-    $song_array    = $song->get_song_list( $args );
-    $found_rows    = $song->get_found_rows();
-    $total_library = $song->get_library_metrics(); 
+    
+    $result_count = $result_list = null;
+    $result = Doctrine_Core::getTable('Song')->getList( $args, $result_count, $result_list );
+
+    $song_array    = $result_list;
+    $found_rows    = $result_count;
+    $total_library = Doctrine_Core::getTable('Song')->getTotalSongCount();
     
     switch( $this->output_format )
     {
@@ -57,14 +59,14 @@ class listSongsAction extends sfAction
         break;
     }
     exit;
-  } 
+  }
   
   /*
   * JSON Conversion with a touch of post processing for presentation
-  * @param song_array     array: the data set to encode 
+  * @param song_array     array: the data set to encode
   * @param found_rows     int: total number of found rows
-  * @param total_library  int: the complete library song count 
-  * @return               str: JSON encoded serialized array 
+  * @param total_library  int: the complete library song count
+  * @return               str: JSON encoded serialized array
   */
   private function to_json_dataTable( $song_array = array(), $found_rows, $total_library )
   {
@@ -87,7 +89,7 @@ class listSongsAction extends sfAction
              if( $key == 'unique_id' )
              {
                $unique_id = $value;
-             } 
+             }
              if( $key == 'name' && strpos(  $this->sSearch, 'playlistid:' ) === false )
              {
                 $addtoplaylistbutton = '<div class="ap" onclick="streeme.addpls( \'song\', \'' . $unique_id . '\'  )"></div>';
@@ -100,6 +102,22 @@ class listSongsAction extends sfAction
              {
                $playsongbutton = '<div class="ps"></div>';
              }
+             if( $key == 'date_modified')
+             {
+               $value = ( $value ) ? date( 'Y-m-d', $value ) : '--';
+             }
+             if( $key == 'yearpublished' )
+             {
+               $value = ( $value ) ? $value : '--';
+             }
+             if( $key == 'tracknumber' )
+             {
+               $value = ( $value ) ? $value : '--';
+             }
+             if( $key == 'length' )
+             {
+               $value = ( $value ) ? $value : '--';
+             }
              $string .= ( ( $value ) ?  $addtoplaylistbutton . $playsongbutton . $value : '0' ) . '%*=*=*%';
           }
           $convert = explode( '%*=*=*%', rtrim( $string, '%*=*=*%' ) );
@@ -111,9 +129,9 @@ class listSongsAction extends sfAction
     {
        $flattened = null;
     }
-    $aadata[ 'sEcho' ] = (int) $this->sEcho; 
-    $aadata[ 'iTotalRecords' ] = (int) $total_library[0][ 'song_count' ];
-    $aadata[ 'iTotalDisplayRecords' ] = (int) $found_rows; 
+    $aadata[ 'sEcho' ] = (int) $this->sEcho;
+    $aadata[ 'iTotalRecords' ] = (int) Doctrine_Core::getTable('Song')->getTotalSongCount();
+    $aadata[ 'iTotalDisplayRecords' ] = (int) $found_rows;
     $aadata[ 'aaData' ] = ( $flattened ) ? $flattened : $empty_resultset;
     
     return json_encode( $aadata );

@@ -17,7 +17,7 @@
   echo ' <tr>';
   foreach ( $list as $alpha => $label )
   {
-    echo '<td onclick="streeme.uiLetterbarScroll( \'' . $element_id . '\', \'' . $prefix . strtolower( $label ) . '\' ); return false;">' . strtoupper( $label ) . '</td>';
+    echo '<td onclick="streeme.uiLetterbarScroll( \'' . $element_id . '\', \'' . $prefix . strtolower( ( ( $label == '#' ) ? '123' : $label ) ) . '\' ); return false;">' . strtoupper( $label ) . '</td>';
   }
   echo ' </tr>';
   echo '</table>';
