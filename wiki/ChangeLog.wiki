@@ -3,6 +3,9 @@
 
 = CHANGELOG =
 
+=== Version 0.2.1 ===
+ * Corrected a bug in the media proxy that could sometimes hang Chrome while transcoding
+
 === Version 0.2.0 ===
  * Migrated old database code to Doctrine ORM 
  * Added a unit test suite 
