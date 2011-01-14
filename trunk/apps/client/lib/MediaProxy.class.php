@@ -249,7 +249,7 @@ class MediaProxy
         $args .= sprintf( '-f %s ', 'mp3' ); //container                                     
         break;     
       case 'ogg':
-        $args .= sprintf( '-aq %d ', intval( $this->argbitrate ) / 2 ); //vbr quality
+        $args .= sprintf( '-aq %d ', floor( intval( $this->argbitrate ) / 2.5 ) ); //vbr quality
         $args .= sprintf( '-acodec %s ', 'vorbis' ); 
         $args .= sprintf( '-f %s ', 'ogg' );                                      
         break;
@@ -268,7 +268,6 @@ class MediaProxy
   {
     if( $this->allow_transcoding )
     {
-      header( "Retry-After: 30" );
       $this->ffmpeg_args = $this->get_ffmpeg_args();
       switch ( $this->argformat )
       {
@@ -291,11 +290,7 @@ class MediaProxy
    */
   private function output_mp3()
   {
-    $new_filesize = (( $this->source_duration / 1000 ) //time in seconds 
-                  * ( $this->target_bitrate * 1000 ) //bitrate 
-                  / 8 ) // convert to bytes
-                  - 1024; //trim 1024 bytes for headers
-  	header( 'Content-Length:' . $new_filesize );
+    header( 'Content-Length: 999999999' );
   	passthru( $this->ffmpeg_executable . ' ' . $this->ffmpeg_args );
 	}
   
@@ -304,7 +299,7 @@ class MediaProxy
    */
   private function output_ogg()
   {
-  	header( 'Content-Length: 99999999' );
+  	header( 'Content-Length: 999999999' );
   	passthru( $this->ffmpeg_executable . ' ' . $this->ffmpeg_args );
   }
 }
