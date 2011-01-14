@@ -175,6 +175,7 @@ class MediaProxy
     header("HTTP/1.1 200 OK");
     header("Content-Type: " . ( ( $this->user_requested_format ) ? $this->target_type : $this->source_type ) );
     header("Content-Disposition: inline; filename=" . iconv( 'UTF-8', 'ASCII//TRANSLIT', $this->source_filename . $this->target_extension ) );
+    header("Content-Encoding: none");
     $this->ffmpeg_passthru();
   }
   
@@ -193,7 +194,8 @@ class MediaProxy
     header( "icy-br: " . $this->target_bitrate );
     header( "icy-metaint: 8192" );
     header( "Content-Type: " . ( ( $this->user_requested_format ) ? $this->target_type : $this->source_type ) );
-   
+    header("Content-Encoding: none");  
+    
     $this->ffmpeg_passthru();
   }
   
@@ -290,7 +292,11 @@ class MediaProxy
    */
   private function output_mp3()
   {
-    header( 'Content-Length: 999999999' );
+    $new_filesize = (( $this->source_duration / 1000 ) //time in seconds 
+                  * ( $this->target_bitrate * 1000 ) //bitrate 
+                  / 8 ) // convert to bytes
+                  - 1024; //trim 1024 bytes for headers
+  	header( 'Content-Length:' . $new_filesize );
   	passthru( $this->ffmpeg_executable . ' ' . $this->ffmpeg_args );
 	}
   
