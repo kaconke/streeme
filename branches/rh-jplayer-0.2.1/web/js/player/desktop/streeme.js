@@ -388,7 +388,7 @@ streeme = {
 	{
 		if( streeme.queuedSongId != false )
 		{
-			//build HTTP request	
+			//build HTTP request for the song	
 			var parameters = new Array();
 			if( streeme.bitrate != 0 )
 			{
@@ -405,13 +405,27 @@ streeme = {
 	
 			url = mediaurl + '/play/' + streeme.queuedSongId + '?' + parameters.join('&');
 			
-			//firefox/chrome logging only 
-			//console.log ( url );
-			el = document.getElementById( 'musicplayer' );
-			el.src = ( url );
-			el.preload = 'none';
-			el.load();
-			el.play(); 
+			//for some browsers, we need to use jplayer to play certain codecs
+			if( $( '#jquery_jplayer_1' ).length )
+			{				
+				$( '#jquery_jplayer_1' ).jPlayer("setMedia", {
+												  mp3: url
+												 });				
+				$( '#jquery_jplayer_1' ).jPlayer("load");
+				$( '#jquery_jplayer_1' ).jPlayer("play");			
+			}
+			
+			//otherwise use the browser's html player 
+			else
+			{				
+				//firefox/chrome logging only 
+				//console.log ( url );
+				el = document.getElementById( 'musicplayer' );
+				el.src = ( url );
+				el.preload = 'none';
+				el.load();
+				el.play(); 
+			}
 			
 			//clear the queue
 			streeme.queuedSongId = false;
