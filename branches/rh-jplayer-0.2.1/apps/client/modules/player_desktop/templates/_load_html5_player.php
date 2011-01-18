@@ -68,11 +68,7 @@ EOL;
 
 $jplayer_player_loader = <<<EOL
 $("#jquery_jplayer_1").jPlayer({
-                                ended: function() { 
-                                  streeme.playNextSong();
-                                },
                                 swfPath: "/js/jQuery.jPlayer.2.0.0",
-                                solution: "flash, html",
                                 volume: 1
                               });
 EOL;

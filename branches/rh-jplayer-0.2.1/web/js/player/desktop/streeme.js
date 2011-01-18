@@ -56,6 +56,11 @@ streeme = {
 	bitrate : 0,
 
 	/**
+	 * Source Format 
+	 */
+	sourceFormat : false,
+	
+	/**
 	* If not false, Streme will modify the target file format of Media to the set format
 	*/
 	format : false,
@@ -132,6 +137,7 @@ streeme = {
 					{ "sClass" : "minor" },
 					{ "sClass" : "minor left" },
 					{ "sClass" : "minor" },
+					{ "sClass" : "song_id" }
 				],
 				/* default sorting by newest songs */
 				"aaSorting": [[ 4, "desc" ]],
@@ -144,14 +150,14 @@ streeme = {
 						function()
 						{
 							//clear user mouse selections
-						  streeme.clearSelection();
-						  
-						  //play the song
-						  streeme.playSong( aData[0], aData[1], aData[2], aData[3] );
-						  
-						  //update the class pointers
-						  streeme.songPointer = aData[0];
-						  streeme.displayPointer = iDisplayIndex;
+							streeme.clearSelection();
+							 
+							//play the song
+							streeme.playSong( aData[0], aData[1], aData[2], aData[3], aData[8] );
+							 
+							//update the class pointers
+							streeme.songPointer = aData[0];
+							streeme.displayPointer = iDisplayIndex;
 						}
 					);
 					
@@ -161,14 +167,14 @@ streeme = {
 						function()
 						{
 							//clear user mouse selections
-						  streeme.clearSelection();
+							streeme.clearSelection();
 						  
-						  //play the song
-						  streeme.playSong( aData[0], aData[1], aData[2], aData[3] );
+							//play the song
+							streeme.playSong( aData[0], aData[1], aData[2], aData[3], aData[8] );
 						  
-						  //update the class pointers
-						  streeme.songPointer = aData[0];
-						  streeme.displayPointer = iDisplayIndex;
+							//update the class pointers
+							streeme.songPointer = aData[0];
+							streeme.displayPointer = iDisplayIndex;
 						}
 					);
 					$( nRow ).attr( "id", "sltr" + aData[0] );
@@ -325,10 +331,12 @@ streeme = {
 	* @param song_name 		str: name of the song
 	* @param album_name 	str: name of the album to which this song belongs
 	* @param artist_name 	str: name of the artist to which this song belongs
+	* @param file_type      str: mp3|m4a|oga|webma|wav * this is the jPlayer spec
 	*/
-	playSong : function( song_id, song_name, album_name, artist_name )
+	playSong : function( song_id, song_name, album_name, artist_name, file_type )
 	{
 		//queue up the song for the next play cycle
+		streeme.sourceFormat = file_type; 
 		streeme.queuedSongId = song_id;
 	
 		//remove previous song tr cursor
@@ -405,14 +413,51 @@ streeme = {
 	
 			url = mediaurl + '/play/' + streeme.queuedSongId + '?' + parameters.join('&');
 			
-			//for some browsers, we need to use jplayer to play certain codecs
+			var setMedia_format = ( streeme.format ) ? streeme.format : streeme.sourceFormat; 
+
+			//for some browsers, we need to use jplayer to patch up the media player
 			if( $( '#jquery_jplayer_1' ).length )
-			{				
-				$( '#jquery_jplayer_1' ).jPlayer("setMedia", {
-												  mp3: url
-												 });				
-				$( '#jquery_jplayer_1' ).jPlayer("load");
-				$( '#jquery_jplayer_1' ).jPlayer("play");			
+			{
+				switch( setMedia_format )
+				{
+					case 'mp3':
+						$("#jquery_jplayer_1").jPlayer( "destroy" );
+						$("#jquery_jplayer_1").jPlayer({
+						    ready: function() {
+						      $(this).jPlayer("setMedia", {
+						        mp3: url
+						      }).jPlayer("play");
+							},
+                            ended: function() { 
+                              streeme.playNextSong();
+                            },
+                            swfPath: "/js/jQuery.jPlayer.2.0.0",
+                            solution: "flash",
+                            supplied: "mp3",
+                            volume: 1,
+                          });				
+						break;
+						
+					case 'ogg':
+						$("#jquery_jplayer_1").jPlayer( "stop" );
+						$("#jquery_jplayer_1").jPlayer( "clearMedia" );
+						$("#jquery_jplayer_1").jPlayer( "destroy" );
+						$("#jquery_jplayer_1").jPlayer({
+						    ready: function() {
+						      $(this).jPlayer("setMedia", {
+						        oga: url
+						      }).jPlayer("play");
+							},
+                            ended: function() { 
+                              streeme.playNextSong();
+                            },
+                            swfPath: "/js/jQuery.jPlayer.2.0.0",
+                            solution: "html",
+                            supplied: "oga",
+                            volume: 1,
+                          });				
+						break;
+				}		
 			}
 			
 			//otherwise use the browser's html player 

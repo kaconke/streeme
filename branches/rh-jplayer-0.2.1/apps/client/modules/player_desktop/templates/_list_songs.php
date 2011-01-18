@@ -14,6 +14,7 @@
          <th class="lightgradient minor"><?php echo __( 'Year' ) ?></th>
          <th class="lightgradient minor"><?php echo __( 'Length' ) ?></th>
          <th class="lightgradient minor"><?php echo __( 'TK#' ) ?></th>
+         <th class="lightgradient song_id"><?php echo __( 'Extension' ) ?></th>
       </tr>
    </thead>
    <tbody>

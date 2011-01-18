@@ -36,6 +36,7 @@
          <th class="hidden"><?php echo __( 'Year' ) ?></th>
          <th class="hidden"><?php echo __( 'Length' ) ?></th>
          <th class="hidden"><?php echo __( 'TK#' ) ?></th>
+         <th class="hidden"><?php echo __( 'Extension' ) ?></th>
       </tr>
    </thead>
    <tbody>
