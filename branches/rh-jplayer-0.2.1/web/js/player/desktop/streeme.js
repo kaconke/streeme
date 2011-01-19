@@ -352,8 +352,8 @@ streeme = {
 			{
 				setTimeout(function()
 				{ 	
-					var trHeight = streeme.displayPointer * $( '#songlist tbody tr' ).css('height').replace( 'px', '' );
-					if( trHeight < 200 ) trHeight = 0;
+					var trHeight = ( streeme.displayPointer * $( '#songlist tbody tr' ).css('height').replace( 'px', '' ) - 205 );
+					if( trHeight < 30 ) trHeight = 0;
 					$('#songlistcontainer').scrollTo( trHeight, 200 );
 				}
 				, 50 );
@@ -411,10 +411,10 @@ streeme = {
 				parameters.push(  streeme.send_cookie_name + '=' + $.cookie( streeme.send_cookie_name ) );
 			}
 	
-			url = mediaurl + '/play/' + streeme.queuedSongId + '?' + parameters.join('&');
-			
+			url = mediaurl + '/play/' + streeme.queuedSongId + ( ( parameters.length > 0 ) ? '?' : '' )  + parameters.join('&');
+					
 			var setMedia_format = ( streeme.format ) ? streeme.format : streeme.sourceFormat; 
-
+			
 			//for some browsers, we need to use jplayer to patch up the media player
 			if( $( '#jquery_jplayer_1' ).length )
 			{
@@ -432,7 +432,7 @@ streeme = {
                               streeme.playNextSong();
                             },
                             swfPath: "/js/jQuery.jPlayer.2.0.0",
-                            solution: "flash",
+                            solution: "flash, html",
                             supplied: "mp3",
                             volume: 1,
                           });				
@@ -513,7 +513,7 @@ streeme = {
 					nextSongData = $( '#songlist' ).dataTable().fnGetData( 0 );
 					if( nextSongData )
 					{
-						streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ] );
+						streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ], nextSongData[ 8 ] );
 					}
 					streeme.displayPointer = 0;
 				}
@@ -541,7 +541,7 @@ streeme = {
 		}
 		if( nextSongData )
 		{
-			streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ] );
+			streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ], nextSongData[ 8 ] );
 			streeme.displayPointer++;
 		}
 	},
@@ -582,7 +582,7 @@ streeme = {
 					previousSongData = $( '#songlist' ).dataTable().fnGetData( streeme.iDisplayLength - 1	);
 					if( previousSongData )
 					{
-						streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ] );
+						streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ], previousSongData[ 8 ]);
 					}
 					streeme.displayPointer = streeme.iDisplayLength - 1;
 				}
@@ -610,7 +610,7 @@ streeme = {
 		}
 		if( previousSongData )
 		{
-			streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ] );
+			streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ], previousSongData[ 8 ] );
 			streeme.displayPointer--;
 		}
 	},
