@@ -120,7 +120,7 @@ $("#jquery_jplayer_1").jPlayer({
 EOL;
 
 slot( 'javascript_player_loader', $jplayer_player_loader );
-slot( 'internet_explorer', true );
+slot( 'disable_ogg_transcoding', true );
 }
 
 //audio for all other HTML5 implementations

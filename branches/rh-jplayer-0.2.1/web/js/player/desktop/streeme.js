@@ -866,7 +866,7 @@ streeme = {
 				success: function()
 				{
       		$( '#dropzone' ).text( addPlaylistSuccess ).show( 80 ).delay( 1500 ).hide( 80 );
-      		streeme.refreshPlaylist();
+      		setTimeout( streeme.refreshPlaylist, 300 );
     		},
     		error: function()
     		{
@@ -920,13 +920,12 @@ streeme = {
 			{ 
 				url: javascript_base + '/player/desktop/playlist',
 				type: "GET",
-				success: function( data )
+				success: function( retdata )
 				{
-      		$( '#playlistcontainer' ).html( data );
-    		}
-    	}
-    );
-	
+	      			$( '#playlistcontainer' ).html( retdata );
+	    		}
+	    	}
+	    );
 	},
 	
 	/**
