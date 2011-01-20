@@ -865,9 +865,9 @@ streeme = {
 				context: document.body,
 				success: function()
 				{
-      		$( '#dropzone' ).text( addPlaylistSuccess ).show( 80 ).delay( 1500 ).hide( 80 );
-      		setTimeout( streeme.refreshPlaylist, 300 );
-    		},
+		      		$( '#dropzone' ).text( addPlaylistSuccess ).show( 80 ).delay( 1500 ).hide( 80 );
+		      		setTimeout( streeme.refreshPlaylist, 300 );
+	    		},
     		error: function()
     		{
     			$( '#dropzone' ).text( addPlaylistError ).show( 80 ).delay( 1500 ).hide( 80 ); 
@@ -896,9 +896,9 @@ streeme = {
 				context: document.body,
 				success: function()
 				{
-      		$( '#dropzone' ).text( deletePlaylistSuccess ).show( 80 ).delay( 1500 ).hide( 80 );
-      		streeme.refreshPlaylist();
-    		},
+		      		$( '#dropzone' ).text( deletePlaylistSuccess ).show( 80 ).delay( 1500 ).hide( 80 );
+		      		setTimeout( streeme.refreshPlaylist, 300 );
+	    		},
     		error: function()
     		{
     			$( '#dropzone' ).text( deletePlaylistError ).show( 80 ).delay( 1500 ).hide( 80 ); 
@@ -918,7 +918,7 @@ streeme = {
 		$.ajax
 		(
 			{ 
-				url: javascript_base + '/player/desktop/playlist',
+				url: javascript_base + '/player/desktop/playlist?time=' + new Date().getTime(),
 				type: "GET",
 				success: function( retdata )
 				{

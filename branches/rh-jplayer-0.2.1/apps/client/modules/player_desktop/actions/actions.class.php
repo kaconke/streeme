@@ -35,7 +35,7 @@ class player_desktopActions extends sfActions
   public function executePlaylist(sfWebRequest $request)
   {
     $this->setLayout(false); 
-    sfConfig::set('sf_web_debug', false).
+    sfConfig::set('sf_web_debug', false);
     $this->playlist_list = Doctrine_Core::getTable('Playlist')->getList();
   }
 }
