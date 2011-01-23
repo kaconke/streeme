@@ -29,7 +29,7 @@ else if( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Safari' ) && strpos( $_SERVER[ 
 
 //firefox and opera lack support for HTML5 MP3 codec playback,
 //so we'll use jPlayer and get support from flash (sigh)
-else if( 
+else if(
          strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Firefox' )
          ||
          strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'pera/' )
@@ -37,6 +37,10 @@ else if(
 {
   use_stylesheet( '/css/jPlayer.Skin/jplayer.blue.monday.css');
   use_javascript( '/js/jQuery.jPlayer.2.0.0/jquery.jplayer.min.js' );
+  
+  //macs have slightly different font variants. add template tag to adjust line height.
+  $if_mac = strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Mac OS X' ) ? 'style="top:8px"' : '';
+  
   echo <<<EOL
 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 <div class="jp-audio">
@@ -55,8 +59,8 @@ else if(
         </div>
       </div>
       <div class="jp-bumper-right"></div>
-      <div class="jp-current-time"></div>
-      <ul class="jp-controls">     
+      <div class="jp-current-time" {$if_mac} ></div>
+      <ul class="jp-controls">
         <li><a href="#" class="jp-mute" tabindex="1">mute</a></li>
         <li><a href="#" class="jp-unmute" tabindex="1">unmute</a></li>
       </ul>
@@ -78,8 +82,8 @@ EOL;
 slot( 'javascript_player_loader', $jplayer_player_loader );
 }
 
-//internet explorer has it's own interesting quirks with ogg support 
-else if( 
+//internet explorer has it's own interesting quirks with ogg support
+else if(
          strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Trident' )
         )
 {
@@ -104,7 +108,7 @@ else if(
       </div>
       <div class="jp-bumper-right"></div>
       <div class="jp-current-time" style="top: 6px;"></div>
-      <ul class="jp-controls">     
+      <ul class="jp-controls">
         <li><a href="#" class="jp-mute" tabindex="1">mute</a></li>
         <li><a href="#" class="jp-unmute" tabindex="1">unmute</a></li>
       </ul>
