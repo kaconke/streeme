@@ -56,6 +56,11 @@ streeme = {
 	bitrate : 0,
 
 	/**
+	 * Source Format 
+	 */
+	sourceFormat : false,
+	
+	/**
 	* If not false, Streme will modify the target file format of Media to the set format
 	*/
 	format : false,
@@ -132,6 +137,7 @@ streeme = {
 					{ "sClass" : "minor" },
 					{ "sClass" : "minor left" },
 					{ "sClass" : "minor" },
+					{ "sClass" : "song_id" }
 				],
 				/* default sorting by newest songs */
 				"aaSorting": [[ 4, "desc" ]],
@@ -144,14 +150,14 @@ streeme = {
 						function()
 						{
 							//clear user mouse selections
-						  streeme.clearSelection();
-						  
-						  //play the song
-						  streeme.playSong( aData[0], aData[1], aData[2], aData[3] );
-						  
-						  //update the class pointers
-						  streeme.songPointer = aData[0];
-						  streeme.displayPointer = iDisplayIndex;
+							streeme.clearSelection();
+							 
+							//play the song
+							streeme.playSong( aData[0], aData[1], aData[2], aData[3], aData[8] );
+							 
+							//update the class pointers
+							streeme.songPointer = aData[0];
+							streeme.displayPointer = iDisplayIndex;
 						}
 					);
 					
@@ -161,14 +167,14 @@ streeme = {
 						function()
 						{
 							//clear user mouse selections
-						  streeme.clearSelection();
+							streeme.clearSelection();
 						  
-						  //play the song
-						  streeme.playSong( aData[0], aData[1], aData[2], aData[3] );
+							//play the song
+							streeme.playSong( aData[0], aData[1], aData[2], aData[3], aData[8] );
 						  
-						  //update the class pointers
-						  streeme.songPointer = aData[0];
-						  streeme.displayPointer = iDisplayIndex;
+							//update the class pointers
+							streeme.songPointer = aData[0];
+							streeme.displayPointer = iDisplayIndex;
 						}
 					);
 					$( nRow ).attr( "id", "sltr" + aData[0] );
@@ -325,10 +331,12 @@ streeme = {
 	* @param song_name 		str: name of the song
 	* @param album_name 	str: name of the album to which this song belongs
 	* @param artist_name 	str: name of the artist to which this song belongs
+	* @param file_type      str: mp3|m4a|oga|webma|wav * this is the jPlayer spec
 	*/
-	playSong : function( song_id, song_name, album_name, artist_name )
+	playSong : function( song_id, song_name, album_name, artist_name, file_type )
 	{
 		//queue up the song for the next play cycle
+		streeme.sourceFormat = file_type; 
 		streeme.queuedSongId = song_id;
 	
 		//remove previous song tr cursor
@@ -344,8 +352,8 @@ streeme = {
 			{
 				setTimeout(function()
 				{ 	
-					var trHeight = streeme.displayPointer * $( '#songlist tbody tr' ).css('height').replace( 'px', '' );
-					if( trHeight < 200 ) trHeight = 0;
+					var trHeight = ( streeme.displayPointer * $( '#songlist tbody tr' ).css('height').replace( 'px', '' ) - 205 );
+					if( trHeight < 30 ) trHeight = 0;
 					$('#songlistcontainer').scrollTo( trHeight, 200 );
 				}
 				, 50 );
@@ -388,7 +396,7 @@ streeme = {
 	{
 		if( streeme.queuedSongId != false )
 		{
-			//build HTTP request	
+			//build HTTP request for the song	
 			var parameters = new Array();
 			if( streeme.bitrate != 0 )
 			{
@@ -403,15 +411,66 @@ streeme = {
 				parameters.push(  streeme.send_cookie_name + '=' + $.cookie( streeme.send_cookie_name ) );
 			}
 	
-			url = mediaurl + '/play/' + streeme.queuedSongId + '?' + parameters.join('&');
+			url = mediaurl + '/play/' + streeme.queuedSongId + ( ( parameters.length > 0 ) ? '?' : '' )  + parameters.join('&');
+					
+			var setMedia_format = ( streeme.format ) ? streeme.format : streeme.sourceFormat; 
 			
-			//firefox/chrome logging only 
-			//console.log ( url );
-			el = document.getElementById( 'musicplayer' );
-			el.src = ( url );
-			el.preload = 'none';
-			el.load();
-			el.play(); 
+			//for some browsers, we need to use jplayer to patch up the media player
+			if( $( '#jquery_jplayer_1' ).length )
+			{
+				switch( setMedia_format )
+				{
+					case 'mp3':
+						$("#jquery_jplayer_1").jPlayer( "destroy" );
+						$("#jquery_jplayer_1").jPlayer({
+						    ready: function() {
+						      $(this).jPlayer("setMedia", {
+						        mp3: url
+						      }).jPlayer("play");
+							},
+                            ended: function() { 
+                              streeme.playNextSong();
+                            },
+                            swfPath: "/js/jQuery.jPlayer.2.0.0",
+                            solution: "flash, html",
+                            supplied: "mp3",
+                            volume: 1,
+                          });				
+						break;
+						
+					case 'ogg':
+						$("#jquery_jplayer_1").jPlayer( "stop" );
+						$("#jquery_jplayer_1").jPlayer( "clearMedia" );
+						$("#jquery_jplayer_1").jPlayer( "destroy" );
+						$("#jquery_jplayer_1").jPlayer({
+						    ready: function() {
+						      $(this).jPlayer("setMedia", {
+						        oga: url
+						      }).jPlayer("play");
+							},
+                            ended: function() { 
+                              streeme.playNextSong();
+                            },
+                            swfPath: "/js/jQuery.jPlayer.2.0.0",
+                            solution: "html",
+                            supplied: "oga",
+                            volume: 1,
+                          });				
+						break;
+				}		
+			}
+			
+			//otherwise use the browser's html player 
+			else
+			{				
+				//firefox/chrome logging only 
+				//console.log ( url );
+				el = document.getElementById( 'musicplayer' );
+				el.src = ( url );
+				el.preload = 'none';
+				el.load();
+				el.play(); 
+			}
 			
 			//clear the queue
 			streeme.queuedSongId = false;
@@ -454,7 +513,7 @@ streeme = {
 					nextSongData = $( '#songlist' ).dataTable().fnGetData( 0 );
 					if( nextSongData )
 					{
-						streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ] );
+						streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ], nextSongData[ 8 ] );
 					}
 					streeme.displayPointer = 0;
 				}
@@ -482,7 +541,7 @@ streeme = {
 		}
 		if( nextSongData )
 		{
-			streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ] );
+			streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ], nextSongData[ 8 ] );
 			streeme.displayPointer++;
 		}
 	},
@@ -523,7 +582,7 @@ streeme = {
 					previousSongData = $( '#songlist' ).dataTable().fnGetData( streeme.iDisplayLength - 1	);
 					if( previousSongData )
 					{
-						streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ] );
+						streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ], previousSongData[ 8 ]);
 					}
 					streeme.displayPointer = streeme.iDisplayLength - 1;
 				}
@@ -551,7 +610,7 @@ streeme = {
 		}
 		if( previousSongData )
 		{
-			streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ] );
+			streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ], previousSongData[ 8 ] );
 			streeme.displayPointer--;
 		}
 	},
@@ -806,9 +865,9 @@ streeme = {
 				context: document.body,
 				success: function()
 				{
-      		$( '#dropzone' ).text( addPlaylistSuccess ).show( 80 ).delay( 1500 ).hide( 80 );
-      		streeme.refreshPlaylist();
-    		},
+		      		$( '#dropzone' ).text( addPlaylistSuccess ).show( 80 ).delay( 1500 ).hide( 80 );
+		      		setTimeout( streeme.refreshPlaylist, 300 );
+	    		},
     		error: function()
     		{
     			$( '#dropzone' ).text( addPlaylistError ).show( 80 ).delay( 1500 ).hide( 80 ); 
@@ -837,9 +896,9 @@ streeme = {
 				context: document.body,
 				success: function()
 				{
-      		$( '#dropzone' ).text( deletePlaylistSuccess ).show( 80 ).delay( 1500 ).hide( 80 );
-      		streeme.refreshPlaylist();
-    		},
+		      		$( '#dropzone' ).text( deletePlaylistSuccess ).show( 80 ).delay( 1500 ).hide( 80 );
+		      		setTimeout( streeme.refreshPlaylist, 300 );
+	    		},
     		error: function()
     		{
     			$( '#dropzone' ).text( deletePlaylistError ).show( 80 ).delay( 1500 ).hide( 80 ); 
@@ -859,15 +918,14 @@ streeme = {
 		$.ajax
 		(
 			{ 
-				url: javascript_base + '/player/desktop/playlist',
+				url: javascript_base + '/player/desktop/playlist?time=' + new Date().getTime(),
 				type: "GET",
-				success: function( data )
+				success: function( retdata )
 				{
-      		$( '#playlistcontainer' ).html( data );
-    		}
-    	}
-    );
-	
+	      			$( '#playlistcontainer' ).html( retdata );
+	    		}
+	    	}
+	    );
 	},
 	
 	/**

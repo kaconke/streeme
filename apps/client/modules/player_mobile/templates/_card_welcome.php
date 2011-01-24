@@ -14,5 +14,7 @@
    <li onclick="streeme.choose( 'shuffle' );"><?php echo __('Shuffle All Songs') ?></li>
    <li onclick="streeme.chooseState( 'card_welcome', 'card_genres' );"><?php echo __('Genres') ?></li>
    <li onclick="streeme.chooseState( 'card_welcome', 'card_playlists' );"><?php echo __('Playlists') ?></li>
+   <?php if( sfConfig::get( 'app_allow_ffmpeg_transcoding' )): ?>
    <li onclick="streeme.chooseState( 'card_welcome', 'card_settings' );"><?php echo __('Settings') ?></li>
+   <?php endif; ?>
 </ul>

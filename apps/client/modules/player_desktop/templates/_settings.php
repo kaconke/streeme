@@ -23,7 +23,18 @@
    <label for="formatselector"><?php echo __( 'Target format:') ?> </label>
    <select id="formatselector" name="formatselector">
       <option value="0"><?php echo __( 'None' ) ?></option>
-      <option value="mp3"><?php echo __( 'MP3' ) ?></option>
-      <option value="ogg"><?php echo __( 'OGG' ) ?></option>
+      <?php 
+        $disable_mp3_transcoding = get_slot( 'disable_mp3_transcoding', false );
+        if ( !$disable_mp3_transcoding )
+        {
+          echo '<option value="mp3">' . __( 'MP3' ) . '</option>';
+        }
+        
+        $disable_ogg_transcoding = get_slot( 'disable_ogg_transcoding', false );
+        if ( !$disable_ogg_transcoding )
+        {
+          echo '<option value="ogg">' . __( 'OGG' ) . '</option>';
+        }
+      ?>
    </select>
 </form>
