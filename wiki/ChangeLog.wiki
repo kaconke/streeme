@@ -3,6 +3,11 @@
 
 = CHANGELOG =
 
+=== Version 0.3.0 ==
+ * Added jPlayer library to project - Streeme now supports Firefox, Opera and IEb9
+ * Fixed a syntax error in the HTML for playlist display
+ * added a skin for Jplayer to unify the UI look across more browsers
+
 === Version 0.2.1 ===
  * Corrected a bug in the media proxy that could sometimes hang Chrome while transcoding
 
