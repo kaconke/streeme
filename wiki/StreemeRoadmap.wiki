@@ -31,6 +31,8 @@ I lack the testing facilities for Android phones and the emulator seems to diffe
 ===Integrate JPlayer===
 Investigate and see if integrating a playback API like jPlayer is within scope for release. if so, implement it.
 
+Completed: Version 0.3.0
+
 ===Import Podcasts===
 Podcasts are traditionally downloaded to a user's computer and then synced to a device. I'd like to either support this facility completely wirelessly or make an automation that syncs a users podcast list automatically with their scheduled tasks.
 
