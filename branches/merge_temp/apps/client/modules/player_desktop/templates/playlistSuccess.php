@@ -1,1 +1,0 @@
- <?php include_partial( 'list_playlists', array( 'element_id' => 'browseplaylist', 'list' => $playlist_list ) ); ?>
