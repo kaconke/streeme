@@ -11,7 +11,7 @@ Streeme is very much in its infancy and there are multiple new features that spr
  * [StreemeRoadmap#Implement_a_Resume_Feature Implement a resume feature to support audio books and long mixes]
  * [StreemeRoadmap#Implement_a_Fast_Forward_UI Implement a fast forward method for browsers without HTML5 controls]
  * [StreemeRoadmap#Better_Support_for_Android_Devices Deliver better mobile support for the Android platform]
- * [StreemeRoadmap#Integrate_JPlayer Integrate Jplayer into the playback API for browsers without MP3 support or controls]
+ * ~~[StreemeRoadmap#Integrate_JPlayer Integrate Jplayer into the playback API for browsers without MP3 support or controls]~~
  * [StreemeRoadmap#Import_Podcasts Import podcasts]
  * [StreemeRoadmap#Import_Playlists Import playlists]
  * [StreemeRoadmap#Support_Music_Importing_from_Other_Jukeboxes Support other jukebox software lists]
