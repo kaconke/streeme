@@ -40,6 +40,7 @@ else if(
   
   //macs have slightly different font variants. add template tag to adjust line height.
   $if_mac = strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Mac OS X' ) ? 'style="top:8px"' : '';
+  $if_operawindows = ( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'pera/' ) && strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Windows' )   ) ? 'style="top:5px"' : '';
   
   echo <<<EOL
 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
@@ -59,7 +60,7 @@ else if(
         </div>
       </div>
       <div class="jp-bumper-right"></div>
-      <div class="jp-current-time" {$if_mac} ></div>
+      <div class="jp-current-time" {$if_mac}{$if_operawindows}></div>
       <ul class="jp-controls">
         <li><a href="#" class="jp-mute" tabindex="1">mute</a></li>
         <li><a href="#" class="jp-unmute" tabindex="1">unmute</a></li>
