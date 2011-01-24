@@ -153,6 +153,7 @@ streeme = {
 					{ "sClass" : "hidden" },
 					{ "sClass" : "hidden" },
 					{ "sClass" : "hidden" },
+					{ "sClass" : "hidden" },
 				],
 				/* default sorting by newest songs */
 				"aaSorting": [[ 4, "desc" ]],

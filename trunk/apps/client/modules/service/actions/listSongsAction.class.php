@@ -2,9 +2,9 @@
 class listSongsAction extends sfAction
 {
   /**
-  * Modelled on Datatables API. See their API docs for the entire request docs
-  * @see http://datatables.net/usage/server-side
-  */
+   * Modelled on Datatables API. See their API docs for the entire request docs
+   * @see http://datatables.net/usage/server-side
+   */
   protected
     $iDisplayStart,  // int Display start point
     $iDisplayLength, // int Number of records to display
@@ -22,9 +22,9 @@ class listSongsAction extends sfAction
     $this->output_format = 'json';
     
     //hydrate class variables
-    foreach( $_GET as $k => $v )
+    foreach( $request->getParameterHolder()->getAll() as $k => $v )
 		{
-			$this->$k = $v;
+			  $this->$k = $v;
 		}
 		
 		//stream the data
@@ -32,8 +32,8 @@ class listSongsAction extends sfAction
   }
   
   /**
-  * Create the data set and stream it to the user in the requested format
-  */
+   * Create the data set and stream it to the user in the requested format
+   */
   private function create_response()
   {
     $args = array(
@@ -61,23 +61,32 @@ class listSongsAction extends sfAction
     exit;
   }
   
-  /*
-  * JSON Conversion with a touch of post processing for presentation
-  * @param song_array     array: the data set to encode
-  * @param found_rows     int: total number of found rows
-  * @param total_library  int: the complete library song count
-  * @return               str: JSON encoded serialized array
-  */
+  /** 
+   * JSON Conversion with a touch of post processing for presentation
+   * @param song_array     array: the data set to encode
+   * @param found_rows     int: total number of found rows
+   * @param total_library  int: the complete library song count
+   * @return               str: JSON encoded serialized array
+   */
   private function to_json_dataTable( $song_array = array(), $found_rows, $total_library )
   {
     $count = 0;
-    $empty_resultset[] = array( "", "No Matches Found...", "", "", "", "", "", "" );
+    $empty_resultset[] = array( "", "No Matches Found...", "", "", "", "", "", "", "" );
     if ( is_array( $song_array ) )
     {
        foreach ( $song_array as $k => $v)
        {
           $string = null;
           $unique_id = null;
+          $jplayer_types = array (
+                                    '.mp3' => 'mp3',
+                                    '.m4a' => 'm4a',
+                                    '.aac' => 'm4a',
+                                    '.mp4' => 'm4a',
+                                    '.ogg' => 'ogg',
+                                    'webm' => 'webma',
+                                    '.wav' => 'wav',
+                                  );
           foreach ( $v as $key => $value)
           {
              $addtoplaylistbutton = null;
@@ -117,6 +126,11 @@ class listSongsAction extends sfAction
              if( $key == 'length' )
              {
                $value = ( $value ) ? $value : '--';
+             }
+             if( $key == 'filename' )
+             {
+               //we actually only want the file extension for jPlayer
+               $value = ( $value ) ? @$jplayer_types[ substr( $value, -4 ) ] : '';
              }
              $string .= ( ( $value ) ?  $addtoplaylistbutton . $playsongbutton . $value : '0' ) . '%*=*=*%';
           }

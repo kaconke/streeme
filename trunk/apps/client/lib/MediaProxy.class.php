@@ -251,7 +251,7 @@ class MediaProxy
         $args .= sprintf( '-f %s ', 'mp3' ); //container                                     
         break;     
       case 'ogg':
-        $args .= sprintf( '-aq %d ', floor( intval( $this->argbitrate ) / 2.5 ) ); //vbr quality
+        $args .= sprintf( '-aq %d ', floor( intval( $this->argbitrate ) / 2 ) ); //vbr quality
         $args .= sprintf( '-acodec %s ', 'vorbis' ); 
         $args .= sprintf( '-f %s ', 'ogg' );                                      
         break;

@@ -3,6 +3,9 @@
 /* Add Functions that Need to Load after Ready Here */
 $(document).ready(function()
 {
+	//the load_html5_player partial may load jplayer javascripts using this slot if required
+	<?php echo get_slot( 'javascript_player_loader' ); ?>
+	
   //paths
   rooturl = "<?php echo rtrim( public_path( '', true ), '/' ) ?>";
   mediaurl = "<?php echo ( !empty( $_SERVER['HTTPS'] ) ? 'https://' : 'http://' ) . str_replace( $_SERVER[ 'SERVER_PORT' ], '', $_SERVER['HTTP_HOST'] ) . ( !empty( $_SERVER['HTTPS'] ) ? '' : $music_proxy_port ) ?>";

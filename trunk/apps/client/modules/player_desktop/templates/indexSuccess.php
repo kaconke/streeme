@@ -16,7 +16,9 @@
     <div class="songcontrols lightgradient" id="songcontrols">
       <div class="dropzone ui-droppable buttonradius" id="dropzone"><?php echo __( 'Added item to playlist' ) ?></div>
       <div class="playlists buttonradius" id="playlists" title="<?php echo __( 'View playlists' ) ?>"></div>
+      <?php if( sfConfig::get( 'app_allow_ffmpeg_transcoding' )): ?>
       <div class="settings buttonradius" id="settings" title="<?php echo __( 'Change settings' ) ?>"></div>
+      <?php endif; ?>
       <a href="<?php echo url_for( '@player_default' ) ?>" class="logout buttonradius" id="logout" title="<?php echo __( 'Back to Player Selection' ) ?>"></a>
       <div id="albumart" onmouseover="$( '#magnify_art' ).show()" onmouseout="$( '#magnify_art' ).hide()">
         <img src="<?php echo public_path( 'images/player/common/streeme-intro-album-art-medium.jpg', true ); ?>" class="albumimg" alt="<?php echo __( 'Welcome to Streeme' ) ?>" title="<?php echo __( 'Welcome to Streeme' ) ?>" />
@@ -55,8 +57,10 @@
   </div>
   <div class="addplaylist"><button id="addplaylist" name="addplaylist"><?php echo __( 'Add New Playlist&hellip;' ) ?></button></div>
 </div>
+<?php if( sfConfig::get( 'app_allow_ffmpeg_transcoding' )): ?>
 <div class="settingsmodalwindow wideradius" id="settingsmodalwindow">
   <?php include_partial( 'settings' )?>
 </div>
+<?php endif; ?>
 <div class="magnify_art" id="magnify_art" title="<?php echo __( 'Magnify album art' ) ?>"></div>
 <?php include_partial( 'load_javascript', array( 'music_proxy_port' => $music_proxy_port ) ) ?>
