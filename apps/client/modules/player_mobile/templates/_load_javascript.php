@@ -2,10 +2,34 @@
 <!--
 /* Add Functions that Need to Load after Ready Here */
 $(document).ready(function(){
-  //paths
-  rooturl = "<?php echo rtrim( public_path( '', true ), '/' ) ?>";
-  mediaurl = "<?php echo ( !empty( $_SERVER['HTTPS'] ) ? 'https://' : 'http://' ) . str_replace( $_SERVER[ 'SERVER_PORT' ], '', $_SERVER['HTTP_HOST'] ) . ( !empty( $_SERVER['HTTPS'] ) ? '' : $music_proxy_port ) ?>";
-  javascript_base = "<?php echo rtrim( url_for( '@javascript_base', true ), '/' ) ?>";
+<?php 
+		  $protocol = ( !empty( $_SERVER['HTTPS'] ) ) ? 'https://' : 'http://';
+		  $hostname = str_replace( $_SERVER[ 'SERVER_PORT' ], '', $_SERVER['HTTP_HOST'] );
+		  if ( !empty( $_SERVER['HTTPS'] ) )
+		  {
+		    $port = '';
+		  }  
+		  else
+		  {
+		    if( substr( $hostname, -1 ) === ':' )
+		    {
+		      $port = $music_proxy_port;
+		    }
+		    else
+		    {
+		      $port = ':' . $music_proxy_port;
+		    }  
+		  }
+		  //music url
+		  echo 'mediaurl = "' . $protocol . $hostname . $port . '";' . "\r\n";
+		  
+		  //artwork and asset url
+		  echo 'rooturl = "' . rtrim( url_for( '@javascript_base', true ), '/' ) . '";' . "\r\n";
+		  
+		  //javascript service endpoint 
+		  echo 'javascript_base = "' . rtrim( url_for( '@javascript_base', true ), '/' ) . '";' . "\r\n";
+?>
+
   results_per_page = <?php echo sfConfig::get( 'app_results_per_page' ) ?>;
   send_session_cookies = <?php echo ( sfConfig::get( 'app_send_cookies_with_request' ) ) ? 'true' : 'false' ?>;
   send_cookie_name = "<?php echo sfConfig::get('app_sf_guard_plugin_remember_cookie_name', 'sfRemember') ?>";
