@@ -6,10 +6,11 @@
 ===Contributing Code===
 If you want to contribute code to Streeme, there are a few things you can do to make the process flow smoothly.
 
-Whether you're writing a new feature or fixing an existing bug, it pays to get a second opinion before you get too far. If it's a new feature idea, post to the appropriate streeme discussion group and propose it.
+Whether you're writing a new feature or fixing an existing bug, it pays to get a second opinion before you get too far. If it's a new feature idea, post to the [https://groups.google.com/group/streeme Streeme discussion group] and propose it.
 
 Not all bugs in our bug system are assigned, but if the one you're interested in fixing is, send a note to the person it's assigned to and ask if they would like a patch.
-Behavior changes and anything nontrivial (i.e. anything other than simple cleanups and style fixes) should generally be tracked in the bug system. Please file a bug (Chromium | Chromium OS) and describe what you're doing if there isn't one already.
+
+Behavior changes and anything nontrivial (i.e. anything other than simple cleanups and style fixes) should generally be tracked in the bug system. Please [http://code.google.com/p/streeme/issues/list file a bug] and describe what you're doing if there isn't one already.
 
 ===Get your code ready===
 
