@@ -1,0 +1,28 @@
+#summary Developer/Committer Guidelines for Streeme
+#labels Help,Phase-Implementation
+
+= Introduction =
+
+===Contributing Code===
+If you want to contribute code to Streeme, there are a few things you can do to make the process flow smoothly.
+
+Whether you're writing a new feature or fixing an existing bug, it pays to get a second opinion before you get too far. If it's a new feature idea, post to the appropriate streeme discussion group and propose it.
+
+Not all bugs in our bug system are assigned, but if the one you're interested in fixing is, send a note to the person it's assigned to and ask if they would like a patch.
+Behavior changes and anything nontrivial (i.e. anything other than simple cleanups and style fixes) should generally be tracked in the bug system. Please file a bug (Chromium | Chromium OS) and describe what you're doing if there isn't one already.
+
+===Get your code ready===
+
+ * Code must conform to the [http://trac.symfony-project.org/wiki/HowToContributeToSymfony#CodingStandards Symfony Style Guidelines]: when in doubt, look at the examples in the lib/vendor/symfony dir.
+ * must be tested, preferably with unit tests.
+should be a reasonable size to review. Giant patches are unlikely to get reviewed quickly, so please do your work in small doses.
+ * use classes and dependency injection whenever possible
+ * Run the unit tests on Postgres, sqllite and mysql data stores to make sure you haven't broken anything. Unit tests can easily be run by typing 
+<<<
+./symfony test:unit 
+>>>
+ * if you are making non trivial javascript commits, please test your changes as widely as you can - Streeme is tested for: *desktop* OSX(chrome,safari,firefox) WIN( chrome, safari, opera, ieb9 and firfox) iPad  *mobile* iPad, iPhone, iPod Touch, Palm Pre( 1.4 series ) and Android.  
+
+
+
+(some portions of this doc are borrowed from the chromium specs)
