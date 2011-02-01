@@ -21,10 +21,10 @@ Behavior changes and anything nontrivial (i.e. anything other than simple cleanu
 {{{
 ./symfony test:unit 
 }}}
- * if you are making non trivial javascript commits, please test your changes as widely as you can
+ * if you are making non trivial javascript commits, please test your changes as widely as you can:
 
-Streeme is tested for:
-  # *Desktop*
+Streeme should be tested for:
+ * *Desktop*
     {{{
     OSX( Chrome, Safari, Firefox)
     WIN( Chrome, Safari, Opera, IEb9 and Firefox)
@@ -32,7 +32,7 @@ Streeme is tested for:
     Linux( Firefox, Chrome )
     }}}
 
-  # *mobile*
+ * *mobile*
     {{{
     iPad
     iPhone (OS 4.x+)
