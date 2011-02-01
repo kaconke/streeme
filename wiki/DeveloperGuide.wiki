@@ -42,5 +42,12 @@ Streeme should be tested for:
     }}}  
 
 
+===Language Contributions===
+
+Any users may contribute a language pack, please generate a language module for your language group using the following symfony command where xx is the lower case [http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes ISO-639-1 language code]
+
+{{{
+./symfony i18n:extract client xx --auto-save
+}}}
 
 (some portions of this doc are borrowed from the chromium specs)
