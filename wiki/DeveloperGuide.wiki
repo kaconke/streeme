@@ -4,6 +4,7 @@
 = Introduction =
 
 ===Contributing Code===
+
 If you want to contribute code to Streeme, there are a few things you can do to make the process flow smoothly.
 
 Whether you're writing a new feature or fixing an existing bug, it pays to get a second opinion before you get too far. If it's a new feature idea, post to the [https://groups.google.com/group/streeme Streeme discussion group] and propose it.
@@ -15,9 +16,9 @@ Behavior changes and anything nontrivial (i.e. anything other than simple cleanu
 ===Get your code ready===
 
  * Code must conform to the [http://trac.symfony-project.org/wiki/HowToContributeToSymfony#CodingStandards Symfony Style Guidelines]: when in doubt, look at the examples in the lib/vendor/symfony dir.
- * must be tested, preferably with unit tests. 
- * Should be a reasonable size to review. Giant patches are unlikely to get reviewed quickly, so please do your work in small doses.
- * use classes and dependency injection whenever possible
+ * Code must be tested, preferably with unit tests. 
+ * Source changes should be a reasonable size to review. Giant patches are unlikely to get reviewed quickly, so please do your work in small doses.
+ * Use classes and dependency injection whenever possible
  * Streeme is a TDD environment. When changing model classes and helper classes, run the unit tests on Postgres, sqllite and mysql data stores to make sure you haven't broken anything. Unit tests can easily be run by typing 
 {{{
 ./symfony test:unit 
@@ -43,12 +44,21 @@ Streeme should be tested for:
     }}}  
 
 ===Source Control===
+
 While Streeme is still small, please *develop in a branch* of your choosing. I like to name my branches initials-short decription-version the branch was cut from. eg. rh-add-jplayer-0.2.1. This should help us in staying in sync and knowing when to kill off old branches. *Committers: please do NOT commit to trunk!* if project committers commit to trunk without a branch or communicating with the project owner, they will lose their rights to commit to Streeme. 
 
+===Source Editors===
+
+Whatever your editor, there are a few settings that are important to editing source files in Streeme:
+{{{
+tab key inserts 2 spaces
+default encoding: UTF8
+documentation style is Javadoc
+}}}
 
 ===Language Contributions===
 
-Any user may contribute a language pack - please generate an 18n language module for your language group using the following symfony command where xx is the lower case [http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes ISO-639-1 language code]. The following command will build all of the tokens to translate and build a XLIFF file. The file can be opened and edited in the apps/client/i18n folder.
+Any user may contribute a language pack - please generate an i18n language module for your language group using the following symfony command where xx is the lower case [http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes ISO-639-1 language code]. The following command will build all of the tokens to translate and build a XLIFF file. The file can be opened and edited in the apps/client/i18n folder.
 
 {{{
 ./symfony i18n:extract client xx --auto-save
