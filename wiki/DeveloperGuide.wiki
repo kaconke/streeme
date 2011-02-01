@@ -44,10 +44,13 @@ Streeme should be tested for:
 
 ===Language Contributions===
 
-Any users may contribute a language pack, please generate a language module for your language group using the following symfony command where xx is the lower case [http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes ISO-639-1 language code] - users contributing language packs to the project will be recognized in the contributors list.
+Any user may contribute a language pack - please generate an 18n language module for your language group using the following symfony command where xx is the lower case [http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes ISO-639-1 language code]. The following command will build all of the tokens to translate and build a XLIFF file. The file can be opened and edited in the apps/client/i18n folder.
 
 {{{
 ./symfony i18n:extract client xx --auto-save
 }}}
+
+Once you're happy with your translation please attach the XLIFF file to an [http://code.google.com/p/streeme/issues/entry?summary=Language%20Pack%20Ready  issue ticket] and a committer will integrate it into the project. 
+Users contributing language packs to the project will be recognized in the contributors list. 
 
 (some portions of this doc are borrowed from the chromium specs)
