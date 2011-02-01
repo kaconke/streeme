@@ -92,29 +92,18 @@ _/etc/php5/cli/php.ini_ = the command line version
 
  * set {{{magic_quotes_gpc = Off}}}
  * set {{{short_open_tag = Off}}}
- * set {{{memory_limit = 128M}}} or higher  
- * set {{{extension=apc.so}}} if installing APC
-
-Install XSL
-
-{{{
-sudo apt-get install php5-xsl
-}}}
+ * set {{{memory_limit = 256M}}} or higher  
 
 install PEAR (PHP Extension and Application Repository)
 
 {{{
 sudo apt-get install php-pear
-sudo apt-get install php5-dev apache2-dev
 }}}
 
-once installed use the pear package manager to install apc and http_download
+once installed use the pear package manager to install http_download
 {{{
 sudo pear install HTTP_Download
-sudo pecl install APC
 }}}
-
-if you have problems with installing APC, please check [http://serverfault.com/questions/206633/failed-to-instal-apc-via-pecl-install-apc this guide] - some setups don't have all of the dependencies needed :/ APC seems to be an ongoing problem for many linux distros. Fedora's implementation may segfault apache or lead to out of memory errors. If your system has a package manager, it's sometime preferable to install PHP5.3.x and yum/apt-get php-apc. 
 
 install curl - required for cloudfusion:
 
