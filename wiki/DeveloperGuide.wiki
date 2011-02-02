@@ -1,4 +1,4 @@
-#summary Developer/Committer Guidelines for Streeme
+#summary Developer/Committer/Contributor Guidelines for Streeme
 #labels Help,Phase-Implementation
 
 = Introduction =
@@ -63,7 +63,7 @@ Any user may contribute a language pack - please generate an i18n language modul
 ./symfony i18n:extract client xx --auto-save
 }}}
 
-Once you're happy with your translation please attach the XLIFF file to an [http://code.google.com/p/streeme/issues/entry?summary=Language%20Pack%20Ready  issue ticket] and a committer will integrate it into the project. 
+To add your translations, replaces the <target/> tags with <target>Your Translation</target>. If you spot a bug in a translation, please fix it in place and follow the steps below to submit it. Once you're happy with your translation please attach the XLIFF file to an [http://code.google.com/p/streeme/issues/entry?summary=Language%20Pack%20Ready  issue ticket] and a committer will integrate it into the project. 
 Users contributing language packs to the project will be recognized in the contributors list. 
 
 (some portions of this doc are borrowed from the chromium specs)
