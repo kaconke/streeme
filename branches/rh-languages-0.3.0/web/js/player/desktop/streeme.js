@@ -369,7 +369,7 @@ streeme = {
 			if( $( '#albumart' ) )
 			{
 				$( '#albumart' ).html( '<a href="' + javascript_base + '/art/' + $.md5( artist_name + album_name ) + '/large" title="' + album_name + '" rel="albumartzoom"><img src="' + javascript_base + '/art/' + $.md5( artist_name + album_name ) + '/medium" alt="' + sAlbumArtImageAlt + ' ' + album_name + '" class="albumimg" border="0"/></a>' );
-				$( '#magnify_art' ).html( '<a href="' + javascript_base + '/art/' + $.md5( artist_name + album_name ) + '/large" title="' + album_name + '" rel="albumartzoom_mag"><img src="' + rooturl + '/images/player/desktop/h5-icon-magnify.png" alt="' + sAlbumArtImageAlt + ' ' + album_name + '" border="0"/></a>' ); 
+				$( '#magnify_art' ).html( '<a href="' + javascript_base + '/art/' + $.md5( artist_name + album_name ) + '/large" title="' + album_name + '" rel="albumartzoom_mag"><img src="/images/player/desktop/h5-icon-magnify.png" alt="' + sAlbumArtImageAlt + ' ' + album_name + '" border="0"/></a>' ); 
 				$( "a[ rel='albumartzoom' ]" ).colorbox( { photo: true, maxWidth: "550px" });
 				$( "a[ rel='albumartzoom_mag' ]" ).colorbox( { photo: true, maxWidth: "550px" });
 			}
