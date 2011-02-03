@@ -446,15 +446,15 @@
       </trans-unit>
       <trans-unit id="111">
         <source>Browse Genres</source>
-        <target>Göz Türler</target>
+        <target>Türleri Görüntüle</target>
       </trans-unit>
       <trans-unit id="112">
         <source>Browse Artists</source>
-        <target>Göz Sanatçı</target>
+        <target>Sanatçıları Görüntüle</target>
       </trans-unit>
       <trans-unit id="113">
         <source>Browse Albums</source>
-        <target>Göz Albümler</target>
+        <target>Albümleri Görüntüle</target>
       </trans-unit>
     </body>
   </file>
