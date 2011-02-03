@@ -63,6 +63,8 @@ $(document).ready(function(){
   keywordInput = "<?php echo __( 'Please enter the keywords to search' ) ?>";
   confirmDelete = "<?php echo __( 'Are you sure you want to delete this item?' ) ?>";
   playsongbutton = "<?php echo __( 'Play this track' ) ?>";
+  allartists = "<?php echo __( 'All Artists' ) ?>";
+  allalbums = "<?php echo __( 'All Albums' ) ?>";
   _album = "<?php echo __( 'Album' ) ?>";
   _albums = "<?php echo __( 'Albums' ) ?>";
   _artist = "<?php echo __( 'Artist' ) ?>";

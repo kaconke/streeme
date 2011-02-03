@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
-  <file source-language="EN" target-language="it" datatype="plaintext" original="messages" date="2011-01-27T16:50:11Z" product-name="messages">
+  <file source-language="EN" target-language="it" datatype="plaintext" original="messages" date="2011-01-29T22:57:40Z" product-name="messages">
     <header/>
     <body>
       <trans-unit id="1">
@@ -102,11 +102,11 @@
       </trans-unit>
       <trans-unit id="25">
         <source>Item(s) added to playlist</source>
-				<target>Elementi aggiunti alla playlist</target>
+        <target>Elementi aggiunti alla playlist</target>
       </trans-unit>
       <trans-unit id="26">
         <source>Error! Did you select a playlist first?</source>
-         <target>Errore! Hai selezionato la playlist prima?</target>
+        <target>Errore! Hai selezionato la playlist prima?</target>
       </trans-unit>
       <trans-unit id="27">
         <source>Item deleted from the active playlist</source>
@@ -174,7 +174,7 @@
       </trans-unit>
       <trans-unit id="43">
         <source>Double click any song to play</source>
-       <target>Doppio click su un brano qualsiasi per avviare</target>
+        <target>Doppio click su un brano qualsiasi per avviare</target>
       </trans-unit>
       <trans-unit id="44">
         <source>Previous Track</source>
@@ -318,7 +318,7 @@
       </trans-unit>
       <trans-unit id="79">
         <source>Unload this playlist</source>
-       <target>Togli questa playlist</target>
+        <target>Togli questa playlist</target>
       </trans-unit>
       <trans-unit id="80">
         <source>Delete this playlist</source>
@@ -419,6 +419,30 @@
       <trans-unit id="104">
         <source>Shuffle All Songs</source>
         <target>Mischia tutti i brani</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>All Artists</source>
+        <target>Tutti gli artisti</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>All Albums</source>
+        <target>Tutti gli Album</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>No Song Selected</source>
+        <target>Nessun brano selezionato</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Browse Genres</source>
+        <target>Sfoglia Generi</target>
+      </trans-unit>
+      <trans-unit id="109">
+        <source>Browse Artists</source>
+        <target>Sfoglia Artisti</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>Browse Albums</source>
+        <target>Sfogliare gli album</target>
       </trans-unit>
     </body>
   </file>
