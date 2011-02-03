@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="tr" datatype="plaintext" original="messages" date="2011-02-03T00:12:46Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit id="1">
+        <source>Streeme - Taşınabilir Müzik</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Streeme Masaüstü Oynatıcı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Streeme'e Hoşgeldiniz</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Şarkıyı çalmak için çift tıklayınız</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Önceki Şarkı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Sonraki Şarkı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>Rastgele Çalma Açık/Kapalı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>Türler</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Sanatçılar</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>Albümler</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>Büyük albüm kapağı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>İlk</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>Son</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>Sonraki</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>Önceki</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>Tablo için veri bulunamadı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>_TOTAL_ kayıt arasından _START_ ile _END_ arasındaki kayıtlar görüntüleniyor.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>Görüntülenecek kayıt bulunamadı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>(_MAX_ kayıt içerisinden filtrelendi)</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>_MENU_ şarkılarını göster</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="21">
+        <source>Yükleniyor...</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="22">
+        <source>Arama:</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="23">
+        <source>Gösterilecek şarkı bulunamadı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="24">
+        <source>Albüm Kapağı: </source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Şarkı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Albüm</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="27">
+        <source>Sanatçı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Güncellendi</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="29">
+        <source>Yıl</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="30">
+        <source>Süre</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="31">
+        <source>TK#</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="32">
+        <source>Aramayı İptal Et</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="33">
+        <source>-- Tür Seçiniz --</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="34">
+        <source>Kategorize Edilmemiş</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="35">
+        <source>Streeme Ayarları</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Hedef bitrate:</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Orjinali Çal</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Otomatik</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>384kbps</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>320kbps</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="41">
+        <source>256kbps</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="42">
+        <source>192kbps</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="43">
+        <source>128kbps</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>96kbps</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>48kbps</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>32kbps</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="47">
+        <source>Hedef format:</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="48">
+        <source>MP3</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>AAC</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="50">
+        <source>Streeme: Oturum Açın</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="51">
+        <source>Devam etmek için oturum açınız</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>Oturum Açın</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>Kullanıcı Adı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>Şifre</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="55">
+        <source>Beni Hatırla</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="56">
+        <source>Oturum Aç</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>Bu sayfayı görüntüleyebilmek için yetkiniz bulunmamaktadır.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="58">
+        <source>Streeme masaüstü uygulamasından çıkmak istediğinizden emin misiniz?</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>Çalma listesine eklemek için tıklayınız</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>Çalma listesinden silmek için tıklayınız</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Şarkı(lar) çalma listesine eklendi</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Hata! Çalma listesi seçtiniz mi?</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>Şarkı çalma listesinden silindi</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>Hata! Streeme bir hata bildirdi, şarkı silinemedi.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Çalma listesi için bir isim giriniz</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>Çalma listesi eklendi</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Hata! Çalma listesi oluşturulamadı.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Çalma listesi silindi</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Hata! Streeme bir hata bildirdi, çalma listesi silinemedi.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Bunu silmek istediğinize emin misiniz?</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Bu şarkıyı çal</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Şarkı çalma listesine eklendi</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Çalma Listelerini görüntüle</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>Ayarları değiştir</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>Oynatıcıya geri dön</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Yeni Çalma Listesi Ekle&amp;hellip;</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Hiçbiri</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>OGG</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>Çalma listesini oynat</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>Çalma listesini boşalt</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>Çalma listesini sil</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Streeme: Hoşgeldiniz - Kontrol Paneli</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>Oynatıcı yada genel ayarları değiştirmek için devam ediniz</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>Masaüstü Oynatıcı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="85">
+        <source>Mobil Oynatıcı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Genel Ayarlar</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Oturumu Kapat</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="88">
+        <source>Oynatıcı seçimimi hatırla</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Masaüstü</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Mobil</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Ayarlar</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Arama için bir kelime giriniz</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>Tür</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>Şarkı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Şarkılar</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Çalma Listesi</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Çalma Listeleri</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>Ana Sayfa</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Menü</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>Mobil WebKit destekleyen cihazlar için Streeme Oynatıcı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Oynatıcı</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>Oynatılıyor</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>Yeni Şarkılar</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>Şarkıları Karıştır</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Streeme Mobil uygulamasından çıkmak istediğinize emin misiniz?</source>
+        <target/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
