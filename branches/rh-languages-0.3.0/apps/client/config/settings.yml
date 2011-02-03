@@ -38,9 +38,11 @@ all:
     # Add Internationalization Layer
     i18n: true
     charset: utf-8
+    default_culture: en
+    translations_available: [ tr,it,en,fr ]
 
     # Extra Helpers
-    standard_helpers: [ Partial, I18N ]
+    standard_helpers: [ Partial, Cache, I18N ]
     
     # Auth modules
     enabled_modules: [ default, sfGuardAuth ]

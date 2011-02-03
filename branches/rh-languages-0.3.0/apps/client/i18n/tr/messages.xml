@@ -5,424 +5,424 @@
     <header/>
     <body>
       <trans-unit id="1">
-        <source>Streeme - Taşınabilir Müzik</source>
-        <target/>
+    	  <source>Streeme - Portable Music</source>
+        <target>Streeme - Taşınabilir Müzik</target>
       </trans-unit>
       <trans-unit id="2">
-        <source>Streeme Masaüstü Oynatıcı</source>
-        <target/>
+        <source>Streeme Player for the Desktop</source>
+        <target>Streeme Masaüstü Oynatıcı</target>
       </trans-unit>
       <trans-unit id="3">
-        <source>Streeme'e Hoşgeldiniz</source>
-        <target/>
+    	  <source>Welcome to Streeme</source>
+        <target>Streeme'e Hoşgeldiniz</target>
       </trans-unit>
       <trans-unit id="4">
-        <source>Şarkıyı çalmak için çift tıklayınız</source>
-        <target/>
+    	<source>Double click any song to play</source>
+        <target>Şarkıyı çalmak için çift tıklayınız</target>
       </trans-unit>
       <trans-unit id="5">
-        <source>Önceki Şarkı</source>
-        <target/>
+      	<source>Previous Track</source>
+        <target>Önceki Şarkı</target>
       </trans-unit>
       <trans-unit id="6">
-        <source>Sonraki Şarkı</source>
-        <target/>
+      	<source>Next Track</source>
+        <target>Sonraki Şarkı</target>
       </trans-unit>
       <trans-unit id="7">
-        <source>Rastgele Çalma Açık/Kapalı</source>
-        <target/>
+      	<source>Random Play On/Off</source>
+        <target>Rastgele Çalma Açık/Kapalı</target>
       </trans-unit>
       <trans-unit id="8">
-        <source>Türler</source>
-        <target/>
+      	<source>Genres</source>
+        <target>Türler</target>
       </trans-unit>
       <trans-unit id="9">
-        <source>Sanatçılar</source>
-        <target/>
+      	<source>Artists</source>
+        <target>Sanatçılar</target>
       </trans-unit>
       <trans-unit id="10">
-        <source>Albümler</source>
-        <target/>
+        <source>Albums</source>
+        <target>Albümler</target>
       </trans-unit>
       <trans-unit id="11">
-        <source>Büyük albüm kapağı</source>
-        <target/>
+      	<source>Magnify album art</source>
+        <target>Büyük albüm kapağı</target>
       </trans-unit>
       <trans-unit id="12">
-        <source>İlk</source>
-        <target/>
+      	<source>First</source>
+        <target>İlk</target>
       </trans-unit>
       <trans-unit id="13">
-        <source>Son</source>
-        <target/>
+    	<source>Last</source>
+        <target>Son</target>
       </trans-unit>
       <trans-unit id="14">
-        <source>Sonraki</source>
-        <target/>
+      	<source>Next</source>
+        <target>Sonraki</target>
       </trans-unit>
       <trans-unit id="15">
-        <source>Önceki</source>
-        <target/>
+        <source>Previous</source>
+        <target>Önceki</target>
       </trans-unit>
       <trans-unit id="16">
-        <source>Tablo için veri bulunamadı</source>
-        <target/>
+      	<source>No data available in table</source>
+        <target>Tablo için veri bulunamadı</target>
       </trans-unit>
       <trans-unit id="17">
-        <source>_TOTAL_ kayıt arasından _START_ ile _END_ arasındaki kayıtlar görüntüleniyor.</source>
-        <target/>
+      	<source>Showing _START_ to _END_ of _TOTAL_ entries</source>
+        <target>_TOTAL_ kayıt arasından _START_ ile _END_ arasındaki kayıtlar görüntüleniyor.</target>
       </trans-unit>
       <trans-unit id="18">
-        <source>Görüntülenecek kayıt bulunamadı</source>
-        <target/>
+      	<source>No entries to show</source>
+        <target>Görüntülenecek kayıt bulunamadı</target>
       </trans-unit>
       <trans-unit id="19">
-        <source>(_MAX_ kayıt içerisinden filtrelendi)</source>
-        <target/>
+      	<source>(filtered from _MAX_ total entries)</source>
+        <target>(_MAX_ kayıt içerisinden filtrelendi)</target>
       </trans-unit>
       <trans-unit id="20">
-        <source>_MENU_ şarkılarını göster</source>
-        <target/>
+      	<source>Show _MENU_ songs</source>
+        <target>_MENU_ şarkılarını göster</target>
       </trans-unit>
       <trans-unit id="21">
-        <source>Yükleniyor...</source>
-        <target/>
+      	<source>Loading...</source>
+        <target>Yükleniyor...</target>
       </trans-unit>
       <trans-unit id="22">
-        <source>Arama:</source>
-        <target/>
+      	<source>Search:</source>
+        <target>Arama:</target>
       </trans-unit>
       <trans-unit id="23">
-        <source>Gösterilecek şarkı bulunamadı</source>
-        <target/>
+      	<source>No songs to display</source>
+        <target>Gösterilecek şarkı bulunamadı</target>
       </trans-unit>
       <trans-unit id="24">
-        <source>Albüm Kapağı: </source>
-        <target/>
+      	<source>Album Art Image for: </source>
+        <target>Albüm Kapağı: </target>
       </trans-unit>
       <trans-unit id="25">
-        <source>Şarkı</source>
-        <target/>
+      	<source>Track</source>
+        <target>Şarkı</target>
       </trans-unit>
       <trans-unit id="26">
-        <source>Albüm</source>
-        <target/>
+      	<source>Album</source>
+        <target>Albüm</target>
       </trans-unit>
       <trans-unit id="27">
-        <source>Sanatçı</source>
-        <target/>
+      	<source>Artist</source>
+        <target>Sanatçı</target>
       </trans-unit>
       <trans-unit id="28">
-        <source>Güncellendi</source>
-        <target/>
+      	<source>Modified</source>
+        <target>Güncellendi</target>
       </trans-unit>
       <trans-unit id="29">
-        <source>Yıl</source>
-        <target/>
+      	<source>Year</source>
+        <target>Yıl</target>
       </trans-unit>
       <trans-unit id="30">
-        <source>Süre</source>
-        <target/>
+      	<source>Length</source>
+        <target>Süre</target>
       </trans-unit>
       <trans-unit id="31">
-        <source>TK#</source>
-        <target/>
+      	<source>TK#</source>
+        <target>TK#</target>
       </trans-unit>
       <trans-unit id="32">
-        <source>Aramayı İptal Et</source>
-        <target/>
+      	<source>Cancel the Search</source>
+        <target>Aramayı İptal Et</target>
       </trans-unit>
       <trans-unit id="33">
-        <source>-- Tür Seçiniz --</source>
-        <target/>
+      	<source>-- Choose a Genre --</source>
+        <target>-- Tür Seçiniz --</target>
       </trans-unit>
       <trans-unit id="34">
-        <source>Kategorize Edilmemiş</source>
-        <target/>
+        <source>Uncatergorized</source>      
+        <target>Kategorize Edilmemiş</target>
       </trans-unit>
       <trans-unit id="35">
-        <source>Streeme Ayarları</source>
-        <target/>
+      	<source>Streeme Settings</source>
+        <target>Streeme Ayarları</target>
       </trans-unit>
       <trans-unit id="36">
-        <source>Hedef bitrate:</source>
-        <target/>
+      	<source>Target bitrate:</source>
+        <target>Hedef bitrate:</target>
       </trans-unit>
       <trans-unit id="37">
-        <source>Orjinali Çal</source>
-        <target/>
+      	<source>Play original</source>
+        <target>Orjinali Çal</target>
       </trans-unit>
       <trans-unit id="38">
-        <source>Otomatik</source>
-        <target/>
+      	<source>Auto</source>
+        <target>Otomatik</target>
       </trans-unit>
       <trans-unit id="39">
-        <source>384kbps</source>
-        <target/>
+      	<source>384kbps</source>
+        <target>384kbps</target>
       </trans-unit>
       <trans-unit id="40">
         <source>320kbps</source>
-        <target/>
+        <target>320kbps</target>
       </trans-unit>
       <trans-unit id="41">
         <source>256kbps</source>
-        <target/>
+        <target>256kbps</target>
       </trans-unit>
       <trans-unit id="42">
-        <source>192kbps</source>
-        <target/>
+    	<source>192kbps</source>
+        <target>192kbps</target>
       </trans-unit>
       <trans-unit id="43">
-        <source>128kbps</source>
-        <target/>
+      	<source>128kbps</source>
+        <target>128kbps</target>
       </trans-unit>
       <trans-unit id="44">
-        <source>96kbps</source>
-        <target/>
+      	<source>96kbps</source>
+        <target>96kbps</target>
       </trans-unit>
       <trans-unit id="45">
-        <source>48kbps</source>
-        <target/>
+      	<source>48bps</source>
+        <target>48kbps</target>
       </trans-unit>
       <trans-unit id="46">
-        <source>32kbps</source>
-        <target/>
+      	<source>32kbps</source>
+        <target>32kbps</target>
       </trans-unit>
       <trans-unit id="47">
-        <source>Hedef format:</source>
-        <target/>
+      	<source>Target format:</source>
+        <target>Hedef format:</target>
       </trans-unit>
       <trans-unit id="48">
-        <source>MP3</source>
-        <target/>
+      	<source>MP3</source>
+        <target>MP3</target>
       </trans-unit>
       <trans-unit id="49">
-        <source>AAC</source>
-        <target/>
+      	<source>AAC</source>
+        <target>AAC</target>
       </trans-unit>
       <trans-unit id="50">
-        <source>Streeme: Oturum Açın</source>
-        <target/>
+        <source>Streeme: Please sign in</source>
+        <target>Streeme: Oturum Açın</target>
       </trans-unit>
       <trans-unit id="51">
-        <source>Devam etmek için oturum açınız</source>
-        <target/>
+        <source>Please sign in to continue</source>
+        <target>Devam etmek için oturum açınız</target>
       </trans-unit>
       <trans-unit id="52">
-        <source>Oturum Açın</source>
-        <target/>
+      	<source>Please Sign In</source>
+        <target>Oturum Açın</target>
       </trans-unit>
       <trans-unit id="53">
-        <source>Kullanıcı Adı</source>
-        <target/>
+      	<source>Username</source>
+        <target>Kullanıcı Adı</target>
       </trans-unit>
       <trans-unit id="54">
-        <source>Şifre</source>
-        <target/>
+      	<source>Password</source>
+        <target>Şifre</target>
       </trans-unit>
       <trans-unit id="55">
-        <source>Beni Hatırla</source>
-        <target/>
+      	<source>Remember me</source>
+        <target>Beni Hatırla</target>
       </trans-unit>
       <trans-unit id="56">
-        <source>Oturum Aç</source>
-        <target/>
+      	<source>Sign in</source>
+        <target>Oturum Aç</target>
       </trans-unit>
       <trans-unit id="57">
-        <source>Bu sayfayı görüntüleyebilmek için yetkiniz bulunmamaktadır.</source>
-        <target/>
+      	<source>You don't have the required permission to access this page.</source>
+        <target>Bu sayfayı görüntüleyebilmek için yetkiniz bulunmamaktadır.</target>
       </trans-unit>
       <trans-unit id="58">
-        <source>Streeme masaüstü uygulamasından çıkmak istediğinizden emin misiniz?</source>
-        <target/>
+         <source>Are you sure you want to quit the Streeme desktop application?</source>
+         <target>Streeme masaüstü uygulamasından çıkmak istediğinizden emin misiniz?</target>
       </trans-unit>
       <trans-unit id="59">
-        <source>Çalma listesine eklemek için tıklayınız</source>
-        <target/>
+        <source>Click to add to current playlist</source>
+        <target>Çalma listesine eklemek için tıklayınız</target>
       </trans-unit>
       <trans-unit id="60">
-        <source>Çalma listesinden silmek için tıklayınız</source>
-        <target/>
+        <source>Click to remove this song from the playlist</source>
+	    <target>Çalma listesinden silmek için tıklayınız</target>
       </trans-unit>
       <trans-unit id="61">
-        <source>Şarkı(lar) çalma listesine eklendi</source>
-        <target/>
+	    <source>Item(s) added to playlist</source>
+        <target>Şarkı(lar) çalma listesine eklendi</target>
       </trans-unit>
       <trans-unit id="62">
-        <source>Hata! Çalma listesi seçtiniz mi?</source>
-        <target/>
+        <source>Error! Did you select a playlist first?</source>
+        <target>Hata! Çalma listesi seçtiniz mi?</target>
       </trans-unit>
       <trans-unit id="63">
-        <source>Şarkı çalma listesinden silindi</source>
-        <target/>
+        <source>Item deleted from the active playlist</source>
+        <target>Şarkı çalma listesinden silindi</target>
       </trans-unit>
       <trans-unit id="64">
-        <source>Hata! Streeme bir hata bildirdi, şarkı silinemedi.</source>
-        <target/>
+        <source>Error! Streeme reported an error. Song not deleted.</source>
+        <target>Hata! Streeme bir hata bildirdi, şarkı silinemedi.</target>
       </trans-unit>
       <trans-unit id="65">
-        <source>Çalma listesi için bir isim giriniz</source>
-        <target/>
+        <source>Please specify a name for the new playlist</source>
+        <target>Çalma listesi için bir isim giriniz</target>
       </trans-unit>
       <trans-unit id="66">
-        <source>Çalma listesi eklendi</source>
-        <target/>
+        <source>Added New Playlist</source>
+        <target>Çalma listesi eklendi</target>
       </trans-unit>
       <trans-unit id="67">
-        <source>Hata! Çalma listesi oluşturulamadı.</source>
-        <target/>
+        <source>Error! Playlist not created.</source>
+        <target>Hata! Çalma listesi oluşturulamadı.</target>
       </trans-unit>
       <trans-unit id="68">
-        <source>Çalma listesi silindi</source>
-        <target/>
+    	<source>Playlist Deleted</source>
+        <target>Çalma listesi silindi</target>
       </trans-unit>
       <trans-unit id="69">
-        <source>Hata! Streeme bir hata bildirdi, çalma listesi silinemedi.</source>
-        <target/>
+    	<source>Error! Streeme reported an error. Playlist not deleted.</source>
+	    <target>Hata! Streeme bir hata bildirdi, çalma listesi silinemedi.</target>
       </trans-unit>
       <trans-unit id="70">
-        <source>Bunu silmek istediğinize emin misiniz?</source>
-        <target/>
+        <source>Are you sure you want to delete this item?</source>
+        <target>Bunu silmek istediğinize emin misiniz?</target>
       </trans-unit>
       <trans-unit id="71">
-        <source>Bu şarkıyı çal</source>
-        <target/>
+      	<source>Play this track</source>
+        <target>Bu şarkıyı çal</target>
       </trans-unit>
       <trans-unit id="72">
-        <source>Şarkı çalma listesine eklendi</source>
-        <target/>
+        <source>Added item to playlist</source>
+        <target>Şarkı çalma listesine eklendi</target>
       </trans-unit>
       <trans-unit id="73">
-        <source>Çalma Listelerini görüntüle</source>
-        <target/>
+      	<source>View playlists</source>
+        <target>Çalma Listelerini görüntüle</target>
       </trans-unit>
       <trans-unit id="74">
-        <source>Ayarları değiştir</source>
-        <target/>
+        <source>Change settings</source>
+        <target>Ayarları değiştir</target>
       </trans-unit>
       <trans-unit id="75">
-        <source>Oynatıcıya geri dön</source>
-        <target/>
+        <source>Back to Player Selection</source>
+        <target>Oynatıcıya geri dön</target>
       </trans-unit>
       <trans-unit id="76">
-        <source>Yeni Çalma Listesi Ekle&amp;hellip;</source>
-        <target/>
+        <source>Add New Playlist&amp;hellip;</source>
+        <target>Yeni Çalma Listesi Ekle&amp;hellip;</target>
       </trans-unit>
       <trans-unit id="77">
-        <source>Hiçbiri</source>
-        <target/>
+        <source>None</source>
+        <target>Hiçbiri</target>
       </trans-unit>
       <trans-unit id="78">
         <source>OGG</source>
-        <target/>
+        <target>OGG</target>
       </trans-unit>
       <trans-unit id="79">
-        <source>Çalma listesini oynat</source>
-        <target/>
+        <source>Play this playlist</source>
+        <target>Çalma listesini oynat</target>
       </trans-unit>
       <trans-unit id="80">
-        <source>Çalma listesini boşalt</source>
-        <target/>
+        <source>Unload this playlist</source>
+        <target>Çalma listesini boşalt</target>
       </trans-unit>
       <trans-unit id="81">
-        <source>Çalma listesini sil</source>
-        <target/>
+		<source>Delete this playlist</source>
+        <target>Çalma listesini sil</target>
       </trans-unit>
       <trans-unit id="82">
-        <source>Streeme: Hoşgeldiniz - Kontrol Paneli</source>
-        <target/>
+	    <source>Streeme: Welcome - Control Panel</source>
+        <target>Streeme: Hoşgeldiniz - Kontrol Paneli</target>
       </trans-unit>
       <trans-unit id="83">
-        <source>Oynatıcı yada genel ayarları değiştirmek için devam ediniz</source>
-        <target/>
+	    <source>Continue to a player or change global application settings</source>
+        <target>Oynatıcı yada genel ayarları değiştirmek için devam ediniz</target>
       </trans-unit>
       <trans-unit id="84">
-        <source>Masaüstü Oynatıcı</source>
-        <target/>
+        <source>Desktop Player</source>
+        <target>Masaüstü Oynatıcı</target>
       </trans-unit>
       <trans-unit id="85">
-        <source>Mobil Oynatıcı</source>
-        <target/>
+        <source>Mobile Player</source>
+        <target>Mobil Oynatıcı</target>
       </trans-unit>
       <trans-unit id="86">
-        <source>Genel Ayarlar</source>
-        <target/>
+        <source>Global Settings</source>
+        <target>Genel Ayarlar</target>
       </trans-unit>
       <trans-unit id="87">
-        <source>Oturumu Kapat</source>
-        <target/>
+        <source>Sign Off</source>
+        <target>Oturumu Kapat</target>
       </trans-unit>
       <trans-unit id="88">
-        <source>Oynatıcı seçimimi hatırla</source>
-        <target/>
+        <source>Remember my player choice</source>
+        <target>Oynatıcı seçimimi hatırla</target>
       </trans-unit>
       <trans-unit id="89">
-        <source>Masaüstü</source>
-        <target/>
+      	<source>Desktop</source>
+        <target>Masaüstü</target>
       </trans-unit>
       <trans-unit id="90">
-        <source>Mobil</source>
-        <target/>
+        <source>Mobile</source>
+        <target>Mobil</target>
       </trans-unit>
       <trans-unit id="91">
-        <source>Ayarlar</source>
-        <target/>
+        <source>Settings</source>
+        <target>Ayarlar</target>
       </trans-unit>
       <trans-unit id="92">
-        <source>Arama için bir kelime giriniz</source>
-        <target/>
+        <source>Please enter the keywords to search</source>
+        <target>Arama için bir kelime giriniz</target>
       </trans-unit>
       <trans-unit id="93">
-        <source>Tür</source>
-        <target/>
+        <source>Genre</source>
+        <target>Tür</target>
       </trans-unit>
       <trans-unit id="94">
-        <source>Şarkı</source>
-        <target/>
+        <source>Song</source>
+        <target>Şarkı</target>
       </trans-unit>
       <trans-unit id="95">
-        <source>Şarkılar</source>
-        <target/>
+        <source>Songs</source>
+        <target>Şarkılar</target>
       </trans-unit>
       <trans-unit id="96">
-        <source>Çalma Listesi</source>
-        <target/>
+        <source>Playlist</source>
+        <target>Çalma Listesi</target>
       </trans-unit>
       <trans-unit id="97">
-        <source>Çalma Listeleri</source>
-        <target/>
+        <source>Playlists</source>
+        <target>Çalma Listeleri</target>
       </trans-unit>
       <trans-unit id="98">
-        <source>Ana Sayfa</source>
-        <target/>
+        <source>Home</source>
+        <target>Ana Sayfa</target>
       </trans-unit>
       <trans-unit id="99">
-        <source>Menü</source>
-        <target/>
+        <source>Menu</source>
+        <target>Menü</target>
       </trans-unit>
       <trans-unit id="100">
-        <source>Mobil WebKit destekleyen cihazlar için Streeme Oynatıcı</source>
-        <target/>
+        <source>Streeme Player for Mobile Webkit Enabled Phones and devices</source>
+        <target>Mobil WebKit destekleyen cihazlar için Streeme Oynatıcı</target>
       </trans-unit>
       <trans-unit id="101">
-        <source>Oynatıcı</source>
-        <target/>
+        <source>Player</source>
+        <target>Oynatıcı</target>
       </trans-unit>
       <trans-unit id="102">
-        <source>Oynatılıyor</source>
-        <target/>
+        <source>Playing</source>
+        <target>Oynatılıyor</target>
       </trans-unit>
       <trans-unit id="103">
-        <source>Yeni Şarkılar</source>
-        <target/>
+        <source>Newest Songs</source>
+        <target>Yeni Şarkılar</target>
       </trans-unit>
       <trans-unit id="104">
-        <source>Şarkıları Karıştır</source>
-        <target/>
+        <source>Shuffle All Songs</source>
+        <target>Şarkıları Karıştır</target>
       </trans-unit>
       <trans-unit id="105">
-        <source>Streeme Mobil uygulamasından çıkmak istediğinize emin misiniz?</source>
-        <target/>
+        <source>Are you sure you want to quit the Streeme mobile application?</source>
+        <target>Streeme Mobil uygulamasından çıkmak istediğinize emin misiniz?</target>
       </trans-unit>
     </body>
   </file>
