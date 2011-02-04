@@ -5,7 +5,7 @@
   use_stylesheet( '/css/player/stylesheet.css' );
   use_javascript( '/js/jquery-1.4.2.min.js' );
 ?>
-<div class="title">Welcome to Streeme</div>
+<div class="title"><?php echo __( 'Welcome to Streeme' ); ?></div>
 <div class="buttoncontainer">
   <ul class="buttons">
     <li><a href="<?php echo url_for( '@player_desktop_default' ) ?>" class="button desktop" id="desktop" ><?php echo __( 'Desktop Player' ) ?></a></li>

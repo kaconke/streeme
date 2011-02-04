@@ -4,6 +4,7 @@
   slot( 'metaHTML', '<meta name="viewport" content="width=device-width, initial-scale=0.6667, maximum-scale=1.0, user-scalable=no">' );
   use_stylesheet( '/css/auth/stylesheet.css' );
 ?>
+<div class="languagecontainer"><?php include_partial('player/languagechooser'); ?></div>
 <div class="logininstruction"><?php echo __( 'Please Sign In' ) ?></div>
 <div class="loginerror"><?php echo $form['username']->getError()?></div>
 <div class="logincontainer">

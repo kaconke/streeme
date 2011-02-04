@@ -13,7 +13,19 @@ else
 }
 ?>
 <div class="browse <?php echo $html ?>" id="ctbrowse<?php echo strtolower( $title ); ?>">
-   <div class="label">Browse <?php echo ucwords( $title ); ?></div>
+   <div class="label">
+   <?php 
+    switch( strtolower( $title ) )
+    {
+      case 'artists':
+        echo __( 'Browse Artists' );
+        break;
+      case 'albums':
+        echo __( 'Browse Albums' );
+        break; 
+    }
+   ?>
+   </div>
    <div class="letterbarcontainer lightgradient">
       <?php
          $prefix = null;

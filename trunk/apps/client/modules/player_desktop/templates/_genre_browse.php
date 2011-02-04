@@ -4,7 +4,7 @@
 #
 ?>
 <div class="browse" id="ctbrowse<?php echo strtolower( $title ); ?>">
-  <div class="label">Browse <?php echo ucwords( $title ); ?></div>
+  <div class="label"><?php  echo __( 'Browse Genres' ) ?></div>
   <div class="listcontainer_noscroll">
     <select name="genreselector" id="genreselector">
       <option value="none"><?php echo __( '-- Choose a Genre --' ) ?></option>

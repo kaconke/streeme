@@ -15,7 +15,7 @@
 ?>
 <div class="transport">
   <div id="albumart"></div>
-  <div id="songtitle">No Song Selected</div>
+  <div id="songtitle"><?php echo __('No Song Selected') ?></div>
   <div class="videocontainer buttonradius">
       <audio preload="none" controls="" id="musicplayer"></audio>
   </div>
