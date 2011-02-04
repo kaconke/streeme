@@ -876,13 +876,13 @@ streeme = {
 			case 'artist':
 				var listurl = rooturl + '/service/listArtists';
 				var listcontainer = $( '#artistlistcontainer' ); 
-				htmlprefix += '<li  onclick="streeme.choose( \'' + listname + '\', false )">All Artists</li>';
+				htmlprefix += '<li  onclick="streeme.choose( \'' + listname + '\', false )">' + allartists + '</li>';
 				var ajaxparameters = ({ 'alpha' : streeme.artist_alpha });
 				break;
 			case 'album':
 				var listurl = rooturl + '/service/listAlbums';
 				var listcontainer = $( '#albumlistcontainer' );
-				htmlprefix += '<li  onclick="streeme.choose( \'' + listname + '\', false )">All Albums</li>';
+				htmlprefix += '<li  onclick="streeme.choose( \'' + listname + '\', false )">' + allalbums + '</li>';
 				if ( !streeme.artist_id )
 				{
 					$( '#card_albums .letterbarcontainer' ).show(); 

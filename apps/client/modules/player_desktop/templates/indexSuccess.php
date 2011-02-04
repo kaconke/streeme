@@ -37,9 +37,9 @@
   <div class="content clearfix" id="content">
     <div class="columnleft" id="columnleft">
       <div class="browsecontainer"> 
-        <?php include_partial( 'genre_browse', array( 'title'=>__( 'Genres' ), 'element_id' => 'browsegenre', 'list' => $genre_list ) ) ?>
-        <?php include_partial( 'library_browse', array( 'title'=>__( 'Artists' ), 'element_id' => 'browseartist', 'list_template' => 'list_artists', 'list' => $artist_list ) ) ?>
-        <?php include_partial( 'library_browse', array( 'title'=>__( 'Albums' ), 'element_id'=>'browsealbum', 'list_template' => 'list_albums', 'list' => $album_list ) ) ?>
+        <?php include_partial( 'genre_browse', array( 'title'=>'Genres', 'element_id' => 'browsegenre', 'list' => $genre_list ) ) ?>
+        <?php include_partial( 'library_browse', array( 'title'=>'Artists', 'element_id' => 'browseartist', 'list_template' => 'list_artists', 'list' => $artist_list ) ) ?>
+        <?php include_partial( 'library_browse', array( 'title'=>'Albums', 'element_id'=>'browsealbum', 'list_template' => 'list_albums', 'list' => $album_list ) ) ?>
       </div>
     </div>
     <div class="columnright" id="columnright">

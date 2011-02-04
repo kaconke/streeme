@@ -75,3 +75,16 @@ form{
 	width: 100px;
 	padding: 3px;
 }
+.languagecontainer{
+	font-weight: bold;
+  margin: auto;
+	padding: 0;
+	font-size: 1px;
+  width: 362px;
+	position: relative;
+}
+.languagecontainer form{
+	position: absolute;
+	right: 10px;
+	top: -5px;
+}
