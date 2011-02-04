@@ -3,6 +3,12 @@
 
 = CHANGELOG =
 
+=== Version 0.3.1 ==
+ * Added a language switcher to the login form 
+ * Streeme will also try to detect your browser language 
+ * Thanks to Contributors dryope and mte90smanettator for turkish and italian translation files
+ * added a few more language tokens and made the inteface a bit more localizable
+
 === Version 0.3.0 ==
  * Added jPlayer library to project - Streeme now supports Firefox, Opera and IEb9
  * Fixed a syntax error in the HTML for playlist display
