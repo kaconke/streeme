@@ -1,0 +1,32 @@
+#summary How to Update Streeme
+#labels Phase-Deploy,Usage
+
+= How to Update (Stable) =
+
+The Streeme project releases new patches and updates regularly. To take advantage of these new features and fixes, type the following:   
+
+{{{
+svn up
+./symfony cc
+}}}
+
+et voila! You're up to date. 
+
+===Testing Patches and Feature Branches ===
+
+If you are watching the program commits, you may see messages about a feature that interests you in progress. You can always switch to a branch to see what's happening in the project (a warning though, the code in branches is under development and may not work properly). You can usually ask about the patch on our google group @ http://groups.google.com/group/streeme 
+
+{{{
+svn switch ^/branches/dev_branch_name
+./symfony cc
+}}}
+
+and back again 
+
+{{{
+svn switch ^/trunk
+./symfony cc
+}}}
+
+Thanks for keeping up to date!
+
