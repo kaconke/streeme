@@ -26,7 +26,7 @@
       </trans-unit>
       <trans-unit id="6">
         <source>Remember me</source>
-        <target>Recordami</target>
+        <target>Ricordami</target>
       </trans-unit>
       <trans-unit id="7">
         <source>Sign in</source>
@@ -58,7 +58,7 @@
       </trans-unit>
       <trans-unit id="14">
         <source>Showing _START_ to _END_ of _TOTAL_ entries</source>
-        <target>Mstra  _START_ e la _END_ di _TOTAL_</target>
+        <target>Mostra _START_ - _END_ di _TOTAL_</target>
       </trans-unit>
       <trans-unit id="15">
         <source>No entries to show</source>
@@ -234,7 +234,7 @@
       </trans-unit>
       <trans-unit id="58">
         <source>TK#</source>
-        <target>TK#</target>
+        <target>Tr#</target>
       </trans-unit>
       <trans-unit id="59">
         <source>Extension</source>
@@ -242,7 +242,7 @@
       </trans-unit>
       <trans-unit id="60">
         <source>Cancel the Search</source>
-        <target>Cancella la ricerca</target>
+        <target>Svuota</target>
       </trans-unit>
       <trans-unit id="61">
         <source>-- Choose a Genre --</source>
@@ -402,7 +402,7 @@
       </trans-unit>
       <trans-unit id="100">
         <source>Streeme Player for Mobile Webkit Enabled Phones and devices</source>
-        <target>Streeme Player per telefoni abilitati a Mobile Webkit e altre periferiche</target>
+        <target>Streeme Player Mobile per telefoni e altre periferiche con Webkit</target>
       </trans-unit>
       <trans-unit id="101">
         <source>Player</source>
@@ -422,7 +422,7 @@
       </trans-unit>
       <trans-unit id="105">
         <source>All Artists</source>
-        <target>Tutti gli artisti</target>
+        <target>Tutti gli Artisti</target>
       </trans-unit>
       <trans-unit id="106">
         <source>All Albums</source>
@@ -442,7 +442,7 @@
       </trans-unit>
       <trans-unit id="110">
         <source>Browse Albums</source>
-        <target>Sfogliare gli album</target>
+        <target>Sfoglia gli album</target>
       </trans-unit>
     </body>
   </file>

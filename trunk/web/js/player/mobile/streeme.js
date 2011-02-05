@@ -129,10 +129,13 @@ streeme = {
 				/* localize the datatable UI */
 				"oLanguage" :
 				{
-					"sFirst"        : sFirst,
-					"sLast"         : sLast,
-					"sNext"         : sNext,
-					"sPrevious"     : sPrevious,
+					"oPaginate":
+					{
+						"sFirst"        : sFirst,
+						"sLast"         : sLast,
+						"sNext"         : sNext,
+						"sPrevious"     : sPrevious
+					},
 					"sEmptyTable"   : sEmptyTable,
 					"sInfo"         : sInfo,
 					"sInfoEmpty"    : sInfoEmpty,
