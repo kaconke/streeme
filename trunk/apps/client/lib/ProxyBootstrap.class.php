@@ -4,9 +4,9 @@
 #
 ob_start();
 
-require_once(dirname(__FILE__).'/../../../config/ProjectConfiguration.class.php');
+require_once(dirname(__FILE__).'/../../../config/ProxyConfiguration.class.php');
 
-$configuration = ProjectConfiguration::getApplicationConfiguration('client', 'prod', false);
+$configuration = ProjectConfiguration::getApplicationConfiguration('client', 'proxy', false);
 $context = sfContext::createInstance($configuration);
 
 $authenticated = false;
@@ -18,7 +18,7 @@ if( sfContext::hasInstance() )
 }
 
 //If the session value is not set, try the remember key or the passed in session key
-if ( sfContext::hasInstance() 
+if ( sfContext::hasInstance()
      &&
      $authenticated === false
      &&
@@ -30,10 +30,10 @@ if ( sfContext::hasInstance()
   if( empty( $cookie )
       &&
       sfConfig::get( 'app_send_cookies_with_request' )
-      && 
+      &&
       isset( $_REQUEST[ $cookieName ] )
       &&
-      !empty( $_REQUEST[ $cookieName ] ) 
+      !empty( $_REQUEST[ $cookieName ] )
     )
   {
     $cookie = $_REQUEST[ $cookieName ];

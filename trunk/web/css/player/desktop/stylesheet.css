@@ -261,7 +261,7 @@ div.horizontalrule
 .settingsmodalwindow{
 	display: none;
 	position: absolute;
-	width: 260px;
+	width: 280px;
 	min-height: 50px;
 	padding: 20px;
 	background-color: #F0F0F0;
