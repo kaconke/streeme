@@ -1,12 +1,12 @@
 <?php
 /**
-* The Media Proxy / Gateway for streeme. This class conatins a standard system for delivering music files to the user 
+* The Media Proxy / Gateway for streeme. This class conatins a standard system for delivering music files to the user
 * from nearly any valid media file.  This service requires the PEAR HTTP_Download and HTTP libraries.
 * @package    streeme
 * @subpackage play
 * @author     Richard Hoar
 */
-error_reporting( 0 ); //HTTP download is extremely noisy  
+error_reporting( 0 ); //HTTP download is extremely noisy
 require_once( 'HTTP/Download.php' );
 require_once( dirname( __FILE__ ) . '/StreemeUtil.class.php' );
 
@@ -37,7 +37,7 @@ class MediaProxy
   //user options
   protected $target_bitrate = false;
   protected $target_format = false;
-  protected $is_icy_response = false; 
+  protected $is_icy_response = false;
     
   /**
    * Constructor - Hydrates class variables based on a song_id
@@ -54,15 +54,17 @@ class MediaProxy
     $this->ffmpeg_executable     = sfConfig::get( 'app_ffmpeg_executable' );
     $this->allow_transcoding     = sfConfig::get( 'app_allow_ffmpeg_transcoding' );
     
-    //get the filename and test if it exists  
-    $this->filename = StreemeUtil::itunes_format_decode( $result->filename ); 
+    //get the filename and test if it exists
+    $this->filename = StreemeUtil::itunes_format_decode( $result->filename );
  
     if( !isset( $this->filename ) || empty( $this->filename ) )
     {
+      $this->log( sprintf( 'There was no filename found for the key: %s', $unique_song_id ) );
       return false;
     }
     if( !is_readable( $this->filename ) )
     {
+      $this->log( sprintf( 'The file for key %s could not be read from the filesystem', $unique_song_id  ) );
       $this->filename = null;
       return false;
     }
@@ -76,12 +78,12 @@ class MediaProxy
     $this->types = array(
                       'mp3'    => 'audio/mpeg',
                       'ogg'    => 'audio/ogg',
-                  ); 
+                  );
     
     //create three letter target_format extensions
     foreach( $this->types as $k => $v )
     {
-      $this->target_formats[] = $k; 
+      $this->target_formats[] = $k;
     }
 
     //extract source file details
@@ -107,8 +109,13 @@ class MediaProxy
   {
     if( $this->allow_transcoding )
     {
+      $this->log( sprintf( 'Setting target bitrate to: %s', $bitrate ) );
       $this->target_bitrate         = ( $bitrate ) ? (int) $bitrate : false;
       $this->user_requested_bitrate = ( $this->target_bitrate ) ? true : false;
+    }
+    else
+    {
+      $this->log( sprintf( 'Tried to set bitrate to: %s, but transcoding is not allowed.', $bitrate ) );
     }
   }
   
@@ -120,10 +127,15 @@ class MediaProxy
   {
     if( $this->allow_transcoding )
     {
+      $this->log( sprintf( 'Setting target format to: %s', $format ) );
       $this->target_format         = ( $format && in_array( $format, $this->target_formats ) ) ? $format : false;
       $this->user_requested_format = ( $this->target_format )  ? true : false;
-      $this->target_extension      = '.' . $this->target_format; 
+      $this->target_extension      = '.' . $this->target_format;
       $this->target_type           = $this->types[ $this->target_format ];
+    }
+    else
+    {
+      $this->log( sprintf( 'Tried to set format to: %s, but transcoding is not allowed.', $format ) );
     }
   }
   
@@ -133,35 +145,45 @@ class MediaProxy
    */
   public function setIsIcyResponse( $is_icy_response )
   {
-    $this->is_icy_response       = ( $is_icy_response  )  ? true : false;
+    if( $this->allow_transcoding )
+    {
+      $this->log( sprintf( 'ICY send protocol is: ', ( $is_icy_response ) ? 'on' : 'off' ) );
+      $this->is_icy_response       = ( $is_icy_response  )  ? true : false;
+    }
+    else
+    {
+      $this->log( sprintf( 'Tried to change icy response state to: %s, but transcoding is not allowed.',  ( $is_icy_response ) ? 'on' : 'off' ) );
+    }
   }
-  
   /**
-   * play - this method will play the selection using class variables made in the constructor 
+   * play - this method will play the selection using class variables made in the constructor
    * this is the main public method for the class
    */
   public function play()
-  {    
-    //determine right send method 
+  {
+    //determine right send method
     if(
         ( $this->user_requested_bitrate || $this->user_requested_format )
-        && ( ( $this->target_bitrate <= $this->source_bitrate ) || ( $this->source_extension == $this->target_extension ) ) 
+        && ( ( $this->target_bitrate <= $this->source_bitrate ) || ( $this->source_extension == $this->target_extension ) )
         && !$this->is_icy_response
       )
     {
-       $this->stream_modify();
+      $this->log( sprintf('Attempting to play filename: %s in format: %s with bitrate: %s', $this->filename, $this->target_format, $this->target_bitrate ));
+      $this->stream_modify();
     }
-    else if( 
+    else if(
         ( $this->user_requested_bitrate || $this->user_requested_format )
         && $this->is_icy_response
         && $this->target_format == 'mp3'
       )
     {
-       $this->stream_icy();
+      $this->log( sprintf('Attempting to play filename: %s in format: %s with bitrate: %s using icy headers', $this->filename, $this->target_format, $this->target_bitrate ));
+      $this->stream_icy();
     }
     else
     {
-       $this->stream_original();
+      $this->log( sprintf('Attempting to play original filename: %s', $this->filename, $this->target_format, $this->target_bitrate ));
+      $this->stream_original();
     }
   }
   
@@ -180,7 +202,7 @@ class MediaProxy
   }
   
   /**
-   * Stream this file using nonstandard HTTP headers for shoutcast servers. 
+   * Stream this file using nonstandard HTTP headers for shoutcast servers.
    * it will output ICY 200 OK for shoutcast clients with no/incomplete HTTP/1.1 support.
    * method will only work if you have the ffmpeg executable installed an enabled with the correct codec support
    */
@@ -194,24 +216,24 @@ class MediaProxy
     header( "icy-br: " . $this->target_bitrate );
     header( "icy-metaint: 8192" );
     header( "Content-Type: " . ( ( $this->user_requested_format ) ? $this->target_type : $this->source_type ) );
-    header("Content-Encoding: none");  
-    
+    header("Content-Encoding: none");
     $this->ffmpeg_passthru();
   }
   
   /**
-   * Stream the original file from anywhere on the user's PC. This function will serve the original file 
+   * Stream the original file from anywhere on the user's PC. This function will serve the original file
    * and offer ranges for seeking through the content.
    */
   private function stream_original()
-  { 
+  {
     //does the user have apache mod XSendFile installed? use that as a first priority
-    //otherwise we can send it using php's PEAR HTTP_Download functionality 
+    //otherwise we can send it using php's PEAR HTTP_Download functionality
     $mods = apache_get_modules();
     $flip = array_flip( $mods );
     $mod_number = (string) $flip[ 'mod_xsendfile' ];
     if( !empty( $mod_number ) )
-    { 
+    {
+      $this->log('Sending File using X-Sendfile Module');
       header("X-Sendfile: $this->filename");
       header("Content-Type: $this->source_type");
       header("Content-Disposition: attachment; filename=\"$this->source_basename\"");
@@ -219,7 +241,8 @@ class MediaProxy
       exit;
     }
     else
-    {    
+    {
+      $this->log('Sending File using Pear HTTP Download');
       $params = array(
         'File'                => $this->filename,
         'ContentType'         => $this->source_type,
@@ -247,56 +270,60 @@ class MediaProxy
     {
       case 'mp3':
         $args .= sprintf( '-ab %dk ', intval( $this->argbitrate ) ); //bitrate
-        $args .= sprintf( '-acodec %s ', 'libmp3lame' ); //codec        
-        $args .= sprintf( '-f %s ', 'mp3' ); //container                                     
-        break;     
+        $args .= sprintf( '-acodec %s ', 'libmp3lame' ); //codec
+        $args .= sprintf( '-f %s ', 'mp3' ); //container
+        break;
       case 'ogg':
         $args .= sprintf( '-aq %d ', floor( intval( $this->argbitrate ) / 2 ) ); //vbr quality
-        $args .= sprintf( '-acodec %s ', 'vorbis' ); 
-        $args .= sprintf( '-f %s ', 'ogg' );                                      
+        $args .= sprintf( '-acodec %s ', 'vorbis' );
+        $args .= sprintf( '-f %s ', 'ogg' );
         break;
     }
     
-    $args .= ' - ';                              
+    $args .= ' - ';
             
-    return trim( $args );                                                                 
+    return trim( $args );
   }
   
   /**
    * Use FFMPEG in a process to send re-compressed files on the fly
-   * @return    bool: false if user has not allowed ffmpeg transcoding 
+   * @return    bool: false if user has not allowed ffmpeg transcoding
    */
   private function ffmpeg_passthru()
   {
     if( $this->allow_transcoding )
     {
+      $this->log('Beginning Transcode Process...');
       $this->ffmpeg_args = $this->get_ffmpeg_args();
       switch ( $this->argformat )
       {
         case 'mp3':
           $this->output_mp3();
-          break;  
+          break;
           
         case 'ogg':
          	$this->output_ogg();
-          break;    
+          break;
       }
       exit;
     }
+    $this->log('Transcoding is disabled: check your app.yml file for options.');
     return false;
   }
     
   /**
    * Send an MP3 to the output buffer with an inaccurate content-length guess
-   * calculate the new filesize ( this algortihm is a huge hack ) 
+   * calculate the new filesize ( this algortihm is a huge hack )
    */
   private function output_mp3()
   {
-    $new_filesize = (( $this->source_duration / 1000 ) //time in seconds 
-                  * ( $this->target_bitrate * 1000 ) //bitrate 
+    $this->log( sprintf( 'Transcoding MP3 using ffmpeg command: %s %s', $this->ffmpeg_executable, $this->ffmpeg_args ) );
+    $new_filesize = (( $this->source_duration / 1000 ) //time in seconds
+                  * ( $this->target_bitrate * 1000 ) //bitrate
                   / 8 ) // convert to bytes
                   - 1024; //trim 1024 bytes for headers
   	header( 'Content-Length:' . $new_filesize );
+  	$this->log(sprintf( 'Content Length modified to %s bytes', $new_filesize ) );
   	passthru( $this->ffmpeg_executable . ' ' . $this->ffmpeg_args );
 	}
   
@@ -305,7 +332,18 @@ class MediaProxy
    */
   private function output_ogg()
   {
+    $this->log( sprintf( 'Transcoding OGG using ffmpeg command: %s %s', $this->ffmpeg_executable, $this->ffmpeg_args ) );
   	header( 'Content-Length: 999999999' );
   	passthru( $this->ffmpeg_executable . ' ' . $this->ffmpeg_args );
+  }
+  
+  /**
+   * Log Media Proxy Activity
+   *
+   * @param string  $message
+   */
+  public function log( $message )
+  {
+    file_put_contents( dirname(__FILE__) . '/../../../log/proxy.log', date('Y-m-d h:i:s' ) . ' - {StreemeMediaProxy} ' . $message . "\r\n", FILE_APPEND);
   }
 }

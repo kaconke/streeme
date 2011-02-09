@@ -5,26 +5,6 @@ services:
   url: /service/:action
   param: { module: service, action: :action }
 
-play_modified_bitrate_format_icyheaders:
-  url: /play/:unique_song_id/:target_bitrate/:target_format/:is_icy_response
-  param: { module: play }
-
-play_modified_bitrate_format:
-  url: /play/:unique_song_id/:target_bitrate/:target_format
-  param: { module: play }
-
-play_modified_bitrate:
-  url: /play/:unique_song_id/:target_bitrate
-  param: { module: play }
-
-play_original:
-  url: /play/:unique_song_id
-  param: { module: play }
-
-art_file:
-  url: /art/:hash/:size
-  param: {module: art }
-
 player_desktop_default:
   url: /player/desktop
   param: { module: player_desktop, action: index }
@@ -56,10 +36,6 @@ player_default:
 player:
   url: /player/:action
   param: { module: player, action: :action }
-
-defaults:
-  url: /:action
-  param: {module: player, action: index }
   
 homepage:
   url: /
