@@ -124,6 +124,9 @@ query_cache_type = 1
 query_cache_size  = 32M
 }}}
 
+===Permissions===
+The permission system on Linux will usually require granting explicit permissions to your music files and folders. Apache will usually always run as its own user and you will need to give Apache permission to read your music.  There are a number of strategies for granting access, which I will leave up to you, but it seems best practice is to add your music to a group and allow apache membership to the group. If you get into Streeme and your music won't play, you can see what's going on in log/proxy.log. Chances are the problem will boil down to permissions.
+
 ===FFMPEG===
 In order to do almost anything in this app on linux, you're going to need something like medibuntu - most importantly FFMPEG. You'll want to add the non-free versions to support MP3 appropriately. Read more about getting medibuntu set up here:
 
