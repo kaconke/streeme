@@ -44,7 +44,7 @@ Streeme should be tested for:
 
 ===Source Control===
 
-While Streeme is still small, please *develop in a branch* of your choosing. I like to name my branches initials-short decription-version the branch was cut from. eg. rh-add-jplayer-0.2.1. This should help us in staying in sync and knowing when to kill off old branches. *Committers: please do NOT commit to trunk!* if project committers commit to trunk without a branch or communicating with the project owner, they will lose their rights to commit to Streeme. Please use detailed commit messages (at least 1 sentence describing the changes you've applied)
+While Streeme is still small, please *develop in a branch* of your choosing. I like to name my branches initials-short decription-version the branch was cut from. eg. rh-add-jplayer-0.2.1. This should help us in staying in sync and knowing when to kill off old branches. *Committers: please do NOT commit to trunk!* if project committers commit to trunk without a branch or communicating with the project owner, they will lose their rights to commit to Streeme. Please use detailed commit messages (at least 1 sentence describing the changes you've applied). You can now develop using git at github. The git version is here https://github.com/chaffneue/streeme - this should make for much easier patch submission than SVN. Just use whatever you're more comfortable with 
 
 ===Source Editors===
 
