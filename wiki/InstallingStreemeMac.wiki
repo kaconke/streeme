@@ -56,9 +56,9 @@ The above guide will add apache in compiled setup - no new functionality can be 
  * add deflate_module *optional*
 
 create the virtual hosts:
-It's highly recommended that you choose two *random unused ports* between 1025-9800 and replace the example 8095/8096 pairs. One port is for the media stream and another is for HTML and program communication. Also make sure your paths are correct!
+It's highly recommended that you choose two *random unused ports* between 1025-9800 and replace the example 8095/8096 pairs. One port is for the media stream and another is for HTML and program communication. Also make sure your paths are correct! Add the following to your user's httpd file:
 
-_/etc/apache2/httpd.conf_
+_/etc/apache2/users/your_user_name.conf_
 {{{
 # This is the configuration for the streeme app communication path
 Listen *:8095
@@ -104,11 +104,11 @@ Satisfy All
 
 now validate you've made the correct changes by typing:
 
-{{{/usr/sbin/apache2ctl configtest}}}
+{{{/usr/sbin/apachectl configtest}}}
 
 if all looks good, go ahead and restart apache, type:
 
-{{{/usr/sbin/apache2ctl restart}}} 
+{{{/usr/sbin/apachectl restart}}} 
 
 ===PHP Configs===
 
@@ -156,6 +156,6 @@ Restart both apache and mysql before you continue:
 chmod all of your config files back to 644
  
  * {{{sudo /Library/StartupItems/MySQLCOM restart}}} 
- * {{{sudo /usr/sbin/apache2ctl restart}}} 
+ * {{{sudo /usr/sbin/apachectl restart}}} 
 
 Continue to [InstallingStreeme Installing Streeme >]
