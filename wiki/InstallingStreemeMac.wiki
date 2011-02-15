@@ -116,7 +116,7 @@ _/etc/php.ini_
 
  * set {{{magic_quotes_gpc = Off}}}
  * set {{{short_open_tag = Off}}}
- * set {{{memory_limit = 128M}}} or higher
+ * set {{{memory_limit = 256M}}} or higher
  * set {{{pdo_mysql.default_socket=/tmp/mysql.sock}}}  
 
 Use the pear package manager to install apc and http_download
