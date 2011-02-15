@@ -13,6 +13,8 @@ If you want to sync your iTunes library, run the following symfony command from 
 <br/>
 This script will open your itunes library backup file and copy all of the song information to your Streeme music library. 
 
+*Tip:* Scanning iTunes is a fairly memory hungry task at the moment. If  you're getting memory exhausted errors, try changing the memory limit in php.ini, restart apache and try again. As an example, 8500 songs takes up about 97MB of memory while running. 
+
 
 = Scanning the Filesystem =
 
