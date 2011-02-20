@@ -2,7 +2,7 @@
 class StreemeUtil
 {
   /**
-  * Encode a filesystem name into an iTunes compatible format
+  * Format and encode a filesystem name into an iTunes style format
   * @param filename str: the input filename to encode
   * @return       str: the iTunes formatted semi-urlencoded file or false
   */
@@ -59,7 +59,14 @@ class StreemeUtil
    */
   public static function is_windows()
   {
-    return ( strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ) ? true : false;
+    if( sfConfig::get('sf_environment') === 'test' )
+    {
+      return false;
+    }
+    else
+    {
+      return ( strtoupper(substr(PHP_OS, 0, 3)) == 'WIN' ) ? true : false;
+    }
   }
   
   /**
@@ -67,6 +74,7 @@ class StreemeUtil
    * From Snipplr http://snipplr.com/view.php?codeview&id=22741
    * @param text string: the string to slugify
    * @return the slugified string
+   * @see http://snipplr.com/view.php?codeview&id=22741
    */
   public function slugify($text)
   {
@@ -94,5 +102,30 @@ class StreemeUtil
     }
  
     return $text;
+  }
+  
+  /**
+   * check if an item is in an array in a case insensitive manner -works on 
+   * single dimension arrays only for making configs user case insensitive
+   * @param needle   mixed: needle to find
+   * @param haystack mixed: haystack to search
+   * @return         bool: if in array, return true.
+   */
+  public function in_array_ci($needle, $haystack)
+  {
+    return in_array(strtolower($needle), array_map('strtolower', $haystack));
+  }
+  
+  /**
+   * Remove null terminations and whitespace from a string (UTF8 friendly)
+   * 
+   * @param text     str: the dirty string
+   * @return         str: non printable sanitized string
+   */
+  public function xmlize_uf8_string( $text )
+  {
+    $blacklist = array( chr(0), '\0', '\t', '\r', '\n', 'ÿþ' );
+    foreach( range( chr(0),chr(127) ) as $alpha ) array_unshift( $blacklist, sprintf( '%sÿþ', $alpha ) );
+    return  trim( str_replace( $blacklist, '', $text ) );
   }
 }

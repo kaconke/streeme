@@ -20,7 +20,7 @@ $plist                 = $plist_parser->toArray();
 foreach( $plist[ 'Tracks' ] as $key => $value )
 {
   //if it's not a valid filetype, ignore 
-  if ( !in_array( substr( $value[ 'Location' ], -3 ), $allowed_filetypes ) ) continue;
+  if ( !StreemeUtil::in_array_ci( substr( $value[ 'Location' ], -3 ), $allowed_filetypes ) ) continue;
 
   //update files on windows shares
   if ( is_array( $mapped_drive_locations ) && count( $mapped_drive_locations ) > 0 )
