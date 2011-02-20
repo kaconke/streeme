@@ -3,6 +3,13 @@
 
 = CHANGELOG =
 
+=== Version 0.3.4 & 0.3.5 ===
+ * Added french locale 
+ * Amazon scanner edge cases resolved - if id3 derived name has null terminators, Amazon/cloudfusion will respond with poorly formed XML. 
+ * Fixed issue with in_array being used in a case insensitive manner when it is not a case insensitive function.
+ * Changed google chrome's html 5 player choice back to an audio tag until Chromium issue in version 10 is resolved. that bug is here: http://code.google.com/p/chromium/issues/detail?id=73458
+ * Unit test added for StreemeUtil 
+
 === Version 0.3.2 & 0.3.3 ===
  * Added more locales
  * Added Logging to the proxy system so users can see details about how their media loads
