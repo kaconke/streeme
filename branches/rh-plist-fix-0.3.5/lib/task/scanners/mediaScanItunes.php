@@ -8,16 +8,13 @@
  * @author     Richard Hoar
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */ 
-require_once( dirname(__FILE__) . '/../../vendor/CFPropertyList-1.1.1/CFPropertyList.php' );
-   
 $itunes_music_library   = sfConfig::get( 'app_itunes_xml_location' );
 $mapped_drive_locations = sfConfig::get( 'app_mdl_mapped_drive_locations' );
 $allowed_filetypes      = sfConfig::get( 'app_aft_allowed_file_types' );
-$media_scanner         = new MediaScan();
-$plist_parser          = new CFPropertyList( $itunes_music_library );
-$plist                 = $plist_parser->toArray();
+$media_scanner          = new MediaScan();
+$itunes_parser          = new StreemeItunesTrackParser( $itunes_music_library );
 
-foreach( $plist[ 'Tracks' ] as $key => $value )
+while( $value = $itunes_parser->getTrack() )
 {
   //if it's not a valid filetype, ignore 
   if ( !StreemeUtil::in_array_ci( substr( $value[ 'Location' ], -3 ), $allowed_filetypes ) ) continue;
