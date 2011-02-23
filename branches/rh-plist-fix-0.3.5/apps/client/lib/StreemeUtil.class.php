@@ -25,7 +25,7 @@ class StreemeUtil
       	  $accumulator[] = $part;
       	  continue;
       	}
-        $accumulator[] = rawurlencode( $part );
+        $accumulator[] = rawurlencode( utf8_encode( $part ) );
       }
       
       $url_prefix = ( self::is_windows() ) ? 'file://localhost/' : 'file://localhost';
