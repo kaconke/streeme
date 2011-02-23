@@ -47,7 +47,7 @@ class StreemeUtil
     $url_prefix = ( self::is_windows() ) ? 'file://localhost/' : 'file://localhost';
       
     //strip the prepended protocol information
-    $filename = rawurldecode( str_replace( $url_prefix, '', $itunes_url ) );
+    $filename = utf8_decode( rawurldecode( str_replace( $url_prefix, '', $itunes_url ) ) );
     
     //url decode the result
     return $filename;

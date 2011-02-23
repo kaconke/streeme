@@ -28,7 +28,7 @@ while( $value = $itunes_parser->getTrack() )
     }
   }
   //if this file's scanned already and nothing about the file has been modified, ignore
-  if ( $media_scanner->is_scanned( StreemeUtil::itunes_format_encode( StreemeUtil::itunes_format_decode( $value[ 'Location' ] ) ), strtotime( $value[ 'Date Modified' ] ) ) ) continue;
+  if ( $media_scanner->is_scanned( $value[ 'Location' ], strtotime( $value[ 'Date Modified' ] ) ) ) continue;
 
   //smooth times from itunes format to minutes:seconds
   $minutes = floor( $value[ 'Total Time' ] / 1000 / 60 );
@@ -50,12 +50,16 @@ while( $value = $itunes_parser->getTrack() )
   $song_array[ 'label' ]            = @null; //not available from itunes xml
   $song_array[ 'mtime' ]            = @strtotime( $value[ 'Date Modified' ] );
   $song_array[ 'atime' ]            = @strtotime( $value[ 'Date Added' ] );
-  $song_array[ 'filename' ]         = StreemeUtil::itunes_format_encode( StreemeUtil::itunes_format_decode( $value[ 'Location' ] ) ); //normalize formatting  
+  $song_array[ 'filename' ]         = @$value[ 'Location' ];
 
-  if( is_readable( urldecode( $song_array[ 'filename' ] ) ) )
+  if( is_readable( StreemeUtil::itunes_format_decode( $song_array[ 'filename' ] ) ) )
   { 
      //it checks out, add the song
      $media_scanner->add_song( $song_array );
+  }
+  else
+  {
+    echo sprintf( 'File %s is unreadable',  $song_array[ 'filename' ] ) . "\r\n";
   }
 }
 
