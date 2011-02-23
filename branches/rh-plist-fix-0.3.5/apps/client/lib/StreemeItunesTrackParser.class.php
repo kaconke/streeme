@@ -22,10 +22,8 @@ class StreemeItunesTrackParser
   public function __construct( $file )
   {
     //create the parser 
-    $this->xml_parser = xml_parser_create();
+    $this->xml_parser = xml_parser_create( "UTF-8" );
     xml_parser_set_option( $this->xml_parser, XML_OPTION_CASE_FOLDING, 1 );
-    xml_parser_set_option( $this->xml_parser, XML_OPTION_TARGET_ENCODING, "UTF-8");
-    xml_parser_set_option( $this->xml_parser, XML_OPTION_SKIP_WHITE, 1 );
     xml_set_element_handler( $this->xml_parser, array( 'StreemeItunesTrackParser', 'startElement' ), array( 'StreemeItunesTrackParser', 'endElement' ) );
     xml_set_character_data_handler( $this->xml_parser, array( 'StreemeItunesTrackParser', 'charData' ) );
     
@@ -46,19 +44,19 @@ class StreemeItunesTrackParser
     
     while ($this->data = fgets($this->fp))
     {
+      //read and parse another line from the itunes file
+      if ( !xml_parse( $this->xml_parser, $this->data ) )
+      {
+        throw new Exception( sprintf( "XML error: %s at line %d",
+          xml_error_string(xml_get_error_code($this->xml_parser)),
+          xml_get_current_line_number($this->xml_parser)));
+      }
+      
       //is the array ready yet?
       if ( $this->pull )
       {
         $this->pull = 0;
         return $this->songs;
-      }
-
-      //read another line from the itunes file
-      if ( !xml_parse( $this->xml_parser, $this->data, feof( $this->fp ) ) )
-      {
-        throw new Exception( sprintf( "XML error: %s at line %d",
-          xml_error_string(xml_get_error_code($this->xml_parser)),
-          xml_get_current_line_number($this->xml_parser)));
       }
     }
   }
@@ -132,12 +130,12 @@ class StreemeItunesTrackParser
     {
       if($this->current_element === "KEY")
       {
-        $this->array_key = $this->current_data;
+        $this->array_key = trim( $this->current_data );
         $this->current_data = null;
       }
-      else
-      {
-        $this->songs[ $this->array_key ] = trim( $this->current_data );
+      else if( trim($this->current_data) )
+      { 
+        $this->songs[ $this->array_key ] = str_replace( array( '%E2%80%93', '%E2%80%A6' ), array( '%96', '%85' ), trim( $this->current_data ) );
         $this->current_data = null;
       }
     }

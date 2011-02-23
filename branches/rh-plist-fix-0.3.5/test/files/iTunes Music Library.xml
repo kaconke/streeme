@@ -66,6 +66,27 @@
 			<key>File Folder Count</key><integer>-1</integer>
 			<key>Library Folder Count</key><integer>-1</integer>
 		</dict>
+    <key>4297</key>
+    <dict>
+      <key>Track ID</key><integer>4297</integer>
+      <key>Name</key><string>1Xtra D&#38;B Show [2010-08-04] – Bailey &#38; DJ Fresh</string>
+      <key>Artist</key><string>Bailey &#38; DJ Fresh</string>
+      <key>Album Artist</key><string>Bailey &#38; DJ Fresh</string>
+      <key>Album</key><string>1Xtra D&#38;B Show [2010-08-04] – Bailey &#38; DJ Fresh</string>
+      <key>Kind</key><string>MPEG audio file</string>
+      <key>Size</key><integer>259204386</integer>
+      <key>Total Time</key><integer>10800120</integer>
+      <key>Year</key><integer>2010</integer>
+      <key>Date Modified</key><date>2010-08-23T06:30:06Z</date>
+      <key>Date Added</key><date>2011-02-19T08:08:03Z</date>
+      <key>Bit Rate</key><integer>192</integer>
+      <key>Sample Rate</key><integer>48000</integer>
+      <key>Persistent ID</key><string>7452804205FD1913</string>
+      <key>Track Type</key><string>File</string>
+      <key>Location</key><string>file://localhost/E:/music/1Xtra%20D&#38;B%20Show%20%5B2010-08-04%5D%20%E2%80%93%20Bailey%20&#38;%20DJ%20Fresh/1Xtra%20D&#38;B%20Show%20%5B2010-08-04%5D%20%E2%80%93%20Bailey%20&#38;%20DJ%20Fresh.mp3</string>
+      <key>File Folder Count</key><integer>-1</integer>
+      <key>Library Folder Count</key><integer>-1</integer>
+    </dict>
 	</dict>
 	<key>Playlists</key>
 	<array>

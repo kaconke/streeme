@@ -3,7 +3,7 @@ include( dirname(__FILE__) . '/../bootstrap/unit.php' );
 include( dirname(__FILE__) . '/../../apps/client/lib/StreemeItunesTrackParser.class.php' );
 
 // Initialize the test object
-$t = new lime_test( 4, new lime_output_color() );
+$t = new lime_test( 5, new lime_output_color() );
 
 $t->comment( '->construct()' );
 try
@@ -71,9 +71,10 @@ $expected_row_1 =  array (
                         'Track Type' => 'File',
                         'Location' => 'file://localhost/E:/music/TheKingOfLimbs-MP3/The%20King%20Of%20Limbs/01%20Bloom.MP3',
                         'File Folder Count' => '-1',
-                        'Library Folder Count' => ''
+                        'Library Folder Count' => '-1'
                       );
 $expected_row_2 =   array (
+                        'Track ID' => '3861',
                         'Name' => 'Hoppípolla',
                         'Artist' => 'Sigur Rós',
                         'Album Artist' => 'Sigur Rós',
@@ -93,10 +94,31 @@ $expected_row_2 =   array (
                         'Track Type' => 'File',
                         'Location' => 'file://localhost/E:/music/03%20Hoppipolla.mp3',
                         'File Folder Count' => '-1',
-                        'Library Folder Count' => ''
+                        'Library Folder Count' => '-1'
+                      );
+$expected_row_3 =   array (
+                        'Track ID' => '4297',
+                        'Name' => '1Xtra D&B Show [2010-08-04] – Bailey & DJ Fresh',
+                        'Artist' => 'Bailey & DJ Fresh',
+                        'Album Artist' => 'Bailey & DJ Fresh',
+                        'Album' => '1Xtra D&B Show [2010-08-04] – Bailey & DJ Fresh',
+                        'Kind' => 'MPEG audio file',
+                        'Size' => '259204386',
+                        'Total Time' => '10800120',
+                        'Year' => '2010',
+                        'Date Modified' => '2010-08-23T06:30:06Z',
+                        'Date Added' => '2011-02-19T08:08:03Z',
+                        'Bit Rate' => '192',
+                        'Sample Rate' => '48000',
+                        'Persistent ID' => '7452804205FD1913',
+                        'Track Type' => 'File',
+                        'Location' => 'file://localhost/E:/music/1Xtra%20D&B%20Show%20%5B2010-08-04%5D%20%96%20Bailey%20&%20DJ%20Fresh/1Xtra%20D&B%20Show%20%5B2010-08-04%5D%20%96%20Bailey%20&%20DJ%20Fresh.mp3',
+                        'File Folder Count' => '-1',
+                        'Library Folder Count' => '-1'
                       );
 
 
 $t->is_deeply( $rows[0], $expected_row_1, 'test file and track array are identical - ASCII' );
-$t->is_deeply( $rows[1], $expected_row_2, 'test file and track array are identical - UTF8 + Ents' );
+$t->is_deeply( $rows[1], $expected_row_2, 'test file and track array are identical - UTF8' );
+$t->is_deeply( $rows[2], $expected_row_3, 'test file and track array are identical - Ents' );
 $parser->free();
