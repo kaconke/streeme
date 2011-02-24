@@ -25,7 +25,9 @@ Go Here and memorize the IP address it shows, this is your public IP for outside
 To access your collection while outside or while on a cellular data plan, use this IP and your first port in your apache config. example http://27.34.109.168:8095
 
 ===Configuring Your Router===
-The easiest way to allow communication with Streeme is to Port Forward like you would do for game servers, VPNs  and other products that require access to home computers. Have a look at the documentation on your router for how to port forward TCP packets. You'll want to add your Apache ports to  the list of forwarded ports and you should make sure that it forwards to the right computer on your network. 
+The easiest way to allow communication with Streeme is to Port Forward like you would do for game servers, VPNs  and other products that require access to home computers. Have a look at the documentation on your router for how to port forward TCP packets. You'll want to add your Apache ports to  the list of forwarded ports and you should make sure that it forwards to the right computer on your network. Here's an example:
+
+http://farm6.static.flickr.com/5252/5472459321_2895689784_o.jpg
 
 =Conclusion=
 Thanks for following this guide. this is the last part of the tutorial. If you have further questions, please check the help guides in the [http://code.google.com/p/streeme/w/list?can=2&q=label=Help&colspec=PageName%20Summary%20Changed%20ChangedBy Help Wiki]
