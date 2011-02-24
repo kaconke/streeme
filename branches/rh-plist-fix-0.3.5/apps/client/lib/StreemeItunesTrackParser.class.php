@@ -135,7 +135,7 @@ class StreemeItunesTrackParser
       }
       else if( trim($this->current_data) )
       { 
-        $this->songs[ $this->array_key ] = str_replace( array( '%E2%80%93', '%E2%80%A6' ), array( '%96', '%85' ), trim( $this->current_data ) );
+        $this->songs[ $this->array_key ] = trim( $this->current_data );
         $this->current_data = null;
       }
     }

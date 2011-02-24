@@ -112,7 +112,7 @@ $expected_row_3 =   array (
                         'Sample Rate' => '48000',
                         'Persistent ID' => '7452804205FD1913',
                         'Track Type' => 'File',
-                        'Location' => 'file://localhost/E:/music/1Xtra%20D&B%20Show%20%5B2010-08-04%5D%20%96%20Bailey%20&%20DJ%20Fresh/1Xtra%20D&B%20Show%20%5B2010-08-04%5D%20%96%20Bailey%20&%20DJ%20Fresh.mp3',
+                        'Location' => 'file://localhost/E:/music/1Xtra%20D&B%20Show%20%5B2010-08-04%5D%20%E2%80%93%20Bailey%20&%20DJ%20Fresh/1Xtra%20D&B%20Show%20%5B2010-08-04%5D%20%E2%80%93%20Bailey%20&%20DJ%20Fresh.mp3',
                         'File Folder Count' => '-1',
                         'Library Folder Count' => '-1'
                       );

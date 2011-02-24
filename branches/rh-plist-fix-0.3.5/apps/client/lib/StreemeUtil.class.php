@@ -25,7 +25,7 @@ class StreemeUtil
       	  $accumulator[] = $part;
       	  continue;
       	}
-        $accumulator[] = rawurlencode( utf8_encode( $part ) );
+        $accumulator[] = rawurlencode( $part );
       }
       
       $url_prefix = ( self::is_windows() ) ? 'file://localhost/' : 'file://localhost';
@@ -47,7 +47,7 @@ class StreemeUtil
     $url_prefix = ( self::is_windows() ) ? 'file://localhost/' : 'file://localhost';
       
     //strip the prepended protocol information
-    $filename = utf8_decode( rawurldecode( str_replace( $url_prefix, '', $itunes_url ) ) );
+    $filename = str_replace( $url_prefix, '', rawurldecode( $itunes_url ) );
     
     //url decode the result
     return $filename;
