@@ -341,7 +341,7 @@ class SongTable extends Doctrine_Table
                         1 => ' song.name ' . $order_by,
                         2 => ' album.name ' . $order_by . ', song.tracknumber ASC ',
                         3 => ' artist.name ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
-                        4 => ' album_mtime ' . $order_by .  ', song.tracknumber ASC ',
+                        4 => ' album_mtime ' . $order_by .  ', album.id, song.tracknumber ASC ',
                         5 => ' song.yearpublished ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
                         6 => ' song.length ' . $order_by,
                         7 => ' song.tracknumber ' . $order_by,
@@ -352,8 +352,7 @@ class SongTable extends Doctrine_Table
     $parameters = array();
     
     $query  = 'SELECT ';
-    $query .= ' song.unique_id, song.name, album.name as album_name, artist.name as artist_name, song.mtime as date_modified, song.yearpublished, song.length, song.tracknumber, song.filename, ';
-    $query .= ' COALESCE( ( SELECT MAX( song2.mtime ) from song as song2 where song2.album_id = song.album_id LIMIT 1 ), song.mtime ) as album_mtime ';
+    $query .= ' song.unique_id, song.name, album.name as album_name, artist.name as artist_name, song.mtime as date_modified, song.yearpublished, song.length, song.tracknumber, song.filename, FLOOR( song.mtime / 2000 ) as album_mtime ';
     $query .= 'FROM ';
     if( !is_null( $settings['playlist_id'] ) )
     {
@@ -451,7 +450,6 @@ class SongTable extends Doctrine_Table
     $query .= (int) $settings[ 'limit' ];
     $query .= ' OFFSET ';
     $query .= (int) $settings[ 'offset' ];
-    
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $dbh->prepare( $query );
     $success = $stmt->execute( $parameters );
