@@ -19,13 +19,20 @@ class StreemeUtil
       //urlencode each part
       foreach( $file_parts as $part )
       {
-      	//encode windows drive letters a bit differently, like itunes does?
-      	if ( strpos( $part, ':' ) )
-      	{
-      	  $accumulator[] = $part;
-      	  continue;
-      	}
-        $accumulator[] = rawurlencode( $part );
+        //encode windows drive letters a bit differently, like itunes does?
+        if ( strpos( $part, ':' ) )
+        {
+          $accumulator[] = $part;
+          continue;
+        }
+        if ( self::is_windows() )
+        {
+          $accumulator[] = rawurlencode( utf8_encode( $part ) );
+        }
+        else
+        {
+          $accumulator[] = rawurlencode( $part );
+        }
       }
       
       $url_prefix = ( self::is_windows() ) ? 'file://localhost/' : 'file://localhost';
@@ -43,12 +50,19 @@ class StreemeUtil
   */
   public static function itunes_format_decode( $itunes_url )
   {
-    //build the iTunes URL prefix
-    $url_prefix = ( self::is_windows() ) ? 'file://localhost/' : 'file://localhost';
-      
-    //strip the prepended protocol information
-    $filename = rawurldecode( str_replace( $url_prefix, '', $itunes_url ) );
-    
+    //build the iTunes URL prefix and allow for single byte latin chars
+    if ( self::is_windows() )
+    {
+      $url_prefix = 'file://localhost/'; 
+      $itunes_url = self::replace_url_nonfs_chars( $itunes_url );
+      $filename = utf8_decode( str_replace( $url_prefix, '', rawurldecode( $itunes_url ) ) );
+    }
+    else
+    {
+      $url_prefix = 'file://localhost';
+      $filename = str_replace( $url_prefix, '', rawurldecode( $itunes_url ) );
+    }
+
     //url decode the result
     return $filename;
   }
@@ -127,5 +141,26 @@ class StreemeUtil
     $blacklist = array( chr(0), '\0', '\t', '\r', '\n', 'ÿþ' );
     foreach( range( chr(0),chr(127) ) as $alpha ) array_unshift( $blacklist, sprintf( '%sÿþ', $alpha ) );
     return  trim( str_replace( $blacklist, '', $text ) );
+  }
+  
+  /**
+   * Convert itunes mbchars to single byte latin for windows
+   * @param text str: the dirty string
+   * @return     str: sanitized str
+   */ 
+  public function replace_url_nonfs_chars( $text )
+  {
+    $search = array( 
+                     '%E2%80%93',
+                     '%E2%80%A6',
+                     '%E2%80%BA'
+                    );
+    $replace = array(
+                      '%96',
+                      '%85',
+                      '%9B' 
+                    );
+    
+    return str_replace( $search, $replace, $text );
   }
 }
