@@ -16,7 +16,7 @@ Streeme is very much in its infancy and there are multiple new features that spr
  * [StreemeRoadmap#Import_Playlists Import playlists]
  * [StreemeRoadmap#Support_Music_Importing_from_Other_Jukeboxes Support other jukebox software lists]
  * ~~[StreemeRoadmap#Create_a_Virtual_Machine Create a Virtual Machine version of Streeme]~~
- * [StreemeRoadmap#Language_Packs Create Language Packs for Streeme]
+ * ~~[StreemeRoadmap#Language_Packs Create Language Packs for Streeme]~~
 
 =Details=
 ===Implement a Resume Feature===
@@ -26,7 +26,7 @@ For users with FFMPEG installed, offer a feature to resume a song or audiobook f
 For devices and browsers that support the HTML5 API, create a button to tell the playback agent to scan forward or back in preset intervals or implement a seek bar to seek through the file visually. 
 
 ===Better Support for Android Devices===
-I lack the testing facilities for Android phones and the emulator seems to differ from real devices. If you have feedback on android or can help develop for it, please contact the project owner to be added to the commit group.
+I lack the testing facilities for Android phones and the emulator seems to differ from real devices. If you have feedback on android or can help develop for it, please contact the project owner to be added to the commit group. Streeme seems to work on Android Phones V2.2 and higher as of V0.3.6
 
 ===Integrate JPlayer===
 Investigate and see if integrating a playback API like jPlayer is within scope for release. if so, implement it.
@@ -53,3 +53,6 @@ Languages Supported:
 Turkish
 Italian
 English
+French
+German
+Spanish
