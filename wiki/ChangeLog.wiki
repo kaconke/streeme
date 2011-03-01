@@ -2,6 +2,13 @@
 #labels Phase-Implementation
 
 = CHANGELOG =
+=== Version 0.3.6 ===
+ * Significantly reduced memory usage required by iTunes scan process - also found and resolved a number of character encoding issues in the scan process
+ * fixed the sorting algorithm for the newest songs view - now presents albums ordered by tracknumber and date modified
+ * Added android support for V2.2+
+ * Merged pull request from esion on Github to allow for saving your volume settings in jPlayer
+ * Fixed another case sensitivity bug in extensions for jplayer
+ * Removed some old dependencies (JSMin and CFProperty List)
 
 === Version 0.3.4 & 0.3.5 ===
  * Added french locale 
