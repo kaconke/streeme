@@ -3,6 +3,13 @@
 
 = How to Update (Stable) =
 
+===Windows/TortoiseSVN===
+
+To update with TortoiseSVN, just right click on the Streeme folder and click SVN Update. Once the update is finished, open a command terminal and type symfony cc in your streeme directory.
+
+
+
+===Linux/OSX===
 The Streeme project releases new patches and updates regularly. To take advantage of these new features and fixes, type the following:   
 
 {{{
@@ -29,4 +36,3 @@ svn switch ^/trunk
 }}}
 
 Thanks for keeping up to date!
-
