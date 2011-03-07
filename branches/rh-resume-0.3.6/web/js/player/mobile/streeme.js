@@ -103,6 +103,8 @@ streeme = {
 	send_session_cookies : false,
 	send_cookie_name : null,
 	
+	resume : Array(),
+	
 	/**
 	* initialize the application - project constructor
 	* sets up the datatable object for songs and other general setup
@@ -169,7 +171,7 @@ streeme = {
 						function()
 						{						  
 						  //play the song
-						  streeme.playSong( aData[0], aData[1], aData[2], aData[3] );
+						  streeme.playSong( aData[0], aData[1], aData[2], aData[3], 0 );
 						  
 						  //update the class pointers
 						  streeme.songPointer = aData[0];
@@ -185,6 +187,20 @@ streeme = {
 				{
 					//highlight the currently playing song 
 					streeme.retarget();
+				},
+				
+				"fnCookieCallback": function( sName, oData, sExpires, sPath)
+				{
+					//extend the state save cookies to 300 days
+					var date = new Date();
+					newdate.setTime(date.getTime()+(300*24*60*60*1000));
+					var expires = newdate.toGMTString();
+					
+					// Choose what to save in cookie and what not to
+					if (sName != 'sFilter')
+				  	{
+					  	return sName + "=" + JSON.stringify(oData) + "; expires=" + expires + "; path=" + sPath;
+				  	}
 				}
 			}
 		);	
@@ -213,6 +229,11 @@ streeme = {
 				$( '#formatselector' ).val( $.cookie( 'modify_format' ) );
 			}
 			streeme.format = $.cookie( 'modify_format' );
+		}
+		
+		if( $.cookie('resume') )
+		{
+			streeme.resume = $.cookie( 'resume' );
 		}
 	
 		/**************************************************		
@@ -416,7 +437,7 @@ streeme = {
 					nextSongData = $( '#songlist' ).dataTable().fnGetData( 0 );
 					if( nextSongData )
 					{
-						streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ] );
+						streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ], 0 );
 					}
 					streeme.displayPointer = 0;
 				}
@@ -444,7 +465,7 @@ streeme = {
 		}
 		if( nextSongData )
 		{
-			streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ] );
+			streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ], 0 );
 			streeme.displayPointer++;
 		}
 	},
@@ -485,7 +506,7 @@ streeme = {
 					previousSongData = $( '#songlist' ).dataTable().fnGetData( streeme.iDisplayLength - 1	);
 					if( previousSongData )
 					{
-						streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ] );
+						streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ], 0 );
 					}
 					streeme.displayPointer = streeme.iDisplayLength - 1;
 				}
@@ -513,7 +534,7 @@ streeme = {
 		}
 		if( previousSongData )
 		{
-			streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ] );
+			streeme.playSong( previousSongData[ 0 ], previousSongData[ 1 ], previousSongData[ 2 ], previousSongData[ 3 ], 0 );
 			streeme.displayPointer--;
 		}
 	},
@@ -862,6 +883,10 @@ streeme = {
 				streeme.hideSongAlpha = true;
 				streeme.getList( 'song' );	
 				break;
+			case 'resume':
+				streeme.chooseState( 'card_welcome', 'card_songs' );
+				streeme.playSong( streeme.resume[0], streeme.resume[1], streeme.resume[2], streeme.resume[3], streeme.resume[4] );
+				break;		
 		}
 	},
 	
