@@ -17,7 +17,7 @@ Streeme is very much in its infancy and there are multiple new features that spr
  * [StreemeRoadmap#Support_Music_Importing_from_Other_Jukeboxes Support other jukebox software lists]
  * ~~[StreemeRoadmap#Create_a_Virtual_Machine Create a Virtual Machine version of Streeme]~~
  * ~~[StreemeRoadmap#Language_Packs Create Language Packs for Streeme]~~
-
+ * [StreemeRoadmap#Rating_and_Comments_System] 
 =Details=
 ===Implement a Resume Feature===
 For users with FFMPEG installed, offer a feature to resume a song or audiobook from a specific position. This feature should record its position in the song database on a per song scope. The user shall be asked if they would like to resume or start from the beginning of the song or audio book. The player will check in at a regular interval on the current position in the file using a javascript/php interface.
@@ -56,3 +56,6 @@ English
 French
 German
 Spanish
+
+===Rating and Comments System===
+Add a star based rating system that integrates with normal filesystem rating systems or looking at storing the ratings/comments as metadata in the id3 or in the folder near the music. If anyone has some good ideas on this, please join [http://groups.google.com/group/streeme/browse_thread/thread/a753f2f267c35fd1 the rating system thread] on the discussion group - I'd definitely like some guidance or someone to lead the charge on this feature. 
