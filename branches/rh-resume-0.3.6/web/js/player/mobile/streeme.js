@@ -106,8 +106,11 @@ streeme = {
 	/**
 	 * Variables for the resume functionality
 	 */
-	resume : Array(),
-	timer: 0,
+	timer : 0,
+	rSongId : 0, 
+	rSongName : null,
+	rAlbumName : null,
+	rArtistName : null,
 	
 	/**
 	* initialize the application - project constructor
@@ -358,9 +361,13 @@ streeme = {
 			}
 
 			//add album art to the viewer
-			if( $( '#albumart' ) )
+			if( $( '#albumart' ) && ( artist_name != null || album_name != null ) )
 			{
 				$( '#albumart' ).html( '<div id="pauseoverlay"></div><img src="' + javascript_base + '/art/' + $.md5( artist_name + album_name ) + '/large" alt="' + sAlbumArtImageAlt + ' ' + album_name + '" class="albumimg" border="0"/>' );
+			}
+			else
+			{
+				$( '#albumart' ).html( '<div id="pauseoverlay"></div><img src="' + javascript_base + '/art/placeholder/large" alt="' + sAlbumArtImageAlt + ' ' + album_name + '" class="albumimg" border="0"/>' );				
 			}
 
 			//update next previous buttons
@@ -375,6 +382,14 @@ streeme = {
 				$( '#previous' ).removeClass( 'previoussongdisabled' );
 			}
 		}
+		
+		// set the resume information
+		streeme.rSongId = song_id; 
+		streeme.rSongName = streeme.stripTags( song_name );
+		streeme.rAlbumName = album_name;
+		streeme.rArtistName = artist_name;
+		
+		// set the song pointer for the playback cursor
 		streeme.songPointer = song_id;
 	},
 	
@@ -417,9 +432,20 @@ streeme = {
 		
 		streeme.timer++;
 		
-		if( streeme.timer % 2 )
+		if( streeme.timer % 2 && streeme.songPointer > 0 )
 		{
-			$.cookie('resume', "{['time_offset':'" + streeme.timer + "']}", { expires : 3000 } );
+			var data = {
+							'song_id' : streeme.rSongId,
+							'song_name' : streeme.rSongName,
+							'album_name' : streeme.rAlbumName, 
+							'artist_name' : streeme.rArtistName,
+							'time_offset' : streeme.timer
+						};
+			$.cookie(
+						'resume', 
+						JSON.stringify(data),
+						{ expires : 3000 }
+					);
 		}
 	},
 	
@@ -907,7 +933,9 @@ streeme = {
 				break;
 			case 'resume':
 				streeme.chooseState( 'card_welcome', 'card_songs' );
-				streeme.playSong( streeme.resume[0], streeme.resume[1], streeme.resume[2], streeme.resume[3], streeme.resume[4] );
+				var resume_info = JSON.parse( $.cookie('resume') );
+				console.log( resume_info );
+				streeme.playSong( resume_info.song_id, resume_info.song_name, resume_info.artist_name, resume_info.album_name, resume_info.time_offset );
 				break;		
 		}
 	},
@@ -1074,8 +1102,9 @@ streeme = {
 	* @param string to modify
 	* @return string cleaned of HTML tags
 	*/
-	stripTags : function( string )
+	stripTags : function( sString )
 	{
-	  return string.replace(/<\/?[^>]+>/gi, '');
+		if( sString == null ) return null;
+		return sString.replace(/<\/?[^>]+>/gi, '');
 	}
 }
