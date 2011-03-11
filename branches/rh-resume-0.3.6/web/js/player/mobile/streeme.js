@@ -103,7 +103,11 @@ streeme = {
 	send_session_cookies : false,
 	send_cookie_name : null,
 	
+	/**
+	 * Variables for the resume functionality
+	 */
 	resume : Array(),
+	timer: 0,
 	
 	/**
 	* initialize the application - project constructor
@@ -192,8 +196,8 @@ streeme = {
 				"fnCookieCallback": function( sName, oData, sExpires, sPath)
 				{
 					//extend the state save cookies to 300 days
-					var date = new Date();
-					newdate.setTime(date.getTime()+(300*24*60*60*1000));
+					var newdate = new Date();
+					newdate.setTime(newdate.getTime()+(300*24*60*60*1000));
 					var expires = newdate.toGMTString();
 					
 					// Choose what to save in cookie and what not to
@@ -319,9 +323,20 @@ streeme = {
 	* @param song_name 		str: name of the song
 	* @param album_name 	str: name of the album to which this song belongs
 	* @param artist_name 	str: name of the artist to which this song belongs
+	* @param time_offset    int: the start time offset in seconds
 	*/
-	playSong : function( song_id, song_name, album_name, artist_name )
+	playSong : function( song_id, song_name, album_name, artist_name, time_offset )
 	{
+		//start the track from a specific offset if given
+		if( time_offset > 0 )
+		{
+			streeme.timer = time_offset;
+		}
+		else
+		{
+			streeme.timer = 0;
+		}
+		
 		//queue up the song for the next play cycle
 		streeme.queuedSongId = song_id;
 		
@@ -398,6 +413,13 @@ streeme = {
 			
 			//clear the queue
 			streeme.queuedSongId = false;
+		}
+		
+		streeme.timer++;
+		
+		if( streeme.timer % 2 )
+		{
+			$.cookie('resume', "{['time_offset':'" + streeme.timer + "']}", { expires : 3000 } );
 		}
 	},
 	
