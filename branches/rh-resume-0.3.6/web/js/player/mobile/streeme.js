@@ -238,11 +238,6 @@ streeme = {
 			streeme.format = $.cookie( 'modify_format' );
 		}
 		
-		if( $.cookie('resume') )
-		{
-			streeme.resume = $.cookie( 'resume' );
-		}
-	
 		/**************************************************		
 		* Load Lists                                      *
 		**************************************************/
@@ -259,6 +254,14 @@ streeme = {
 		{
 			//the song unloaded normally
 			$( '#musicplayer' ).bind( 'ended', streeme.playNextSong );
+			
+			//check play/paused state
+			$( '#musicplayer' ).bind( 'pause', function(event){ streeme.play=false; } );
+			$( '#musicplayer' ).bind( 'play', function(event){ streeme.play=true } );			
+			
+			//check for seeking
+			$( '#musicplayer' ).bind( 'seeked', function(event){ streeme.timer = Math.floor( this.currentTime ) } );
+			
 			
 			//The file was not the size reported or the codec is missing 
 			$( '#musicplayer' ).bind( 'error', function(){ if( this.error.code == 4 ) streeme.playNextSong(); } );
@@ -415,7 +418,10 @@ streeme = {
 			{
 				parameters.push(  streeme.send_cookie_name + '=' + $.cookie( streeme.send_cookie_name ) );
 			}	
-	
+			if( streeme.timer > 0 )
+			{
+				parameters.push( 'start_time=' + streeme.timer )
+			}
 			url = mediaurl + '/play/' + streeme.queuedSongId + '?' + parameters.join('&');
 			
 			//firefox/chrome logging only 
@@ -430,22 +436,26 @@ streeme = {
 			streeme.queuedSongId = false;
 		}
 		
-		streeme.timer++;
-		
-		if( streeme.timer % 2 && streeme.songPointer > 0 )
+		//Update the resume cookie if the song is playing
+		if( streeme.play == true )
 		{
-			var data = {
-							'song_id' : streeme.rSongId,
-							'song_name' : streeme.rSongName,
-							'album_name' : streeme.rAlbumName, 
-							'artist_name' : streeme.rArtistName,
-							'time_offset' : streeme.timer
-						};
-			$.cookie(
-						'resume', 
-						JSON.stringify(data),
-						{ expires : 3000 }
-					);
+			streeme.timer++;
+			
+			if( streeme.timer % 2 && streeme.songPointer != 0 )
+			{
+				var data = {
+								'song_id' : streeme.rSongId,
+								'song_name' : streeme.rSongName,
+								'album_name' : streeme.rAlbumName, 
+								'artist_name' : streeme.rArtistName,
+								'time_offset' : streeme.timer
+							};
+				$.cookie(
+							'resume_mobile', 
+							JSON.stringify(data),
+							{ expires : 3000 }
+						);
+			}
 		}
 	},
 	
@@ -933,8 +943,9 @@ streeme = {
 				break;
 			case 'resume':
 				streeme.chooseState( 'card_welcome', 'card_songs' );
-				var resume_info = JSON.parse( $.cookie('resume') );
-				console.log( resume_info );
+				var resume_rawdata = $.cookie('resume_mobile');
+				var resume_info = JSON.parse(resume_rawdata);
+				//console.log( resume_info );
 				streeme.playSong( resume_info.song_id, resume_info.song_name, resume_info.artist_name, resume_info.album_name, resume_info.time_offset );
 				break;		
 		}
