@@ -287,16 +287,16 @@ class MediaProxy
     switch ( $this->argformat )
     {
       case 'mp3':
-        $args .= sprintf( '-ab %dk ', intval( $this->argbitrate ) ); //bitrate
+        $args .= sprintf( '-ab %dk ', (int) $this->argbitrate ); //bitrate
         $args .= sprintf( '-acodec %s ', 'libmp3lame' ); //codec
         $args .= sprintf( '-f %s ', 'mp3' ); //container
-        $args .= sprintf( '-ss %d', $this->start_time ); //set the start time
+        if( $this->start_time > 0 ) $args .= sprintf( '-ss %d', (int) $this->start_time ); //set the start time
         break;
       case 'ogg':
-        $args .= sprintf( '-aq %d ', floor( intval( $this->argbitrate ) / 2 ) ); //vbr quality
+        $args .= sprintf( '-aq %d ', floor( ( (int) $this->argbitrate ) / 2 ) ); //vbr quality
         $args .= sprintf( '-acodec %s ', 'vorbis' );
         $args .= sprintf( '-f %s ', 'ogg' );
-        $args .= sprintf( '-ss %d', $this->start_time ); //set the start time
+        if( $this->start_time > 0 ) $args .= sprintf( '-ss %d', (int) $this->start_time ); //set the start time
         break;
     }
     
@@ -347,7 +347,7 @@ class MediaProxy
     }
     else
     {
-      $new_filesize = 99999999;
+      $new_filesize = 999999999;
     }
   	header( 'Content-Length:' . $new_filesize );
   	$this->log(sprintf( 'Content Length modified to %s bytes', $new_filesize ) );
