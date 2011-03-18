@@ -444,17 +444,18 @@ streeme = {
 			if( streeme.timer % 2 && streeme.songPointer != 0 )
 			{
 				var data = {
-								'song_id' : streeme.rSongId,
-								'song_name' : streeme.rSongName,
-								'album_name' : streeme.rAlbumName, 
-								'artist_name' : streeme.rArtistName,
-								'time_offset' : streeme.timer
-							};
-				$.cookie(
-							'resume_mobile', 
-							JSON.stringify(data),
-							{ expires : 3000 }
-						);
+						'si' : streeme.rSongId,
+						'dp' : streeme.displayPointer,
+						't' : streeme.timer,
+						'sn' : streeme.rSongName,
+						'an' : streeme.rAlbumName, 
+						'rn' : streeme.rArtistName
+					};
+		$.cookie(
+					'resume_mobile', 
+					JSON.stringify(data),
+					{ expires : 3000 }
+				);
 			}
 		}
 	},
@@ -946,7 +947,8 @@ streeme = {
 				var resume_rawdata = $.cookie('resume_mobile');
 				var resume_info = JSON.parse(resume_rawdata);
 				//console.log( resume_info );
-				streeme.playSong( resume_info.song_id, resume_info.song_name, resume_info.artist_name, resume_info.album_name, resume_info.time_offset );
+				streeme.displayPointer = resume_info.dp;
+				streeme.playSong( resume_info.si, resume_info.sn, resume_info.rn, resume_info.an, resume_info.t );
 				break;		
 		}
 	},

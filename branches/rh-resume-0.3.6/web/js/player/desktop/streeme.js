@@ -356,8 +356,7 @@ streeme = {
 		streeme.cancelSearch();
 		streeme.send_session_cookies = send_session_cookies;
 		streeme.send_cookie_name = send_cookie_name;
-		$( window ).bind ( 'resize', streeme.uiAdjustHeight );
-		
+		$( window ).bind ( 'resize', streeme.uiAdjustHeight );		
 		$( '#songlist_filter > input' ).bind('keyup', function(){ streeme.cancelSearch() });
 		
 		$('html').dblclick( streeme.clearSelection );
@@ -586,12 +585,13 @@ streeme = {
 			if( streeme.timer % 2 && streeme.songPointer != 0 )
 			{
 				var data = {
-								'song_id' : streeme.rSongId,
-								'song_name' : streeme.rSongName,
-								'album_name' : streeme.rAlbumName, 
-								'artist_name' : streeme.rArtistName,
-								'file_type' : streeme.rFileType,
-								'time_offset' : streeme.timer
+								'si' : streeme.rSongId,
+								'ft' : streeme.rFileType,
+								'dp' : streeme.displayPointer,
+								't' : streeme.timer,
+								'sn' : streeme.rSongName,
+								'an' : streeme.rAlbumName, 
+								'rn' : streeme.rArtistName
 							};
 				$.cookie(
 							'resume_desktop', 
@@ -1082,6 +1082,16 @@ streeme = {
 				{
 					$( '#cancelsearch' ).show(50);
 				}
+				if(  $( '#songlist_filter input' ).val() == 'shuffle:1' )
+				{
+					if( $( '#random' ) )
+					{
+						$( '#random' ).addClass( 'randomsongactive' );  
+						$( '#random' ).removeClass( 'randomsong' );  
+					}
+					
+					streeme.random = true;
+				}
 			}
 		}
 	},
@@ -1224,7 +1234,8 @@ streeme = {
 		var resume_rawdata = $.cookie('resume_desktop');
 		var resume_info = JSON.parse(resume_rawdata);
 		//console.log( resume_info );
-		streeme.playSong( resume_info.song_id, resume_info.song_name, resume_info.artist_name, resume_info.album_name, resume_info.file_type, resume_info.time_offset );
+		streeme.displayPointer = resume_info.dp;
+		streeme.playSong( resume_info.si, resume_info.sn, resume_info.rn, resume_info.an, resume_info.ft, resume_info.t );
     },
 	
 	/**
