@@ -2,6 +2,13 @@
 #labels Phase-Implementation
 
 = CHANGELOG =
+=== Version 0.4.0 ===
+ * Added a feature to resume playback of the last played song - feature requires FFMPEG
+ * Added translation for Danish and Khmer
+ * Fixed Shuffle for SQLite and Postgres storage engines 
+ * Increased the contrast of the shuffle button
+ * Strengthened security - denied all access to user config folders in case of a botched install 
+
 === Version 0.3.6 ===
  * Significantly reduced memory usage required by iTunes scan process - also found and resolved a number of character encoding issues in the scan process
  * fixed the sorting algorithm for the newest songs view - now presents albums ordered by tracknumber and date modified
