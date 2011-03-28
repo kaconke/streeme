@@ -262,7 +262,6 @@ streeme = {
 			//check for seeking
 			$( '#musicplayer' ).bind( 'seeked', function(event){ streeme.timer = Math.floor( this.currentTime ) } );
 			
-			
 			//The file was not the size reported or the codec is missing 
 			$( '#musicplayer' ).bind( 'error', function(){ if( this.error.code == 4 ) streeme.playNextSong(); } );
 		}
@@ -443,17 +442,17 @@ streeme = {
 			
 			if( streeme.timer % 2 && streeme.songPointer != 0 )
 			{
-				var data = {
+				var cookie_data = {
 						'si' : streeme.rSongId,
 						'dp' : streeme.displayPointer,
-						't' : streeme.timer,
+						't'  : streeme.timer,
 						'sn' : streeme.rSongName,
 						'an' : streeme.rAlbumName, 
 						'rn' : streeme.rArtistName
 					};
-		$.cookie(
+				$.cookie(
 					'resume_mobile', 
-					JSON.stringify(data),
+					JSON.stringify(cookie_data),
 					{ expires : 3000 }
 				);
 			}
@@ -948,7 +947,7 @@ streeme = {
 				var resume_info = JSON.parse(resume_rawdata);
 				//console.log( resume_info );
 				streeme.displayPointer = resume_info.dp;
-				streeme.playSong( resume_info.si, resume_info.sn, resume_info.rn, resume_info.an, resume_info.t );
+				streeme.playSong( resume_info.si, resume_info.sn, resume_info.an, resume_info.rn, resume_info.t );
 				break;		
 		}
 	},
