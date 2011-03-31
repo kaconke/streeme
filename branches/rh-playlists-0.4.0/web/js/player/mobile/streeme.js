@@ -113,6 +113,11 @@ streeme = {
 	rArtistName : null,
 	
 	/**
+	 * The play duration of the current song
+	 */
+	totalPlayTime : 0,
+	
+	/**
 	* initialize the application - project constructor
 	* sets up the datatable object for songs and other general setup
 	*/
@@ -177,12 +182,12 @@ streeme = {
 					(
 						function()
 						{						  
-						  //play the song
-						  streeme.playSong( aData[0], aData[1], aData[2], aData[3], 0 );
-						  
-						  //update the class pointers
-						  streeme.songPointer = aData[0];
-						  streeme.displayPointer = iDisplayIndex;
+							//play the song
+							streeme.playSong( aData[0], aData[1], aData[2], aData[3], 0 );
+							  
+							//update the class pointers
+							streeme.songPointer = aData[0];
+							streeme.displayPointer = iDisplayIndex;
 						}
 					);
 					
@@ -253,10 +258,30 @@ streeme = {
 		if( $( '#musicplayer' ) )
 		{
 			//the song unloaded normally
-			$( '#musicplayer' ).bind( 'ended', streeme.playNextSong );
+			$( '#musicplayer' ).bind( 'ended', function()
+				{
+					if( parseInt( streeme.timer ) > 0 )
+					{
+						streeme.playNextSong();
+					}
+				}
+			);
 			
 			//check play/paused state
-			$( '#musicplayer' ).bind( 'pause', function(event){ streeme.play=false; } );
+			$( '#musicplayer' ).bind( 'pause', function(event)
+				{
+					//this handles a strange bug with streams under iOS 4.3 
+					//where the UI will mysteriously pause instead of going to the next song
+					if( parseInt( streeme.timer ) >= ( streeme.totalPlayTime-10 ) )
+					{
+						streeme.playNextSong();
+					}
+					else
+					{	
+						streeme.play=false;
+					}
+				} 
+			);
 			$( '#musicplayer' ).bind( 'play', function(event){ streeme.play=true } );			
 			
 			//check for seeking
@@ -393,6 +418,17 @@ streeme = {
 		
 		// set the song pointer for the playback cursor
 		streeme.songPointer = song_id;
+		
+		//get the expected play time in seconds
+		var playtimes =  $('#sltr' + streeme.songPointer ).children( ':eq(6)' ).text().split(':');
+		if(playtimes.length > 1)
+		{ 
+			streeme.totalPlayTime = ( parseInt( playtimes[0] ) * 60 ) + parseInt( playtimes[1] );
+		} 
+		else
+		{
+			streeme.totalPlayTime = parseInt( playtimes[0] );
+		}
 	},
 	
 	/**
