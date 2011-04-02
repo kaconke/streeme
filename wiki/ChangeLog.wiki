@@ -2,6 +2,13 @@
 #labels Phase-Implementation
 
 = CHANGELOG =
+=== Version 0.4.1 ===
+ * Fixed a mobile playback bug stemming from the mp3 transcoder
+ * Added a workaround to new playback behaviors added to iOS4.3
+ * Added a way to resync your art after a database purge
+ * Moved Safari (Windows) to jPlayer
+ * Page title now reflects the currently playing song on the desktop interface.
+
 === Version 0.4.0 ===
  * Added a feature to resume playback of the last played song - feature requires FFMPEG
  * Added translation for Danish and Khmer
