@@ -9,7 +9,7 @@
    <li onclick="streeme.chooseState( 'card_welcome', 'card_artists' );"><?php echo __('Artists') ?></li>
    <li onclick="streeme.chooseState( 'card_welcome', 'card_albums' );"><?php echo __('Albums') ?></li>
    <li onclick="streeme.chooseState( 'card_welcome', 'card_songs' );"><?php echo __('Songs') ?></li>
-   <?php if( sfConfig::get( 'app_allow_ffmpeg_transcoding' ) && $_COOKIE['resume_mobile'] ): ?>
+   <?php if( sfConfig::get( 'app_allow_ffmpeg_transcoding' ) && @$_COOKIE['resume_mobile'] ): ?>
    <li onclick="streeme.choose( 'resume' );"><?php echo __('Resume') ?></li>
    <?php endif ?>
    <li onclick="streeme.chooseState( 'card_welcome', 'card_player' );"><?php echo __('Playing') ?></li>
