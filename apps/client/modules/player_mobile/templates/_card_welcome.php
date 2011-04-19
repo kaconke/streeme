@@ -5,7 +5,7 @@
                                         'right' =>'<a href="' . url_for( '@player_default' ) .'" class="logout buttonradius" style="z-index: 5" id="logout" title="' . __( 'Back to Player Selection' ) . '"></a>',
                      ));
 ?>
-<ul>
+<ul id="welcomescreen">
    <li onclick="streeme.chooseState( 'card_welcome', 'card_artists' );"><?php echo __('Artists') ?></li>
    <li onclick="streeme.chooseState( 'card_welcome', 'card_albums' );"><?php echo __('Albums') ?></li>
    <li onclick="streeme.chooseState( 'card_welcome', 'card_songs' );"><?php echo __('Songs') ?></li>

@@ -7,8 +7,12 @@
   <meta name="description" content="<?php echo get_slot( 'description' ); ?>" />
   <link rel="shortcut icon" href="<?php echo public_path( 'favicon.ico', true ); ?>" />
   <link rel="apple-touch-icon" href="<?php echo public_path( 'apple-touch-icon.png', true ); ?>" />
-  <?php include_stylesheets() ?>
-  <?php include_javascripts() ?>
+  <?php
+    $combiner = new combineFiles();
+    $namespace = $this->getModuleName() . $this->getActionName();
+    echo stylesheet_tag($combiner->combineStylesheets( $namespace ), array());
+    unset( $combiner );
+  ?>
 </head>
 <body>
   <?php echo $sf_content ?>
