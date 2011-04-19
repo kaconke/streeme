@@ -1,4 +1,9 @@
-<?php echo javascript_tag('/combined.js', array()); ?>
+<?php
+  $combiner = new combineFiles();
+  $namespace = $this->getModuleName() . $this->getActionName();
+  echo javascript_include_tag( $combiner->combineJavascripts( $namespace ), array());
+  unset( $combiner );
+?>
 <script type="text/javascript" id="loadjavascript">
 <!--
 /* Add Functions that Need to Load after Ready Here */
