@@ -3,7 +3,7 @@
   slot( 'description', __( 'Streeme Player for the Desktop' ) );
   use_stylesheet( '/css/colorbox/colorbox.css' );
   use_stylesheet( '/css/player/desktop/stylesheet.css' );
-  use_javascript( '/js/jquery-1.4.2.min.js' );
+  use_javascript( '/js/jquery-1.4.2.min.js', 'first' );
   use_javascript( '/js/jquery.dataTables.min.js' );
   use_javascript( '/js/jquery.scrollTo.min.js' );
   use_javascript( '/js/jquery.cookie.min.js' );
@@ -24,7 +24,7 @@
         <div class="settingsdisabled buttonradius" title="<?php echo __('This feature is only available when FFMPEG transcoding is enabled') ?>"></div>
       <?php endif ?>
       
-      <?php if( sfConfig::get( 'app_allow_ffmpeg_transcoding' ) && $_COOKIE['resume_desktop'] ): ?>
+      <?php if( sfConfig::get( 'app_allow_ffmpeg_transcoding' ) && @$_COOKIE['resume_desktop'] ): ?>
         <div class="resume buttonradius" id="resume" title="<?php echo __('Resume') ?>"></div>
       <?php else: ?>
         <div class="resumedisabled buttonradius" title="<?php echo __('This feature is only available when FFMPEG transcoding is enabled') ?>"></div>
@@ -48,7 +48,7 @@
   </div>
   <div class="content clearfix" id="content">
     <div class="columnleft" id="columnleft">
-      <div class="browsecontainer"> 
+      <div class="browsecontainer">
         <?php include_partial( 'genre_browse', array( 'title'=>'Genres', 'element_id' => 'browsegenre', 'list' => $genre_list ) ) ?>
         <?php include_partial( 'library_browse', array( 'title'=>'Artists', 'element_id' => 'browseartist', 'list_template' => 'list_artists', 'list' => $artist_list ) ) ?>
         <?php include_partial( 'library_browse', array( 'title'=>'Albums', 'element_id'=>'browsealbum', 'list_template' => 'list_albums', 'list' => $album_list ) ) ?>

@@ -1,14 +1,15 @@
-<script type="text/javascript">
+<?php echo javascript_tag('/combined.js', array()); ?>
+<script type="text/javascript" id="loadjavascript">
 <!--
 /* Add Functions that Need to Load after Ready Here */
 $(document).ready(function(){
-<?php 
+<?php
 		  $protocol = ( !empty( $_SERVER['HTTPS'] ) ) ? 'https://' : 'http://';
 		  $hostname = str_replace( $_SERVER[ 'SERVER_PORT' ], '', $_SERVER['HTTP_HOST'] );
 		  if ( !empty( $_SERVER['HTTPS'] ) )
 		  {
 		    $port = '';
-		  }  
+		  }
 		  else
 		  {
 		    if( substr( $hostname, -1 ) === ':' )
@@ -18,7 +19,7 @@ $(document).ready(function(){
 		    else
 		    {
 		      $port = ':' . $music_proxy_port;
-		    }  
+		    }
 		  }
 		  //music url
 		  echo 'mediaurl = "' . $protocol . $hostname . $port . '";' . "\r\n";
@@ -26,7 +27,7 @@ $(document).ready(function(){
 		  //artwork and asset url
 		  echo 'rooturl = "' . rtrim( url_for( '@javascript_base', true ), '/' ) . '";' . "\r\n";
 		  
-		  //javascript service endpoint 
+		  //javascript service endpoint
 		  echo 'javascript_base = "' . rtrim( url_for( '@javascript_base', true ), '/' ) . '";' . "\r\n";
 ?>
 

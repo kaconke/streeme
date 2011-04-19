@@ -1,5 +1,23 @@
 Options +FollowSymLinks +ExecCGI
-  DirectoryIndex index.php 
+DirectoryIndex index.php 
+FileETag None
+
+AddType image/x-icon .ico
+ 
+# cache images and flash bits
+<FilesMatch "\.(ico|jpg|jpeg|png|gif|css)$">
+  Header unset Last-Modified
+  Header unset Cookie
+  Header set Cache-Control "max-age=86040000, public, must-revalidate"
+  ExpiresActive On
+  ExpiresByType image/x-icon "access plus 1 month"
+</FilesMatch>
+
+# cache css/js but retain cookies
+<FilesMatch "\.(js|swf)$">
+  Header unset Last-Modified
+  Header set Cache-Control "max-age=72000000, public, must-revalidate"
+</FilesMatch>
 
 #if deflate exists - use it
 AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
