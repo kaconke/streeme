@@ -10,7 +10,7 @@
   <?php
     $combiner = new combineFiles();
     $namespace = $this->getModuleName() . $this->getActionName();
-    echo stylesheet_tag($combiner->combineStylesheets( $namespace ), array());
+    echo stylesheet_tag( $combiner->combine( 'css', $namespace, sfContext::getInstance()->getResponse() ), array());
     unset( $combiner );
   ?>
 </head>

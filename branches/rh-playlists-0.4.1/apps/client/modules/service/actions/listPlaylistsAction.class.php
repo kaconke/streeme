@@ -5,6 +5,6 @@ class listPlaylistsAction extends sfAction
   {
     $alpha = $request->getParameter( 'alpha' );
     echo json_encode( Doctrine_Core::getTable('Playlist')->getList( ( $alpha ) ? $alpha : 'all' ) ); 
-    exit; 
+    return sfView::NONE;
   }
 }
