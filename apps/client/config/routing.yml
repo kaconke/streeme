@@ -1,6 +1,14 @@
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
+combiner_css: 
+  url: /service/combine/:type/:namespace/combine.css
+  param: { module: service, action: combine }
+
+combiner_js: 
+  url: /service/combine/:type/:namespace/combine.js
+  param: { module: service, action: combine }
+  
 services:
   url: /service/:action
   param: { module: service, action: :action }
