@@ -37,6 +37,6 @@ $browser->
   
   with('response')->begin()->
     isStatusCode(200)->
-    checkElement('body', 'meow')->
-  end()  
+    isHeader('Content-Type', 'application/json')->
+  end()
 ;

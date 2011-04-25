@@ -1,8 +1,16 @@
 <?php
-  $combiner = new combineFiles();
-  $namespace = $this->getModuleName() . $this->getActionName();
-  echo javascript_include_tag( $combiner->combineJavascripts( $namespace ), array());
-  unset( $combiner );
+  if( strtolower( $namespace ) != 'sfguardauthsignin')
+  {
+    $combiner = new combineFiles();
+    echo sprintf( '<script src="%s" type="text/javascript"></script>',
+                  $combiner->combine( 'js', $namespace, sfContext::getInstance()->getResponse()
+                 ) );
+    unset( $combiner );
+  }
+  else
+  {
+    include_javascripts();
+  }
 ?>
 <script type="text/javascript" id="loadjavascript">
 <!--
