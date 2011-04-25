@@ -9,7 +9,8 @@
 class combineFiles
 {
   /**
-   * Combine multiple text assets into a single file for better http performance
+   * Combine multiple text assets into a single file for better http performance this
+   * method generates a new cache file with every symfony cc
    *
    * @param type      string css or js
    * @param namespace string the combined file namespace (eg. module+action names)
@@ -19,7 +20,8 @@ class combineFiles
   public function combine( $type, $namespace, sfWebResponse $response )
   {
     //configure the combiner
-    $fullname = ( $type === 'css' ) ? 'Stylesheets' : 'Javacripts';
+    $type = ( $type === 'css' ) ? 'css' : 'js';
+    $fullname = ( $type === 'css' ) ? 'Stylesheets' : 'Javascripts';
     $response_getter = 'get' . $fullname;
     $namespace = StreemeUtil::slugify( $namespace );
     
@@ -34,7 +36,7 @@ class combineFiles
     $filename = sprintf( '%s.%s',
                          $namespace,
                          $type
-                        ); 
+                        );
     if( !is_readable( $path . $filename ) )
     {
       //build one file of all of the css or js files
@@ -47,12 +49,12 @@ class combineFiles
       file_put_contents( $path . $filename , $file_content );
     }
     
-    return sprintf( '/service/combine/%s/%s/combine.%s', $type, $namespace, $type );
+    return sprintf( '/service/combine/%s/%s', $type, str_replace( '-', '_', $namespace ) );
   }
   
   /**
    * Get a combined file from the cache lib
-   * 
+   *
    * @param type      string css or js
    * @param namespace string the combined file namespace (eg. module+action names)
    */
@@ -66,6 +68,6 @@ class combineFiles
                      $type,
                      $namespace,
                      $type
-                    );                     
+                    );
   }
 }

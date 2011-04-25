@@ -8,10 +8,19 @@
   <link rel="shortcut icon" href="<?php echo public_path( 'favicon.ico', true ); ?>" />
   <link rel="apple-touch-icon" href="<?php echo public_path( 'apple-touch-icon.png', true ); ?>" />
   <?php
-    $combiner = new combineFiles();
     $namespace = $this->getModuleName() . $this->getActionName();
-    echo stylesheet_tag( $combiner->combine( 'css', $namespace, sfContext::getInstance()->getResponse() ), array());
-    unset( $combiner );
+    if( strtolower( $namespace ) != 'sfguardauthsignin')
+    {
+      $combiner = new combineFiles();
+      echo sprintf( '<link rel="stylesheet" type="text/css" href="%s" />',
+                    $combiner->combine( 'css', $namespace, sfContext::getInstance()->getResponse()
+                   ) );
+      unset( $combiner );
+    }
+    else
+    {
+      include_stylesheets();
+    }
   ?>
 </head>
 <body>

@@ -79,4 +79,4 @@
 
 <div class="magnify_art" id="magnify_art" title="<?php echo __( 'Magnify album art' ) ?>"></div>
 
-<?php include_partial( 'load_javascript', array( 'music_proxy_port' => $music_proxy_port ) ) ?>
+<?php include_partial( 'load_javascript', array( 'music_proxy_port' => $music_proxy_port, 'namespace' => $this->getModuleName() . $this->getActionName() ) ) ?>

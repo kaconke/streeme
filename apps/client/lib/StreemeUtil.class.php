@@ -85,7 +85,7 @@ class StreemeUtil
   
   /**
    * Modifies a string to remove al non ASCII characters and spaces.
-   * From Snipplr http://snipplr.com/view.php?codeview&id=22741
+   *
    * @param text string: the string to slugify
    * @return the slugified string
    * @see http://snipplr.com/view.php?codeview&id=22741
