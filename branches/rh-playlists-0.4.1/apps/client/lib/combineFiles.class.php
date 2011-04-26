@@ -41,9 +41,21 @@ class combineFiles
     {
       //build one file of all of the css or js files
       $file_content = '';
+      
+      //load vendor libraries for minifying assets
+      require_once( sfConfig::get( 'sf_lib_dir' ) . '/vendor/jsmin/jsmin.php' );
+      require_once( sfConfig::get( 'sf_lib_dir' ) . '/vendor/cssmin/cssmin.php' );
+      
       foreach ($response->$response_getter() as $file => $options)
       {
-        $file_content .= file_get_contents( sfConfig::get('sf_web_dir') . $file ) . "\r\n";
+        if( $type === 'css' )
+        {
+          $file_content .= CSSMin::minify( file_get_contents( sfConfig::get('sf_web_dir') . $file ) );
+        }
+        else
+        {
+          $file_content .= JSMin::minify( file_get_contents( sfConfig::get('sf_web_dir') . $file ) );
+        }
       }
       @mkdir( $path, 0777, true );
       file_put_contents( $path . $filename , $file_content );

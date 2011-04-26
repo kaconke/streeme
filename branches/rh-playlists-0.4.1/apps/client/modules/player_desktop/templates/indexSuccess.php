@@ -3,6 +3,7 @@
   slot( 'description', __( 'Streeme Player for the Desktop' ) );
   use_stylesheet( '/css/colorbox/colorbox.css' );
   use_stylesheet( '/css/player/desktop/stylesheet.css' );
+  use_stylesheet( '/css/jPlayer.Skin/jplayer.blue.monday.css', 'first' );
   use_javascript( '/js/jquery-1.4.2.min.js', 'first' );
   use_javascript( '/js/jquery.dataTables.min.js' );
   use_javascript( '/js/jquery.scrollTo.min.js' );
@@ -10,6 +11,7 @@
   use_javascript( '/js/jquery.md5.min.js' );
   use_javascript( '/js/jquery.colorbox.min.js' );
   use_javascript( '/js/player/desktop/streeme.js' );
+  use_javascript( '/js/jQuery.jPlayer.2.0.0/jquery.jplayer.min.js', 'first' );
 ?>
 <div id="container">
   <div class="header" id="header">

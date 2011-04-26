@@ -30,8 +30,6 @@ else if(
          strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'pera/' )
         )
 {
-  use_stylesheet( '/css/jPlayer.Skin/jplayer.blue.monday.css', 'first' );
-  use_javascript( '/js/jQuery.jPlayer.2.0.0/jquery.jplayer.min.js', 'first' );
     
   //macs have slightly different font variants. add template tag to adjust line height.
   $if_mac = strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Mac OS X' ) ? 'style="top:8px"' : '';
@@ -85,8 +83,6 @@ else if(
          strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Safari' ) && strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Windows' )
        )
 {
-  use_stylesheet( '/css/jPlayer.Skin/jplayer.blue.monday.css');
-  use_javascript( '/js/jQuery.jPlayer.2.0.0/jquery.jplayer.min.js' );
   echo <<<EOL
 <div id="jquery_jplayer_1" class="jp-jplayer"></div>
 <div class="jp-audio">
