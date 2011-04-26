@@ -7,7 +7,6 @@ class listPlaylistsAction extends sfAction
     $content = json_encode( Doctrine_Core::getTable('Playlist')->getList( ( $alpha ) ? $alpha : 'all' ) );
     
     sfConfig::set('sf_web_debug', false);
-    $this->getResponse()->setHttpHeader('Content-Type', 'application/json');
     $this->setTemplate('output');
     $this->setLayout(false);
   }

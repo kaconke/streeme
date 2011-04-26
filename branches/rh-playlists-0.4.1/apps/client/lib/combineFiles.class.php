@@ -1,6 +1,6 @@
 <?php
 /*
-* combines javascript and css assets
+* combines and minifies javascript and css assets
 *
 * @package    streeme
 * @subpackage combineFiles
@@ -37,7 +37,9 @@ class combineFiles
                          $namespace,
                          $type
                         );
-    if( !is_readable( $path . $filename ) )
+                        
+    // you can force a cache clear by passing ?clearassetcache=1 to any template
+    if( !is_readable( $path . $filename ) || @$_GET['clearassetcache'] == 1 )
     {
       //build one file of all of the css or js files
       $file_content = '';
@@ -57,6 +59,9 @@ class combineFiles
           $file_content .= JSMin::minify( file_get_contents( sfConfig::get('sf_web_dir') . $file ) );
         }
       }
+      
+      //this file resides in the cache and requires wide permissions for both cli and apache users
+      @umask( 0000 );
       @mkdir( $path, 0777, true );
       file_put_contents( $path . $filename , $file_content );
     }
