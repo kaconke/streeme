@@ -344,11 +344,11 @@ class SongTable extends Doctrine_Table
                         3 => ' artist.name ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
                         4 => ' album_mtime ' . $order_by .  ', album.id, song.tracknumber ASC ',
                         5 => ' song.yearpublished ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
-                        6 => ' song.length ' . $order_by,
+                        6 => ' song.accurate_length ' . $order_by,
                         7 => ' song.tracknumber ' . $order_by,
                         8 => ' ' . $expression . ' '
                      );
-    unset( $expression );                 
+    unset( $expression );
     $order_by_string = $column_sql[ (int) $settings[ 'sortcolumn' ] ];
     
     $parameters = array();
