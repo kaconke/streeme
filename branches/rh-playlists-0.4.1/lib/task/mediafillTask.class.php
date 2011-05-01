@@ -1,5 +1,5 @@
 <?php
-class scanmediaTask extends sfBaseTask
+class mediafillTask extends sfBaseTask
 {
   protected function configure()
   {
@@ -72,7 +72,7 @@ EOF;
       @$song_array[ 'song_name' ]        = $song_name;
       @$song_array[ 'song_length' ]      = mt_rand(0,60) . ':' . mt_rand(11,60);
       @$song_array[ 'accurate_length' ]  = mt_rand(1,30409092);
-      @$song_array[ 'genre_name' ]       = genre_name;
+      @$song_array[ 'genre_name' ]       = $genre_name;
       @$song_array[ 'filesize' ]         = mt_rand(256, 3141592653);
       @$song_array[ 'bitrate' ]          = $bitrate;
       @$song_array[ 'yearpublished' ]    = $yearpublished;
