@@ -332,7 +332,7 @@ class SongTable extends Doctrine_Table
     }
     
     //search should now be valid keywords, join them with spaces
-    $settings[ 'search' ] = join( ' ', $components );
+    $settings[ 'search' ] = join( ' ', array_map( 'strtolower', $components ) );
   
     //this array contains the decoded sort information
     $expression = new Doctrine_Expression( 'random()' );
@@ -417,7 +417,7 @@ class SongTable extends Doctrine_Table
     }
     if ( !is_null(  $settings[ 'search' ] ) && ( !empty( $settings[ 'search' ] ) || $settings[ 'search' ] === '0'  ) )
     {
-      $query .= ' AND ( song.name LIKE :search OR album.name LIKE :search OR artist.name LIKE :search ) ';
+      $query .= ' AND ( lower( song.name ) LIKE :search OR lower( album.name ) LIKE :search OR lower( artist.name ) LIKE :search OR lower( genre.name ) LIKE :search ) ';
       $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
     }
 
