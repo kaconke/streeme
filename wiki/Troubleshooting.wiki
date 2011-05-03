@@ -56,3 +56,34 @@ $configuration = ProjectConfiguration::getApplicationConfiguration('client', 'de
 sfContext::createInstance($configuration)->dispatch();
 }}}
 Now you should be able to go to http://your_ip:8095/client_dev.php - navigate the site like you normally would and see if you can get the error to trigger.
+
+Third, try the tests. Streeme has an automated test suite that can help point you to problems when you don't know what's precisely failed - these tests are designed to pass, so if they're failing, something is definitely going on with your installation. This tool should give you an idea where to look. 
+
+to run the tests set up a test database:
+
+_config/databases.yml_ 
+{{{
+test:
+  doctrine:
+    class: sfDoctrineDatabase
+    param:
+      dsn: 'mysql:host=localhost;dbname=streemetest'
+      username: your_username
+      password: your_pass
+      encoding: utf8
+      attributes:
+        default_table_collate: utf8_general_ci
+        default_table_charset: utf8
+}}}
+
+then type:
+
+{{{
+./symfony cc
+}}}
+
+then run the tests:
+
+{{{
+./symfony test:all
+}}}
