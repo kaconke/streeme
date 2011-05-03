@@ -1,0 +1,28 @@
+#summary Troubleshooting streeme
+#labels Help,Phase-Deploy
+
+= Introduction =
+
+If you have found something wrong with streeme, don't panic - Streeme is throughly tested and often times the only problem is in configuration. This troubleshooting guide can help you diagnose some common installation or known program issues. Always try this stuff first before submitting a bug. 
+
+= Setup issues =
+
+===Help! Streeme is 'white screen of deathing!'===
+A white screen of death, the page you try to load is completely blank, usually means that Streeme has utterly failed to load. The easiest solution to this issue is to give read and write capabilities to the cache and log folder for the apache user and your user. Cache, log and data need fairly wide permissions and are the only writable folders in Streeme if you run a tight ship permission wise, consider using ACLs. Also Double check that the configuration files are copied over as detailed in [InstallingStreeme this step]. If that doesn't seem to work, try going to the commandline and type:
+{{{
+cd /path/to/streeme
+php check_configuration.php 
+}}}
+With any luck, you'll get a list of items that should all pass with "OK" - if not, track down the problematic test and try again. 
+
+Once the configuration checker is all OK, type {{{./symfony cc}}} and try to load the page again. Still not working, see desperate measures below. 
+
+===Streeme runs, but it won't let me login===
+If you've made a user and can't get past the first screen, or keep getting redirected to /login etc., it is likely that your Apache build is missing the *mod_rewrite* module. You should be able to easily add this component from your list of available mods or rebuild apache with this functionality if you prefer to build from source.
+
+===App runs, but won't show scanned album art===
+Check that HTTP_Download is installed - this file is critical to all of Streeme's media serving functionality. 
+
+
+
+===
