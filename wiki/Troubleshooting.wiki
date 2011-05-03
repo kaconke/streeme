@@ -6,6 +6,10 @@
 If you have found something wrong with streeme, don't panic - Streeme is throughly tested on multiple platforms. Often times the only problem is in configuration. This troubleshooting guide can help you diagnose some common installation or known program issues. Always try this stuff first before submitting a bug. 
 
 = Setup issues =
+===Why does it keep saying page not found?===
+===I get an error - Connection Refused===
+*Check that your ports are correct* - Streeme is set up so it won't interfere with other web services you might be running, so you will need to define two ports. The port numbers are set up in your [InstallingStreemeLinux#Apache_Configs Apache configs] and [InstallingStreeme#Configure_Streeme app.yml]. If music doesn't play, it may just be that the music_proxy_port setting doesn't match up with whatever you used in Apache. Example: if you chose 8096 as your second port, update the music_proxy_port: setting in app/client/config/app.yml to match. You should use unique ports for your install, just to further obscure your private music server. 
+
 ===When in doubt, symfony cc===
 Symfony maintains an optimized cache forfaster execution, sometimes this cache is at fault for breaking the app, so always use {{{./symfony cc}}} before doing further troubleshooting.
 
@@ -36,6 +40,8 @@ Also note that the full log of the execution path will log to log/proxy.log - yo
 Keep in mind that browsers may not have full codec support for MP3 and OGG. While the Streeme team tests the app widely for compatibility, you may find some formats simply won't play back in your favorite browser. Some open source brosers may need audio functionality/ffmpeg added before they will play anything back. 
 
 If the browser's not the issue; again, check that HTTP_Download is installed - this app is critical to all of Streeme's media serving functionality. If HTTP_Download is installed and you still can't hear audio, then make sure that your permissions allow Apache to read from your music directories and that log is writable by apache and the cli.
+
+The port numbers are set up in your apache configs and app.yml. If music doesn't play, it may just be that the music_proxy_port setting doesn't match up with whatever you used in Apache. Example: if you chose 8096 as your second port, update the music_proxy_port: setting in app/client/config/app.yml to match.
 
 Also note that the full log of the execution path will log to log/proxy.log - you may be able to diagnose the problem using that log file. If the log file doesn't exist, you may have other issues, see desperate measures
 
