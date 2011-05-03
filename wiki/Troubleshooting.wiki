@@ -6,6 +6,8 @@
 If you have found something wrong with streeme, don't panic - Streeme is throughly tested on multiple platforms. Often times the only problem is in configuration. This troubleshooting guide can help you diagnose some common installation or known program issues. Always try this stuff first before submitting a bug. 
 
 = Setup issues =
+===When in doubt, symfony cc===
+Symfony maintains an optimized cache forfaster execution, sometimes this cache is at fault for breaking the app, so always use {{{./symfony cc}}} before doing further troubleshooting.
 
 ===Help! Streeme is 'white screen of deathing!'===
 A white screen of death, the page you try to load is completely blank, usually means that Streeme has utterly failed to load. The easiest solution to this issue is to give read and write capabilities to the cache and log folder for the apache user and your user. *Cache, log and data need fairly wide permissions* and are the only writable folders in Streeme if you run a tight ship permission wise, consider using ACLs. Also Double check that the configuration files are copied over as detailed in [InstallingStreeme this step]. If that doesn't seem to work, try going to the commandline and type:
@@ -47,4 +49,10 @@ error_log = "/path/to/php_error.log"
 }}}
 now when an error occurs, it should end up in your php_error.log
 
-Second, try using 
+Second, try using the client_dev.php tool - this will enable a dev environment for Streeme, so you can inspect what's going on in plain english. To use the client_dev tool, copy web/client_dev.template.php to client_dev.php and uncomment:
+{{{
+require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
+$configuration = ProjectConfiguration::getApplicationConfiguration('client', 'dev', true);
+sfContext::createInstance($configuration)->dispatch();
+}}}
+Now you should be able to go to http://your_ip:8095/client_dev.php - navigate the site like you normally would and see if you can get the error to trigger.
