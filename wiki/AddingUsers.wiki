@@ -24,6 +24,13 @@ eg http://127.0.0.1:8095
 
 The login screen will come up, just enter your username and password and you're IN!
 <br/>
+
+= Oops! I want to delete a user. How do I do that? =
+Deleting a user is easy, just type:
+{{{./symfony delete-user your_username}}}
+This change will take effect next time a user tries to login.
+<br/>
+
 [UsingStreemeDesktop Continue to Using Streeme Desktop >] 
 <br/>
 <br/>
