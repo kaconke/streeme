@@ -10,14 +10,16 @@ If you have found something wrong with streeme, don't panic - Streeme is through
 Symfony maintains an optimized cache forfaster execution, sometimes this cache is at fault for breaking the app, so always use {{{./symfony cc}}} before doing further troubleshooting.
 
 ===Help! Streeme is 'white screen of deathing!'===
-A white screen of death, the page you try to load is completely blank, usually means that Streeme has utterly failed to load. The easiest solution to this issue is to give read and write capabilities to the cache and log folder for the apache user and your user. *Cache, log and data need fairly wide permissions* and are the only writable folders in Streeme if you run a tight ship permission wise, consider using ACLs. Also Double check that the configuration files are copied over as detailed in [InstallingStreeme this step]. If that doesn't seem to work, try going to the commandline and type:
+A white screen of death, the page you try to load is completely blank, usually means that Streeme has utterly *failed to load.* The easiest solution to this issue is to give read and write capabilities to the cache and log folder for the apache user and your user. *Cache, log and data need fairly wide permissions* and are the only writable folders in Streeme if you run a tight ship permission wise, consider using ACLs. Also double check that the configuration files are copied over as detailed in [InstallingStreeme this step]. If that doesn't seem to work, try going to the commandline and type:
 {{{
 cd /path/to/streeme
 php check_configuration.php 
 }}}
 With any luck, you'll get a list of items that should all pass with "OK" - if not, track down the problematic test and try again. 
 
-Finally , double check your apache configuration and closely look at the paths you used for your virtual hosts. Any issues in paths will make the program malfunction. 
+*Try disabling APC.* Sometimes APC will fail to compile properly and may need to be recompiled or installed in a different way, either using the OS package manager or rebuilding from different sources. Once you've disabled apc, restart apache for the changes to take effect.  
+
+*Double check your apache configuration* and closely look at the paths you used for your virtual hosts. Any issues in paths will make the program malfunction. 
 
 Once the configuration checker is all OK, type {{{./symfony cc}}} and try to load the page again. Still not working, see desperate measures below. 
 
@@ -87,3 +89,10 @@ then run the tests:
 {{{
 ./symfony test:all
 }}}
+
+all information you discover in this stage will be helpful for generating any bug reports.
+
+*Make sure to revert all of the changes you have made to Apache and client_dev.php to keep your installtion secure*
+
+=Submitting a bug=
+With the information you've gathered above, it will be a lot easier for the team to track down your specific problem. Submitting a bug is done in the [http://code.google.com/p/streeme/issues/list Issue Tracker]. Just follow the template. 
