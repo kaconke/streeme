@@ -8,7 +8,7 @@ If you have found something wrong with streeme, don't panic - Streeme is through
 = Setup issues =
 
 ===Help! Streeme is 'white screen of deathing!'===
-A white screen of death, the page you try to load is completely blank, usually means that Streeme has utterly failed to load. The easiest solution to this issue is to give read and write capabilities to the cache and log folder for the apache user and your user. Cache, log and data need fairly wide permissions and are the only writable folders in Streeme if you run a tight ship permission wise, consider using ACLs. Also Double check that the configuration files are copied over as detailed in [InstallingStreeme this step]. If that doesn't seem to work, try going to the commandline and type:
+A white screen of death, the page you try to load is completely blank, usually means that Streeme has utterly failed to load. The easiest solution to this issue is to give read and write capabilities to the cache and log folder for the apache user and your user. *Cache, log and data need fairly wide permissions* and are the only writable folders in Streeme if you run a tight ship permission wise, consider using ACLs. Also Double check that the configuration files are copied over as detailed in [InstallingStreeme this step]. If that doesn't seem to work, try going to the commandline and type:
 {{{
 cd /path/to/streeme
 php check_configuration.php 
@@ -21,8 +21,15 @@ Once the configuration checker is all OK, type {{{./symfony cc}}} and try to loa
 If you've made a user and can't get past the first screen, or keep getting redirected to /login etc., it is likely that your Apache build is missing the *mod_rewrite* module. You should be able to easily add this component from your list of available mods or rebuild apache with this functionality if you prefer to build from source.
 
 ===App runs, but won't show scanned album art===
-Check that HTTP_Download is installed - this file is critical to all of Streeme's media serving functionality. 
+Check that HTTP_Download is installed - this app is critical to all of Streeme's media serving functionality. If HTTP_Download is installed and you still can't see album art, then make sure that your permissions allow Apache to read from data/album_art and that log is writable by apache and the cli.
 
+Also note that the full log of the execution path will log to log/proxy.log - you may be able to diagnose the problem using that log file. If the log file doesn't exist, you may have other issues, see desperate measures
 
+===App runs, but music won't play===
+===App runs, but when I click play, it just cycles through all the songs===
+Keep in mind that browsers may not have full codec support for MP3 and OGG. While the Streeme team tests the app widely for compatibility, you may find some formats simply won't play back in your favorite browser. Some open source brosers may need audio functionality/ffmpeg added before they will play anything back. 
 
-===
+If the browser's not the issue; again, check that HTTP_Download is installed - this app is critical to all of Streeme's media serving functionality. If HTTP_Download is installed and you still can't hear audio, then make sure that your permissions allow Apache to read from your music directories and that log is writable by apache and the cli.
+
+Also note that the full log of the execution path will log to log/proxy.log - you may be able to diagnose the problem using that log file. If the log file doesn't exist, you may have other issues, see desperate measures
+
