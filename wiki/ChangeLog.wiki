@@ -2,6 +2,17 @@
 #labels Phase-Implementation
 
 = CHANGELOG =
+=== Version 0.4.2 ===
+ * added a delete user command to the CLI to manage users a bit better - closes issue 19
+ * Added a functional test suite for Streeme's critical paths
+ * Added an asset collector/minifier to help make mobile downloads faster and speed up Javascript operations.
+ * Lots of .htaccess updates to improve http caching
+ * Closing issue 26 - song length ordering
+ * Closing issue 25 - searching by genres
+ * Preemptively fixing case sensitive 'like' expressions for Postgres and SQLite
+ * Adding a media filler task, so testers can see how Streeme will perform with large libraries
+ * Adding playlist scanner components in prep for 0.5.0
+
 === Version 0.4.1 ===
  * Fixed a mobile playback bug stemming from the mp3 transcoder
  * Added a workaround to new playback behaviors added to iOS4.3
