@@ -27,9 +27,9 @@ This project features a premade virtual appliance for Vmware that significantly 
  * [http://www.vmware.com/products/player/ Get a copy of vmware player - free download]
 <br/>
 *Step Two*
- * Download the [https://sourceforge.net/projects/streeme/ Streeme Home Server Virtual Appliance] and unzip it using [http://www.7-zip.org/ 7zip] to somewhere safe 
+ * Download the [https://sourceforge.net/projects/streeme/files Streeme Home Server Virtual Appliance] and unzip it using [http://www.7-zip.org/ 7zip] to somewhere safe 
 {{{
-Streeme Home Server V.0.1.1 MD5: bc64edf756206e4694f8428a394cd211
+Streeme Home Server V.0.4.2 MD5: 479ea2e7946a8a698ddd065e65637363
 }}}
 <br/>
 *Step Three* 
