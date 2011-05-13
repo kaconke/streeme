@@ -506,7 +506,7 @@ audio.firefox{
 		position: absolute;
 		font-size: 14px;
 		font-weight: bold;
-		top: 8px;
+		top: 9px;
 		left: 15px;
 		text-shadow: #FFFFFF 0 -1px 0;
 	}
@@ -517,7 +517,7 @@ audio.firefox{
 		display: block;
 		border: 1px solid #BBB;
 		width: 270px;
-		margin: 5px 5px 5px 85px;
+		margin: 6px 5px 6px 85px;
 	}
 	.search .usersearch .cancel{
 		position: absolute;
@@ -525,13 +525,13 @@ audio.firefox{
 		width: 13px;
 		height: 13px;
 		right: 13px;
-		top: 6px;
+		top: 7px;
 		cursor: pointer;
 	}
 .cancelsearch{
 	position: absolute;
 	display: none;
-	top: 6px;
+	top: 7px;
 	right: 10px;
 	background: url("/images/player/desktop/h5-icon-search-cancel.png") no-repeat top left;
 	height: 13px;
@@ -549,7 +549,7 @@ audio.firefox{
 	z-index: 0;
 }
 	.browse .label{
-		padding: 5px 15px;
+		padding: 6px 15px;
 		font-size: 11px;
 		font-weight: bold;
 		background-color: #D0D0D0;
