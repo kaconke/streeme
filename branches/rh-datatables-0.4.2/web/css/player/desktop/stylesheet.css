@@ -703,7 +703,6 @@ audio.firefox{
 	color:#555555;
 	font-weight:normal;
 	outline:medium none;
-	padding: 2px 5px;
 	cursor: pointer;
 }
 .ui-state-disabled {
@@ -717,7 +716,6 @@ audio.firefox{
 }
 .songlist thead tr th{
 	border: 1px solid #AAA;
-	padding: 2px 5px;
 	font-weight: bold;
 	color: #444;
 	text-align: left;
@@ -743,15 +741,10 @@ audio.firefox{
 .song_id{
 	display: none;
 }
+.DataTables_sort_wrapper{
+	 padding: 2px 5px;
+}
 .sorting{
-	background-color: #D0D0D0;
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0.26, rgb(206,206,206)),
-		color-stop(0.63, rgb(219,219,219))
-	);
 }
 .major{
 	width: 33%;
@@ -786,4 +779,18 @@ audio.firefox{
 	z-index: 20;
 	white-space: nowrap;
 	overflow: hidden;
+}
+.css_right{
+}
+.ui-icon{
+	padding: 0 8px 0 8px;
+	background: url("/images/player/desktop/sort_both.png") no-repeat; 
+	background-position: 30px 30px;
+}
+.ui-icon-triangle-1-n{
+  background-position: 0 1px;
+	
+}
+.ui-icon-triangle-1-s{
+  background-position: 0 -12px;
 }
