@@ -621,7 +621,7 @@ audio.firefox{
 .fg-toolbar{
 	position: relative;
 	background-color: #D0D0D0;
-	padding: 2px 5px;
+	padding: 3px 5px;
 	height: 20px;
 	border-top: 1px solid #EEE;
 	border-bottom: 1px solid #BBB;
@@ -793,4 +793,13 @@ audio.firefox{
 }
 .ui-icon-triangle-1-s{
   background-position: 0 -12px;
+}
+.fg-button{
+	padding: 2px 5px;
+	margin-left: 3px;
+	border-top: 1px solid #FFF;
+	border-left: 1px solid #E2E2E2;
+	border-bottom: 1px solid #BBB;
+	border-right: 1px solid #E2E2E2;
+	outline: 1px solid #AAA;
 }
