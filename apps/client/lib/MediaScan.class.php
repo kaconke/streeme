@@ -149,17 +149,14 @@ class MediaScan
       $this->added_albums[ $album_id ] = 1;
     }
     
-    $genre_name = ( $song_array['genre_name'] ) ? $song_array['genre_name'] : 'Uncategorized';
-    $genre_id = Doctrine_Core::getTable('Genre')->addGenre( $genre_name );
-    if( !empty( $genre_id ) && $genre_id > 126 )
-    {
-      $this->added_genres[ $genre_id ] = 1;
-    }
-    
-    $song_id = Doctrine_Core::getTable('Song')->addSong( $artist_id, $album_id, $genre_id, $this->scan_id, $song_array );
+    $song_id = Doctrine_Core::getTable('Song')->addSong( $artist_id, $album_id, $this->scan_id, $song_array );
     $this->added_songs++;
 
-    unset( $artist_name, $artist_id, $album_name, $album_id, $genre_name, $genre_id, $song_array );
+    if( isset($song_array['genre_name']) && !empty($song_array['genre_name']))
+    {
+      $genre_ids = Doctrine_Core::getTable('SongGenres')->addSongGenres($song_id, $song_array['genre_name']);
+    }
+    unset( $artist_name, $artist_id, $album_name, $album_id, $genre_name, $genre_ids, $song_array );
     
     return $song_id;
   }
@@ -174,7 +171,7 @@ class MediaScan
     $this->removed_songs   = Doctrine_Core::getTable('Song')->finalizeScan( $this->scan_id );
     $this->removed_artists = Doctrine_Core::getTable('Artist')->finalizeScan();
     $this->removed_albums  = Doctrine_Core::getTable('Album')->finalizeScan();
-    $this->removed_genres  = Doctrine_Core::getTable('Genre')->finalizeScan();
+    $this->removed_genres  = Doctrine_Core::getTable('SongGenres')->finalizeScan();
     return $this->removed_songs + $this->removed_artists + $this->removed_albums + $this->removed_genres;
   }
   
