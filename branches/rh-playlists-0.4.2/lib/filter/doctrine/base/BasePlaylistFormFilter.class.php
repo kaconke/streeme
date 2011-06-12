@@ -13,11 +13,17 @@ abstract class BasePlaylistFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'name' => new sfWidgetFormFilterInput(),
+      'scan_id'      => new sfWidgetFormFilterInput(),
+      'service_name' => new sfWidgetFormFilterInput(),
+      'name'         => new sfWidgetFormFilterInput(),
+      'mtime'        => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'name' => new sfValidatorPass(array('required' => false)),
+      'scan_id'      => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'service_name' => new sfValidatorPass(array('required' => false)),
+      'name'         => new sfValidatorPass(array('required' => false)),
+      'mtime'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
     ));
 
     $this->widgetSchema->setNameFormat('playlist_filters[%s]');
@@ -37,8 +43,11 @@ abstract class BasePlaylistFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'id'   => 'Number',
-      'name' => 'Text',
+      'id'           => 'Number',
+      'scan_id'      => 'Number',
+      'service_name' => 'Text',
+      'name'         => 'Text',
+      'mtime'        => 'Number',
     );
   }
 }

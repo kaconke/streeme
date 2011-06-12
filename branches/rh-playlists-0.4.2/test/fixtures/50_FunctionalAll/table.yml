@@ -10,7 +10,7 @@ Song:
     album_id: 1
     artist_id: 1
     genre_id: 2
-    last_scan_id: 1
+    scan_id: 1
     name: Submarine
     mtime: 22303290923
     filename: file://localhost/file.1
@@ -19,7 +19,7 @@ Song:
     album_id: 2
     artist_id: 2
     genre_id: 144
-    last_scan_id: 1
+    scan_id: 1
     name: Felix
     mtime: 194909095
     filename: file://localhost/file.2
