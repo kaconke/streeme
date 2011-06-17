@@ -79,7 +79,7 @@ $t->is( $song_integrity_test->atime, 1293300011, 'integrity: last access unix ti
 $t->is( $song_integrity_test->filename, 'file://localhost/home/notroot/music/Fließgewässer.mp3', 'integrity: utf8 filename');
 
 $t->comment( '->finalize_scan()' );
-$t->is( $media_scan->finalize_scan(), 6, 'Removed Song and Associations' );
+$t->is( $media_scan->finalize_scan(), 4, 'Removed Song and Associations' );
 
 $t->comment( '->get_summary()' );
-$t->is( is_string( $media_scan->get_summary() ), true, 'returned string' );
+$t->is( is_string( $media_scan->get_summary() ), true, 'returned summary message successfully' );

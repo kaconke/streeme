@@ -26,7 +26,12 @@ class GenreTable extends Doctrine_Table
   {
     //trim whitespace
     $name = trim($name);
-      
+    
+    if( empty( $name ) )
+    {
+      $name = 'Uncategorized';
+    }
+    
     //is this name already in the collection?
     if( is_numeric( $name ) && $name < 127 )
     {
