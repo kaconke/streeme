@@ -34,6 +34,7 @@ class SongGenresTable extends Doctrine_Table
   
   /**
    * Add genres for a given song
+   *
    * @param $song_id int: the song id
    * @param $genres  string: array of applicable genres separated by a semicolon
    * @return         array: song genres added
@@ -54,8 +55,17 @@ class SongGenresTable extends Doctrine_Table
         $insert_list[] = $genre_id;
       }
     }
-    
+    else
+    {
+      $genre_id = GenreTable::getInstance()->addGenre('Uncategorized');
+      $song_genres = new SongGenres;
+      $song_genres->song_id = $song_id;
+      $song_genres->genre_id = $genre_id;
+      $song_genres->save();
+      $insert_list[] = $genre_id;
+    }
     unset( $genre_list, $genre_id, $genre, $song_id, $genre_id, $song_genres );
+    
     return $insert_list;
   }
   

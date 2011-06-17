@@ -425,7 +425,6 @@ class SongTable extends Doctrine_Table
     {
       $query .= ' AND ( lower( song.name ) LIKE :search OR lower( album.name ) LIKE :search OR lower( artist.name ) LIKE :search ) ';
       $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
-      echo 'got here';
     }
 
     //get a count of rows returned by this query before applying pagination
