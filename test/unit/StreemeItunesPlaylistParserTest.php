@@ -19,11 +19,13 @@ catch( Exception $e )
     $t->fail( 'Unexpected exception thrown...' );
 }
 
-$parser = new StreemeItunesPlaylistParser( dirname(__FILE__) . '/../files/iTunes Music Library.xml' );
-$playlist_name = null;
+$parser = new StreemeItunesPlaylistParser( '/Users/user/Music/iTunes/iTunes Music Library.xml');
+$playlist_name = $itunes_playlist_id = null;
 $playlist_songs = array();
-$result = $parser->getPlaylist($playlist_name, $playlist_songs);
-echo $playlist_name;
-print_r($playlist_songs);
-echo (string) $result;
+while($parser->getPlaylist($playlist_name, $itunes_playlist_id, $playlist_songs))
+{
+  var_dump( $playlist_name );
+  var_dump( $itunes_playlist_id );
+  var_dump( $playlist_songs );
+}
 $parser->free();
