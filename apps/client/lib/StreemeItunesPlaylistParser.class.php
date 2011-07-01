@@ -44,6 +44,7 @@ class StreemeItunesPlaylistParser
         //we're done mapping songs, but we've gone 1 record too far
         // to solve this, put the first playlist name in the program state
         $this->playlist_name = $row['Name'];
+        $this->itunes_playlist_id = $row['Playlist Persistent ID'];
         break;
       }
       else
