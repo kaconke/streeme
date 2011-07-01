@@ -83,7 +83,14 @@ class StreemeItunesPlaylistParser
         }
       }
     }
-    
+    if($this->last_record)
+    {
+      $record = $this->song_mapping[ $this->last_record ];
+      if( !empty($record) )
+      {
+          $playlist_songs[] = $record;
+      }
+    }
     if(!$this->songs)
     {
       return false;
@@ -126,6 +133,10 @@ class StreemeItunesPlaylistParser
         $this->pull = 0;
         return $this->songs;
       }
+    }
+    if($this->songs['Track ID'] && $this->pull==0)
+    {
+      $this->last_record = $this->songs['Track ID'];
     }
   }
   
