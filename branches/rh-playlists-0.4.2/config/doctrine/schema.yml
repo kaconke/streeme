@@ -83,6 +83,8 @@ Playlist:
     scan_id:
       type: integer
     service_name:
+      type: string(255)
+    service_unique_id:
       type: string(255)    
     name:
       type: string(255)
