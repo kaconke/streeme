@@ -80,7 +80,7 @@ class StreemeItunesPlaylistParser
         $record = $this->song_mapping[ $row['Track ID'] ];
         if( !empty($record) )
         {
-          $playlist_songs[] = $record;
+          $playlist_songs[] = array('filename'=>$record);
         }
       }
     }
@@ -89,7 +89,7 @@ class StreemeItunesPlaylistParser
       $record = $this->song_mapping[ $this->last_record ];
       if( !empty($record) )
       {
-          $playlist_songs[] = $record;
+          $playlist_songs[] = array('filename'=>$record);
       }
     }
     if(!$this->songs)

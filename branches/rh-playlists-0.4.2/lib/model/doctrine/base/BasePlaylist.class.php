@@ -10,19 +10,22 @@ Doctrine_Manager::getInstance()->bindComponent('Playlist', 'doctrine');
  * @property integer $id
  * @property integer $scan_id
  * @property string $service_name
+ * @property string $service_unique_id
  * @property string $name
  * @property integer $mtime
  * 
- * @method integer  getId()           Returns the current record's "id" value
- * @method integer  getScanId()       Returns the current record's "scan_id" value
- * @method string   getServiceName()  Returns the current record's "service_name" value
- * @method string   getName()         Returns the current record's "name" value
- * @method integer  getMtime()        Returns the current record's "mtime" value
- * @method Playlist setId()           Sets the current record's "id" value
- * @method Playlist setScanId()       Sets the current record's "scan_id" value
- * @method Playlist setServiceName()  Sets the current record's "service_name" value
- * @method Playlist setName()         Sets the current record's "name" value
- * @method Playlist setMtime()        Sets the current record's "mtime" value
+ * @method integer  getId()                Returns the current record's "id" value
+ * @method integer  getScanId()            Returns the current record's "scan_id" value
+ * @method string   getServiceName()       Returns the current record's "service_name" value
+ * @method string   getServiceUniqueId()   Returns the current record's "service_unique_id" value
+ * @method string   getName()              Returns the current record's "name" value
+ * @method integer  getMtime()             Returns the current record's "mtime" value
+ * @method Playlist setId()                Sets the current record's "id" value
+ * @method Playlist setScanId()            Sets the current record's "scan_id" value
+ * @method Playlist setServiceName()       Sets the current record's "service_name" value
+ * @method Playlist setServiceUniqueId()   Sets the current record's "service_unique_id" value
+ * @method Playlist setName()              Sets the current record's "name" value
+ * @method Playlist setMtime()             Sets the current record's "mtime" value
  * 
  * @package    streeme
  * @subpackage model
@@ -43,6 +46,10 @@ abstract class BasePlaylist extends sfDoctrineRecord
              'type' => 'integer',
              ));
         $this->hasColumn('service_name', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
+             ));
+        $this->hasColumn('service_unique_id', 'string', 255, array(
              'type' => 'string',
              'length' => 255,
              ));
