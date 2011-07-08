@@ -16,6 +16,7 @@ Class PlaylistScan
   protected $total_playlists = 0;
   protected $skipped_playlists = 0;
   protected $added_playlists = 0;
+  protected $updated_playlists = 0;
   protected $removed_playlists = 0;
   protected $service_name = null;
     
@@ -51,69 +52,66 @@ Class PlaylistScan
   /**
    * Check if the file we're about to add is already in the database and return true if it's scanned
    *
-   * @param $filename  str itunes style filename
-   * @param $mtime     int time modified unix timestamp
-   * $return           bool: if is scanned = true|false
+   * @param filename  str itunes style filename
+   * @param mtime     int time modified unix timestamp
+   * $return           int: playlist_id
    */
-  public function is_scanned( $service_name, $playlist_name, $playlist_unique_id )
+  public function is_scanned( $service_name, $playlist_name, $service_unique_id = null )
   {
     //increment the total playlist count for this service
     $this->total_playlists++;
     
     //have we seen this playlist before?
-    $song = Doctrine_Core::getTable( 'Playlist' )->updateScanId( $service_name, $playlist_name, $playlist_unique_id );
-    if( $song > 0 )
-    {
-      $this->skipped_playlists++;
-      return true;
-    }
-    else
-    {
-      return false;
-    }
+    $playlist_id = Doctrine_Core::getTable( 'Playlist' )->updateScanId( $service_name, $playlist_name, $service_unique_id );
+  
+    return $playlist_id;
   }
   
   /**
-   * Populate the song list from an array
-   * Parameter order is not important
-   * @param $song_array array - contents
-   *   artist_name     str name of the artist
-   *   album_name      str name of the album
-   *   genre_name      str genre name
-   *   id3_genre_id    int id3 V1 or winamp extension ID eg. 0 - 125
-   *   song_name       str name of the song
-   *   song_length     str mins:secs
-   *   accurate_length int milliseconds
-   *   size            int file size
-   *   bitrate         int bitrate
-   *   year            int year
-   *   track_number    int track number on the album
-   *   label           str label
-   *   mtime           int time modified unix timestamp
-   *   atime           int time added to itunes unix timestamp
-   *   filename        str itunes style filename
-   *  @return          int: new song id
+   * Remove and replace all playlist files for a given playlist or add a new playlist
+   * from scratch.
+   *
+   * @param playlist_name  str: playlist name
+   * @param playlist_files array: a list of filenames
+   * @param playlist_id    int: optional playlist id to update
+   * @return               int: playlist_id
    */
-  public function add_song( $song_array )
+  public function add_playlist($playlist_name, $playlist_files, $playlist_id=0)
   {
-    $artist_name = ( $song_array['artist_name'] ) ? $song_array['artist_name'] : 'Unknown Artist';
-    $artist_id = Doctrine_Core::getTable('Artist')->addArtist( $artist_name );
-    if( !empty( $artist_id ) )
+    if(
+           isset($playlist_name)
+           &&
+           strlen($playlist_name) > 0
+           &&
+           $playlist_id === 0
+           &&
+           count($playlist_files) > 0
+       )
     {
-      $this->added_artists[ $artist_id ] = 1;
+      $this->added_playlists++;
+      $playlist_id = PlaylistTable::getInstance()->addPlaylist($playlist_name);
+      PlaylistFilesTable::getInstance()->addFiles($playlist_id, $playlist_files);
     }
-    $album_name = ( $song_array['album_name'] ) ? $song_array['album_name'] : 'Unknown Album';
-    $album_id = Doctrine_Core::getTable('Album')->addAlbum( $album_name );
-    if( !empty( $album_id ) )
+    else if(
+           isset($playlist_name)
+           &&
+           strlen($playlist_name) > 0
+           &&
+           $playlist_id !== 0
+           &&
+           count($playlist_files) > 0
+       )
     {
-      $this->added_albums[ $album_id ] = 1;
+      $this->updated_playlists++;
+      PlaylistFilesTable::getInstance()->deleteAllPlaylistFiles( $playlist_id );
+      PlaylistFilesTable::getInstance()->addFiles($playlist_id, $playlist_files);
     }
-    $song_id = Doctrine_Core::getTable('Song')->addSong( $artist_id, $album_id, $this->scan_id, $song_array );
-    $this->added_songs++;
-    $genre_ids = Doctrine_Core::getTable('SongGenres')->addSongGenres($song_id, $song_array['genre_name']);
-    unset( $artist_name, $artist_id, $album_name, $album_id, $genre_name, $genre_ids, $song_array );
+    else
+    {
+      $this->skipped_playlists++;
+    }
     
-    return $song_id;
+    return $playlist_id;
   }
   
   /**
