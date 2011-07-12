@@ -115,15 +115,14 @@ Class PlaylistScan
   }
   
   /**
-   * Clean up songs that did not check in during the scan - remove their associated
-   * relations to genre, albums, artists as well
+   * Purge playlists that did not make it in the scan.
    * @return           int total records removed in the cleanup
    */
   public function finalize_scan()
   {
-    $this->removed_playlists = Doctrine_Core::getTable('Song')->finalizeScan( $this->scan_id, $this->service_name );
+    $this->removed_playlists = Doctrine_Core::getTable('Playlist')->finalizeScan( $this->scan_id, $this->service_name );
     
-    return $this->removed_songs + $this->removed_artists + $this->removed_albums;
+    return $this->removed_playlists;
   }
   
   /**
