@@ -89,7 +89,7 @@ class PlaylistTable extends Doctrine_Table
       $q->andWhere('service_unique_id = ?',$service_unique_id);
     }
     $result = $q->fetchOne();
-    if(is_object($result))
+    if( is_object( $result ) )
     {
       $id = $result->id;
       $result->scan_id = $last_scan_id;
@@ -101,6 +101,27 @@ class PlaylistTable extends Doctrine_Table
     {
       unset($q);
       return 0;
+    }
+  }
+  
+  /**
+   * Purge playlists and files from the database if they were not found in the last scan
+   *
+   * @param playlist_files obj: PLaylistFilesTable instance
+   * @param last_scan_id   int: scan id value to validate
+   * @param service_name   str: the name of the service to purge from
+   * @return               int: rows affected
+   */
+  public function finalizeScan(PlaylistFilesTable $playlist_files, $last_scan_id, $service_name)
+  {
+    $q = $this->createQuery()
+      ->where('scan_id != ?', $last_scan_id)
+      ->andWhere('service_name = ?', $service_name);
+    $result = $q->execute;
+    if( is_object( $result ) )
+    {
+    
+    }
     }
   }
 }
