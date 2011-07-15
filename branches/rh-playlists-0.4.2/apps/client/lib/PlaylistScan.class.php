@@ -44,17 +44,18 @@ Class PlaylistScan
   /**
    * return the source type
    */
-  public function get_source()
+  public function get_service_name()
   {
-    return $this->source;
+    return $this->service_name;
   }
   
   /**
    * Check if the file we're about to add is already in the database and return true if it's scanned
    *
-   * @param filename  str itunes style filename
-   * @param mtime     int time modified unix timestamp
-   * $return           int: playlist_id
+   * @param filename          str: service name to add
+   * @param playlist_name     str: the name of the playlist
+   * @param service_unique_id str: anything string/permalink that helps make the playlist unique
+   * $return                  int: playlist_id
    */
   public function is_scanned( $service_name, $playlist_name, $service_unique_id = null )
   {
@@ -62,7 +63,7 @@ Class PlaylistScan
     $this->total_playlists++;
     
     //have we seen this playlist before?
-    $playlist_id = Doctrine_Core::getTable( 'Playlist' )->updateScanId( $service_name, $playlist_name, $service_unique_id );
+    $playlist_id = Doctrine_Core::getTable( 'Playlist' )->updateScanId( $service_name, $playlist_name, $service_unique_id, $this->get_last_scan_id() );
   
     return $playlist_id;
   }
@@ -72,7 +73,7 @@ Class PlaylistScan
    * from scratch.
    *
    * @param playlist_name  str: playlist name
-   * @param playlist_files array: a list of filenames
+   * @param playlist_files arr: a list of filenames (itunes style)
    * @param playlist_id    int: optional playlist id to update
    * @return               int: playlist_id
    */
@@ -126,8 +127,53 @@ Class PlaylistScan
   }
   
   /**
+   * Get the total playlist count
+   * @return          int: count
+   */
+  public function get_total_playlists()
+  {
+    return $this->total_playlists;
+  }
+  
+  /**
+   * Get the skipped playlist count
+   * @return          int: count
+   */
+  public function get_skipped_playlists()
+  {
+    return $this->skipped_playlists;
+  }
+
+  /**
+   * Get the added playlist count
+   * @return          int: count
+   */
+  public function get_added_playlists()
+  {
+    return $this->added_playlists;
+  }
+  
+  /**
+   * Get the updated playlist count
+   * @return          int: count
+   */
+  public function get_updated_playlists()
+  {
+    return $this->updated_playlists;
+  }
+  
+  /**
+   * Get the removed playlist count
+   * @return          int: count
+   */
+  public function get_removed_playlists()
+  {
+    return $this->removed_playlists;
+  }
+  
+  /**
    * Summarize changes made to a user's library at the very end of a scan
-   * @return           str an summary of actions taken during scanning
+   * @return           str: an summary of actions taken during scanning
    */
   public function get_summary()
   {
