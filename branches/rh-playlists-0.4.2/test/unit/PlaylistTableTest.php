@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 6, new lime_output_color() );
+$t = new lime_test( 7, new lime_output_color() );
 
 $playlist_table = Doctrine_Core::getTable('Playlist');
 Doctrine::loadData(sfConfig::get('sf_test_dir').'/fixtures/70_PlaylistTable');
@@ -26,3 +26,6 @@ $t->is(id, 0, 'Correct Id for missing playlist');
 $playlist_table->updateScanId('wjukebox', 'WJukebox Retro Playlist', null, 3);
 $updated_record = $playlist_table->find(4);
 $t->is($updated_record->scan_id, 3, 'Record updated to correct scan id');
+$t->comment( '->finalizeScan' );
+$removed_count = $playlist_table->finalizeScan(PlaylistFilesTable::getInstance(), 3, 'itunes');
+$t->is($removed_count, 1, 'successfully cleaned old entries');
