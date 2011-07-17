@@ -12,4 +12,10 @@ Playlist:
     name: Streeme Playlist
     mtime: 302020002020
  
-   
+  Playlist_2:
+    id: 3
+    name: Retro Classics
+    service_unique_id: C92A1451DFADE99
+    service_name: itunes
+    mtime: 3040003003002 
+    scan_id: 2

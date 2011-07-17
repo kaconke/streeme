@@ -19,17 +19,30 @@ class PlaylistTable extends Doctrine_Table
   
   /**
    * Add a playlist
-   * @param name        str: new playlist name
-   * @return            int: insert row id
+   *
+   * @param playlist_name     str: new playlist name
+   * @param scan_id           int: the scan id for a service scanner
+   * @param service_name      str: the name of the service this playlist comes from eg.itunes
+   * @param service_unique_id str: any metadata key string to make the playlist more unique
+   * @return                  int: insert row id
    */
-  public function addPlaylist( $name, $scan_id=0 )
+  public function addPlaylist( $playlist_name, $scan_id=0, $service_name=null, $service_unique_id=null )
   {
     $playlist = new Playlist();
     if($scan_id > 0)
     {
-      $playlist->scan_id=$scan_id;
+      $playlist->scan_id = $scan_id;
     }
-    $playlist->name = $name;
+    if(strlen($service_name) > 0)
+    {
+      $playlist->service_name = $service_name;
+    }
+    if(strlen($service_unique_id) > 0)
+    {
+      $playlist->service_unique_id = $service_unique_id;
+    }
+    $playlist->name = $playlist_name;
+    $playlist->mtime = time();
     $playlist->save();
     $id = $playlist->getId();
     $playlist->free();
@@ -124,8 +137,8 @@ class PlaylistTable extends Doctrine_Table
       foreach($result as $row)
       {
         $this->deletePlaylist( $playlist_files, $row->id );
-        $count++; 
-      }      
+        $count++;
+      }
     }
     
     return $count;

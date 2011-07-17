@@ -9,3 +9,8 @@ PlaylistFiles:
     playlist_id: 2
     filename: file://localhost/E:/music/StreemeOnly.mp3
     orderfield: 1
+
+  PlaylistFiles_2:
+    id: 3
+    playlist_id: 3
+    filename: file://localhost/E:/music/TheKingOfLimbs-MP3/The%20King%20Of%20Limbs/deleted.mp3

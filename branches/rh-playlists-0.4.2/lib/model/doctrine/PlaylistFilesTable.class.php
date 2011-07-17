@@ -14,11 +14,11 @@ class PlaylistFilesTable extends Doctrine_Table
    */
   public static function getInstance()
   {
-      return Doctrine_Core::getTable('PlaylistFiles');
+    return Doctrine_Core::getTable('PlaylistFiles');
   }
     
   /**
-   * Add library songs/albums/artists to the playlist
+   * Add a songs/albums/artists to the playlist
    * @param playlist_id int: playlist id
    * @param id          str: song uniqueid | album/artist id
    * @param type        str: song|artist|album
@@ -30,7 +30,7 @@ class PlaylistFilesTable extends Doctrine_Table
     
     $filename_list = Doctrine_Core::getTable('Song')->getFileList( $id, $type );
         
-
+    return $this->addFiles( $playlist_id, $filename_list);
   }
   
   /**
@@ -41,7 +41,7 @@ class PlaylistFilesTable extends Doctrine_Table
    */
   public function addFiles( $playlist_id, $filename_list )
   {
-    if( count( $filename_list ) > 0 )
+    if( is_array( $filename_list ) && count( $filename_list ) > 0 )
     {
       foreach( $filename_list as $row )
       {
@@ -115,7 +115,7 @@ class PlaylistFilesTable extends Doctrine_Table
    * Remove all files from a given playlist
    *
    * @param playlist_id int: playlist id
-   * @return count deleted items
+   * @return            int: count of deleted items
    */
    public function deleteAllPlaylistFiles( $playlist_id )
    {
