@@ -72,12 +72,14 @@ Class PlaylistScan
    * Remove and replace all playlist files for a given playlist or add a new playlist
    * from scratch.
    *
-   * @param playlist_name  str: playlist name
-   * @param playlist_files arr: a list of filenames (itunes style)
-   * @param playlist_id    int: optional playlist id to update
-   * @return               int: playlist_id
+   * @param playlist_name     str: new playlist name
+   * $param playlist_files    arr: the files to be added to the playlist
+   * @param scan_id           int: the scan id for a service scanner
+   * @param service_name      str: the name of the service this playlist comes from eg.itunes
+   * @param service_unique_id str: any metadata key string to make the playlist more unique
+   * @return                  int: playlist_id
    */
-  public function add_playlist($playlist_name, $playlist_files, $playlist_id=0)
+  public function add_playlist($playlist_name, $playlist_files=array(), $playlist_id=0, $scan_id=0, $service_name=null, $service_unique_id=null)
   {
     if(
            isset($playlist_name)
@@ -86,11 +88,13 @@ Class PlaylistScan
            &&
            $playlist_id === 0
            &&
+           is_array($playlist_files)
+           &&
            count($playlist_files) > 0
        )
     {
       $this->added_playlists++;
-      $playlist_id = PlaylistTable::getInstance()->addPlaylist($playlist_name);
+      $playlist_id = PlaylistTable::getInstance()->addPlaylist($playlist_name, $scan_id, $service_name, $service_unique_id);
       PlaylistFilesTable::getInstance()->addFiles($playlist_id, $playlist_files);
     }
     else if(
@@ -99,6 +103,8 @@ Class PlaylistScan
            strlen($playlist_name) > 0
            &&
            $playlist_id !== 0
+           &&
+           is_array($playlist_files)
            &&
            count($playlist_files) > 0
        )
@@ -119,9 +125,9 @@ Class PlaylistScan
    * Purge playlists that did not make it in the scan.
    * @return           int total records removed in the cleanup
    */
-  public function finalize_scan()
+  public function finalize_scan( PlaylistFilesTable $playlist_files)
   {
-    $this->removed_playlists = Doctrine_Core::getTable('Playlist')->finalizeScan( $this->scan_id, $this->service_name );
+    $this->removed_playlists = Doctrine_Core::getTable('Playlist')->finalizeScan( $playlist_files, $this->scan_id, $this->service_name );
     
     return $this->removed_playlists;
   }
