@@ -5,13 +5,9 @@ include( dirname(__FILE__) . '/../../apps/client/lib/StreemeUtil.class.php' );
 // Initialize the test object
 $t = new lime_test( 9, new lime_output_color() );
 
-
-
-$t->comment( '->itunes_format_encode()' );
-$t->is( StreemeUtil::itunes_format_encode( '/home/foo/bar' ), 'file://localhost/home/foo/bar', 'Formatted a *nix path in the itunes format' );
-
 $t->comment( '->itunes_format_decode()' );
-$t->is( StreemeUtil::itunes_format_decode( 'file://localhost/home/foo/bar%20man' ), '/home/foo/bar man', 'Decoded an itunes formatted path' );
+$t->is( StreemeUtil::itunes_format_decode( 'file://localhost/Z:/music/music.mp3', true, $mapped_drive_locations ), '' ,'Decoded an itunes path with mapped drive replacements');
+$t->is( StreemeUtil::itunes_format_decode( 'file://localhost/home/foo/bar%20man', false ), '/home/foo/bar man', 'Decoded an itunes formatted path' );
 
 $t->comment( '->slugify()' );
 $t->is( StreemeUtil::slugify('stuff & thing fox\'s Name'), 'stuff-thing-fox-s-name', 'Processed sting pattern into valid url' );

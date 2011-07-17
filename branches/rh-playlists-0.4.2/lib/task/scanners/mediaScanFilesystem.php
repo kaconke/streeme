@@ -65,13 +65,11 @@ function scan_directory( $path, $allowed_filetypes, $media_scanner, $id3_scanner
     //is it a usable file? 
 		if ( $file_stat['size'] === 0 || !in_array( strtolower( substr( $filename, -3 ) ), $allowed_filetypes ) )	continue;
 			
-    //encode as a iTunes URL
-		$streeme_path_name = StreemeUtil::itunes_format_encode( $full_file_path );
+		$streeme_path_name = $full_file_path;
 		
 		//has it been scanned before?
     if ( $media_scanner->is_scanned(  $streeme_path_name, $file_stat[ 'mtime' ] ) ) continue;
     
-
 		echo "Scanning " . $filename . "\n";  
 
 		//get the file information from pathinfo in case we need a substitute song name
