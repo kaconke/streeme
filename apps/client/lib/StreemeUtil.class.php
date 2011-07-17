@@ -2,60 +2,32 @@
 class StreemeUtil
 {
   /**
-  * Format and encode a filesystem name into an iTunes style format
-  * @param filename str: the input filename to encode
-  * @return       str: the iTunes formatted semi-urlencoded file or false
-  */
-  public static function itunes_format_encode( $filename )
-  {
-    if ( !isset( $filename ) || empty( $filename ) ) return false;
-    
-    //explode filename into parts by directory separator
-    $file_parts = explode( '/', $filename );
-    
-    $accumulator = array();
-    if( count( $file_parts ) > 0 )
-    {
-      //urlencode each part
-      foreach( $file_parts as $part )
-      {
-        //encode windows drive letters a bit differently, like itunes does?
-        if ( strpos( $part, ':' ) )
-        {
-          $accumulator[] = $part;
-          continue;
-        }
-        if ( self::is_windows() )
-        {
-          $accumulator[] = rawurlencode( utf8_encode( $part ) );
-        }
-        else
-        {
-          $accumulator[] = rawurlencode( $part );
-        }
-      }
-      
-      $url_prefix = ( self::is_windows() ) ? 'file://localhost/' : 'file://localhost';
-      
-      //recombine file into URI and prepend protocol info
-      return $url_prefix . join( '/', $accumulator );
-    }
-    return false;
-  }
-
-  /**
   * Decode an iTunes formatted URL string into an OS filesystem name
-  * @param itunes_url str: the input iTunes URL to decode
-  * @return           str: the OS style filename to pass to php functions or false
+  * @param itunes_url              str: the input iTunes URL to decode
+  * @param is_windows              bool: true if windows operating system
+  * @param $mapped_drive_locations arr: array to map drive letter network locations to smb names (windows fix only)
+  * @return                        str: the OS style filename to pass to php file functions
   */
-  public static function itunes_format_decode( $itunes_url )
+  public static function itunes_format_decode( $itunes_url, $is_windows = false, $mapped_drive_locations = array() )
   {
+    $filename = null;
+    
     //build the iTunes URL prefix and allow for single byte latin chars
-    if ( self::is_windows() )
+    if ( $is_windows )
     {
-      $url_prefix = 'file://localhost/';
+      $find = $replace = array();
+      if(is_array($mapped_drive_locations) && count($mapped_drive_locations) > 0)
+      {
+        foreach($mapped_drive_locations as $drive_letter => $smb_name )
+        {
+          $find[] = $drive_letter;
+          $replace[] = $smb_name;
+        }       
+      }
+      $find[] = 'file://localhost/';
+      $replace[] = '';
       $itunes_url = self::replace_url_nonfs_chars( $itunes_url );
-      $filename = utf8_decode( str_replace( $url_prefix, '', rawurldecode( $itunes_url ) ) );
+      $filename = utf8_decode( str_replace( $find, $replace, rawurldecode( $itunes_url ) ) );
     }
     else
     {
@@ -63,7 +35,6 @@ class StreemeUtil
       $filename = str_replace( $url_prefix, '', rawurldecode( $itunes_url ) );
     }
 
-    //url decode the result
     return $filename;
   }
 
