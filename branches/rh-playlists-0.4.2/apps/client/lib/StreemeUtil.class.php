@@ -20,9 +20,9 @@ class StreemeUtil
       {
         foreach($mapped_drive_locations as $drive_letter => $smb_name )
         {
-          $find[] = $drive_letter;
-          $replace[] = $smb_name;
-        }       
+            $find[] = $drive_letter;
+            $replace[] = $smb_name;
+        }
       }
       $find[] = 'file://localhost/';
       $replace[] = '';
@@ -95,7 +95,7 @@ class StreemeUtil
    * @param text     str: the dirty string
    * @return         str: non printable sanitized string
    */
-  public function xmlize_uf8_string( $text )
+  public static function xmlize_utf8_string( $text )
   {
     $blacklist = array( chr(0), '\0', '\t', '\r', '\n', 'ÿþ' );
     foreach( range( chr(0),chr(127) ) as $alpha ) array_unshift( $blacklist, sprintf( '%sÿþ', $alpha ) );
@@ -107,7 +107,7 @@ class StreemeUtil
    * @param text str: the dirty string
    * @return     str: sanitized str
    */
-  public function replace_url_nonfs_chars( $text )
+  public static function replace_url_nonfs_chars( $text )
   {
     $search = array(
                      '%E2%80%93',
