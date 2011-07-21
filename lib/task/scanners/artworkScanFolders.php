@@ -25,7 +25,6 @@ if ( !$artwork_list )
   $artwork_list = array();
 }
 
-
 foreach( $artwork_list as $key => $value )
 {
   $shortlist = array();
@@ -38,11 +37,12 @@ foreach( $artwork_list as $key => $value )
   
   //setup paths
   $art_dir = dirname( __FILE__ ) . '/../../../data/album_art/' . md5( $value[ 'artist_name' ] . $value[ 'album_name' ] );
-  $song_path_info = $value['song_filename'];
+  $song_path_info = pathinfo($value['song_filename']);
   $scan_dir = $song_path_info[ 'dirname' ];
   
   //skip files in the root path
-  $depth = explode( '/' , $scan_dir );
+  $depth = explode( '/' , str_replace( sfConfig::get('app_wf_watched_folders'), '', $scan_dir ) );
+
   if ( count( $depth ) <= 1 ) continue;
     
   //scan for allowed files in this song's folder and put the result in an array

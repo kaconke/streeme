@@ -21,7 +21,7 @@ if(is_readable($artwork_base_dir.'/9c33cc0dca6a07eaaaa0dc0fd23afc95'))
 }
 else
 {
-  $t->fail('couldn\'t create the album art dirctory for fixture song');
+  $t->fail('couldn\'t create the album art directory for fixture song');
 }
 
 /* Verify Files have been created for fixture mp3 */
