@@ -8,8 +8,6 @@
  * @package    streeme
  * @author     Richard Hoar
  */
-mb_internal_encoding( 'UTF-8' );
-
 require_once( dirname(__FILE__) . '/../../vendor/getid3-1.7.9/getid3/getid3.php' );
    
 $watched_folers         = sfConfig::get( 'app_wf_watched_folders' );
