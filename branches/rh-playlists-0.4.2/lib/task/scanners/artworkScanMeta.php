@@ -1,9 +1,9 @@
 <?php
 /**
  * artworkScanMeta
- * 
+ *
  * Read album art from MP3 id3v2 tags
- * 
+ *
  * @package    streeme
  * @author     Richard Hoar
  */
@@ -29,7 +29,7 @@ if ( !$artwork_list )
 {
   echo( "*** All song metas have been scanned for art ***" );
   $artwork_list = array();
-} 
+}
 
 foreach( $artwork_list as $key => $value )
 {
@@ -38,23 +38,13 @@ foreach( $artwork_list as $key => $value )
   
   echo 'Scanning: ' .  $value[ 'album_name' ] . ' by: ' .  $value[ 'artist_name' ] . "\r\n";
   
-  //setup paths 
+  //setup paths
   $art_dir = dirname( __FILE__ ) . '/../../../data/album_art/' . md5( $value[ 'artist_name' ] . $value[ 'album_name' ] );
-	if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
-	{
-	  //Windows
-	  $streeme_path_name = 'file://localhost/';
-	} 
-	else
-	{
-	  //*nix
-	  $streeme_path_name = 'file://localhost';
-	}
   
   //get the metadata from the MP3 file
-  $result = @$id3_scanner->analyze( str_replace( $streeme_path_name, '', utf8_decode( urldecode( $value['song_filename'] ) ) ) );
+  $result = @$id3_scanner->analyze( $value['song_filename'] );
   
-  //grab the pic from the id3v2 header -- seems id3v2 is the only real way for MP3 
+  //grab the pic from the id3v2 header -- seems id3v2 is the only real way for MP3
   if ( @$result[ 'id3v2' ][ 'APIC' ][0][ 'data' ] )
   {
     $temp_filename = 'temp' . $filetypes[ $result[ 'id3v2' ][ 'APIC' ][0][ 'mime' ] ];
@@ -64,20 +54,20 @@ foreach( $artwork_list as $key => $value )
       $current_album_id = $value[ 'album_id' ];
       $artwork_scanner->flag_as_skipped( $value[ 'album_id' ] );
       continue;
-    }  
+    }
     file_put_contents( $temp_dir . '/' . $temp_filename, $result[ 'id3v2' ][ 'APIC' ][0][ 'data' ] );
     if ( is_readable( $temp_dir . '/' . $temp_filename ) )
     {
       $original = generate_thumbnail( $temp_dir, $temp_filename, 'x', 600, $value );
-      $medium = generate_thumbnail( $temp_dir, $temp_filename, 'x', 300, $value ); 
+      $medium = generate_thumbnail( $temp_dir, $temp_filename, 'x', 300, $value );
       $small = generate_thumbnail( $temp_dir, $temp_filename, 'x', 110, $value );
       
       if ( @mkdir( $art_dir, 0777, true ) )
       {
         //copy new art to the album art list
         copy( $temp_dir . '/' . $original, $art_dir . '/' . 'large.jpg' );
-        copy( $temp_dir . '/' . $medium, $art_dir . '/' . 'medium.jpg' );      
-        copy( $temp_dir . '/' . $small, $art_dir . '/' . 'small.jpg' ); 
+        copy( $temp_dir . '/' . $medium, $art_dir . '/' . 'medium.jpg' );
+        copy( $temp_dir . '/' . $small, $art_dir . '/' . 'small.jpg' );
         
         unlink( $temp_dir . '/' . $temp_filename );
         
@@ -92,7 +82,7 @@ foreach( $artwork_list as $key => $value )
         //if the dir's already there, chances are it has art
         $current_album_id = $value[ 'album_id' ];
         $artwork_scanner->flag_as_skipped( $value[ 'album_id' ] );
-      }      
+      }
     }
     else
     {
@@ -105,7 +95,7 @@ foreach( $artwork_list as $key => $value )
   {
     //the first song doesn't have art, go to the next and exhaust all options
     $artwork_scanner->flag_as_skipped( $value[ 'album_id' ] );
-  } 
+  }
 }
 
 //summarize the results of the scan
@@ -113,8 +103,8 @@ echo "\r\n";
 echo $artwork_scanner->get_summary();
 
 /**
-* generates a constrained image and returns the data stream 
-*	Good for making thumbnails or just constraining all  uploaded images. 
+* generates a constrained image and returns the data stream
+*	Good for making thumbnails or just constraining all  uploaded images.
 *
 * @param path       str: path to temp image (eg. '/home/user/web/temp')
 * @param tmp_file   str: the original filename( eg. foo.jpg )
@@ -128,12 +118,12 @@ function generate_thumbnail( $path, $tmp_file, $constrain, $size, $value )
   $rights = 0755;
   
 	//get the source image size
-	if ( $imagesize = getimagesize( $path . '/' . $tmp_file ) ) 
+	if ( $imagesize = getimagesize( $path . '/' . $tmp_file ) )
 	{
-  	//figure out the scaling ratio 
+  	//figure out the scaling ratio
   	switch( $constrain )
   	{
-  		case 'x': 
+  		case 'x':
     		$ratio = $size/$imagesize[0];
     		break;
   		
@@ -170,14 +160,14 @@ function generate_thumbnail( $path, $tmp_file, $constrain, $size, $value )
     	//we're done with the source, so we'll purge it
     	imagedestroy( $source );
     
-    	//copy the proper JPEG source to the server and chmod it to 644    
+    	//copy the proper JPEG source to the server and chmod it to 644
     	imageJPEG( $tempdest, $path . '/' . $size . '-' . $tmp_file );
     	chmod( $path . '/' . $size . '-' . $tmp_file, $rights );
     
-    	//finally, clean up the rest of image memory 
+    	//finally, clean up the rest of image memory
     	imagedestroy($tempdest);
     	
-    	//return the new filename for moving 
+    	//return the new filename for moving
     	return( $size . '-' . $tmp_file );
     }
     else
@@ -189,5 +179,5 @@ function generate_thumbnail( $path, $tmp_file, $constrain, $size, $value )
   {
     echo 'GD could not get the image dimensions for the media: ' . $value[ 'artist_name' ] . '/' . $value[ 'album_name' ];
   }
-}  
+}
 ?>
