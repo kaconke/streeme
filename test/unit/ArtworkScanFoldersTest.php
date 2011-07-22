@@ -3,7 +3,7 @@ ob_start();
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 8, new lime_output_color() );
+$t = new lime_test( 13, new lime_output_color() );
 
 //add the required fixtures
 Doctrine::loadData(sfConfig::get( 'sf_test_dir').'/fixtures/90_ArtworkScanMeta/table.yml' );
@@ -63,3 +63,10 @@ unlink($artwork_base_dir.'/9c33cc0dca6a07eaaaa0dc0fd23afc95/small.jpg');
 unlink($artwork_base_dir.'/9c33cc0dca6a07eaaaa0dc0fd23afc95/medium.jpg');
 unlink($artwork_base_dir.'/9c33cc0dca6a07eaaaa0dc0fd23afc95/large.jpg');
 rmdir($artwork_base_dir.'/9c33cc0dca6a07eaaaa0dc0fd23afc95');
+
+$q = AlbumTable::getInstance()->find('1');
+$t->is($q->amazon_flagged, false, "correct value for amazon flag");
+$t->is($q->folders_flagged, true, "correct value for folders flag");
+$t->is($q->meta_flagged, false, "correct value for meta flag");
+$t->is($q->scan_id, 1, 'correct scan id');
+$t->is($q->has_art, true, 'item now has art');
