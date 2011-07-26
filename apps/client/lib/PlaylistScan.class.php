@@ -184,15 +184,12 @@ Class PlaylistScan
   public function get_summary()
   {
     $string  = null;
-    $string .= 'Total Songs Scanned: ' . (string) $this->total_songs . " \r\n";
-    $string .= 'Songs Skipped: ' . (string) $this->skipped_songs . " \r\n";
-    $string .= 'Songs Added: ' . (string) $this->added_songs . " \r\n";
-    $string .= 'Albums Added: ' . (string) count( $this->added_albums ) . " \r\n";
-    $string .= 'Artists Added: ' . (string) count( $this->added_artists ) . " \r\n";
-    $string .= 'Songs Removed: ' . (string) $this->removed_songs . " \r\n";
-    $string .= 'Albums Removed: ' . (string) $this->removed_albums . " \r\n";
-    $string .= 'Artists Removed: ' . (string) $this->removed_artists . " \r\n";
-  
+    $string .= 'Total Playlists Scanned: ' . $this->get_total_playlists() . " \r\n";
+    $string .= 'Playlists Skipped: ' . $this->get_skipped_playlists() . " \r\n";
+    $string .= 'Playlists Added: ' . $this->get_added_playlists() . " \r\n";
+    $string .= 'Playlists Updated: ' . $this->get_updated_playlists() . " \r\n";
+    $string .= 'Playlists Removed: ' . $this->get_removed_playlists() . " \r\n";
+
     return $string;
   }
 }

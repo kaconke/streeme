@@ -74,10 +74,11 @@ class PlaylistTable extends Doctrine_Table
   {
     $q = Doctrine_Query::create()
       ->select( 'p.id, p.name' )
-      ->from( 'Playlist p' );
+      ->from( 'Playlist p, PlaylistFiles pf' )
+      ->where( 'p.id = pf.playlist_id' );
     if( $alpha !== 'all' )
     {
-      $q->where( 'upper( p.name ) LIKE ?', strtoupper( substr( $alpha, 0, 1 ) ) . '%' );
+      $q->andWhere( 'upper( p.name ) LIKE ?', strtoupper( substr( $alpha, 0, 1 ) ) . '%' );
     }
     $q->orderBy( 'p.name ASC' );
     return $q->fetchArray();

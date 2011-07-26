@@ -34,7 +34,7 @@ $t->is( $deleted_row_count, 1, 'Successfully deleted a playlist entry' );
 $t->comment( '->getList' );
 $list  = $playlist_table->getList();
 $count = count( $list );
-$t->is( $count, 3, 'Correct list size' );
+$t->is( $count, 2, 'Correct list size' );
 
 $t->comment( '->updateScanId' );
 $playlist_table->updateScanId('itunes', 'Itunes 90\'s Playlist', 'B16E9C5DFFC4695D', 2);
