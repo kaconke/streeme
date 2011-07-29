@@ -10,7 +10,7 @@
  */
 mb_internal_encoding( 'UTF-8' );
 
-require_once( dirname(__FILE__) . '/../../vendor/getid3-1.7.9/getid3/getid3.php' );
+require_once( dirname(__FILE__) . '/../../vendor/getid3-1.9.0/getid3/getid3.php' );
    
 $watched_folers         = sfConfig::get( 'app_wf_watched_folders' );
 $mapped_drive_locations = sfConfig::get( 'app_mdl_mapped_drive_locations' );
