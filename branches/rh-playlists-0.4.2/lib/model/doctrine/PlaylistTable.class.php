@@ -74,8 +74,7 @@ class PlaylistTable extends Doctrine_Table
   {
     $q = Doctrine_Query::create()
       ->select( 'p.id, p.name' )
-      ->from( 'Playlist p, PlaylistFiles pf' )
-      ->where( 'p.id = pf.playlist_id' );
+      ->from( 'Playlist p' );
     if( $alpha !== 'all' )
     {
       $q->andWhere( 'upper( p.name ) LIKE ?', strtoupper( substr( $alpha, 0, 1 ) ) . '%' );
