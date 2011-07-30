@@ -46,7 +46,7 @@ foreach( $artwork_list as $key => $value )
   //grab the pic from the id3v2 header -- seems id3v2 is the only real way for MP3
   if ( isset( $result[ 'id3v2' ][ 'APIC' ][0][ 'data' ] ) && strlen($result[ 'id3v2' ][ 'APIC' ][0][ 'data' ]) > 10 )
   {
-    $temp_filename = 'temp' . $filetypes[ $result[ 'id3v2' ][ 'APIC' ][0][ 'mime' ] ];
+    $temp_filename = 'temp' . $filetypes[ $result[ 'id3v2' ][ 'APIC' ][0][ 'image_mime' ] ];
     $temp_data = $result[ 'id3v2' ][ 'APIC' ][0][ 'data' ];
   }
   elseif( isset( $result[ 'id3v2' ][ 'PIC' ][0][ 'data' ] ) && strlen( $result[ 'id3v2' ][ 'PIC' ][0][ 'data' ] ) > 10 )
@@ -65,7 +65,7 @@ foreach( $artwork_list as $key => $value )
     $artwork_scanner->flag_as_skipped( $value[ 'album_id' ] );
     continue;
   }
-  
+
   if ( !strpos( $temp_filename, '.' ) )
   {
     //invalid file type encountered
