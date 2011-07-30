@@ -54,7 +54,7 @@ EOF;
         break;
         
       case 'meta':
-        require_once( dirname( __FILE__ ) . '/scanners/artworkScanMetaPlay.php' );
+        require_once( dirname( __FILE__ ) . '/scanners/artworkScanMeta.php' );
         break;
       
       case 'folders':

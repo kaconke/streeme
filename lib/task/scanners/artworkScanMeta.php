@@ -51,7 +51,7 @@ foreach( $artwork_list as $key => $value )
   }
   elseif( isset( $result[ 'id3v2' ][ 'PIC' ][0][ 'data' ] ) && strlen( $result[ 'id3v2' ][ 'PIC' ][0][ 'data' ] ) > 10 )
   {
-    $temp_filename = 'temp' . $filetypes[ $result[ 'id3v2' ][ 'PIC' ][0][ 'mime' ] ];
+    $temp_filename = 'temp' . $filetypes[ $result[ 'id3v2' ][ 'PIC' ][0][ 'image_mime' ] ];
     $temp_data = $result[ 'id3v2' ][ 'PIC' ][0][ 'data' ];
   }
   elseif( isset( $result['comments']['picture'][0]['data'] ) && strlen( $result['comments']['picture'][0]['data'] ) > 10 )
