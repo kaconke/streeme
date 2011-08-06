@@ -2,6 +2,14 @@
 #labels Phase-Implementation
 
 = CHANGELOG =
+=== Version 0.5.0 ===
+ * THIS VERSION NOW USES A NEW DATABASE SCHEMA. IT IS NOT A CLEAN UPGRADE PATH FROM 0.4.2.
+ * Added playlist scanning for iTunes playlists 
+ * Fixed meta scanning so it includes more tag locations - closes issue 31 
+ * Added support for multiple genres - closes issue 25
+ * Changed filesystem to use real filesystem names instead of the iTUnes scheme
+ * Upgraded getid3.php id3 scanner library to 1.9.0
+
 === Version 0.4.2 ===
  * added a delete user command to the CLI to manage users a bit better - closes issue 19
  * Added a functional test suite for Streeme's critical paths
