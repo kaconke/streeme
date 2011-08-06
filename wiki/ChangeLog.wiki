@@ -7,7 +7,7 @@
  * Added playlist scanning for iTunes playlists 
  * Fixed meta scanning so it includes more tag locations - closes issue 31 
  * Added support for multiple genres - closes issue 25
- * Changed filesystem to use real filesystem names instead of the iTUnes scheme
+ * Changed filesystem to use real filesystem names instead of the iTunes scheme
  * Upgraded getid3.php id3 scanner library to 1.9.0
 
 === Version 0.4.2 ===
