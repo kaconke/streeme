@@ -13,7 +13,7 @@ Streeme is very much in its infancy and there are multiple new features that spr
  * [StreemeRoadmap#Better_Support_for_Android_Devices Deliver better mobile support for the Android platform]
  * ~~[StreemeRoadmap#Integrate_JPlayer Integrate Jplayer into the playback API for browsers without MP3 support or controls]~~
  * [StreemeRoadmap#Import_Podcasts Import podcasts]
- * [StreemeRoadmap#Import_Playlists Import playlists]
+ * ~~[StreemeRoadmap#Import_Playlists Import playlists]~~
  * [StreemeRoadmap#Support_Music_Importing_from_Other_Jukeboxes Support other jukebox software lists]
  * ~~[StreemeRoadmap#Create_a_Virtual_Machine Create a Virtual Machine version of Streeme]~~
  * ~~[StreemeRoadmap#Language_Packs Create Language Packs for Streeme]~~
@@ -40,6 +40,8 @@ Podcasts are traditionally downloaded to a user's computer and then synced to a 
 
 ===Import Playlists===
 Many MP3s come with an M3U file and iTunes maintains its own playlist mechanisms, it would be nice to add an automatic import feature to merge predefined playlists with the current playlist system where possible.
+
+Completed: Version 0.5.0
 
 ===Support Music Importing from Other Jukeboxes===
 Ideally streeme should support any jukebox software for managing song lists. If you have a favorite library management software, please help develop or bug test an importer for other software packages.
