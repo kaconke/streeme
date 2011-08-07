@@ -41,7 +41,7 @@ foreach( $artwork_list as $key => $value )
   $art_dir = dirname( __FILE__ ) . '/../../../data/album_art/' . md5( $value[ 'artist_name' ] . $value[ 'album_name' ] );
   
   //get the metadata from the MP3 file
-  $result = $id3_scanner->analyze( $value['song_filename'] );
+  $result = $id3_scanner->analyze( iconv( 'UTF-8', sprintf('%s//TRANSLIT', sfConfig::get( app_filesystem_encoding, 'ISO-8859-1' )), $value['song_filename'] ) );
   
   //grab the pic from the id3v2 header -- seems id3v2 is the only real way for MP3
   if ( isset( $result[ 'id3v2' ][ 'APIC' ][0][ 'data' ] ) && strlen($result[ 'id3v2' ][ 'APIC' ][0][ 'data' ]) > 10 )
