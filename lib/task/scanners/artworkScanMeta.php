@@ -11,6 +11,7 @@ require_once( dirname(__FILE__) . '/../../vendor/getid3-1.9.0/getid3/getid3.php'
 
 $artwork_scanner        = new ArtworkScan( 'meta' );
 $id3_scanner            = new getID3();
+$id3_scanner->encoding  = 'UTF-8';
 $temp_dir               = dirname( __FILE__ ) . '/../../../temp';
 $filetypes              = array(
                                   'image/jpeg'  => '.jpg',
