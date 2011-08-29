@@ -43,6 +43,8 @@ If the browser's not the issue; again, check that HTTP_Download is installed - t
 
 The port numbers are set up in your apache configs and app.yml. If music doesn't play, it may just be that the music_proxy_port setting doesn't match up with whatever you used in Apache. Example: if you chose 8096 as your second port, update the music_proxy_port: setting in app/client/config/app.yml to match. If you change app.yml, type {{{./symfony cc}}} if you change the apache configs, restart apache before continuing.
 
+Make sure that you open these ports on your router as well. Most routers  firewall anonymous traffic from the internet simply because they have no route for it. You must explicitly open the ports (default are 8095 and 8096) in the port forwarding menu on your router. Symptoms of this problem are easiest to detect by watching the proxy.log file. If you don't see anything ending up in the latest logs, chances are that your ports are not connectable. 
+
 Also note that the full log of the execution path will log to log/proxy.log - you may be able to diagnose the problem using that log file. If the log file doesn't exist, you may have other issues (ports or php errors), see desperate measures
 
 === Desperate Measures ===
