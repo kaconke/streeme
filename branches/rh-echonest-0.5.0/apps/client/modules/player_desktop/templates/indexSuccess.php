@@ -17,6 +17,8 @@
   <div class="header" id="header">
     <div class="songcontrols lightgradient" id="songcontrols">
       <div class="dropzone ui-droppable buttonradius" id="dropzone"><?php echo __( 'Added item to playlist' ) ?></div>
+
+      <div class="echonest buttonradius" id="echonest" title="<?php echo __( 'Echonest Properties' ) ?>"></div>
  
       <div class="playlists buttonradius" id="playlists" title="<?php echo __( 'View playlists' ) ?>"></div>
  
@@ -58,11 +60,18 @@
     </div>
     <div class="columnright" id="columnright">
       <div class="songlistcontainer" id="songlistcontainer">
-        <?php include_partial( 'list_songs' ); ?>
+        <?php include_partial( 'list_songs' ) ?>
       </div>
     </div>
   </div>
 </div>
+
+<div class="echonestmodalwindow wideradius" id="echonestmodalwindow">
+  <div class="listcontainer" id="echonestcontainer">
+    <?php include_partial( 'echonest' ) ?>
+  </div>
+</div>
+
 
 <div class="playlistsmodalwindow wideradius" id="playlistsmodalwindow">
   <div class="browse">
