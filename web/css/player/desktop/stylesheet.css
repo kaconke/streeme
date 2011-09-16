@@ -87,7 +87,7 @@ div.horizontalrule
  	position: absolute;
  	display: none;
 	top: -5px;
-	right: 171px;
+	right: 218px;
 	height: 20px;
 	min-width: 300px;
 	color: #222;
@@ -96,6 +96,51 @@ div.horizontalrule
 	padding-top: 9px;
 	background-color: #bddfff;
 	border-bottom: 1px solid #cecece;
+}
+.echonest{
+  position: absolute;
+  top: -5px;
+  right: 171px;
+  width: 43px;
+  height: 29px;
+  text-align: center;
+  background: url('/images/player/desktop/h5-icon-echonest.png') no-repeat #444;
+  background-position: 12px 7px; 
+  cursor: pointer;
+}
+.echonest:hover{
+  background-color: #406fe6;
+}
+.echonestmodalwindow{
+  display: block;
+  position: absolute;
+  width: 320px;
+  min-height: 50px;
+  padding: 20px;
+  background-color: #F0F0F0;
+  border: 1px solid #BBB;
+  top: 30px;
+  right: 171px;
+  z-index: 10;
+}
+.echonestmodalwindow .browse{
+  height: 300px;
+  border: 1px solid #AAA;
+}
+#echonestcontainer > form > label{
+	width: 110px;
+	display: block;
+	float: left;
+}
+#echonestcontainer > form > select{
+  min-width: 60px;
+}
+.echonestsubmit{
+	background: url('/images/player/desktop/h5-echonest-logo.png') no-repeat center left;
+	text-align: right;
+}
+.echonestsubmit > button{
+	padding: 5px;
 }
 .playlists{
 	position: absolute;
