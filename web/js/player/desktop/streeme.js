@@ -318,6 +318,14 @@ streeme = {
 				}
 			);
 		}
+		if( $( '#echonest' ) )
+		{
+			$( '#echonest' ).click( function(event)
+				{ 
+					streeme.toggleEchonestWindow();
+				}
+			);
+		}
 		if( $( '#logout' ) )
 		{
 			$( '#logout' ).click( streeme.logout );
@@ -1235,7 +1243,7 @@ streeme = {
 	},
 
 	/**
-	* Open the Playlists Window for user playlists
+	* Toggle visibility on Playlists Window for user playlists
 	*/
 	togglePlaylistsWindow : function()
 	{
@@ -1245,6 +1253,17 @@ streeme = {
 		}
 	},
 
+	/**
+	* Toggle visibility on the Echnest properties window
+	*/
+	toggleEchonestWindow : function()
+	{
+		if( $( '#echonestmodalwindow' ) )
+		{
+			$( '#echonestmodalwindow' ).toggle(120);
+		}
+	},	
+	
     resume : function()
     {
 		var resume_rawdata = $.cookie('resume_desktop');
