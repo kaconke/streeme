@@ -112,7 +112,7 @@ div.horizontalrule
   background-color: #406fe6;
 }
 .echonestmodalwindow{
-  display: block;
+  display: none;
   position: absolute;
   width: 320px;
   min-height: 50px;
