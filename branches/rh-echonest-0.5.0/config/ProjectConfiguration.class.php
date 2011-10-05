@@ -10,6 +10,6 @@ class ProjectConfiguration extends sfProjectConfiguration
     $this->enablePlugins('sfDoctrinePlugin');
     $this->enablePlugins('sfWebBrowserPlugin');
     $this->enablePlugins('sfDoctrineGuardPlugin');
-    $this->enablePlugins('sfNginxMiniServerPlugin');
+   // $this->enablePlugins('sfNginxMiniServerPlugin');
   }
 }
