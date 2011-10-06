@@ -10,6 +10,7 @@ class StreemeEchonestConsumer
 {
   protected $format, $apiKey, $apiVersion, $http, $apiEndpoint, $uri, $responseTime;
   protected $parameters = array();
+  protected $headers = array();
 
   /**
    * Constructor
@@ -39,19 +40,25 @@ class StreemeEchonestConsumer
     $time_start = microtime(true);
     
     $params = null;
+    $files = array();
     if(is_array($this->parameters))
     {
       foreach ($this->parameters as $parameter)
       {
+        if(isset($parameter['data']))
+        {
+          $files['data'] = $parameter['data'];
+          continue;
+        }
         $params .= sprintf('&%s', http_build_query($parameter));
       }
     }
   
     $this->uri = sprintf( '%s/%s/%s/%s?api_key=%s&format=%s%s', $this->apiEndpoint, $this->apiVersion, $api, $service, $this->apiKey, $this->format, $params );
     
-    $this->http->call($this->uri, $method);
+    $this->http->call($this->uri, $method, $files, $this->headers);
    
-    $this->parameters = array();
+    $this->parameters = $this->headers = array();
     
     $time_end = microtime(true);
     $this->responseTime = $time_end - $time_start;
@@ -61,7 +68,7 @@ class StreemeEchonestConsumer
   
   /**
    * Get the raw xml response for caching/string ops
-   * 
+   *
    * @return         str: xml response from Echonest
    */
   public function fetchRawResult()
@@ -70,7 +77,7 @@ class StreemeEchonestConsumer
   }
 
   /**
-   * Convert the XML response to a SimpleXML object 
+   * Convert the XML response to a SimpleXML object
    *
    * @return         obj: SimpleXMLElement
    */
@@ -81,7 +88,7 @@ class StreemeEchonestConsumer
   
   /**
    * Convert the XML response to an associative array
-   * 
+   *
    * @return         arr: results from enchonest as an array
    */
   public function fetchAssocResult()
@@ -101,8 +108,19 @@ class StreemeEchonestConsumer
   }
   
   /**
-   * Get a list of parameters registered for the next call 
-   * 
+   * Set Headers for the call
+   *
+   * @param name    str: the http header name
+   * @param value   str: the http header value
+   */
+  public function setHeader($name, $value)
+  {
+    $this->headers[$name] = $value;
+  }
+  
+  /**
+   * Get a list of parameters registered for the next call
+   *
    * @return         arr: the parameters array
    */
   public function getParameters()
@@ -112,7 +130,7 @@ class StreemeEchonestConsumer
   
   /**
    * Get the URI of the most recent call
-   * 
+   *
    * @return         str: the last requested url - call after ->query()
    */
   public function getUri()
@@ -122,11 +140,35 @@ class StreemeEchonestConsumer
   
   /**
    * Get response time
-   * 
-   * @return         flt: time request took in ms 
+   *
+   * @return         flt: time request took in ms
    */
   public function getResponseTime()
   {
     return $this->responseTime;
+  }
+  
+  /**
+   * Create catalog update wrapper
+   *
+   * @param action     str: the action - one of ("delete","update","play","skip". Default is "update")
+   * @param parameters arr: a list of parameters to send to the server as a key value array
+   * @return           str: a json representation of an array.
+   * @see              http://developer.echonest.com/docs/v4/catalog.html#update
+   */
+  public function getCatalogWrapper($action, $parameters)
+  {
+    $parameter_wrapper = new stdClass();
+    $parameters['item_id'] = md5(serialize($parameters));
+    foreach($parameters as $key=>$value)
+    {
+      $parameter_wrapper->$key = $value;
+    }
+    
+    $wrapper = new stdClass();
+    $wrapper->action = $action;
+    $wrapper->item = $parameter_wrapper;
+    
+    return json_encode($wrapper);
   }
 }

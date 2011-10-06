@@ -487,4 +487,32 @@ class SongTable extends Doctrine_Table
       ->execute();
     return $q;
   }
+  
+  /**
+   * Fetch a list of songs that need to be scanned by echonest
+   * @param source str: the artwork source: amazon|meta|folders|service etc.
+   * @return       array: unscanned artwork list
+   */
+  public function getEchonestList()
+  {
+    $query  = 'SELECT ';
+    $query .= ' album.id as album_id, album.name as album_name, artist.name as artist_name, song.* ';
+    $query .= 'FROM ';
+    $query .= ' song ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' album ON song.album_id = album.id ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' artist ON song.artist_id = artist.id ';
+    $query .= 'WHERE ';
+    $query .= ' album.id IS NOT NULL ';
+    $query .= ' AND ';
+    $query .= ' song.name IS NOT NULL ';
+    $query .= ' AND ';
+    $query .= ' song.accurate_length < 900000 ';
+    $query .= ' AND ';
+    $query .= ' song.tracknumber > 0 ';
+    
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    return $dbh->query( $query )->fetchAll();
+  }
 }
