@@ -4,10 +4,10 @@ class scanechonestTask extends sfBaseTask
 {
   protected function configure()
   {
-    // // add your own arguments here
-    // $this->addArguments(array(
-    //   new sfCommandArgument('my_arg', sfCommandArgument::REQUIRED, 'My argument'),
-    // ));
+    $this->addArguments(array(
+       new sfCommandArgument('action', sfCommandArgument::REQUIRED, 'none'),
+       new sfCommandArgument('catalog_name', sfCommandArgument::REQUIRED, sfConfig::get('app_echonest_catalog_name', null)),
+    ));
 
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'client'),
@@ -32,8 +32,21 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
+    $apiKey = sfConfig::get('app_echonest_api_key', false);
+    if(!$apiKey)
+    {
+      throw new Exception('You must declare an API Key for echonest in your app.yml file to continue.');
+    }
+    $echonest = null;
     // add your code here
-    require_once(dirname(__FILE__).'/scanners/detailsScanEchonest.php');
+    switch($arguments['action'])
+    {
+      case 'create':
+        break;
+      case 'update':
+        break;
+      case 'delete':
+        break;
+    }
   }
 }

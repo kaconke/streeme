@@ -166,6 +166,9 @@ Song:
     isremix:
       type: integer(1)
       default: 0
+    echonest_flagged:
+      type: integer(1)
+      default: 0
     mtime:
       type: integer
     atime:
@@ -187,6 +190,8 @@ Song:
       fields: [name]
     isremix_index:
       fields: [isremix]
+    echonest_flagged_index:
+      fields: [echonest_flagged]
     songmtime_index:
       fields: [mtime]
     songyearpublished_index:

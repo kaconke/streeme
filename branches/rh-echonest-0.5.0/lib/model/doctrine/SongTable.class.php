@@ -489,7 +489,9 @@ class SongTable extends Doctrine_Table
   }
   
   /**
-   * Fetch a list of songs that need to be scanned by echonest
+   * Fetch a list of songs that need to be scanned by echonest - the general theory is that
+   * each record contains a song,artist and album name and is under 15 minutes in length
+   *
    * @param source str: the artwork source: amazon|meta|folders|service etc.
    * @return       array: unscanned artwork list
    */
@@ -504,13 +506,17 @@ class SongTable extends Doctrine_Table
     $query .= 'LEFT JOIN ';
     $query .= ' artist ON song.artist_id = artist.id ';
     $query .= 'WHERE ';
-    $query .= ' album.id IS NOT NULL ';
+    $query .= ' album.name IS NOT NULL ';
     $query .= ' AND ';
     $query .= ' song.name IS NOT NULL ';
+    $query .= ' AND ';
+    $query .= ' artist.name IS NOT NULL ';
     $query .= ' AND ';
     $query .= ' song.accurate_length < 900000 ';
     $query .= ' AND ';
     $query .= ' song.tracknumber > 0 ';
+    $query .= ' AND ';
+    $query .= ' song.echonest_flagged != 1';
     
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     return $dbh->query( $query )->fetchAll();
