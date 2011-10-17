@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response>
+  <status>
+    <version>4.2</version>
+    <code>0</code>
+    <message>Success</message>
+  </status>
+  <songs>
+    <song>
+      <artist_id>ARH6W4X1187B99274F</artist_id>
+      <id>SOHJOLH12A6310DFE5</id>
+      <artist_name>Radiohead</artist_name>
+      <title>Karma Police</title>
+    </song>
+  </songs>
+</response>

@@ -5,6 +5,7 @@
  * @author Richard Hoar
  * @package Streeme
  * @depends sfWebBrowserPlugin
+ * @see http://www.symfony-project.org/plugins/sfWebBrowserPlugin
  */
 class StreemeEchonestConsumer
 {
@@ -97,7 +98,7 @@ class StreemeEchonestConsumer
   }
   
   /**
-   * Set an url parameter for the call
+   * Set an url parameter for the echonest request
    *
    * @param name     str: the key name
    * @param value    str: the corresponding value
@@ -108,7 +109,7 @@ class StreemeEchonestConsumer
   }
   
   /**
-   * Set Headers for the call
+   * Set Headers for the echonest request
    *
    * @param name    str: the http header name
    * @param value   str: the http header value
@@ -119,7 +120,7 @@ class StreemeEchonestConsumer
   }
   
   /**
-   * Get a list of parameters registered for the next call
+   * Get a list of parameters registered for the next echnonest query
    *
    * @return         arr: the parameters array
    */
@@ -129,13 +130,23 @@ class StreemeEchonestConsumer
   }
   
   /**
-   * Get the URI of the most recent call
+   * Get the URI of the most recent echonest query
    *
    * @return         str: the last requested url - call after ->query()
    */
   public function getUri()
   {
     return $this->uri;
+  }
+  
+  /**
+   * Get the request headers set with the last call
+   *
+   * @return      arr: the headers array
+   */
+  public function getHeaders()
+  {
+    return $this->headers;
   }
   
   /**
@@ -146,29 +157,5 @@ class StreemeEchonestConsumer
   public function getResponseTime()
   {
     return $this->responseTime;
-  }
-  
-  /**
-   * Create catalog update wrapper
-   *
-   * @param action     str: the action - one of ("delete","update","play","skip". Default is "update")
-   * @param parameters arr: a list of parameters to send to the server as a key value array
-   * @return           str: a json representation of an array.
-   * @see              http://developer.echonest.com/docs/v4/catalog.html#update
-   */
-  public function getCatalogWrapper($action, $parameters)
-  {
-    $parameter_wrapper = new stdClass();
-    $parameters['item_id'] = md5(serialize($parameters));
-    foreach($parameters as $key=>$value)
-    {
-      $parameter_wrapper->$key = $value;
-    }
-    
-    $wrapper = new stdClass();
-    $wrapper->action = $action;
-    $wrapper->item = $parameter_wrapper;
-    
-    return json_encode($wrapper);
   }
 }
