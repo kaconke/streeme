@@ -21,50 +21,53 @@ Doctrine_Manager::getInstance()->bindComponent('Song', 'doctrine');
  * @property integer $tracknumber
  * @property string $label
  * @property integer $isremix
+ * @property integer $echonest_flagged
  * @property integer $mtime
  * @property integer $atime
  * @property text $filename
  * @property text $comments
  * @property Doctrine_Collection $SongGenres
  * 
- * @method integer             getId()              Returns the current record's "id" value
- * @method integer             getScanId()          Returns the current record's "scan_id" value
- * @method string              getUniqueId()        Returns the current record's "unique_id" value
- * @method integer             getArtistId()        Returns the current record's "artist_id" value
- * @method integer             getAlbumId()         Returns the current record's "album_id" value
- * @method string              getName()            Returns the current record's "name" value
- * @method string              getLength()          Returns the current record's "length" value
- * @method integer             getAccurateLength()  Returns the current record's "accurate_length" value
- * @method integer             getFilesize()        Returns the current record's "filesize" value
- * @method integer             getBitrate()         Returns the current record's "bitrate" value
- * @method integer             getYearpublished()   Returns the current record's "yearpublished" value
- * @method integer             getTracknumber()     Returns the current record's "tracknumber" value
- * @method string              getLabel()           Returns the current record's "label" value
- * @method integer             getIsremix()         Returns the current record's "isremix" value
- * @method integer             getMtime()           Returns the current record's "mtime" value
- * @method integer             getAtime()           Returns the current record's "atime" value
- * @method text                getFilename()        Returns the current record's "filename" value
- * @method text                getComments()        Returns the current record's "comments" value
- * @method Doctrine_Collection getSongGenres()      Returns the current record's "SongGenres" collection
- * @method Song                setId()              Sets the current record's "id" value
- * @method Song                setScanId()          Sets the current record's "scan_id" value
- * @method Song                setUniqueId()        Sets the current record's "unique_id" value
- * @method Song                setArtistId()        Sets the current record's "artist_id" value
- * @method Song                setAlbumId()         Sets the current record's "album_id" value
- * @method Song                setName()            Sets the current record's "name" value
- * @method Song                setLength()          Sets the current record's "length" value
- * @method Song                setAccurateLength()  Sets the current record's "accurate_length" value
- * @method Song                setFilesize()        Sets the current record's "filesize" value
- * @method Song                setBitrate()         Sets the current record's "bitrate" value
- * @method Song                setYearpublished()   Sets the current record's "yearpublished" value
- * @method Song                setTracknumber()     Sets the current record's "tracknumber" value
- * @method Song                setLabel()           Sets the current record's "label" value
- * @method Song                setIsremix()         Sets the current record's "isremix" value
- * @method Song                setMtime()           Sets the current record's "mtime" value
- * @method Song                setAtime()           Sets the current record's "atime" value
- * @method Song                setFilename()        Sets the current record's "filename" value
- * @method Song                setComments()        Sets the current record's "comments" value
- * @method Song                setSongGenres()      Sets the current record's "SongGenres" collection
+ * @method integer             getId()               Returns the current record's "id" value
+ * @method integer             getScanId()           Returns the current record's "scan_id" value
+ * @method string              getUniqueId()         Returns the current record's "unique_id" value
+ * @method integer             getArtistId()         Returns the current record's "artist_id" value
+ * @method integer             getAlbumId()          Returns the current record's "album_id" value
+ * @method string              getName()             Returns the current record's "name" value
+ * @method string              getLength()           Returns the current record's "length" value
+ * @method integer             getAccurateLength()   Returns the current record's "accurate_length" value
+ * @method integer             getFilesize()         Returns the current record's "filesize" value
+ * @method integer             getBitrate()          Returns the current record's "bitrate" value
+ * @method integer             getYearpublished()    Returns the current record's "yearpublished" value
+ * @method integer             getTracknumber()      Returns the current record's "tracknumber" value
+ * @method string              getLabel()            Returns the current record's "label" value
+ * @method integer             getIsremix()          Returns the current record's "isremix" value
+ * @method integer             getEchonestFlagged()  Returns the current record's "echonest_flagged" value
+ * @method integer             getMtime()            Returns the current record's "mtime" value
+ * @method integer             getAtime()            Returns the current record's "atime" value
+ * @method text                getFilename()         Returns the current record's "filename" value
+ * @method text                getComments()         Returns the current record's "comments" value
+ * @method Doctrine_Collection getSongGenres()       Returns the current record's "SongGenres" collection
+ * @method Song                setId()               Sets the current record's "id" value
+ * @method Song                setScanId()           Sets the current record's "scan_id" value
+ * @method Song                setUniqueId()         Sets the current record's "unique_id" value
+ * @method Song                setArtistId()         Sets the current record's "artist_id" value
+ * @method Song                setAlbumId()          Sets the current record's "album_id" value
+ * @method Song                setName()             Sets the current record's "name" value
+ * @method Song                setLength()           Sets the current record's "length" value
+ * @method Song                setAccurateLength()   Sets the current record's "accurate_length" value
+ * @method Song                setFilesize()         Sets the current record's "filesize" value
+ * @method Song                setBitrate()          Sets the current record's "bitrate" value
+ * @method Song                setYearpublished()    Sets the current record's "yearpublished" value
+ * @method Song                setTracknumber()      Sets the current record's "tracknumber" value
+ * @method Song                setLabel()            Sets the current record's "label" value
+ * @method Song                setIsremix()          Sets the current record's "isremix" value
+ * @method Song                setEchonestFlagged()  Sets the current record's "echonest_flagged" value
+ * @method Song                setMtime()            Sets the current record's "mtime" value
+ * @method Song                setAtime()            Sets the current record's "atime" value
+ * @method Song                setFilename()         Sets the current record's "filename" value
+ * @method Song                setComments()         Sets the current record's "comments" value
+ * @method Song                setSongGenres()       Sets the current record's "SongGenres" collection
  * 
  * @package    streeme
  * @subpackage model
@@ -134,6 +137,11 @@ abstract class BaseSong extends sfDoctrineRecord
              'default' => 0,
              'length' => 1,
              ));
+        $this->hasColumn('echonest_flagged', 'integer', 1, array(
+             'type' => 'integer',
+             'default' => 0,
+             'length' => 1,
+             ));
         $this->hasColumn('mtime', 'integer', null, array(
              'type' => 'integer',
              ));
@@ -182,6 +190,12 @@ abstract class BaseSong extends sfDoctrineRecord
              'fields' => 
              array(
               0 => 'isremix',
+             ),
+             ));
+        $this->index('echonest_flagged_index', array(
+             'fields' => 
+             array(
+              0 => 'echonest_flagged',
              ),
              ));
         $this->index('songmtime_index', array(
