@@ -2,7 +2,11 @@
 #
 # Loading an appropriate HTML5 player will change as the standard gets better, add cases here
 #
-if( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Android' ))
+if( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Android 3' ))
+{
+  echo '<video preload="none" id="musicplayer" class="android" height="30" width="360"></video>' . "\r\n";
+}
+else if( strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'Android 2' ))
 {
   echo '<video preload="none" id="musicplayer" class="android" height="30" width="360"></video>' . "\r\n";
 }
