@@ -10,5 +10,5 @@ $t->comment( '->construct()' );
 $echonest = new StreemeEchonestConsumer('TESTAPIKEY', new SfWebBrowserMock(), 'http://developer.echonest.com/api', 'v4' );
 $catalog = new EchonestCatalog($echonest);
 
-$t->comment( '->()' );
-$catalog->create()
+$t->comment( '->create()' );
+$catalog->create('testcatalog');

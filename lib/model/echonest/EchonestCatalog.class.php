@@ -18,7 +18,7 @@ class EchonestCatalog
    *
    * @param echonest obj: a StreemeEchonestConsumer Instance
    */
-  public function __construct(StreeemeEchonestConsumer $echonest)
+  public function __construct(StreemeEchonestConsumer $echonest)
   {
     $this->echonest = $echonest;
   }
@@ -55,11 +55,18 @@ class EchonestCatalog
    * Get a catalog id by name
    *
    * @param catalog_name str: the catalog name
-   * @return             obj: the echonest response object
+   * @return             str: an echonest catalog id
    */
   public function getIdByName($catalog_name)
   {
-    return $this->getProfileInfo($catalog_name)->catalog->{0}->id;
+    if(isset($this->getProfileInfo($catalog_name)->catalog->{0}->id))
+    {
+      return (string) $this->getProfileInfo($catalog_name)->catalog->{0}->id;
+    }
+    else
+    {
+      return null;
+    }
   }
   
   /**
@@ -70,7 +77,7 @@ class EchonestCatalog
    */
   public function status($ticket_id)
   {
-    $this->echonest->setParameter('ticket_id', $ticket_id);
+    $this->echonest->setParameter('ticket', $ticket_id);
     
     return $this->echonest->query('catalog','status')->fetchResult();
   }
@@ -128,7 +135,7 @@ class EchonestCatalog
    * @return           str: a json representation of an array.
    * @see              http://developer.echonest.com/docs/v4/catalog.html#update
    */
-  public function getCatalogWrapper($action, $parameters)
+  public function getUpdateWrapper($action, $parameters)
   {
     $parameter_wrapper = new stdClass();
     $parameters['item_id'] = md5(serialize($parameters));
@@ -142,5 +149,40 @@ class EchonestCatalog
     $wrapper->item = $parameter_wrapper;
     
     return json_encode($wrapper);
+  }
+  
+  /**
+   * Create a json file consisting of multiple wrapper json objects
+   *
+   * @param entries  arr: an array of updatewrappers
+   * @param filename str: the filename to write
+   * @return         bol: true on success
+   */
+  public function writeCatalogEntries($entries, $filename)
+  {
+    return file_put_contents($filename, sprintf('[%s]', join(',', $entries)));
+  }
+  
+  /**
+   * Write catalog update ticket information to a file for future
+   * update polling
+   *
+   * @param ticket_id    str: echonest ticket id
+   * @param filename str: the path to the ticket text file
+   */
+  public function writeCatalogUpdateTicket($ticket_id, $filename)
+  {
+    return file_put_contents($filename, $ticket_id);
+  }
+  
+  /**
+   * Read catalog update ticket information to a file for future
+   * update polling
+   *
+   * @param filename str: the path to the ticket text file
+   */
+  public function readCatalogUpdateTicket($filename)
+  {
+    return file_get_contents($filename);
   }
 }
