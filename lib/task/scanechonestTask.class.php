@@ -64,12 +64,16 @@ EOF;
         if(strlen($ticket_id) > 0)
         {
           $catalog->setTicket($arguments['catalog_name'], $ticket_id);
-          $this->doGetProgress($catalog, $ticket_id, $arguments['catalog_name'], $verbose = false);
+          $this->doGetProgress($catalog, $ticket_id, $arguments['catalog_name'], $verbose);
+          $this->doSyncCache($catalog, $arguments['catalog_name'], $verbose);
         }
         break;
       case 'progress':
         $ticket_id = $catalog->getTicket($arguments['catalog_name']);
-        $this->doGetProgress($catalog, $ticket_id, $arguments['catalog_name'], $verbose = false);
+        $this->doGetProgress($catalog, $ticket_id, $arguments['catalog_name'], $verbose);
+        break;
+      case 'sync':
+        $this->doSyncCache($catalog->read($arguments['catalog_name']), $arguments['catalog_name'], $verbose);
         break;
       case 'delete':
         $this->doDelete($catalog->delete($arguments['catalog_name']),$arguments['catalog_name'], $verbose);
@@ -122,6 +126,8 @@ EOF;
     {
       throw new Exception(sprintf("Catalog was not updated: \"%s\". Please use verbose mode for more info.", (string) $catalog_name));
     }
+    
+    return;
   }
   
   /**
@@ -146,8 +152,58 @@ EOF;
       sleep(5);
       $this->doGetProgress($catalog, $ticket_id, $catalog_name, $verbose);
     }
+    
     return;
   }
+  
+  /**
+   * Sync the local database with the foreign service
+   *
+   * @param response     obj: a simplexml object of the response from echonest
+   * @param catalog_name str: the name of the catalog
+   * @param verbose      bol: output the results from echonest and catalog name to the screen
+   */
+  protected function doSyncCache(SimpleXMLElement $response, $catalog_name, $verbose = false)
+  {
+    if($verbose)
+    {
+      var_dump($response, $catalog_name);
+    }
+    if((string) $response->status->code !== '0')
+    {
+      throw new Exception(sprintf("Could not read catalog: \"%s\". Please use verbose mode for more info.", (string) $catalog_name));
+    }
+    else
+    {
+      //sync with local cache database
+      $song = SongTable::getInstance();
+      $echonestProperties = EchonestPropertiesTable::getInstance();
+      
+      foreach($response->catalog->items as $item)
+      {
+        $song_id = $song->findOneByEchonestRequest($item);
+        $echonestData = array();
+        if(isset($item->audio_summary))
+        {
+          $echonestData['key'] = $item->audio_summary->key;
+          $echonestData['mode'] = $item->audio_summary->mode;
+          $echonestData['time_signature'] = $item->audio_summary->time_signature;
+          $echonestData['loudness'] = $item->audio_summary->loudness;
+          $echonestData['energy'] = $item->audio_summary->energy;
+          $echonestData['tempo'] = $item->audio_summary->tempo;
+          $echonestData['danceability'] = $item->audio_summary->danceability;
+        }
+        if(isset($item->song_hotttnesss))
+        {
+          $echonestData['song_hotttnesss'] = $item->song_hotttnesss;
+        }
+        var_dump($song_id,$echonestData);
+        //$echonestProperties->setDetails($song_id, );
+      }
+    }
+    return;
+  }
+  
   
   /**
    * Process the results of a progress report
@@ -166,7 +222,7 @@ EOF;
     {
       echo sprintf("Catalog: \"%s\" has been deleted.\r\n", (string) $catalog_name);
       
-      //Delete from the cache database
+      //Delete from the local cache database
     }
     elseif((string) $response->status->code === '4')
     {
