@@ -521,4 +521,49 @@ class SongTable extends Doctrine_Table
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     return $dbh->query( $query )->fetchAll();
   }
+  
+  /**
+   * Get a song id by echonest request object
+   *
+   * @param echonest obj: simplexml element from echonest
+   * @return                 int: database id
+   */
+  public function findOneByEchonestRequest(SimpleXMLElement $echonest)
+  {
+    $query  = 'SELECT ';
+    $query .= ' song.id ';
+    $query .= 'FROM ';
+    $query .= ' song ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' album ON song.album_id = album.id ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' artist ON song.artist_id = artist.id ';
+    $query .= 'WHERE ';
+    $query .= ' album.name = :album_name';
+    $query .= ' AND ';
+    $query .= ' song.name = :song_name ';
+    $query .= ' AND ';
+    $query .= ' artist.name = :artist_name ';
+    $query .= ' AND ';
+    $query .= ' song.tracknumber = :track_number ';
+
+    $parameters = array();
+    $parameters['album_name'] = $echonest->request->release;
+    $parameters['artist_name'] = $echonest->request->artist_name;
+    $parameters['song_name'] = $echonest->request->song_name;
+    $parameters['track_number'] = $echonest->request->track_number;
+  
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $stmt = $dbh->prepare( $query );
+    $success = $stmt->execute( $parameters );
+    if( $success )
+    {
+      $result = $stmt->fetchAll();
+      return (isset($result[0]['id'])) ? $result[0]['id'] : 0;
+    }
+    else
+    {
+      return 0;
+    }
+  }
 }

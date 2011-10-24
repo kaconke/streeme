@@ -110,6 +110,18 @@ class detailsScanEchonest
   }
   
   /**
+   * Read the data form the foreign catalog database
+   *
+   * @param catalog_name str: the catalog name
+   * @return             str: the ticket id or null
+   */
+  public function read($catalog_name)
+  {
+    $catalog_id = $this->catalog->getIdByName($catalog_name);
+    return $this->catalog->read($catalog_id);
+  }
+  
+  /**
    * Delete a catalog and/or its cache from echonest
    *
    * @param catalog_name  str: the catalog name to delete
