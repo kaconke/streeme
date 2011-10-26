@@ -139,18 +139,22 @@ EOF;
    */
   protected function doGetProgress($catalog, $ticket_id, $catalog_name, $verbose = false)
   {
-    $response = $catalog->status($ticket_id);
-    if($verbose)
+    while( $response = $catalog->status($ticket_id) )
     {
-      var_dump($response, $catalog_name);
-      return;
-    }
-    cliProgressBar::show_status((int) $response->items_updated, (int) $response->total_items, 50);
-    if((int)$response->percent_complete !== 100)
-    {
-      //check back in every 5 seconds until the process is complete
+      if($verbose)
+      {
+        var_dump($response, $catalog_name);
+        break;
+      }
+         
+      cliProgressBar::show_status((int) $response->items_updated, (int) $response->total_items, 30);
+      
+      if((int)$response->percent_complete == 100)
+      {
+        break;
+      }
+      
       sleep(5);
-      $this->doGetProgress($catalog, $ticket_id, $catalog_name, $verbose);
     }
     
     return;
