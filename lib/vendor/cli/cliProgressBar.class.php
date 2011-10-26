@@ -59,9 +59,15 @@ class cliProgressBar
 
     if(empty($start_time)) $start_time=time();
     $now = time();
-
-    $perc=(double)($done/$total);
-
+    
+    if($total > 0)
+    {
+      $perc=(double)($done/$total);
+    }
+    else
+    {
+      $perc=(double) 0;
+    }
     $bar=floor($perc*$size);
 
     $status_bar="\r[";
