@@ -65,15 +65,18 @@ EOF;
         {
           $catalog->setTicket($arguments['catalog_name'], $ticket_id);
           $this->doGetProgress($catalog, $ticket_id, $arguments['catalog_name'], $verbose);
-          $this->doSyncCache($catalog, $arguments['catalog_name'], $verbose);
+          $this->doDownload($catalog->read($arguments['catalog_name']), $arguments['catalog_name'], $verbose, $catalog);
         }
         break;
       case 'progress':
         $ticket_id = $catalog->getTicket($arguments['catalog_name']);
         $this->doGetProgress($catalog, $ticket_id, $arguments['catalog_name'], $verbose);
         break;
+      case 'download':
+        $this->doDownload($catalog->read($arguments['catalog_name']), $arguments['catalog_name'], $verbose, $catalog);
+        break;
       case 'sync':
-        $this->doSyncCache($catalog->read($arguments['catalog_name']), $arguments['catalog_name'], $verbose);
+        $this->doSyncCache($catalog->getCatalogFilename($arguments['catalog_name']), $arguments['catalog_name'], $verbose);
         break;
       case 'delete':
         $this->doDelete($catalog->delete($arguments['catalog_name']),$arguments['catalog_name'], $verbose);
@@ -161,28 +164,61 @@ EOF;
   }
   
   /**
-   * Sync the local database with the foreign service
+   * Download the read response to an xml file in cache, so we can close the connection immediately
+   * after the xml file is delivered.
    *
-   * @param response     obj: a simplexml object of the response from echonest
+   * @param xml          str: the xml result from the read call
    * @param catalog_name str: the name of the catalog
    * @param verbose      bol: output the results from echonest and catalog name to the screen
    */
-  protected function doSyncCache(SimpleXMLElement $response, $catalog_name, $verbose = false)
+  protected function doDownload($xml, $catalog_name, $verbose = false, detailsScanEchonest $catalog)
   {
     if($verbose)
     {
-      var_dump($response, $catalog_name);
+      var_dump($xml, $catalog_name);
     }
-    if((string) $response->status->code !== '0')
+    if(strpos($xml, '<code>0</code>'))
     {
-      throw new Exception(sprintf("Could not read catalog: \"%s\". Please use verbose mode for more info.", (string) $catalog_name));
+      if($catalog->writeResponse($xml, $catalog_name))
+      {
+        echo "Successfully downloaded the results from echonest...\r\n";
+        return;
+      }
+      else
+      {
+        throw new Exception(sprintf("Could not write catalog xml cache: \"%s\". Please use verbose mode for more info.", (string) $catalog_name));
+      }
     }
     else
     {
+      throw new Exception(sprintf("Could not read catalog: \"%s\". Please use verbose mode for more info.", (string) $catalog_name));
+    }
+  }
+  
+  /**
+   * Sync the local database with the foreign service
+   *
+   * @param xml_filename str: the resulting xml filefrom the download task
+   * @param catalog_name str: the name of the catalog
+   * @param verbose      bol: output the results from echonest and catalog name to the screen
+   */
+  protected function doSyncCache($xml_filename, $catalog_name, $verbose = false)
+  {
+    if($verbose)
+    {
+      var_dump($xml_filename, $catalog_name);
+    }
+    if(is_readable($xml_filename))
+    {
       //sync with local cache database
+      $parser = new StreemeEchonestCatalogParser($xml_filename);
       $song = SongTable::getInstance();
       $echonestProperties = EchonestPropertiesTable::getInstance();
-      
+      while( $value = $parser->getDetails() )
+      {
+        var_dump($value);
+      }
+      /*
       foreach($response->catalog->items as $item)
       {
         $song_id = $song->findOneByEchonestRequest($item);
@@ -201,9 +237,15 @@ EOF;
         {
           $echonestData['song_hotttnesss'] = $item->song_hotttnesss;
         }
-        var_dump($song_id,$echonestData);
+
         //$echonestProperties->setDetails($song_id, );
+         
       }
+      */
+    }
+    else
+    {
+      throw new Exception(sprintf("Could not read catalog: \"%s\". Please use verbose mode for more info.", (string) $catalog_name));
     }
     return;
   }

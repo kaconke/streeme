@@ -110,6 +110,32 @@ class detailsScanEchonest
   }
   
   /**
+   * Write the xml response to the cache before parsing
+   *
+   * @param catalog_name str: catalog name
+   * @param xml          str: the raw xml file to write
+   * @return    bol: true on success
+   */
+  public function writeResponse($xml, $catalog_name)
+  {
+    $name = StreemeUtil::slugify($catalog_name);
+    $filename = sfConfig::get('sf_cache_dir').'/echonest' . $name . 'Result.xml';
+    return file_put_contents($filename, $xml);
+  }
+  
+  /**
+   * read the xml response form the cache
+   *
+   * @param catalog_name str: catalog name
+   * @return             str: xml
+   */
+  public function getCatalogFilename($catalog_name)
+  {
+    $name = StreemeUtil::slugify($catalog_name);
+    return sfConfig::get('sf_cache_dir').'/echonest' . $name . 'Result.xml';
+  }
+  
+  /**
    * Read the data form the foreign catalog database
    *
    * @param catalog_name str: the catalog name
