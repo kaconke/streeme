@@ -110,7 +110,7 @@ class EchonestCatalog
     $this->echonest->setParameter('bucket', 'audio_summary');
     $this->echonest->setParameter('bucket', 'song_hotttnesss');
     
-    return $this->echonest->query('catalog', 'read')->fetchResult();
+    return $this->echonest->query('catalog', 'read')->fetchRawResult();
   }
   
   /**
