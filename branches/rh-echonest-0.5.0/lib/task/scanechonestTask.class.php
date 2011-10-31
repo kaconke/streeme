@@ -214,34 +214,10 @@ EOF;
       $parser = new StreemeEchonestCatalogParser($xml_filename);
       $song = SongTable::getInstance();
       $echonestProperties = EchonestPropertiesTable::getInstance();
-      while( $value = $parser->getDetails() )
+      while( $echonestData = $parser->getDetails() )
       {
-        var_dump($value);
+        //$echonestProperties->setDetails($song_id, $echonestData);
       }
-      /*
-      foreach($response->catalog->items as $item)
-      {
-        $song_id = $song->findOneByEchonestRequest($item);
-        $echonestData = array();
-        if(isset($item->audio_summary))
-        {
-          $echonestData['key'] = $item->audio_summary->key;
-          $echonestData['mode'] = $item->audio_summary->mode;
-          $echonestData['time_signature'] = $item->audio_summary->time_signature;
-          $echonestData['loudness'] = $item->audio_summary->loudness;
-          $echonestData['energy'] = $item->audio_summary->energy;
-          $echonestData['tempo'] = $item->audio_summary->tempo;
-          $echonestData['danceability'] = $item->audio_summary->danceability;
-        }
-        if(isset($item->song_hotttnesss))
-        {
-          $echonestData['song_hotttnesss'] = $item->song_hotttnesss;
-        }
-
-        //$echonestProperties->setDetails($song_id, );
-         
-      }
-      */
     }
     else
     {

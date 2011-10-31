@@ -7,14 +7,14 @@
  */
 class StreemeEchonestCatalogParser
 {
-  //start depth
-  protected $start_depth = 2;
-  
-  //parse as a tree
-  protected $depth = array();
-  
-  //save state of tag per read
+   //save state of tag per read
   protected $newStartElement = false;
+  
+  //set a small buffer as the xml response does not contain newlines.
+  protected $bufferSize = 8;
+  
+  //set the pull state
+  protected $pull = false;
   
   /**
    * construct the parser class
@@ -36,12 +36,13 @@ class StreemeEchonestCatalogParser
   
   /**
    * Iterate over the tracks in the echonest xml file and return an array to flush
-   * out to the database
+   * out to the database.
+   *
    * @return           array: echonest details for a single song
    */
   public function getDetails()
   {
-    while ($data = fread($this->fp, 4096))
+    while ($data = fread($this->fp, $this->bufferSize))
     {
       //read and parse another line from the itunes file
       if ( !xml_parse( $this->xml_parser, $data ) )
@@ -51,11 +52,16 @@ class StreemeEchonestCatalogParser
           xml_get_current_line_number($this->xml_parser)));
       }
       
+      if(feof($this->fp))
+      {
+        $this->pull = true;
+      }
+      
       //is the array ready yet?
       if ( $this->pull )
       {
-        $this->pull = 0;
-        var_dump($this->song_data);
+        $this->pull = false;
+        return $this->song_data;
       }
     }
   }
@@ -117,7 +123,7 @@ class StreemeEchonestCatalogParser
     {
       if($this->newEndElement)
       {
-        $this->song_data[$this->current_element] = trim($this->elementData);
+        $this->song_data[strtolower($this->current_element)] = trim($this->elementData);
         $this->newEndElement = false;
       }
     }
