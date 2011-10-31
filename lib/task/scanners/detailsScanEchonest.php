@@ -136,7 +136,7 @@ class detailsScanEchonest
   }
   
   /**
-   * Read the data form the foreign catalog database
+   * Read the data from the foreign catalog database
    *
    * @param catalog_name str: the catalog name
    * @return             str: the ticket id or null
