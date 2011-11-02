@@ -214,9 +214,13 @@ EOF;
       $parser = new StreemeEchonestCatalogParser($xml_filename);
       $song = SongTable::getInstance();
       $echonestProperties = EchonestPropertiesTable::getInstance();
+      $song_ids = array();
       while( $echonestData = $parser->getDetails() )
       {
+        $song_id = $song->findOneByEchonestRequest($echonestData);
+        var_dump($song_id);
         //$echonestProperties->setDetails($song_id, $echonestData);
+        $this->song_ids[$song_id] = $song_id;
       }
     }
     else

@@ -525,11 +525,24 @@ class SongTable extends Doctrine_Table
   /**
    * Get a song id by echonest request object
    *
-   * @param echonest obj: simplexml element from echonest
-   * @return                 int: database id
+   * @param echonestData arr: array from flattened echonest response 
+   * @return             int: database id
    */
-  public function findOneByEchonestRequest(SimpleXMLElement $echonest)
+  public function findOneByEchonestRequest($echonestData)
   {
+    if(
+      !isset($echonestData['release'])
+      ||
+      !isset($echonestData['artist_name'])
+      ||
+      !isset($echonestData['song_name'])
+      ||
+      !isset($echonestData['track_number'])
+      )
+    {
+      return 0;
+    }
+    
     $query  = 'SELECT ';
     $query .= ' song.id ';
     $query .= 'FROM ';
@@ -548,10 +561,10 @@ class SongTable extends Doctrine_Table
     $query .= ' song.tracknumber = :track_number ';
 
     $parameters = array();
-    $parameters['album_name'] = $echonest->request->release;
-    $parameters['artist_name'] = $echonest->request->artist_name;
-    $parameters['song_name'] = $echonest->request->song_name;
-    $parameters['track_number'] = $echonest->request->track_number;
+    $parameters['album_name'] = $echonestData['release'];
+    $parameters['artist_name'] = $echonestData['artist_name'];
+    $parameters['song_name'] = $echonestData['song_name'];
+    $parameters['track_number'] = $echonestData['track_number'];
   
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $dbh->prepare( $query );
