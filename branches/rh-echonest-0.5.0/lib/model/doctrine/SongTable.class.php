@@ -328,6 +328,25 @@ class SongTable extends Doctrine_Table
             unset( $components[ $k ] );
          }
        }
+       
+       //if echonest: is set, add echonest criteria to the where clause echonest props are comma separated
+       //and = delimited key values. echonest:a=b,c=2,foo=bar
+       if ( stristr( $v, 'echonest:' ) )
+       {
+          $match = explode( ':', $v );
+          if ( is_array( $match ) )
+          {
+            $echonest_vars = explode( ',', $match[1] );
+            foreach( $echonest_vars as $prop_value)
+            {
+              $prop_expl = explode( '=', $prop_value );
+              $settings[ 'echonestSettings' ][ $prop_expl[0] ] =  $prop_expl[1];
+            }
+            var_dump($settings[ 'echonestSettings' ]);
+            $settings[ 'include_echonest' ] = true;
+            unset( $components[ $k ] );
+          }
+       }
     }
     
     //search should now be valid keywords, join them with spaces
@@ -372,6 +391,11 @@ class SongTable extends Doctrine_Table
       $query .= 'INNER JOIN ';
       $query .= ' song_genres ';
       $query .= 'ON song_genres.song_id = song.id ';
+    }
+   
+    if ( count( $settings[ 'echonestSettings' ] ) )
+    {
+    
     }
     
     $query .= 'WHERE ( 1 = 1 ) ';
@@ -514,8 +538,6 @@ class SongTable extends Doctrine_Table
     $query .= ' AND ';
     $query .= ' song.accurate_length < 900000 ';
     $query .= ' AND ';
-    $query .= ' song.tracknumber > 0 ';
-    $query .= ' AND ';
     $query .= ' song.echonest_flagged != 1';
     
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
@@ -525,7 +547,7 @@ class SongTable extends Doctrine_Table
   /**
    * Get a song id by echonest request object
    *
-   * @param echonestData arr: array from flattened echonest response 
+   * @param echonestData arr: array from flattened echonest response
    * @return             int: database id
    */
   public function findOneByEchonestRequest($echonestData)
@@ -557,14 +579,11 @@ class SongTable extends Doctrine_Table
     $query .= ' song.name = :song_name ';
     $query .= ' AND ';
     $query .= ' artist.name = :artist_name ';
-    $query .= ' AND ';
-    $query .= ' song.tracknumber = :track_number ';
 
     $parameters = array();
     $parameters['album_name'] = $echonestData['release'];
     $parameters['artist_name'] = $echonestData['artist_name'];
     $parameters['song_name'] = $echonestData['song_name'];
-    $parameters['track_number'] = $echonestData['track_number'];
   
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $dbh->prepare( $query );
