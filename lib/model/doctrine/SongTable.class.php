@@ -239,7 +239,8 @@ class SongTable extends Doctrine_Table
                          'sortdirection'  => 'desc', //str: asc|desc
                          'random'         => false,  //bool
                          'by_alpha'       => null,   //str: A-Z
-                         'by_number'      => null,   //
+                         'by_number'      => null,   //str: #
+                         'echonestSettings' => array(), //arr
                       );
     $result_count = 0;
     $result_list = array();
@@ -342,7 +343,6 @@ class SongTable extends Doctrine_Table
               $prop_expl = explode( '=', $prop_value );
               $settings[ 'echonestSettings' ][ $prop_expl[0] ] =  $prop_expl[1];
             }
-            var_dump($settings[ 'echonestSettings' ]);
             $settings[ 'include_echonest' ] = true;
             unset( $components[ $k ] );
           }
@@ -393,9 +393,11 @@ class SongTable extends Doctrine_Table
       $query .= 'ON song_genres.song_id = song.id ';
     }
    
-    if ( count( $settings[ 'echonestSettings' ] ) )
+    if ( count( $settings[ 'echonestSettings' ] ) > 0 )
     {
-    
+      $query .= 'LEFT JOIN ';
+      $query .= ' echonest_properties ';
+      $query .= 'ON echonest_properties.song_id = song.id ';      
     }
     
     $query .= 'WHERE ( 1 = 1 ) ';
@@ -450,6 +452,11 @@ class SongTable extends Doctrine_Table
       $query .= ' AND ( lower( song.name ) LIKE :search OR lower( album.name ) LIKE :search OR lower( artist.name ) LIKE :search ) ';
       $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
     }
+    
+    if ( count( $settings[ 'echonestSettings' ] ) > 0 )
+    {
+      $this->parseEchonestSettings( $settings[ 'echonestSettings' ], $query, $parameters);
+    }
 
     //get a count of rows returned by this query before applying pagination
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
@@ -484,7 +491,7 @@ class SongTable extends Doctrine_Table
     $query .= (int) $settings[ 'offset' ];
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $dbh->prepare( $query );
-    //echo "$query\r\n";
+    echo "$query\r\n";
     $success = $stmt->execute( $parameters );
     if( $success )
     {
@@ -574,7 +581,7 @@ class SongTable extends Doctrine_Table
     $query .= 'LEFT JOIN ';
     $query .= ' artist ON song.artist_id = artist.id ';
     $query .= 'WHERE ';
-    $query .= ' album.name = :album_name';
+    $query .= ' album.name = :album_name ';
     $query .= ' AND ';
     $query .= ' song.name = :song_name ';
     $query .= ' AND ';
@@ -597,5 +604,51 @@ class SongTable extends Doctrine_Table
     {
       return 0;
     }
+  }
+  
+  /**
+   * Create a query string and parameters given a settings array
+   * 
+   * @param settings   arr: the echonest params to parse
+   * @param query      str: the query to modify
+   * @param parameters arr: the parameter collection 
+   */
+  private function parseEchonestSettings( $settings = array(), &$query, &$parameters)
+  {
+    $allowed_names = array(
+      'version',
+      'code',
+      'message',
+      'start',
+      'total',
+      'name',
+      'date_added',
+      'item_id',
+      'release',
+      'song_name',
+      'artist_name',
+      'track_number',
+      'foreign_id',
+      'song_id',
+      'key',
+      'mode',
+      'time_signature',
+      'duration',
+      'loudness',
+      'energy',
+      'tempo',
+      'audio_md5',
+      'danceability',
+    );
+    foreach( $settings as $name => $value )
+    {
+      if( in_array( strtolower($name), $allowed_names ) )
+      {
+        $query .= ' AND echonest_properties.name = :en' .$name. ' ';
+        $query .= ' AND echonest_properties.value = :en' .$name. 'value ';
+        $parameters[ 'en'.$name ] = $name;
+        $parameters[ 'en'.$name.'value' ] = $value;
+      }
+    } 
   }
 }
