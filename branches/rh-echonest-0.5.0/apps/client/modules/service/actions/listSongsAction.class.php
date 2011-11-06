@@ -65,6 +65,8 @@ class listSongsAction extends sfAction
   {
     $count = 0;
     $empty_resultset[] = array( "", "No Matches Found...", "", "", "", "", "", "", "" );
+    $flattened = array();
+    
     if ( is_array( $song_array ) )
     {
        foreach ( $song_array as $k => $v)
@@ -135,10 +137,6 @@ class listSongsAction extends sfAction
           $flattened[ $count ] = $convert;
           $count++;
        }
-    }
-    else
-    {
-       $flattened = array();
     }
     
     $aadata[ 'sEcho' ] = (int) $this->sEcho;

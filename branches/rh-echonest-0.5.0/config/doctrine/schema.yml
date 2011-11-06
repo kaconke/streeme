@@ -211,10 +211,38 @@ EchonestProperties:
       autoincrement: true
     song_id:
       type: integer
-    name:
+    en_version:
       type: string(255)
-    value:
+    en_date_added:
       type: string(255)
+    en_item_id:
+      type: string(255)
+    en_artist_id:
+      type: string(255)
+    en_song_id:
+      type: string(255)
+    en_foreign_id:
+      type: string(255)
+    en_audio_md5:
+      type: string(255)
+    en_mode:
+      type: integer
+    en_time_signature:
+      type: integer
+    en_key:
+      type: integer
+    en_duration:
+      type: float(18), scale: 6
+    en_loudness:
+      type: float(18), scale: 6
+    en_energy:
+      type: float(18), scale: 6
+    en_tempo:
+      type: float(18), scale: 6
+    en_danceability:
+      type: float(18), scale: 6
+    en_song_hotttnesss:
+      type: float(18), scale: 6
   indexes:
     song_index:
       fields: [song_id]

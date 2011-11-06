@@ -338,10 +338,13 @@ class SongTable extends Doctrine_Table
           if ( is_array( $match ) )
           {
             $echonest_vars = explode( ',', $match[1] );
-            foreach( $echonest_vars as $prop_value)
+            foreach( $echonest_vars as $prop_value )
             {
               $prop_expl = explode( '=', $prop_value );
-              $settings[ 'echonestSettings' ][ $prop_expl[0] ] =  $prop_expl[1];
+              if( isset( $prop_expl[0] ) && isset( $prop_expl[1] ) )
+              {
+                $settings[ 'echonestSettings' ][ $prop_expl[0] ] = $prop_expl[1];
+              }
             }
             $settings[ 'include_echonest' ] = true;
             unset( $components[ $k ] );
@@ -397,7 +400,7 @@ class SongTable extends Doctrine_Table
     {
       $query .= 'LEFT JOIN ';
       $query .= ' echonest_properties ';
-      $query .= 'ON echonest_properties.song_id = song.id ';      
+      $query .= 'ON echonest_properties.song_id = song.id ';
     }
     
     $query .= 'WHERE ( 1 = 1 ) ';
@@ -491,7 +494,7 @@ class SongTable extends Doctrine_Table
     $query .= (int) $settings[ 'offset' ];
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $dbh->prepare( $query );
-    echo "$query\r\n";
+    //echo "$query\r\n";
     $success = $stmt->execute( $parameters );
     if( $success )
     {
@@ -560,13 +563,11 @@ class SongTable extends Doctrine_Table
   public function findOneByEchonestRequest($echonestData)
   {
     if(
-      !isset($echonestData['release'])
+      !isset($echonestData['en_release'])
       ||
-      !isset($echonestData['artist_name'])
+      !isset($echonestData['en_artist_name'])
       ||
-      !isset($echonestData['song_name'])
-      ||
-      !isset($echonestData['track_number'])
+      !isset($echonestData['en_song_name'])
       )
     {
       return 0;
@@ -588,9 +589,9 @@ class SongTable extends Doctrine_Table
     $query .= ' artist.name = :artist_name ';
 
     $parameters = array();
-    $parameters['album_name'] = $echonestData['release'];
-    $parameters['artist_name'] = $echonestData['artist_name'];
-    $parameters['song_name'] = $echonestData['song_name'];
+    $parameters['album_name'] = $echonestData['en_release'];
+    $parameters['artist_name'] = $echonestData['en_artist_name'];
+    $parameters['song_name'] = $echonestData['en_song_name'];
   
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     $stmt = $dbh->prepare( $query );
@@ -608,47 +609,23 @@ class SongTable extends Doctrine_Table
   
   /**
    * Create a query string and parameters given a settings array
-   * 
+   *
    * @param settings   arr: the echonest params to parse
    * @param query      str: the query to modify
-   * @param parameters arr: the parameter collection 
+   * @param parameters arr: the parameter collection
    */
   private function parseEchonestSettings( $settings = array(), &$query, &$parameters)
   {
-    $allowed_names = array(
-      'version',
-      'code',
-      'message',
-      'start',
-      'total',
-      'name',
-      'date_added',
-      'item_id',
-      'release',
-      'song_name',
-      'artist_name',
-      'track_number',
-      'foreign_id',
-      'song_id',
-      'key',
-      'mode',
-      'time_signature',
-      'duration',
-      'loudness',
-      'energy',
-      'tempo',
-      'audio_md5',
-      'danceability',
-    );
-    foreach( $settings as $name => $value )
+    if( count($settings) > 0 )
     {
-      if( in_array( strtolower($name), $allowed_names ) )
+      foreach( $settings as $name => $value )
       {
-        $query .= ' AND echonest_properties.name = :en' .$name. ' ';
-        $query .= ' AND echonest_properties.value = :en' .$name. 'value ';
-        $parameters[ 'en'.$name ] = $name;
-        $parameters[ 'en'.$name.'value' ] = $value;
+        if(in_array($name, EchonestPropertiesTable::$ECHONEST_PARAMS))
+        {
+          $query .= sprintf(' AND echonest_properties.%s = :%s_value ', $name, $name);
+          $parameters[sprintf('%s_value', $name)] = $value;
+        }
       }
-    } 
+    }
   }
 }
