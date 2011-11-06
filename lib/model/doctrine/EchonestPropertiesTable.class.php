@@ -27,22 +27,20 @@ class EchonestPropertiesTable extends Doctrine_Table
   {
     if(strlen($song_id) > 0)
     {
-      if(is_array($details) && count($details) > 0)
+      //remove the current records
+      $this->deleteBySongId($song_id);
+      
+      if(is_array($details) && count($details) > 0 && isset($details['en_song_id']) && strlen($details['en_song_id']) > 0)
       {
-        //remove the current records
-        $this->deleteBySongId($song_id);
-        
-        //push the new ones
-        foreach($details as $name=>$value)
+        $echonest_properties = new EchonestProperties();
+        $echonest_properties->song_id = $song_id;
+        foreach(self::$ECHONEST_PARAMS as $parameter)
         {
-          $echonest_properties = new EchonestProperties();
-          $echonest_properties->song_id = $song_id;
-          $echonest_properties->name = $name;
-          $echonest_properties->value = $value;
-          $echonest_properties->save();
-          $id = $echonest_properties->getId();
-          $echonest_properties->free();
+          $echonest_properties->$parameter = @$details[$parameter];
         }
+        $echonest_properties->save();
+        $id = $echonest_properties->getId();
+        $echonest_properties->free();
       }
     }
   }
@@ -60,4 +58,28 @@ class EchonestPropertiesTable extends Doctrine_Table
       ->execute();
     return $q;
   }
+  
+  /**
+   * Constants for echonest properties
+   *
+   * @return arr: allowed parameters
+   */
+  public static $ECHONEST_PARAMS = array(
+    'en_version',
+    'en_date_added',
+    'en_item_id',
+    'en_artist_id',
+    'en_song_id',
+    'en_foreign_id',
+    'en_audio_md5',
+    'en_mode',
+    'en_time_signature',
+    'en_key',
+    'en_duration',
+    'en_loudness',
+    'en_energy',
+    'en_tempo',
+    'en_danceability',
+    'en_song_hotttnesss',
+  );
 }

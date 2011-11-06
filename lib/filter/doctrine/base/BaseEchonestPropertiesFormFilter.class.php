@@ -13,15 +13,43 @@ abstract class BaseEchonestPropertiesFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'song_id' => new sfWidgetFormFilterInput(),
-      'name'    => new sfWidgetFormFilterInput(),
-      'value'   => new sfWidgetFormFilterInput(),
+      'song_id'            => new sfWidgetFormFilterInput(),
+      'en_version'         => new sfWidgetFormFilterInput(),
+      'en_date_added'      => new sfWidgetFormFilterInput(),
+      'en_item_id'         => new sfWidgetFormFilterInput(),
+      'en_artist_id'       => new sfWidgetFormFilterInput(),
+      'en_song_id'         => new sfWidgetFormFilterInput(),
+      'en_foreign_id'      => new sfWidgetFormFilterInput(),
+      'en_audio_md5'       => new sfWidgetFormFilterInput(),
+      'en_mode'            => new sfWidgetFormFilterInput(),
+      'en_time_signature'  => new sfWidgetFormFilterInput(),
+      'en_key'             => new sfWidgetFormFilterInput(),
+      'en_duration'        => new sfWidgetFormFilterInput(),
+      'en_loudness'        => new sfWidgetFormFilterInput(),
+      'en_energy'          => new sfWidgetFormFilterInput(),
+      'en_tempo'           => new sfWidgetFormFilterInput(),
+      'en_danceability'    => new sfWidgetFormFilterInput(),
+      'en_song_hotttnesss' => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'song_id' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
-      'name'    => new sfValidatorPass(array('required' => false)),
-      'value'   => new sfValidatorPass(array('required' => false)),
+      'song_id'            => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'en_version'         => new sfValidatorPass(array('required' => false)),
+      'en_date_added'      => new sfValidatorPass(array('required' => false)),
+      'en_item_id'         => new sfValidatorPass(array('required' => false)),
+      'en_artist_id'       => new sfValidatorPass(array('required' => false)),
+      'en_song_id'         => new sfValidatorPass(array('required' => false)),
+      'en_foreign_id'      => new sfValidatorPass(array('required' => false)),
+      'en_audio_md5'       => new sfValidatorPass(array('required' => false)),
+      'en_mode'            => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'en_time_signature'  => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'en_key'             => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'en_duration'        => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
+      'en_loudness'        => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
+      'en_energy'          => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
+      'en_tempo'           => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
+      'en_danceability'    => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
+      'en_song_hotttnesss' => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
     ));
 
     $this->widgetSchema->setNameFormat('echonest_properties_filters[%s]');
@@ -41,10 +69,24 @@ abstract class BaseEchonestPropertiesFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'id'      => 'Number',
-      'song_id' => 'Number',
-      'name'    => 'Text',
-      'value'   => 'Text',
+      'id'                 => 'Number',
+      'song_id'            => 'Number',
+      'en_version'         => 'Text',
+      'en_date_added'      => 'Text',
+      'en_item_id'         => 'Text',
+      'en_artist_id'       => 'Text',
+      'en_song_id'         => 'Text',
+      'en_foreign_id'      => 'Text',
+      'en_audio_md5'       => 'Text',
+      'en_mode'            => 'Number',
+      'en_time_signature'  => 'Number',
+      'en_key'             => 'Number',
+      'en_duration'        => 'Number',
+      'en_loudness'        => 'Number',
+      'en_energy'          => 'Number',
+      'en_tempo'           => 'Number',
+      'en_danceability'    => 'Number',
+      'en_song_hotttnesss' => 'Number',
     );
   }
 }

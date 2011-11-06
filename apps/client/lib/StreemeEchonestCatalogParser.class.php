@@ -123,7 +123,7 @@ class StreemeEchonestCatalogParser
     {
       if($this->newEndElement)
       {
-        $this->song_data[strtolower($this->current_element)] = trim($this->elementData);
+        $this->song_data[sprintf('en_%s', strtolower($this->current_element))] = trim($this->elementData);
         $this->newEndElement = false;
       }
     }
