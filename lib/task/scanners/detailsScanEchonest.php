@@ -39,6 +39,7 @@ class detailsScanEchonest
    *
    * @param catalog_name str: the name of the catalog
    * @return             obj: SimpleXMLElement containing the update
+   * @throws             Exception if song list is empty to avoid overuse of the API
    */
   public function update($catalog_name)
   {
@@ -47,11 +48,16 @@ class detailsScanEchonest
     foreach( $this->songTable->getEchonestList() as $value)
     {
       $entries[] = $this->catalog->getUpdateWrapper('update',array(
+        'item_id'     => $value['unique_id'],
         'artist_name' => $value['artist_name'],
         'release'     => $value['album_name'],
         'song_name'   => $value['name'],
         'track_number'=> (int) $value['tracknumber'],
       ));
+    }
+    if(count($entries) === 0)
+    {
+      throw new Exception('Echonest is up to date. Please run after adding more songs.');
     }
     if($this->catalog->writeCatalogEntries($entries, $filename))
     {

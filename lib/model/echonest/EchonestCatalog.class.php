@@ -109,6 +109,9 @@ class EchonestCatalog
     $this->echonest->setParameter('id', $catalog_id);
     $this->echonest->setParameter('bucket', 'audio_summary');
     $this->echonest->setParameter('bucket', 'song_hotttnesss');
+    $this->echonest->setParameter('bucket', 'artist_hotttnesss');
+    $this->echonest->setParameter('bucket', 'artist_location');
+    $this->echonest->setParameter('bucket', 'artist_familiarity');
     
     return $this->echonest->query('catalog', 'read')->fetchRawResult();
   }
@@ -138,7 +141,6 @@ class EchonestCatalog
   public function getUpdateWrapper($action, $parameters)
   {
     $parameter_wrapper = new stdClass();
-    $parameters['item_id'] = md5(serialize($parameters));
     foreach($parameters as $key=>$value)
     {
       $parameter_wrapper->$key = $value;

@@ -20,42 +20,47 @@ class EchonestPropertiesTable extends Doctrine_Table
   /**
    * Add echonest song information to the local database
    *
-   * @param song_id int: streeme song primary key
    * @param details arr: key value pairs for echonest song details
    */
-  public function setDetails($song_id, $details = array())
+  public function setDetails($details = array())
   {
-    if(strlen($song_id) > 0)
+    $this->deleteDetails($details['en_item_id']);
+    $echonest_properties = new EchonestProperties();
+    foreach(self::$ECHONEST_PARAMS as $parameter)
     {
-      //remove the current records
-      $this->deleteBySongId($song_id);
-      
-      if(is_array($details) && count($details) > 0 && isset($details['en_song_id']) && strlen($details['en_song_id']) > 0)
-      {
-        $echonest_properties = new EchonestProperties();
-        $echonest_properties->song_id = $song_id;
-        foreach(self::$ECHONEST_PARAMS as $parameter)
-        {
-          $echonest_properties->$parameter = @$details[$parameter];
-        }
-        $echonest_properties->save();
-        $id = $echonest_properties->getId();
-        $echonest_properties->free();
-      }
+      $echonest_properties->$parameter = @$details[$parameter];
     }
+    $echonest_properties->save();
+    $id = $echonest_properties->getId();
+    $echonest_properties->free();
+    return $id;
   }
   
   /**
-   * Delete records by song id
+   * Delete an old record by en_item_id
    *
-   * @param song_id int: streeme song primary key
+   * @param en_item_id str: the unique song id passed to echonest
+   * @return           int: the id of the deleted row
    */
-  public function deleteBySongId($song_id)
+  public function deleteDetails($en_item_id)
   {
     $q = Doctrine_Query::create()
-      ->delete('EchonestProperties ep')
-      ->where('ep.song_id = ?', $song_id)
-      ->execute();
+    ->delete('EchonestProperties ep')
+    ->where('ep.en_item_id= ?', $en_item_id)
+    ->execute();
+    return $q;
+  }
+  
+  /**
+   * Delete the entire catalog
+   *
+   * @return             int: the id of the deleted row
+   */
+  public function deleteCatalog()
+  {
+    $q = Doctrine_Query::create()
+    ->delete('EchonestProperties')
+    ->execute();
     return $q;
   }
   
@@ -81,5 +86,26 @@ class EchonestPropertiesTable extends Doctrine_Table
     'en_tempo',
     'en_danceability',
     'en_song_hotttnesss',
+    'en_artist_hotttnesss',
+    'en_latitude',
+    'en_longitude',
+    'en_location',
+    'en_artist_familiarity'
+  );
+  
+  /**
+   * Get a list of float pairs for echonest matching
+   *
+   * @return arr: the pairs of min max values to match eg(en_tempo_min)
+   */
+  public static $ECHONEST_RANGES = array(
+    'en_duration_min' => 'en_duration_max',
+    'en_loudness_min' => 'en_loudness_max',
+    'en_energy_min' => 'en_energy_max',
+    'en_tempo_min' => 'en_energy_max',
+    'en_danceability_min' => 'en_danceability_max',
+    'en_song_hotttnesss_min' => 'en_song_hotttnesss_max',
+    'en_artist_hotttnesss_min' => 'en_artist_hotttnesss_max',
+    'en_artist_familiarity_min' => 'en_artist_familiarity_max',
   );
 }
