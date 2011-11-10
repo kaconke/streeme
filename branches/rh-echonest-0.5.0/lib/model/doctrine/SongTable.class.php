@@ -42,7 +42,7 @@ class SongTable extends Doctrine_Table
     )
     {
       $song = new Song();
-      $song->unique_id = sha1( uniqid( '', true ) . mt_rand( 1, 99999999 ) );
+      $song->unique_id = sha1( serialize($song_array) );
       $song->artist_id = (int) $artist_id;
       $song->album_id = (int) $album_id;
       $song->scan_id = (int) $last_scan_id;
@@ -343,7 +343,7 @@ class SongTable extends Doctrine_Table
               $prop_expl = explode( '=', $prop_value );
               if( isset( $prop_expl[0] ) && isset( $prop_expl[1] ) )
               {
-                $settings[ 'echonestSettings' ][ $prop_expl[0] ] = $prop_expl[1];
+                $settings[ 'echonestSettings' ][ sprintf('en_%s',$prop_expl[0]) ] = $prop_expl[1];
               }
             }
             $settings[ 'include_echonest' ] = true;
@@ -400,7 +400,7 @@ class SongTable extends Doctrine_Table
     {
       $query .= 'LEFT JOIN ';
       $query .= ' echonest_properties ';
-      $query .= 'ON echonest_properties.song_id = song.id ';
+      $query .= 'ON echonest_properties.en_item_id = song.unique_id ';
     }
     
     $query .= 'WHERE ( 1 = 1 ) ';
@@ -555,56 +555,29 @@ class SongTable extends Doctrine_Table
   }
   
   /**
-   * Get a song id by echonest request object
+   * Mark all song scanned at time of catalog generation
    *
-   * @param echonestData arr: array from flattened echonest response
-   * @return             int: database id
+   * @return int: affected rows
    */
-  public function findOneByEchonestRequest($echonestData)
+  public function markEchonestScanned()
   {
-    if(
-      !isset($echonestData['en_release'])
-      ||
-      !isset($echonestData['en_artist_name'])
-      ||
-      !isset($echonestData['en_song_name'])
-      )
-    {
-      return 0;
-    }
-    
-    $query  = 'SELECT ';
-    $query .= ' song.id ';
-    $query .= 'FROM ';
-    $query .= ' song ';
-    $query .= 'LEFT JOIN ';
-    $query .= ' album ON song.album_id = album.id ';
-    $query .= 'LEFT JOIN ';
-    $query .= ' artist ON song.artist_id = artist.id ';
-    $query .= 'WHERE ';
-    $query .= ' album.name = :album_name ';
-    $query .= ' AND ';
-    $query .= ' song.name = :song_name ';
-    $query .= ' AND ';
-    $query .= ' artist.name = :artist_name ';
-
-    $parameters = array();
-    $parameters['album_name'] = $echonestData['en_release'];
-    $parameters['artist_name'] = $echonestData['en_artist_name'];
-    $parameters['song_name'] = $echonestData['en_song_name'];
+     $q = Doctrine_Query::create()
+      ->update( 'Song' )
+      ->set( 'echonest_flagged','1' );
+    return $q->execute();
+  }
   
-    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
-    $stmt = $dbh->prepare( $query );
-    $success = $stmt->execute( $parameters );
-    if( $success )
-    {
-      $result = $stmt->fetchAll();
-      return (isset($result[0]['id'])) ? $result[0]['id'] : 0;
-    }
-    else
-    {
-      return 0;
-    }
+  /**
+   * Mark all songs as unscanned
+   *
+   * @return int: affected rows
+   */
+  public function markEchonestUnscanned()
+  {
+     $q = Doctrine_Query::create()
+      ->update( 'Song' )
+      ->set( 'echonest_flagged','0' );
+    return $q->execute();
   }
   
   /**
@@ -624,6 +597,13 @@ class SongTable extends Doctrine_Table
         {
           $query .= sprintf(' AND echonest_properties.%s = :%s_value ', $name, $name);
           $parameters[sprintf('%s_value', $name)] = $value;
+        }
+        elseif(in_array($name, array_keys(EchonestPropertiesTable::$ECHONEST_RANGES)))
+        {
+          $query .= sprintf(' AND echonest_properties.%s BETWEEN :%s_value_min AND :%s_value_max');
+          $parameters[$name] = substr($name, -3);
+          $parameters[sprintf('%s_value_min', $name)] = $settings[$name];
+          $parameters[sprintf('%s_value_max', $name)] = $settings[EchonestPropertiesTable::$ECHONEST_RANGES[$name]];
         }
       }
     }

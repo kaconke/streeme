@@ -66,6 +66,7 @@ EOF;
           $catalog->setTicket($arguments['catalog_name'], $ticket_id);
           $this->doGetProgress($catalog, $ticket_id, $arguments['catalog_name'], $verbose);
           $this->doDownload($catalog->read($arguments['catalog_name']), $arguments['catalog_name'], $verbose, $catalog);
+          $this->doSyncCache($catalog->getCatalogFilename($arguments['catalog_name']), $arguments['catalog_name'], $verbose);
         }
         break;
       case 'progress':
@@ -123,6 +124,7 @@ EOF;
     if((string) $response->status->code === '0')
     {
       echo sprintf("Catalog: \"%s\" has been updated.\r\n", (string) $catalog_name);
+      SongTable::getInstance()->markEchonestScanned();
       return $response;
     }
     else
@@ -217,10 +219,13 @@ EOF;
       $song_ids = array();
       while($echonestData = $parser->getDetails())
       {
-        $song_id = $song->findOneByEchonestRequest($echonestData);
-        $echonestProperties->setDetails($song_id, $echonestData);
-        $this->song_ids[$song_id] = $song_id;
+        if(isset($echonestData['en_item_id']) && isset($echonestData['en_foreign_id']) && strlen($echonestData['en_item_id']) > 0 && strlen($echonestData['en_foreign_id']) > 0)
+        {
+          $echonestProperties->setDetails($echonestData);
+        }
       }
+      echo "Cache Synchronization complete...\r\n";
+      return;
     }
     else
     {
@@ -246,8 +251,8 @@ EOF;
     if((string) $response->status->code === '0')
     {
       echo sprintf("Catalog: \"%s\" has been deleted.\r\n", (string) $catalog_name);
-      
-      //Delete from the local cache database
+      EchonestPropertiesTable::getInstance()->deleteCatalog();
+      SongTable::getInstance()->markEchonestUnscanned();
     }
     elseif((string) $response->status->code === '4')
     {
