@@ -61,7 +61,9 @@ class StreemeEchonestCatalogParser
       if ( $this->pull )
       {
         $this->pull = false;
-        return $this->song_data;
+        $song_data = $this->song_data;
+        $this->song_data = array();
+        return $song_data;
       }
     }
   }
