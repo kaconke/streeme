@@ -102,7 +102,7 @@ class EchonestPropertiesTable extends Doctrine_Table
     'en_duration_min' => 'en_duration_max',
     'en_loudness_min' => 'en_loudness_max',
     'en_energy_min' => 'en_energy_max',
-    'en_tempo_min' => 'en_energy_max',
+    'en_tempo_min' => 'en_tempo_max',
     'en_danceability_min' => 'en_danceability_max',
     'en_song_hotttnesss_min' => 'en_song_hotttnesss_max',
     'en_artist_hotttnesss_min' => 'en_artist_hotttnesss_max',

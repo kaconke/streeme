@@ -600,10 +600,11 @@ class SongTable extends Doctrine_Table
         }
         elseif(in_array($name, array_keys(EchonestPropertiesTable::$ECHONEST_RANGES)))
         {
-          $query .= sprintf(' AND echonest_properties.%s BETWEEN :%s_value_min AND :%s_value_max');
-          $parameters[$name] = substr($name, -3);
-          $parameters[sprintf('%s_value_min', $name)] = $settings[$name];
-          $parameters[sprintf('%s_value_max', $name)] = $settings[EchonestPropertiesTable::$ECHONEST_RANGES[$name]];
+          $name = substr($name, 0, -4);
+          $query .= sprintf(' AND echonest_properties.%s >= :%s_value_min ', $name, $name);
+          $query .= sprintf(' AND echonest_properties.%s <= :%s_value_max ', $name, $name);
+          $parameters[sprintf('%s_value_min', $name)] = (float) @$settings[$name.'_min'];
+          $parameters[sprintf('%s_value_max', $name)] = (float) @$settings[EchonestPropertiesTable::$ECHONEST_RANGES[$name.'_min']];
         }
       }
     }

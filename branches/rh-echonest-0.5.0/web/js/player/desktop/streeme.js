@@ -326,6 +326,14 @@ streeme = {
 				}
 			);
 		}
+		if( $( '#echonestsearchbutton' ) )
+		{
+			$( '#echonestsearchbutton' ).click( function(event)
+				{ 
+					streeme.echonestSearch();
+				}
+			);
+		}
 		if( $( '#logout' ) )
 		{
 			$( '#logout' ).click( streeme.logout );
@@ -612,7 +620,7 @@ streeme = {
 								'si' : streeme.rSongId,
 								'ft' : streeme.rFileType,
 								'dp' : streeme.displayPointer,
-								't' : streeme.timer,
+								't'  : streeme.timer,
 								'sn' : streeme.rSongName,
 								'an' : streeme.rAlbumName, 
 								'rn' : streeme.rArtistName
@@ -1388,5 +1396,52 @@ streeme = {
 	{
 		if( sString == null ) return null;
 		return sString.replace(/<\/?[^>]+>/gi, '');
+	},
+	
+	/**
+	 * Submit Search parameters for echonest to the search bar
+	 */
+	echonestSearch : function()
+	{
+		var searchopts = '';
+		if($('#tempo_min').val() != "0" || $('#tempo_max').val() != "500")
+		{
+			searchopts += 'tempo_min=' + $('#tempo_min').val() + ',';
+			searchopts += 'tempo_max=' + $('#tempo_max').val() + ',';
+		}
+		if($('#danceability_min').val() != "0.00" || $('#danceability_max').val() != "1.00")
+		{
+			searchopts += 'danceability_min=' + $('#danceability_min').val() + ',';
+			searchopts += 'danceability_max=' + $('#danceability_max').val() + ',';
+		}
+		if($('#energy_min').val() != "0.00" || $('#energy_max').val() != "1.00")
+		{
+			searchopts += 'energy_min=' + $('#energy_min').val() + ',';
+			searchopts += 'energy_max=' + $('#energy_max').val() + ',';
+		}
+		if($('#loudness_min').val() != "-100" || $('#loudness_max').val() != "100")
+		{
+			searchopts += 'loudness_min=' + $('#loudness_min').val() + ',';
+			searchopts += 'loudness_max=' + $('#loudness_max').val() + ',';
+		}
+		if($('#song_hotttnesss_min').val() != "0.00" || $('#song_hotttnesss_max').val() != "1.00")
+		{
+			searchopts += 'song_hotttnesss_min=' + $('#song_hotttnesss_min').val() + ',';
+			searchopts += 'song_hotttnesss_max=' + $('#song_hotttnesss_max').val() + ',';
+		}
+		if($('#musickey').val() != "Any")
+		{
+			searchopts += 'key=' + $('#musickey').val() + ',';
+		}
+		if($('#musicmode').val() != "Any")
+		{
+			searchopts += 'mode=' + $('#musicmode').val() + ',';
+		}
+		
+		if( $( '#songlist_filter input' )  && searchopts.length > 0)
+		{
+			$( '#songlist_filter > input' ).val( 'echonest:'+searchopts);
+			$( '#songlist_filter > input' ).trigger('keyup');
+		}
 	}
 }
