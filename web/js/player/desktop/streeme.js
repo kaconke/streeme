@@ -272,6 +272,19 @@ streeme = {
 		/**************************************************		
 		 * Register Event listeners for the Streeme class *
 		 **************************************************/
+		$( 'html' ).click(function(event) {
+			$( '#settingsmodalwindow' ).hide(120);
+			$( '#playlistsmodalwindow' ).hide(120);
+			$( '#echonestmodalwindow' ).hide(120);
+		});
+		
+		$('form').click(function(event) {
+			event.stopPropagation();
+		});
+		$('.listcontainer').click(function(event) {
+			event.stopPropagation();
+		});
+		
 		/* Configure the HTML5 Audio/Video Tag listeners */
 		if( $( '#musicplayer' ) )
 		{
@@ -306,6 +319,7 @@ streeme = {
 		{
 			$( '#settings' ).click( function(event)
 				{ 
+					event.stopPropagation();
 					streeme.toggleSettingsWindow();
 				}
 			);
@@ -313,7 +327,8 @@ streeme = {
 		if( $( '#playlists' ) )
 		{
 			$( '#playlists' ).click( function(event)
-				{ 
+				{
+					event.stopPropagation();
 					streeme.togglePlaylistsWindow();
 				}
 			);
@@ -322,6 +337,7 @@ streeme = {
 		{
 			$( '#echonest' ).click( function(event)
 				{ 
+					event.stopPropagation();
 					streeme.toggleEchonestWindow();
 				}
 			);
@@ -329,7 +345,7 @@ streeme = {
 		if( $( '#echonestsearchbutton' ) )
 		{
 			$( '#echonestsearchbutton' ).click( function(event)
-				{ 
+				{
 					streeme.echonestSearch();
 				}
 			);
@@ -934,9 +950,11 @@ streeme = {
 	/**
 	* Narrow a song list by playlist
 	* @param playlist_id int: database playlist_id for the playlist
+	* @param event       obj: the event handler
 	*/
-	setActivePlaylist : function( playlist_id )
+	setActivePlaylist : function( playlist_id, event )
 	{
+		event.stopPropagation();
 		if  ( $( '#plli' + streeme.activePlaylist ) )
 		{
 			$( '#plli' + streeme.activePlaylist ).removeClass( 'highlight' );
@@ -1007,8 +1025,9 @@ streeme = {
 	/**
 	* Add a playlist
 	*/
-	addPlaylist : function()
+	addPlaylist : function(event)
 	{
+		event.stopPropagation();
 		var playlistName = prompt( playlistNameInput, "");
 		if( playlistName == null ) return false;
 		//firefox/chrome logging only 
@@ -1038,8 +1057,9 @@ streeme = {
 	* Delete a playlist
 	* @param id int: the playlist database id
 	*/
-	deletePlaylist : function( id )
+	deletePlaylist : function( id, event )
 	{
+		event.stopPropagation();
 		if (confirm( confirmDelete ))
 
 		//firefox/chrome logging only 
@@ -1404,7 +1424,7 @@ streeme = {
 	echonestSearch : function()
 	{
 		var searchopts = '';
-		if($('#tempo_min').val() != "0" || $('#tempo_max').val() != "500")
+		if($('#tempo_min').val() != "0.00" || $('#tempo_max').val() != "500.00")
 		{
 			searchopts += 'tempo_min=' + $('#tempo_min').val() + ',';
 			searchopts += 'tempo_max=' + $('#tempo_max').val() + ',';
@@ -1419,7 +1439,7 @@ streeme = {
 			searchopts += 'energy_min=' + $('#energy_min').val() + ',';
 			searchopts += 'energy_max=' + $('#energy_max').val() + ',';
 		}
-		if($('#loudness_min').val() != "-100" || $('#loudness_max').val() != "100")
+		if($('#loudness_min').val() != "-100.00" || $('#loudness_max').val() != "100.00")
 		{
 			searchopts += 'loudness_min=' + $('#loudness_min').val() + ',';
 			searchopts += 'loudness_max=' + $('#loudness_max').val() + ',';
@@ -1429,11 +1449,11 @@ streeme = {
 			searchopts += 'song_hotttnesss_min=' + $('#song_hotttnesss_min').val() + ',';
 			searchopts += 'song_hotttnesss_max=' + $('#song_hotttnesss_max').val() + ',';
 		}
-		if($('#musickey').val() != "Any")
+		if($('#musickey').val() != "12")
 		{
 			searchopts += 'key=' + $('#musickey').val() + ',';
 		}
-		if($('#musicmode').val() != "Any")
+		if($('#musicmode').val() != "2")
 		{
 			searchopts += 'mode=' + $('#musicmode').val() + ',';
 		}

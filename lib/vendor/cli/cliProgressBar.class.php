@@ -95,7 +95,7 @@ class cliProgressBar
 
     $elapsed = $now - $start_time;
 
-    $status_bar.= " remaining: ".number_format($eta)." sec.  elapsed: ".number_format($elapsed)." sec.";
+    $status_bar.= /*" remaining: ".number_format($eta)." sec. */" time elapsed: ".number_format($elapsed)." sec.";
 
     echo "$status_bar  ";
 
