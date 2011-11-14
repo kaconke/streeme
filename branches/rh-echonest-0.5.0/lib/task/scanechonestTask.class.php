@@ -59,7 +59,15 @@ EOF;
         $this->doCreate($catalog->create($arguments['catalog_name']), $arguments['catalog_name'], $verbose);
         break;
       case 'update':
-        $response = $this->doUpdate($catalog->update($arguments['catalog_name']), $arguments['catalog_name'], $verbose);
+        try
+        {
+          $result = $catalog->update($arguments['catalog_name']);
+        }
+        catch(Exception $e)
+        {
+          throw new Exception('The Echonest service is unavailable. Aborting request. Please run update again later.');
+        }
+        $response = $this->doUpdate($result, $arguments['catalog_name'], $verbose);
         $ticket_id = (string) $response->ticket;
         if(strlen($ticket_id) > 0)
         {
@@ -144,15 +152,26 @@ EOF;
    */
   protected function doGetProgress($catalog, $ticket_id, $catalog_name, $verbose = false)
   {
-    while( $response = $catalog->status($ticket_id) )
+    while(true)
     {
+      $response = new StdClass();
+      $response->items_updated = 0;
+      $response->total_items = 0;
+      
+      try{
+        $response = $catalog->status($ticket_id);
+      }
+      catch(Exception $e)
+      {
+        //do nothing on error
+      }
+      
       if($verbose)
       {
         var_dump($response, $catalog_name);
-        break;
       }
          
-      cliProgressBar::show_status((int) $response->items_updated, (int) $response->total_items, 30);
+      cliProgressBar::show_status((int) @$response->items_updated, (int) @$response->total_items, 30);
       
       if((int)$response->percent_complete == 100)
       {

@@ -1,5 +1,5 @@
 <?php
-  $tempo_range = range(0,500,5);
+  $tempo_range = range(0.0,500.0,5.0);
   $danceability_range = range(0.0,1.0,0.05);
   $loudness_range = range(-100.0,100.0, 5.0);
   /*
@@ -80,7 +80,7 @@
   <?php echo __('Min:') . generate_range('loudness_min', $loudness_range, -100) ?> <?php echo __('to')?> <?php echo __('Max:') . generate_range('loudness_max', $loudness_range, 100) ?>
   <br/><br/>
   <label for="hotnessselector"><?php echo __('Hotttnesss:') ?></label>
-  <?php echo __('Min:') . generate_range('song_hotness_min', $hotness_range) ?> <?php echo __('to')?> <?php echo __('Max:') . generate_range('song_hotness_max', $hotness_range, 1.0) ?>
+  <?php echo __('Min:') . generate_range('song_hotttnesss_min', $hotness_range) ?> <?php echo __('to')?> <?php echo __('Max:') . generate_range('song_hotttnesss_max', $hotness_range, 1.0) ?>
   <br/><br/>
   <label for="musickeyselector"><?php echo __('Key:') ?></label>
   <?php echo generate_range('musickey', $musickey) ?> <?php echo generate_range('musicmode', $musicmode) ?>

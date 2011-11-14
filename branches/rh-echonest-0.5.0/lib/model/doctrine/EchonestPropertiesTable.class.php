@@ -28,7 +28,14 @@ class EchonestPropertiesTable extends Doctrine_Table
     $echonest_properties = new EchonestProperties();
     foreach(self::$ECHONEST_PARAMS as $parameter)
     {
-      $echonest_properties->$parameter = @$details[$parameter];
+      if($parameter === 'en_location')
+      {
+        $echonest_properties->$parameter = ucwords(strtolower(@$details[$parameter])); 
+      }
+      else
+      {
+        $echonest_properties->$parameter = @$details[$parameter];
+      }
     }
     $echonest_properties->save();
     $id = $echonest_properties->getId();
