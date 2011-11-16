@@ -25,6 +25,8 @@ Doctrine_Manager::getInstance()->bindComponent('Song', 'doctrine');
  * @property integer $mtime
  * @property integer $atime
  * @property text $filename
+ * @property integer $set_index
+ * @property integer $set_total
  * @property text $comments
  * @property Doctrine_Collection $SongGenres
  * 
@@ -46,6 +48,8 @@ Doctrine_Manager::getInstance()->bindComponent('Song', 'doctrine');
  * @method integer             getMtime()            Returns the current record's "mtime" value
  * @method integer             getAtime()            Returns the current record's "atime" value
  * @method text                getFilename()         Returns the current record's "filename" value
+ * @method integer             getSetIndex()         Returns the current record's "set_index" value
+ * @method integer             getSetTotal()         Returns the current record's "set_total" value
  * @method text                getComments()         Returns the current record's "comments" value
  * @method Doctrine_Collection getSongGenres()       Returns the current record's "SongGenres" collection
  * @method Song                setId()               Sets the current record's "id" value
@@ -66,6 +70,8 @@ Doctrine_Manager::getInstance()->bindComponent('Song', 'doctrine');
  * @method Song                setMtime()            Sets the current record's "mtime" value
  * @method Song                setAtime()            Sets the current record's "atime" value
  * @method Song                setFilename()         Sets the current record's "filename" value
+ * @method Song                setSetIndex()         Sets the current record's "set_index" value
+ * @method Song                setSetTotal()         Sets the current record's "set_total" value
  * @method Song                setComments()         Sets the current record's "comments" value
  * @method Song                setSongGenres()       Sets the current record's "SongGenres" collection
  * 
@@ -151,6 +157,12 @@ abstract class BaseSong extends sfDoctrineRecord
         $this->hasColumn('filename', 'text', null, array(
              'type' => 'text',
              ));
+        $this->hasColumn('set_index', 'integer', null, array(
+             'type' => 'integer',
+             ));
+        $this->hasColumn('set_total', 'integer', null, array(
+             'type' => 'integer',
+             ));
         $this->hasColumn('comments', 'text', null, array(
              'type' => 'text',
              ));
@@ -220,6 +232,12 @@ abstract class BaseSong extends sfDoctrineRecord
              'fields' => 
              array(
               0 => 'tracknumber',
+             ),
+             ));
+        $this->index('set_index_index', array(
+             'fields' => 
+             array(
+              0 => 'set_index',
              ),
              ));
         $this->option('collate', 'utf8_unicode_ci');

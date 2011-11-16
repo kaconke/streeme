@@ -33,6 +33,8 @@ abstract class BaseSongForm extends BaseFormDoctrine
       'mtime'            => new sfWidgetFormInputText(),
       'atime'            => new sfWidgetFormInputText(),
       'filename'         => new sfWidgetFormInputText(),
+      'set_index'        => new sfWidgetFormInputText(),
+      'set_total'        => new sfWidgetFormInputText(),
       'comments'         => new sfWidgetFormInputText(),
     ));
 
@@ -55,6 +57,8 @@ abstract class BaseSongForm extends BaseFormDoctrine
       'mtime'            => new sfValidatorInteger(array('required' => false)),
       'atime'            => new sfValidatorInteger(array('required' => false)),
       'filename'         => new sfValidatorPass(array('required' => false)),
+      'set_index'        => new sfValidatorInteger(array('required' => false)),
+      'set_total'        => new sfValidatorInteger(array('required' => false)),
       'comments'         => new sfValidatorPass(array('required' => false)),
     ));
 

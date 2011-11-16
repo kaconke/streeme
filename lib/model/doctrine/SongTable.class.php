@@ -57,6 +57,8 @@ class SongTable extends Doctrine_Table
       $song->mtime = (int) $song_array[ 'mtime' ];
       $song->atime = (int) $song_array[ 'atime' ];
       $song->filename = $song_array[ 'filename' ];
+      $song->set_index = $song_array[ 'set_index' ];
+      $song->set_total = $song_array[ 'set_total' ];
       $song->save();
       $id = $song->getId();
       $song->free();
@@ -361,10 +363,10 @@ class SongTable extends Doctrine_Table
     $column_sql = array(
                         0 => ' song.id ' . $order_by,
                         1 => ' song.name ' . $order_by,
-                        2 => ' album.name ' . $order_by . ', song.tracknumber ASC ',
-                        3 => ' artist.name ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
-                        4 => ' album_mtime ' . $order_by .  ', album.id, song.tracknumber ASC ',
-                        5 => ' song.yearpublished ' . $order_by . ', album.name DESC, song.tracknumber ASC ',
+                        2 => ' album.name ' . $order_by . ', song.set_index ASC, song.tracknumber ASC ',
+                        3 => ' artist.name ' . $order_by . ', album.name DESC, song.set_index ASC, song.tracknumber ASC ',
+                        4 => ' album_mtime ' . $order_by .  ', album.id, song.set_index ASC, song.tracknumber ASC ',
+                        5 => ' song.yearpublished ' . $order_by . ', album.name DESC, song.set_index ASC, song.tracknumber ASC ',
                         6 => ' song.accurate_length ' . $order_by,
                         7 => ' song.tracknumber ' . $order_by,
                         8 => ' ' . $expression . ' '
@@ -540,11 +542,11 @@ class SongTable extends Doctrine_Table
     $query .= 'LEFT JOIN ';
     $query .= ' artist ON song.artist_id = artist.id ';
     $query .= 'WHERE ';
-    $query .= ' album.name IS NOT NULL ';
+    $query .= ' album.name != "Unknown Album" ';
     $query .= ' AND ';
     $query .= ' song.name IS NOT NULL ';
     $query .= ' AND ';
-    $query .= ' artist.name IS NOT NULL ';
+    $query .= ' artist.name != "Unknown Artist" ';
     $query .= ' AND ';
     $query .= ' song.accurate_length < 900000 ';
     $query .= ' AND ';

@@ -30,6 +30,8 @@ abstract class BaseSongFormFilter extends BaseFormFilterDoctrine
       'mtime'            => new sfWidgetFormFilterInput(),
       'atime'            => new sfWidgetFormFilterInput(),
       'filename'         => new sfWidgetFormFilterInput(),
+      'set_index'        => new sfWidgetFormFilterInput(),
+      'set_total'        => new sfWidgetFormFilterInput(),
       'comments'         => new sfWidgetFormFilterInput(),
     ));
 
@@ -51,6 +53,8 @@ abstract class BaseSongFormFilter extends BaseFormFilterDoctrine
       'mtime'            => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'atime'            => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'filename'         => new sfValidatorPass(array('required' => false)),
+      'set_index'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'set_total'        => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'comments'         => new sfValidatorPass(array('required' => false)),
     ));
 
@@ -89,6 +93,8 @@ abstract class BaseSongFormFilter extends BaseFormFilterDoctrine
       'mtime'            => 'Number',
       'atime'            => 'Number',
       'filename'         => 'Text',
+      'set_index'        => 'Number',
+      'set_total'        => 'Number',
       'comments'         => 'Text',
     );
   }

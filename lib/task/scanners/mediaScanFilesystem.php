@@ -22,20 +22,18 @@ foreach ( $watched_folders as $key => $path )
   scan_directory( $path, $allowed_filetypes, $media_scanner, $id3_scanner );
 }
 
-//finalize the scan
 $media_scanner->finalize_scan();
 
-//summarize the results of the scan
 echo "\r\n";
 echo $media_scanner->get_summary();
 
 /**
-* Recursive directory scanner
-*
-* param path - str: the path to scan with no trailing slash
-* param allowed_filetypes  arr: mp3, ogg etc
-* param media_scanner str: the media scanner object
-*/
+ * Recursive directory scanner
+ *
+ * @param path - str: the path to scan with no trailing slash
+ * @param allowed_filetypes  arr: mp3, ogg etc
+ * @param media_scanner str: the media scanner object
+ */
 function scan_directory( $path, $allowed_filetypes, $media_scanner, $id3_scanner )
 {
   $dp = opendir( $path );
@@ -58,7 +56,6 @@ function scan_directory( $path, $allowed_filetypes, $media_scanner, $id3_scanner
       continue;
     }
 
-    //Stat the file
     $file_stat = stat( $full_file_path );
 
     //is it a usable file?
@@ -75,17 +72,14 @@ function scan_directory( $path, $allowed_filetypes, $media_scanner, $id3_scanner
     $pinfo = pathinfo( $full_file_path );
     
     /**
-    * Pure ugliness - there's 3 possible containers for scraps of ID3 data - they're in order of preference and data integrity
-    * Tempted to move this to its own container
-    * high    high    medium    none
-    * apex -> id3v2 -> id3v1 -> null
-    * getID3 is a bit of a tricky lib to work with, but it has great features
-    */
+     * Process the files using the following criteria
+     * high    high    medium    none
+     * apex -> id3v2 -> id3v1 -> null
+     */
     $value = $id3_scanner->analyze( $full_file_path );
     
     $tags = $value[ 'tags' ];
     
-    //track number is a nuisance - regress to find the tags
     if( isset( $tags[ 'id3v1' ][ 'track' ][0] ) && is_int( $tags[ 'id3v1' ][ 'track' ][0] ) )
     {
       //could be an int
@@ -109,6 +103,16 @@ function scan_directory( $path, $allowed_filetypes, $media_scanner, $id3_scanner
       $tracknumber = 0;
     }
     
+    //get the set numbers in cases of multi album collections
+    $set_index = $set_total = 1;
+    $rawSet = ( $tags['ape'][ 'part_of_a_set' ][0] )   ? $tags['ape'][ 'part_of_a_set' ][0]   : ( ($tags['id3v2'][ 'part_of_a_set' ][0] ) ? $tags['id3v2'][ 'part_of_a_set' ][0] : ( ( $tags['id3v1'][ 'part_of_a_set' ][0] )  ? $tags['id3v1'][ 'part_of_a_set' ][0]  : null ) );
+    if(strlen($rawSet) > 0)
+    {
+      $parts = explode('/', $rawSet);
+      $set_index = (int) @$parts[0];
+      $set_total = (int) @$parts[1];
+    }
+
     $song_array = array();
     $song_array[ 'artist_name' ]      = StreemeUtil::xmlize_utf8_string( ( $tags['ape'][ 'artist' ][0] ) ? $tags['ape'][ 'artist' ][0] : ( ( $tags['id3v2'][ 'artist' ][0] ) ? $tags['id3v2'][ 'artist' ][0] : ( ( $tags['id3v1'][ 'artist' ][0] ) ? $tags['id3v1'][ 'artist' ][0] : null ) ) );
     $song_array[ 'album_name' ]       = StreemeUtil::xmlize_utf8_string( ( $tags['ape'][ 'album' ][0] )  ? $tags['ape'][ 'album' ][0]  : ( ( $tags['id3v2'][ 'album' ][0] )  ? $tags['id3v2'][ 'album' ][0]  : ( ( $tags['id3v1'][ 'album' ][0] )  ? $tags['id3v1'][ 'album' ][0]  : null ) ) );
@@ -124,9 +128,10 @@ function scan_directory( $path, $allowed_filetypes, $media_scanner, $id3_scanner
     $song_array[ 'mtime' ]            = $file_stat[ 'mtime' ];
     $song_array[ 'atime' ]            = $file_stat[ 'atime' ];
     $song_array[ 'filename' ]         = $streeme_path_name;
-
+    $song_array[ 'set_index' ]        = $set_index;
+    $song_array[ 'set_total' ]        = $set_total;
+    
     unset( $value, $tags, $file_stat, $temp ); //free the RAM used by the temp containters
-    /* End Ugliness */
       
     $media_scanner->add_song( $song_array );
   }

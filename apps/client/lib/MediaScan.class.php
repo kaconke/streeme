@@ -131,6 +131,8 @@ class MediaScan
    *   mtime           int time modified unix timestamp
    *   atime           int time added to itunes unix timestamp
    *   filename        str itunes style filename
+   *   set_index       int the disc/set number this song belongs to
+   *   set_total       int the total discs/collections in the set
    *  @return          int: new song id
    */
   public function add_song( $song_array )
