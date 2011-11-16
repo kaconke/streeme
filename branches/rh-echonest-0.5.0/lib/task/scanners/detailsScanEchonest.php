@@ -47,13 +47,25 @@ class detailsScanEchonest
     $entries = array();
     foreach( $this->songTable->getEchonestList() as $value)
     {
-      $entries[] = $this->catalog->getUpdateWrapper('update',array(
+      
+      $new_item = array(
         'item_id'     => $value['unique_id'],
         'artist_name' => $value['artist_name'],
         'release'     => $value['album_name'],
         'song_name'   => $value['name'],
         'track_number'=> (int) $value['tracknumber'],
-      ));
+      );
+      if(empty($new_item['track_number']) && isset($new_item['song_name']))
+      {
+        //try and parse out the track number from a song
+        preg_match('/[0-9][0-9]/', $value['name'], $matches);
+        $new_item['track_number'] = ( isset($matches[0]) && strlen($matches[0]) > 0 )? (int) ltrim($matches[0],0) : 0;
+      }
+      if(isset($new_item['track_number']) && $new_item['track_number'] > 0 && isset($new_item['song_name']))
+      {
+        unset($new_item['song_name']);
+      }
+      $entries[] = $this->catalog->getUpdateWrapper('update', $new_item );
     }
     if(count($entries) === 0)
     {

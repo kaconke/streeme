@@ -175,6 +175,10 @@ Song:
       type: integer
     filename:
       type: text
+    set_index:
+      type: integer
+    set_total:
+      type: integer
     comments:
       type: text
   indexes:
@@ -200,6 +204,9 @@ Song:
       fields: [length]
     tracknumber_index:
       fields: [tracknumber]
+    set_index_index:
+      fields: [set_index]
+    
 
 EchonestProperties:
   connection: doctrine
