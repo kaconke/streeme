@@ -76,6 +76,7 @@ class MediaScan
     //Since this class services a batch script, stop Doctrine from leaving objects in memory
     Doctrine_Manager::connection()->setAttribute(Doctrine_Core::ATTR_AUTO_FREE_QUERY_OBJECTS, true );
     $this->scan_id = Doctrine_Core::getTable('Scan')->addScan( 'library' );
+    $this->lucene = new StreemeLucene();
   }
   
   /**
@@ -115,25 +116,8 @@ class MediaScan
   /**
    * Populate the song list from an array
    * Parameter order is not important
-   * @param $song_array array - contents
-   *   artist_name     str name of the artist
-   *   album_name      str name of the album
-   *   genre_name      str genre name
-   *   id3_genre_id    int id3 V1 or winamp extension ID eg. 0 - 125
-   *   song_name       str name of the song
-   *   song_length     str mins:secs
-   *   accurate_length int milliseconds
-   *   size            int file size
-   *   bitrate         int bitrate
-   *   year            int year
-   *   track_number    int track number on the album
-   *   label           str label
-   *   mtime           int time modified unix timestamp
-   *   atime           int time added to itunes unix timestamp
-   *   filename        str itunes style filename
-   *   set_index       int the disc/set number this song belongs to
-   *   set_total       int the total discs/collections in the set
-   *  @return          int: new song id
+   * @param $song_array arr: a list of data from the ID3 tag  
+   * @return            int: new song id
    */
   public function add_song( $song_array )
   {
@@ -150,6 +134,7 @@ class MediaScan
       $this->added_albums[ $album_id ] = 1;
     }
     $song_id = Doctrine_Core::getTable('Song')->addSong( $artist_id, $album_id, $this->scan_id, $song_array );
+    $this->lucene->updateIndex( $song_array );
     $this->added_songs++;
     $genre_ids = Doctrine_Core::getTable('SongGenres')->addSongGenres($song_id, $song_array['genre_name']);
     unset( $artist_name, $artist_id, $album_name, $album_id, $genre_name, $genre_ids, $song_array );
