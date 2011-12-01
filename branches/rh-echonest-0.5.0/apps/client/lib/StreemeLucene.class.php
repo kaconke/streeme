@@ -20,6 +20,7 @@ class StreemeLucene
   {
     ProjectConfiguration::registerZend();
     $this->lucene = $this->getIndex();
+    Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding('utf-8');
   }
     
   /**
@@ -44,30 +45,40 @@ class StreemeLucene
    */
   public function updateIndex($song_array)
   {
-    if(isset($song_array) && count($song_array) === 0) return;
+    if(isset($song_array) && count($song_array) === 0) return false;
     
     $id = sha1( serialize($song_array) );
     
-    // remove existing entries
-    foreach ($this->lucene->find(sprintf('uid:%s', $id)) as $hit)
+    try
     {
-      $this->lucene->delete($hit->id);
-    }
-   
-    $doc = new Zend_Search_Lucene_Document();
-   
-    // add song unique id - generally a hash of the entire song array
-    $doc->addField(Zend_Search_Lucene_Field::Keyword('uid', $id));
-   
-    // add all indexable fields
-    $doc->addField(Zend_Search_Lucene_Field::UnStored('artist_name', $song_array['artist_name'], 'utf-8'));
-    $doc->addField(Zend_Search_Lucene_Field::UnStored('album_name', $song_array['album_name'], 'utf-8'));
-    $doc->addField(Zend_Search_Lucene_Field::UnStored('song_name', $song_array['song_name'], 'utf-8'));
-    $doc->addField(Zend_Search_Lucene_Field::UnStored('genre_name', $song_array['genre_name'], 'utf-8'));
+      // remove existing entries
+      foreach ($this->lucene->find(sprintf('uid:%s', $id)) as $hit)
+      {
+        $this->lucene->delete($hit->id);
+      }
      
-    // add job to the index
-    $this->lucene->addDocument($doc);
-    $this->lucene->commit();
+      $doc = new Zend_Search_Lucene_Document();
+     
+      // add song unique id - generally a hash of the entire song array
+      $doc->addField(Zend_Search_Lucene_Field::Keyword('uid', $id));
+     
+      // add all indexable fields
+      $doc->addField(Zend_Search_Lucene_Field::UnStored('artist_name', $song_array['artist_name'], 'utf-8'));
+      $doc->addField(Zend_Search_Lucene_Field::UnStored('album_name', $song_array['album_name'], 'utf-8'));
+      $doc->addField(Zend_Search_Lucene_Field::UnStored('song_name', $song_array['song_name'], 'utf-8'));
+      $doc->addField(Zend_Search_Lucene_Field::UnStored('genre_name', $song_array['genre_name'], 'utf-8'));
+      $doc->addField(Zend_Search_Lucene_Field::UnStored('delkey', 'qjz', 'utf-8'));
+       
+      // add job to the index
+      $this->lucene->addDocument($doc);
+      $this->lucene->commit();
+      return true;
+    }
+    catch(Exception $e)
+    {
+      $this->lucene->commit();
+      return false;
+    }
   }
 
   /**
@@ -78,40 +89,56 @@ class StreemeLucene
    */
   public function getSongIds($keywords)
   {
+    $query = Zend_Search_Lucene_Search_QueryParser::parse($keywords);
     $uids = array();
-    foreach ($this->lucene->find($keywords) as $hit)
+    try
     {
-      $uids[] = $hit->uid;
+      foreach ($this->lucene->find($query) as $hit)
+      {
+        $uids[] = $hit->uid;
+      }
+      return $uids;
     }
-       
-    return $uids;
+    catch(Exception $e)
+    {
+      return array();
+    }
   }
 
-  /**
-   * Purge all records
-   */
-  public function deleteAll()
-  {
-    $this->lucene->deleteAll();
-    $this->lucene->commit();
-  }
-  
   /**
    * Optimize the index
    */
   public function optimize()
   {
-    $this->lucene->optimize();
-    $this->lucene->commit();
+    try
+    {
+      $this->lucene->optimize();
+      $this->lucene->commit();
+      return true;
+    }
+    catch(Exception $e)
+    {
+      return false;
+    }
   }
   
   /**
-   * Get the filename of the lucene object
+   * Get the path of the lucene object
    * 
-   * @return str: the filename of the object
+   * @return str: the path to the Lucene index 
    */
   public function getLuceneIndexFile()
   {
     return sprintf('%s/%s/%s', sfConfig::get('sf_data_dir'), sfConfig::get('sf_environment'), sfConfig::get('app_lucene_dirname', 'lucene'));
+  }
+  
+  /**
+   * Get the lucene index instance from the class
+   * 
+   * @return obj: Zend Search Lucene instance (null in case of an error in construction)
+   */
+  public function getLuceneIndexInstance()
+  {
+    return $this->lucene;
   }
 }
