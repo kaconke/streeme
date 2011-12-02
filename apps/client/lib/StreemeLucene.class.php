@@ -107,6 +107,8 @@ class StreemeLucene
 
   /**
    * Optimize the index
+   * 
+   * @return bol: true on success false on exceptions
    */
   public function optimize()
   {
