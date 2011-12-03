@@ -2,7 +2,7 @@
 include( dirname(__FILE__) . '/../bootstrap/doctrine.php' );
 
 // Initialize the test object
-$t = new lime_test( 24, new lime_output_color() );
+$t = new lime_test( 27, new lime_output_color() );
 
 $song_array = array(
   /*song1*/ array('artist_name'=>'Radiohead', 'album_name' => 'The King of Limbs', 'song_name'=>'feral', 'genre_name'=>'Pop'),

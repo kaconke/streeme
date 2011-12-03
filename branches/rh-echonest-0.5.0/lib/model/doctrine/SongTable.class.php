@@ -355,7 +355,7 @@ class SongTable extends Doctrine_Table
     }
     
     //search should now be valid keywords, join them with spaces
-    $settings[ 'search' ] = join( ' ', array_map( 'strtolower', $components ) );
+    $settings[ 'search' ] = join( ' ', $components );
   
     //this array contains the decoded sort information
     $expression = new Doctrine_Expression( 'random()' );
@@ -454,8 +454,18 @@ class SongTable extends Doctrine_Table
     }
     if ( !is_null(  $settings[ 'search' ] ) && ( !empty( $settings[ 'search' ] ) || $settings[ 'search' ] === '0'  ) )
     {
-      $query .= ' AND ( lower( song.name ) LIKE :search OR lower( album.name ) LIKE :search OR lower( artist.name ) LIKE :search ) ';
-      $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
+      $lucene = new StreemeLucene();
+      //use advanced search features of lucene. remove the wildcard for progressive search
+      $user_search = preg_match("/[\*|\!|\+|\-|\&\&|\|\||\(|\)|\[|\]|\^|\~|\*|\?|\:|\\\"|\\\]/", $settings['search'], $void_matches);
+      $keys = $lucene->getSongIds(sprintf('%s%s',trim($settings['search']), (($user_search) ? '' : '*')));
+      if(count($keys)>0)
+      {
+        $query .= sprintf(' AND song.unique_id IN (%s) ', join(',', array_map(array($this, 'quoteMap'), $keys)) );
+      }
+      else
+      {
+        $query .= ' AND ( 1 = 0 ) ';
+      }
     }
     
     if ( count( $settings[ 'echonestSettings' ] ) > 0 )
@@ -610,5 +620,10 @@ class SongTable extends Doctrine_Table
         }
       }
     }
+  }
+  
+  public function quoteMap($text)
+  {
+    return sprintf('"%s"', $text);
   }
 }

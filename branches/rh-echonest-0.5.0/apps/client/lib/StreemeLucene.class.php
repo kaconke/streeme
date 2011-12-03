@@ -1,7 +1,7 @@
-<?php 
+<?php
 /**
  * Lucene tools for keyword searching within music catalogs
- * 
+ *
  * @author Richard Hoar
  * @package Streeme
  * @see integration notes here: http://www.symfony-project.org/jobeet/1_4/Doctrine/en/17
@@ -11,22 +11,23 @@ class StreemeLucene
   protected $lucene;
 
   /**
-   * Constructor - bootstrap Zend Framework autoloader 
-   * 
+   * Constructor - bootstrap Zend Framework autoloader
+   *
    * @param auto_start bol: true if constructor should bootstrap the indexer
-   * @see config/Projectconfiguration.class.php 
+   * @see config/Projectconfiguration.class.php
    */
-  public function __construct($auto_start = true)
+  public function __construct()
   {
     ProjectConfiguration::registerZend();
     $this->lucene = $this->getIndex();
     Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding('utf-8');
+    Zend_Search_Lucene_Search_Query_Wildcard::setMinPrefixLength(1);
   }
     
   /**
    * Get the lucene index object to begin queries
-   * 
-   * @return  obj: The lucene search object 
+   *
+   * @return  obj: The lucene search object
    */
   public function getIndex()
   {
@@ -40,7 +41,7 @@ class StreemeLucene
   
   /**
    * Update the index with new data when a song is added to the library
-   * 
+   *
    * @param song_array arr: the song array
    */
   public function updateIndex($song_array)
@@ -83,12 +84,14 @@ class StreemeLucene
 
   /**
    * Get unique IDs based on lucene keyword searches
-   * 
+   *
    * @param keywords str: A list of keywords to search
+   * @param limit    int: max results to return
    * @return         arr: a list of uniqueids to match against
    */
-  public function getSongIds($keywords)
+  public function getSongIds($keywords, $limit=1024)
   {
+    Zend_Search_Lucene::setTermsPerQueryLimit($limit);
     $query = Zend_Search_Lucene_Search_QueryParser::parse($keywords);
     $uids = array();
     try
@@ -107,7 +110,7 @@ class StreemeLucene
 
   /**
    * Optimize the index
-   * 
+   *
    * @return bol: true on success false on exceptions
    */
   public function optimize()
@@ -126,8 +129,8 @@ class StreemeLucene
   
   /**
    * Get the path of the lucene object
-   * 
-   * @return str: the path to the Lucene index 
+   *
+   * @return str: the path to the Lucene index
    */
   public function getLuceneIndexFile()
   {
@@ -136,7 +139,7 @@ class StreemeLucene
   
   /**
    * Get the lucene index instance from the class
-   * 
+   *
    * @return obj: Zend Search Lucene instance (null in case of an error in construction)
    */
   public function getLuceneIndexInstance()
