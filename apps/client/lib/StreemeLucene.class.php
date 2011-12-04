@@ -8,7 +8,7 @@
  */
 class StreemeLucene
 {
-  protected $lucene;
+  protected $lucene, $write;
 
   /**
    * Constructor - bootstrap Zend Framework autoloader
@@ -22,6 +22,17 @@ class StreemeLucene
     $this->lucene = $this->getIndex();
     Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding('utf-8');
     Zend_Search_Lucene_Search_Query_Wildcard::setMinPrefixLength(1);
+  }
+  
+  /**
+   * On destruct we need to ensure the index commits if a write was made during the lifecycle of the class
+   */
+  public function __destruct()
+  {
+    if($this->write)
+    {
+      $this->optimize();
+    }
   }
     
   /**
@@ -64,20 +75,25 @@ class StreemeLucene
       $doc->addField(Zend_Search_Lucene_Field::Keyword('uid', $id));
      
       // add all indexable fields
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('artist_name', $song_array['artist_name'], 'utf-8'));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('album_name', $song_array['album_name'], 'utf-8'));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('song_name', $song_array['song_name'], 'utf-8'));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('genre_name', $song_array['genre_name'], 'utf-8'));
+      $doc->addField( Zend_Search_Lucene_Field::UnStored(
+        't',
+        join(' ', array(
+          $song_array['artist_name'],
+          $song_array['song_name'],
+          $song_array['genre_name'],
+          $song_array['album_name'],
+        )),
+        'utf-8'
+      ));
       $doc->addField(Zend_Search_Lucene_Field::UnStored('delkey', 'qjz', 'utf-8'));
        
       // add job to the index
       $this->lucene->addDocument($doc);
-      $this->lucene->commit();
+      $this->write = true;
       return true;
     }
     catch(Exception $e)
     {
-      $this->lucene->commit();
       return false;
     }
   }
@@ -92,7 +108,7 @@ class StreemeLucene
   public function getSongIds($keywords, $limit=1024)
   {
     Zend_Search_Lucene::setTermsPerQueryLimit($limit);
-    $query = Zend_Search_Lucene_Search_QueryParser::parse($keywords);
+    $query = Zend_Search_Lucene_Search_QueryParser::parse(trim($keywords));
     $uids = array();
     try
     {
