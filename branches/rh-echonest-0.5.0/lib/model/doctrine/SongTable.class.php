@@ -457,7 +457,7 @@ class SongTable extends Doctrine_Table
       $lucene = new StreemeLucene();
       //use advanced search features of lucene. remove the wildcard for progressive search
       $user_search = preg_match("/[\*|\!|\+|\-|\&\&|\|\||\(|\)|\[|\]|\^|\~|\*|\?|\:|\\\"|\\\]/", $settings['search'], $void_matches);
-      $keys = $lucene->getSongIds(sprintf('%s%s',trim($settings['search']), (($user_search) ? '' : '*')));
+      $keys = $lucene->getSongIds(sprintf('t:%s%s',$settings['search'], (($user_search) ? '' : '*')));
       if(count($keys)>0)
       {
         $query .= sprintf(' AND song.unique_id IN (%s) ', join(',', array_map(array($this, 'quoteMap'), $keys)) );
