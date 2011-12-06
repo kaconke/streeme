@@ -48,24 +48,29 @@ class SongGenresTable extends Doctrine_Table
       foreach ( $genre_list as $genre )
       {
         $genre_id = GenreTable::getInstance()->addGenre($genre);
-        $song_genres = new SongGenres;
+        $song_genres = new SongGenres();
         $song_genres->song_id = $song_id;
         $song_genres->genre_id = $genre_id;
         $song_genres->save();
         $insert_list[] = $genre_id;
+        $song_genres->free();
+        unset($song_genres); 
       }
     }
     else
     {
       $genre_id = GenreTable::getInstance()->addGenre('Uncategorized');
-      $song_genres = new SongGenres;
+      $song_genres = new SongGenres();
       $song_genres->song_id = $song_id;
       $song_genres->genre_id = $genre_id;
       $song_genres->save();
       $insert_list[] = $genre_id;
+      $song_genres->free();
+      unset($song_genres);
     }
-    unset( $genre_list, $genre_id, $genre, $song_id, $genre_id, $song_genres );
     
+    unset($genre_id);
+        
     return $insert_list;
   }
   

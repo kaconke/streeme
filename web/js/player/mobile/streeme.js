@@ -289,6 +289,9 @@ streeme = {
 			
 			//The file was not the size reported or the codec is missing 
 			$( '#musicplayer' ).bind( 'error', function(){ if( this.error.code == 4 ) streeme.playNextSong(); } );
+			
+			//The file was not the size reported or the codec is missing 
+			$( '#musicplayer' ).bind( 'error', function(){ alert(this.error.code) } );
 		}
 		
 		/* Button listeners */ 

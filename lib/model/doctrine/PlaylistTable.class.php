@@ -46,6 +46,8 @@ class PlaylistTable extends Doctrine_Table
     $playlist->save();
     $id = $playlist->getId();
     $playlist->free();
+    unset($playlist);
+    
     return $id;
   }
   
