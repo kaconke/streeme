@@ -60,6 +60,7 @@ class SongTable extends Doctrine_Table
       $song->save();
       $id = $song->getId();
       $song->free();
+      unset($song, $song_array);
       
       return $id;
     }

@@ -33,11 +33,13 @@ class AlbumTable extends Doctrine_Table
      
     if ( is_object( $result ) && $result->id > 0 )
     {
-      return $result->id;
+      $retId = $result->id;
+      unset($q, $result);
+      return $retId;
     }
     else
     {
-      $item = new Album;
+      $item = new Album();
       $item->name = $name;
       if( $name == 'Unknown Album' )
       {
@@ -45,7 +47,11 @@ class AlbumTable extends Doctrine_Table
       }
       $item->scan_id = 1;
       $item->save();
-      return $item->getId();
+      $id = $item->getId();
+      $item->free();
+      unset($item, $q, $result);
+      
+      return $id;
     }
   }
   

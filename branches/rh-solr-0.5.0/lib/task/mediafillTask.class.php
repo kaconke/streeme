@@ -81,9 +81,9 @@ EOF;
       @$song_array[ 'mtime' ]            = mt_rand(1, 3141592653);
       @$song_array[ 'atime' ]            = mt_rand(1, 3141592653);
       @$song_array[ 'filename' ]         = 'file://localhost/home/user/' . $artist_name . '/' . $album_name . '/' . $song_name . '.mp3';
-      
+            
       $media_scanner->add_song( $song_array );
-      
+
       $counter++;
     }
     echo sprintf('Filled Database %s with %d record%s', $options['env'], $i, ($i==1) ? '' : 's' );

@@ -31,17 +31,22 @@ class ArtistTable extends Doctrine_Table
       ->from( 'Artist a' )
       ->where( 'a.name = ?', $name);
     $result = $q->fetchOne();
-     
     if ( is_object( $result ) && $result->id > 0 )
     {
-      return $result->id;
+      $retId = $result->id;
+      unset($q, $result);
+      return $retId;
     }
     else
     {
-      $item = new Artist;
+      $item = new Artist();
       $item->name = $name;
       $item->save();
-      return $item->getId();
+      $id = $item->getId();
+      $item->free();
+      unset($item, $q, $result);
+      
+      return $id;
     }
   }
     
