@@ -474,6 +474,49 @@ class SongTable extends Doctrine_Table
     }
   }
   
+  
+  /**
+   * Get all songs for indexing
+   * 
+   * @param result_list   OUT array: the resulting data set
+   * @return              bol: true on success 
+   */
+  public function getIndexerList(&$result_list)
+  {
+    $parameters = array();
+    
+    $query  = 'SELECT ';
+    $query .= ' song.unique_id, song.name, album.name as album_name, artist.name as artist_name, genre.name as genre_name ';
+    $query .= 'FROM ';
+    $query .= ' song ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' artist ';
+    $query .= 'ON song.artist_id = artist.id ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' album ';
+    $query .= 'ON song.album_id = album.id ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' song_genres ';
+    $query .= 'ON song_genres.song_id = song.id ';
+    $query .= 'LEFT JOIN ';
+    $query .= ' genre ';
+    $query .= 'ON song_genres.genre_id = genre.id ';
+    
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $stmt = $dbh->prepare( $query );
+    //echo "$query\r\n";
+    $success = $stmt->execute( $parameters );
+    if( $success )
+    {
+      $result_list = $stmt->fetchAll(Doctrine::FETCH_ASSOC);
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+  
   /**
    * Remove song records not found in the specified scan
    *
