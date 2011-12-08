@@ -74,7 +74,20 @@
         <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
       </analyzer>
     </fieldType>
-
+		
+		<!-- Edge Ngram filter @see http://www.lucidimagination.com/blog/2009/09/08/auto-suggest-from-popular-queries-using-edgengrams/ -->
+		<fieldType name="edgytext" class="solr.TextField" positionIncrementGap="100">
+		 <analyzer type="index">
+		   <tokenizer class="solr.KeywordTokenizerFactory"/>
+		   <filter class="solr.LowerCaseFilterFactory"/>
+		   <filter class="solr.EdgeNGramFilterFactory" minGramSize="1" maxGramSize="25" />
+		 </analyzer>
+		 <analyzer type="query">
+		   <tokenizer class="solr.KeywordTokenizerFactory"/>
+		   <filter class="solr.LowerCaseFilterFactory"/>
+		 </analyzer>
+		</fieldType>
+		
     <!-- field type definitions. The "name" attribute is
        just a label to be used by field definitions.  The "class"
        attribute and any other attributes determine the real
@@ -245,12 +258,12 @@
   <field name="sfl_all"      type="text"   indexed="true"  stored="false"  multiValued="true" required="false"/>
   
   <!-- merged model information into one document -->
-  <field name="id" type="text" stored="true" multiValued="false" required="false"/>
-  <field name="song_name" type="text" stored="true" multiValued="false" required="false"/>
-  <field name="artist_name" type="text" stored="true" multiValued="false" required="false"/>
-  <field name="album_name" type="text" stored="true" multiValued="false" required="false"/>
-  <field name="genre_name" type="text" stored="true" multiValued="false" required="false"/>
-  <field name="tags" type="text" stored="true" multiValued="false" required="false"/>
+  <field name="id" type="edgytext" stored="true" multiValued="false" required="false"/>
+  <field name="song_name" type="edgytext" stored="true" multiValued="false" required="false"/>
+  <field name="artist_name" type="edgytext" stored="true" multiValued="false" required="false"/>
+  <field name="album_name" type="edgytext" stored="true" multiValued="false" required="false"/>
+  <field name="genre_name" type="edgytext" stored="true" multiValued="false" required="false"/>
+  <field name="tags" type="edgytext" stored="true" multiValued="false" required="false"/>
 
   
 
