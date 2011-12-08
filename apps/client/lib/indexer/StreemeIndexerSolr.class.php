@@ -115,12 +115,21 @@ class StreemeIndexerSolr extends StreemeIndexerBase
    */
   public function getKeys($keywords, $limit = 100, $idFieldName = 'sfl_guid')
   {
+    $user_search = preg_match("/[\*|\!|\+|\-|\&\&|\|\||\(|\)|\[|\]|\^|\~|\*|\?|\:|\\\"|\\\]/", $keywords, $void_matches);
+    $user_search = (substr($keywords, -1)===' ') ? true : false;
+      
     $criteria = new sfLuceneCriteria();
-    $criteria
-      ->addPhrase($keywords)
-      ->setLimit($limit)
-      ->select($idFieldName);
-        
+    if(strpos($keywords, ' '))
+    {
+      $criteria->addPhrase($keywords);
+    }
+    else
+    {
+      $criteria->add(sprintf('%s%s', $keywords, (($user_search) ? '' : '*')), sfLuceneCriteria::TYPE_AND, true);      
+    }
+    $criteria->setParam('fl', $idFieldName);  
+    $criteria->setLimit($limit);   
+    $keys = array();
     foreach($this->lucene->friendlyFind($criteria) as $result)
     {
       $tmp = $result->getResult()->getField($idFieldName);

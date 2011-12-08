@@ -424,8 +424,25 @@ class SongTable extends Doctrine_Table
     }
     if ( !is_null(  $settings[ 'search' ] ) && ( !empty( $settings[ 'search' ] ) || $settings[ 'search' ] === '0'  ) )
     {
-      $query .= ' AND ( lower( song.name ) LIKE :search OR lower( album.name ) LIKE :search OR lower( artist.name ) LIKE :search ) ';
-      $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
+      if(sfConfig::get('app_indexer_use_indexer', false))
+      {
+        $index_settings = sfConfig::get('app_indexer_settings');
+        $indexer = new $index_settings['class']();
+        $keys = $indexer->getKeys($settings[ 'search' ], 1000);
+        if(count($keys)>0)
+        {
+          $query .= sprintf(' AND song.unique_id IN (%s) ', join(',', array_map(array($this, 'quoteMap'), $keys)) );
+        }
+        else
+        {
+          $query .= ' AND ( 1 = 0 ) ';
+        }
+      }
+      else
+      {
+        $query .= ' AND ( lower( song.name ) LIKE :search OR lower( album.name ) LIKE :search OR lower( artist.name ) LIKE :search ) ';
+        $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
+      }
     }
 
     //get a count of rows returned by this query before applying pagination
@@ -530,5 +547,16 @@ class SongTable extends Doctrine_Table
       ->where('s.scan_id != ?', $last_scan_id )
       ->execute();
     return $q;
+  }
+  
+  /**
+   * Mapper to adds quotes to a key list
+   * 
+   * @param text str: input text
+   * @return     str: transformed output text
+   */
+  public function quoteMap($text)
+  {
+    return sprintf('"%s"', $text);
   }
 }
