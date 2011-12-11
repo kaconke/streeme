@@ -183,7 +183,7 @@ EOF;
           $env
         );
       }
-      var_dump($command);
+
       $this->logSection('exec ', $command);
       exec($command ,$op);
       
@@ -195,7 +195,6 @@ EOF;
       }
   
       $pid = (int)$op[0];
-      var_dump($pid);
       file_put_contents($this->getPidFile($app, $env), $pid);
   
       $this->logSection("solr", "Server started with pid : ".$pid);
