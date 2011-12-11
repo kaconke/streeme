@@ -91,14 +91,14 @@ EOF;
     $app = $options['application'];
     $env = $options['env'];
 
-    if(!is_executable($options['java'] ))
+    if(!is_executable($options['java']) && !$this->isWindows )
     {
       throw new sfException("Solr: This application requires Java. Please install java before proceeding.\r\n(you can use the option --java=path to specify a java executable)");
     }
 
     $this->java = $options['java'];
     
-    if(!is_executable($options['nohup'] ) && !$isWindows)
+    if(!is_executable($options['nohup']) && !$this->isWindows )
     {
       throw new sfException('Solr: Please provide a valid nohup executable file');
     }
@@ -152,7 +152,7 @@ EOF;
       $port     = $options['port'];
       if($this->isWindows)
       {
-        $command = sprintf('cd %s/plugins/sfSolrPlugin/lib/vendor/Solr/example && start %s -Dsolr.solr.home=%s/config/solr/ -Dsolr.data.dir=%s/data/solr_index -Dsolr.lib.dir=%s/plugins/sfSolrPlugin/lib/vendor/Solr/example/solr/lib -Djetty.port=%s -Djetty.logs=%s -jar start.jar > %s/solr_server_%s_%s.log',
+        $command = sprintf('cd %s/plugins/sfSolrPlugin/lib/vendor/Solr/example && start /b "Streeme Solr Indexer" %s -Dsolr.solr.home=%s/config/solr/ -Dsolr.data.dir=%s/data/solr_index -Dsolr.lib.dir=%s/plugins/sfSolrPlugin/lib/vendor/Solr/example/solr/lib -Djetty.port=%s -Djetty.logs=%s -jar start.jar > %s/solr_server_%s_%s.log',
           sfConfig::get('sf_root_dir'),
           $this->java,
           sfConfig::get('sf_root_dir'),
@@ -163,7 +163,7 @@ EOF;
           sfConfig::get('sf_root_dir').'/log',
           $app,
           $env
-        );     
+        );    
       }
       else
       {
