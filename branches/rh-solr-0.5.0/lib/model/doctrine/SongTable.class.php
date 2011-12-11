@@ -426,16 +426,23 @@ class SongTable extends Doctrine_Table
     {
       if(sfConfig::get('app_indexer_use_indexer', false))
       {
-        $index_settings = sfConfig::get('app_indexer_settings');
-        $indexer = new $index_settings['class']();
-        $keys = $indexer->getKeys($settings[ 'search' ], 1000);
-        if(count($keys)>0)
+        try
         {
-          $query .= sprintf(' AND song.unique_id IN (%s) ', join(',', array_map(array($this, 'quoteMap'), $keys)) );
+          $index_settings = sfConfig::get('app_indexer_settings');
+          $indexer = new $index_settings['class']();
+          $keys = $indexer->getKeys($settings[ 'search' ], 1000);
+          if(count($keys)>0)
+          {
+            $query .= sprintf(' AND song.unique_id IN (%s) ', join(',', array_map(array($this, 'quoteMap'), $keys)) );
+          }
+          else
+          {
+            $query .= ' AND ( 1 = 0 ) ';
+          }
         }
-        else
+        catch(Exception $e)
         {
-          $query .= ' AND ( 1 = 0 ) ';
+          return false;
         }
       }
       else
