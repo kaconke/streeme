@@ -1,23 +1,18 @@
 <?php
 /**
- * JVM Based Solr/Lucene search index provider connector. 
+ * Mysql fulltext search index provider connector. 
  * 
  * @author Richard Hoar
  * @package Streeme
- * @depends sfSolrPlugin
+ * @depends mysql 5.1+, sfDoctrinePlugin
  */
-class StreemeIndexerSolr extends StreemeIndexerBase
+class StreemeIndexerMysql extends StreemeIndexerBase
 {
-  protected $lucene, $service;
+  protected $dbh;
   
   public function __construct()
   {
-    $this->lucene = sfLucene::getInstance('index', 'en');
-    if(!$this->lucene->getSearchService()->ping())
-    {
-      throw new Exception('Solr index server not loaded - please use >symfony lucene:service client start');
-    }
-    $this->service = $this->lucene->getSearchService();
+    $this->dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
   }
   
   /**
@@ -29,7 +24,7 @@ class StreemeIndexerSolr extends StreemeIndexerBase
   {
     return true;
   }
-  
+
   /**
    * Prepare the database before the index update process begins
    * 
@@ -37,6 +32,7 @@ class StreemeIndexerSolr extends StreemeIndexerBase
    */
   public function prepare()
   {
+    $this->dbh->exec('TRUNCATE TABLE indexer');
     return true;
   }
   
@@ -53,20 +49,20 @@ class StreemeIndexerSolr extends StreemeIndexerBase
    */
   public function doAddDocument($unique_id, $song_name, $artist_name, $album_name, $genre_name, $tags=null)
   {
-    $boost = false;
-    $doc = new sfLuceneDocument();
+    $query = 'INSERT INTO indexer set sfl_guid=:id, i=:terms';
+    $parameters['id'] = $unique_id;
+    $parameters['terms'] = sprintf('%s %s %s %s %s', $song_name, $artist_name, $album_name, $genre_name, $tags);
 
-    $doc->setField('song_name', $song_name, $boost);
-    $doc->setField('artist_name', $artist_name, $boost);
-    $doc->setField('album_name', $album_name, $boost);
-    $doc->setField('genre_name', $genre_name, $boost);
-    $doc->setField('tags', $tags, $boost);   
-    $doc->setField('sfl_guid', $unique_id);
-    
-    $this->service->addDocument($doc);
-    unset($doc);
-    
-    return true;
+    $stmt = $this->dbh->prepare( $query );
+    $success = $stmt->execute( $parameters );
+    if( $success )
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   /**
@@ -109,9 +105,7 @@ class StreemeIndexerSolr extends StreemeIndexerBase
    */
   public function flush()
   {
-    $this->service->commit();
-    $this->service->optimize();
-    
+    //handled by the music search service
     return true;
   }
   
@@ -125,29 +119,35 @@ class StreemeIndexerSolr extends StreemeIndexerBase
    */
   public function getKeys($keywords, $limit = 100, $idFieldName = 'sfl_guid')
   {
-    $user_search = preg_match("/[\*|\!|\+|\-|\&\&|\|\||\(|\)|\[|\]|\^|\~|\*|\?|\:|\\\"|\\\]/", $keywords, $void_matches);
-    $user_search = (substr($keywords, -1)===' ') ? true : false;
+    $parameters = array();
+    $keywords = sprintf('*%s*', $keywords);    
+    
+    $query  = 'SELECT ';
+    $query .= sprintf(' %s ', $idFieldName);
+    $query .= 'FROM ';
+    $query .= ' indexer ';
+    $query .= 'WHERE ';
+    $query .= ' MATCH(i) AGAINST(:query_term IN BOOLEAN MODE) ';
+    $query .= 'LIMIT ';
+    $query .= (int) $limit;    
+    
+    $parameters['query_term'] = $keywords;
       
-    $criteria = new sfLuceneCriteria();
-    if(strpos($keywords, ' '))
+    $stmt = $this->dbh->prepare( $query );
+    $success = $stmt->execute( $parameters );
+    if( $success )
     {
-      $criteria->addPhrase($keywords);
+      return array_map(array($this, 'valuesMap'), $stmt->fetchAll(Doctrine::FETCH_ASSOC));
     }
     else
     {
-      $criteria->add(sprintf('%s%s', $keywords, (($user_search) ? '' : '*')), sfLuceneCriteria::TYPE_AND, true);      
+      return '';
     }
-    $criteria->setParam('fl', $idFieldName);  
-    $criteria->setLimit($limit);   
-    $keys = array();
-    foreach($this->lucene->friendlyFind($criteria) as $result)
-    {
-      $tmp = $result->getResult()->getField($idFieldName);
-      $keys[] = $tmp['value'];
-    }
-    
-    unset($criteria, $result);
-    
-    return $keys;
   }
+  
+  public function valuesMap($arr)
+  {
+    $t = array_values($arr);
+    return $t[0];
+  } 
 }

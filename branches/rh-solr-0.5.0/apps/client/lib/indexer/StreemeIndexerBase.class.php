@@ -18,6 +18,13 @@ abstract class StreemeIndexerBase
    * @return bol: true on success 
    */
   abstract public function bootstrapService();
+
+  /**
+   * Prepare the database before the index update process begins
+   * 
+   * @return            bol: true on success
+   */
+  abstract public function prepare(); 
   
   /**
    * Add/Overwrite a document to the index

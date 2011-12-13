@@ -42,7 +42,7 @@ EOF;
       !$options['no-confirmation']
       &&
       !$this->askConfirmation(array_merge(
-        array(sprintf('This command will append data in the following "%s" connection(s):', $environment), ''),
+        array(sprintf('This command will append data in the following "%s" connection(s):', $options['env']), ''),
         array('', 'Are you sure you want to proceed? (y/N)')
       ), 'QUESTION_LARGE', false)
     )
