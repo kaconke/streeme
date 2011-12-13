@@ -51,7 +51,7 @@ EOF;
     $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
     
     //create a term pool index i to reduce the problem set for mysql
-    $dbh->exec('DROP TABLE indexer');
+    $dbh->exec('DROP TABLE IF EXISTS indexer');
     $dbh->exec('CREATE TABLE indexer (sfl_guid varchar(50), i text) ENGINE=MyISAM');
     $dbh->exec('ALTER TABLE indexer ADD FULLTEXT(i)');
 
