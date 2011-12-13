@@ -127,10 +127,10 @@ class StreemeIndexerMysql extends StreemeIndexerBase
     $query .= 'FROM ';
     $query .= ' indexer ';
     $query .= 'WHERE ';
-    $query .= ' MATCH(i) AGAINST(:query_term IN BOOLEAN MODE) ';
+    $query .= ' MATCH(i) AGAINST(:query_term IN BOOLEAN MODE) ';  
     $query .= 'LIMIT ';
     $query .= (int) $limit;    
-    
+   
     $parameters['query_term'] = $keywords;
       
     $stmt = $this->dbh->prepare( $query );
@@ -141,7 +141,7 @@ class StreemeIndexerMysql extends StreemeIndexerBase
     }
     else
     {
-      return '';
+      return array();
     }
   }
   
@@ -149,5 +149,5 @@ class StreemeIndexerMysql extends StreemeIndexerBase
   {
     $t = array_values($arr);
     return $t[0];
-  } 
+  }
 }
