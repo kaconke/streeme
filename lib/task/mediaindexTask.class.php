@@ -37,6 +37,7 @@ EOF;
     $result_list = array();
     if(SongTable::getInstance()->getIndexerList($result_list))
     {
+      $indexer->prepare();
       foreach($result_list as $result)
       {
         $indexer->addDocument($result["unique_id"], $result["name"], $result["artist_name"], $result["album_name"], 'genre');
