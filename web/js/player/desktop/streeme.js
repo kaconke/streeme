@@ -413,10 +413,22 @@ streeme = {
 			if( $( '#songlistcontainer' ) && $( '#songlist' ) )
 			{
 				setTimeout(function()
-				{ 	
-					var trHeight = ( streeme.displayPointer * $( '#songlist tbody tr' ).css('height').replace( 'px', '' ) - 205 );
-					if( trHeight < 30 ) trHeight = 0;
-					$('#songlistcontainer').scrollTo( trHeight, 200 );
+				{
+					var trId = '#sltr' + song_id;
+					var trHeight = $(trId).height();
+					var tblIndex = $(trId).parent().children().index($(trId));
+					for( var i=0; i<=tblIndex; i++ )
+					{
+						trHeight += $('#songlist tbody tr:nth-child(' + i + ')').height();
+					}
+					if(trHeight > 50)
+					{
+						$( '#songlistcontainer' ).scrollTo( {left:0, top: trHeight}, 200 );
+					}
+					else
+					{
+						$( '#songlistcontainer' ).scrollTo( {left:0, top:0}, 200 );
+					}
 				}
 				, 50 );
 			}
