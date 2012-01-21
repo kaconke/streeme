@@ -14,7 +14,7 @@ class mediaindexTask extends sfBaseTask
     $this->name             = 'media-index';
     $this->briefDescription = 'Update the indexer with search terms';
     $this->detailedDescription = <<<EOF
-The [media-index|INFO] task adds all scanned songs to the search indexer of your choice 
+The [media-index|INFO] task adds all scanned songs to the search indexer of your choice
 Call it with:
 
   [php symfony media-index|INFO]
@@ -26,6 +26,7 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
+    echo "Indexing media - please wait...\r\n";
 
     if(!sfConfig::get('app_indexer_use_indexer', false))
     {
@@ -48,5 +49,7 @@ EOF;
     {
       throw new Exception('Library is empty. Please scan your media before indexing.');
     }
+    
+    echo "Finished!\r\n";
   }
 }

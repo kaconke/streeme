@@ -1,7 +1,7 @@
 <?php
 /**
- * Mysql fulltext search index provider connector. 
- * 
+ * Mysql fulltext search index provider connector.
+ *
  * @author Richard Hoar
  * @package Streeme
  * @depends mysql 5.1+, sfDoctrinePlugin
@@ -16,9 +16,9 @@ class StreemeIndexerMysql extends StreemeIndexerBase
   }
   
   /**
-   * Attempt to raise the service 
-   * 
-   * @return bol: true on success 
+   * Attempt to raise the service
+   *
+   * @return bol: true on success
    */
   public function bootstrapService()
   {
@@ -27,7 +27,7 @@ class StreemeIndexerMysql extends StreemeIndexerBase
 
   /**
    * Prepare the database before the index update process begins
-   * 
+   *
    * @return            bol: true on success
    */
   public function prepare()
@@ -38,11 +38,11 @@ class StreemeIndexerMysql extends StreemeIndexerBase
   
   /**
    * Add a document to the index
-   * 
+   *
    * @param unique_id   str: the song's unique id
    * @param song_name   str: song name
-   * @param artist_name str: artist name 
-   * @param artist_name str: album name 
+   * @param artist_name str: artist name
+   * @param artist_name str: album name
    * @param genre_name  str: genre name
    * @param tags        str: any other tags/words to describe the track
    * @return            bol: true on success
@@ -67,40 +67,40 @@ class StreemeIndexerMysql extends StreemeIndexerBase
 
   /**
    * Pre transaction script
-   * 
+   *
    * @return          bol: true on success
    */
   public function preTransaction()
   {
-    //non transactional batch entry 
+    //non transactional batch entry
     return true;
   }
   
   /**
-   * Post transaction script 
-   * 
+   * Post transaction script
+   *
    * @return          bol: true on success
    */
   public function postTransaction()
   {
-    //non transactional batch entry 
+    //non transactional batch entry
     return true;
   }
   
   /**
-   * Abort transaction 
-   * 
+   * Abort transaction
+   *
    * @return          bol: true on success
    */
   public function rollbackTransaction()
   {
-    //non transactional batch entry 
+    //non transactional batch entry
     return true;
   }
     
   /**
    * destroy session / clean up stray data commits
-   * 
+   *
    * @return          bol: true on success
    */
   public function flush()
@@ -111,7 +111,7 @@ class StreemeIndexerMysql extends StreemeIndexerBase
   
   /**
    * get unique key list by keywords
-   * 
+   *
    * @param keywords    str: a user's search terms
    * @param limit       int: limit the resultset to the number specified
    * @param idFieldName str: the canonical id fieldname for the song's unique id
@@ -120,19 +120,18 @@ class StreemeIndexerMysql extends StreemeIndexerBase
   public function getKeys($keywords, $limit = 100, $idFieldName = 'sfl_guid')
   {
     $parameters = array();
-    $keywords = sprintf('*%s*', $keywords);    
-    
+    $keywords = sprintf('*%s*', $keywords);
     $query  = 'SELECT ';
     $query .= sprintf(' %s ', $idFieldName);
     $query .= 'FROM ';
     $query .= ' indexer ';
     $query .= 'WHERE ';
-    $query .= ' MATCH(i) AGAINST(:query_term IN BOOLEAN MODE) ';  
+    $query .= ' MATCH(i) AGAINST(:query_term IN BOOLEAN MODE) ';
     $query .= 'LIMIT ';
-    $query .= (int) $limit;    
+    $query .= (int) $limit;
    
     $parameters['query_term'] = $keywords;
-      
+
     $stmt = $this->dbh->prepare( $query );
     $success = $stmt->execute( $parameters );
     if( $success )

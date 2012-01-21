@@ -106,7 +106,7 @@ streeme = {
 	/**
 	* initialize the application - project constructor
 	* sets up the datatable object for songs and other general setup
-	* @param results_per_page    in: number of results per page
+	* @param results_per_page    int: number of results per page
 	*/
 	__initialize : function( results_per_page ) 
 	{
@@ -122,7 +122,7 @@ streeme = {
 				"bProcessing"     : true,
 				"bServerSide"     : true,
 				"sAjaxSource"     : javascript_base + '/service/listSongs',
-				"iDisplayLength"  : streeme.iDisplayLength,
+				"iDisplayLength"  : results_per_page,
 				"bJQueryUI"       : true,
 				"sPaginationType" : "full_numbers",
 				"bAutoWidth"      : false,

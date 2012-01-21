@@ -430,10 +430,12 @@ class SongTable extends Doctrine_Table
         {
           $index_settings = sfConfig::get('app_indexer_settings');
           $indexer = new $index_settings['class']();
-          $keys = $indexer->getKeys($settings[ 'search' ], 1000);
+          $keys = $indexer->getKeys($settings[ 'search' ], 100);
           if(count($keys)>0)
           {
             $query .= sprintf(' AND song.unique_id IN (%s) ', join(',', array_map(array($this, 'quoteMap'), $keys)) );
+            $query .= ' AND ( lower( song.name ) LIKE :search OR lower( album.name ) LIKE :search OR lower( artist.name ) LIKE :search ) ';
+            $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
           }
           else
           {
@@ -451,29 +453,22 @@ class SongTable extends Doctrine_Table
         $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
       }
     }
-
-    //get a count of rows returned by this query before applying pagination
-    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
-    $stmt = $dbh->prepare( $query );
-    $success = $stmt->execute( $parameters );
-    if( $success )
+    
+    if(Doctrine_Manager::getInstance()->getCurrentConnection()->getDriverName() === 'Sqlite')
     {
-      $row_count = $stmt->rowCount();
-      
-      if( $row_count > 1 )
+      //for sqlite, get a count of rows returned by this query before applying pagination
+      $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+      $stmt = $dbh->prepare( $query );
+      $success = $stmt->execute( $parameters );
+      if( $success )
       {
-        //most databases have an optimized rowCount API
-        $result_count = $row_count;
+        //sqlite compatibility: rowCount does not work in Doctrine for the sqlite driver
+        while( $row = $stmt->fetch() ) $result_count++;
       }
       else
       {
-        //sqlite compatibility: rowCount will only return 0 or 1
-        while( $row = $stmt->fetch() ) $result_count++;
+        return false;
       }
-    }
-    else
-    {
-      return false;
     }
     
     //get the data set with pagination and ordering
@@ -489,6 +484,10 @@ class SongTable extends Doctrine_Table
     $success = $stmt->execute( $parameters );
     if( $success )
     {
+      if(Doctrine_Manager::getInstance()->getCurrentConnection()->getDriverName() !== 'Sqlite')
+      {
+        $result_count = $stmt->rowCount();
+      }
       $result_list = $stmt->fetchAll(Doctrine::FETCH_ASSOC);
       return true;
     }
@@ -501,9 +500,9 @@ class SongTable extends Doctrine_Table
   
   /**
    * Get all songs for indexing
-   * 
+   *
    * @param result_list   OUT array: the resulting data set
-   * @return              bol: true on success 
+   * @return              bol: true on success
    */
   public function getIndexerList(&$result_list)
   {
@@ -558,12 +557,12 @@ class SongTable extends Doctrine_Table
   
   /**
    * Mapper to adds quotes to a key list
-   * 
+   *
    * @param text str: input text
    * @return     str: transformed output text
    */
   public function quoteMap($text)
   {
-    return sprintf('"%s"', $text);
+    return "\"$text\"";
   }
 }
