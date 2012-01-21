@@ -69,5 +69,5 @@ all:
   indexer:
     use_indexer: false                     # enable use of an external indexer for more expressive/faster searching
     settings:
-      class: StreemeIndexerSolr            # Add your own search indexer to the apps/client/lib/indexer dir
+      class: StreemeIndexerMysql           # Add your own search indexer to the apps/client/lib/indexer dir
       auto-start: true                     # automatically start the search service

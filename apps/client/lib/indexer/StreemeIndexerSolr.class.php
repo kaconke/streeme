@@ -1,7 +1,7 @@
 <?php
 /**
- * JVM Based Solr/Lucene search index provider connector. 
- * 
+ * JVM Based Solr/Lucene search index provider connector.
+ *
  * @author Richard Hoar
  * @package Streeme
  * @depends sfSolrPlugin
@@ -21,9 +21,9 @@ class StreemeIndexerSolr extends StreemeIndexerBase
   }
   
   /**
-   * Attempt to raise the service 
-   * 
-   * @return bol: true on success 
+   * Attempt to raise the service
+   *
+   * @return bol: true on success
    */
   public function bootstrapService()
   {
@@ -32,7 +32,7 @@ class StreemeIndexerSolr extends StreemeIndexerBase
   
   /**
    * Prepare the database before the index update process begins
-   * 
+   *
    * @return            bol: true on success
    */
   public function prepare()
@@ -42,11 +42,11 @@ class StreemeIndexerSolr extends StreemeIndexerBase
   
   /**
    * Add a document to the index
-   * 
+   *
    * @param unique_id   str: the song's unique id
    * @param song_name   str: song name
-   * @param artist_name str: artist name 
-   * @param artist_name str: album name 
+   * @param artist_name str: artist name
+   * @param artist_name str: album name
    * @param genre_name  str: genre name
    * @param tags        str: any other tags/words to describe the track
    * @return            bol: true on success
@@ -56,11 +56,11 @@ class StreemeIndexerSolr extends StreemeIndexerBase
     $boost = false;
     $doc = new sfLuceneDocument();
 
-    $doc->setField('song_name', $song_name, $boost);
-    $doc->setField('artist_name', $artist_name, $boost);
-    $doc->setField('album_name', $album_name, $boost);
-    $doc->setField('genre_name', $genre_name, $boost);
-    $doc->setField('tags', $tags, $boost);   
+    $doc->setField('song_name', strtolower($song_name), $boost);
+    $doc->setField('artist_name', strtolower($artist_name), $boost);
+    $doc->setField('album_name', strtolower($album_name), $boost);
+    $doc->setField('genre_name', strtolower($genre_name), $boost);
+    $doc->setField('tags', strtolower($tags), $boost);
     $doc->setField('sfl_guid', $unique_id);
     
     $this->service->addDocument($doc);
@@ -71,40 +71,40 @@ class StreemeIndexerSolr extends StreemeIndexerBase
 
   /**
    * Pre transaction script
-   * 
+   *
    * @return          bol: true on success
    */
   public function preTransaction()
   {
-    //non transactional batch entry 
+    //non transactional batch entry
     return true;
   }
   
   /**
-   * Post transaction script 
-   * 
+   * Post transaction script
+   *
    * @return          bol: true on success
    */
   public function postTransaction()
   {
-    //non transactional batch entry 
+    //non transactional batch entry
     return true;
   }
   
   /**
-   * Abort transaction 
-   * 
+   * Abort transaction
+   *
    * @return          bol: true on success
    */
   public function rollbackTransaction()
   {
-    //non transactional batch entry 
+    //non transactional batch entry
     return true;
   }
     
   /**
    * destroy session / clean up stray data commits
-   * 
+   *
    * @return          bol: true on success
    */
   public function flush()
@@ -117,7 +117,7 @@ class StreemeIndexerSolr extends StreemeIndexerBase
   
   /**
    * get unique key list by keywords
-   * 
+   *
    * @param keywords    str: a user's search terms
    * @param limit       int: limit the resultset to the number specified
    * @param idFieldName str: the canonical id fieldname for the song's unique id
@@ -125,20 +125,10 @@ class StreemeIndexerSolr extends StreemeIndexerBase
    */
   public function getKeys($keywords, $limit = 100, $idFieldName = 'sfl_guid')
   {
-    $user_search = preg_match("/[\*|\!|\+|\-|\&\&|\|\||\(|\)|\[|\]|\^|\~|\*|\?|\:|\\\"|\\\]/", $keywords, $void_matches);
-    $user_search = (substr($keywords, -1)===' ') ? true : false;
-      
     $criteria = new sfLuceneCriteria();
-    if(strpos($keywords, ' '))
-    {
-      $criteria->addPhrase($keywords);
-    }
-    else
-    {
-      $criteria->add(sprintf('%s%s', $keywords, (($user_search) ? '' : '*')), sfLuceneCriteria::TYPE_AND, true);      
-    }
-    $criteria->setParam('fl', $idFieldName);  
-    $criteria->setLimit($limit);   
+    $criteria->addPhraseGuess(strtolower($keywords));
+    $criteria->setParam('fl', $idFieldName);
+    $criteria->setLimit($limit);
     $keys = array();
     foreach($this->lucene->friendlyFind($criteria) as $result)
     {
