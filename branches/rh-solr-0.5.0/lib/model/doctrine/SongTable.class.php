@@ -454,21 +454,29 @@ class SongTable extends Doctrine_Table
       }
     }
     
-    if(Doctrine_Manager::getInstance()->getCurrentConnection()->getDriverName() === 'Sqlite')
+    //get a count of rows returned by this query before applying pagination
+    //limit results to 1000 possible rows to speed things up
+    $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+    $stmt = $dbh->prepare( $query . ' LIMIT 1000 ' );
+    $success = $stmt->execute( $parameters );
+    if( $success )
     {
-      //for sqlite, get a count of rows returned by this query before applying pagination
-      $dbh = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
-      $stmt = $dbh->prepare( $query );
-      $success = $stmt->execute( $parameters );
-      if( $success )
+      $row_count = $stmt->rowCount();
+      
+      if( $row_count > 1 )
       {
-        //sqlite compatibility: rowCount does not work in Doctrine for the sqlite driver
-        while( $row = $stmt->fetch() ) $result_count++;
+        //most databases have an optimized rowCount API
+        $result_count = $row_count;
       }
       else
       {
-        return false;
+        //sqlite compatibility: rowCount will only return 0 or 1
+        while( $row = $stmt->fetch() ) $result_count++;
       }
+    }
+    else
+    {
+      return false;
     }
     
     //get the data set with pagination and ordering
@@ -484,10 +492,6 @@ class SongTable extends Doctrine_Table
     $success = $stmt->execute( $parameters );
     if( $success )
     {
-      if(Doctrine_Manager::getInstance()->getCurrentConnection()->getDriverName() !== 'Sqlite')
-      {
-        $result_count = $stmt->rowCount();
-      }
       $result_list = $stmt->fetchAll(Doctrine::FETCH_ASSOC);
       return true;
     }
