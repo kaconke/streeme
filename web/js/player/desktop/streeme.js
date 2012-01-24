@@ -113,16 +113,14 @@ streeme = {
 		/**************************************************		
 		 * Setup the JQuery Datatables UI Component       *
 		 **************************************************/
-		streeme.iDisplayLength = results_per_page;
-
-		$('#songlist').dataTable
+        
+		var oTable = $('#songlist').dataTable
 		( 
 			{
 				/* datatable config */
 				"bProcessing"     : true,
 				"bServerSide"     : true,
 				"sAjaxSource"     : javascript_base + '/service/listSongs',
-				"iDisplayLength"  : results_per_page,
 				"bJQueryUI"       : true,
 				"sPaginationType" : "full_numbers",
 				"bAutoWidth"      : false,
@@ -145,7 +143,8 @@ streeme = {
 					"sProcessing"   : sProcessing,
 					"sSearch"       : sSearch,
 					"sZeroRecords"  : sZeroRecords,
-				},		
+				},
+				
 				/* hide the song id field from the user */
 				"aoColumns" : 
 				[ 
@@ -240,6 +239,11 @@ streeme = {
 				}
 			}
 		);
+        var oSettings = oTable.fnSettings();
+        oSettings._iDisplayLength = parseInt(results_per_page);
+        oTable.fnDraw();
+        streeme.iDisplayLength = results_per_page;
+		
 		
 		/**************************************************		
 		 * Read and setup cookie based ui  settings       *
