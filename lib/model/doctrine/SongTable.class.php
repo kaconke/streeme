@@ -430,12 +430,13 @@ class SongTable extends Doctrine_Table
         {
           $index_settings = sfConfig::get('app_indexer_settings');
           $indexer = new $index_settings['class']();
-          $keys = $indexer->getKeys($settings[ 'search' ], 100);
+          $keys = $indexer->getKeys(strtolower($settings[ 'search' ]), 100);
+
           if(count($keys)>0)
           {
             $query .= sprintf(' AND song.unique_id IN (%s) ', join(',', array_map(array($this, 'quoteMap'), $keys)) );
             $query .= ' AND ( lower( song.name ) LIKE :search OR lower( album.name ) LIKE :search OR lower( artist.name ) LIKE :search ) ';
-            $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
+            $parameters[ 'search' ] = '%' . join('%', explode(' ', strtolower( $settings[ 'search' ] ) ) ) . '%';
           }
           else
           {
@@ -450,7 +451,7 @@ class SongTable extends Doctrine_Table
       else
       {
         $query .= ' AND ( lower( song.name ) LIKE :search OR lower( album.name ) LIKE :search OR lower( artist.name ) LIKE :search ) ';
-        $parameters[ 'search' ] = '%' . join('%', explode(' ', $settings[ 'search' ] ) ) . '%';
+        $parameters[ 'search' ] = '%' . join('%', explode(' ', strtolower( $settings[ 'search' ] ) ) ) . '%';
       }
     }
     

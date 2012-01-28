@@ -125,19 +125,20 @@ class StreemeIndexerSolr extends StreemeIndexerBase
    */
   public function getKeys($keywords, $limit = 100, $idFieldName = 'sfl_guid')
   {
-    $criteria = new sfLuceneCriteria();
-    $criteria->addPhraseGuess(strtolower($keywords));
-    $criteria->setParam('fl', $idFieldName);
-    $criteria->setLimit($limit);
-    $keys = array();
-    foreach($this->lucene->friendlyFind($criteria) as $result)
-    {
-      $tmp = $result->getResult()->getField($idFieldName);
-      $keys[] = $tmp['value'];
-    }
-    
-    unset($criteria, $result);
-    
-    return $keys;
+    $user_search = preg_match("/[\*|\!|\+|\-|\&\&|\|\||\(|\)|\[|\]|\^|\~|\*|\?|\:|\\\"|\\\]/", $keywords, $void_matches);
+    $service = new sfLuceneService('localhost', 8983, '/solr/index_en');
+    $query = sprintf('%s%s%s',
+        trim(strtolower($keywords)),
+        ($user_search) ? '' : '*',
+        ($user_search) ? '' : ' OR ' . trim(strtolower($keywords)));
+    $response = $service->search($query, 0, $limit, array('fl'=>$idFieldName));
+    $docs = json_decode($response->getRawResponse(), true);
+
+    return array_values(array_map(array($this, 'result_map'), $docs['response']['docs']));
+  }
+  
+  public function result_map($doc)
+  {
+    return $doc['sfl_guid'];
   }
 }
