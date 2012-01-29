@@ -5,6 +5,12 @@
 
 If you have found something wrong with streeme, don't panic - Streeme is throughly tested on multiple platforms. Often times the only problem is in configuration. This troubleshooting guide can help you diagnose some common installation or known program issues. Always try this stuff first before submitting a bug. 
 
+= Upgrading issues =
+===I see SQLSTATE erors in the error log after an upgrade===
+There's a good chance that your upgrade has taken you to a new minor version and has incoming database changes. Please follow the directions here to rebuild or migrate to the latest version of the database layout. 
+
+http://code.google.com/p/streeme/wiki/UpdateStreeme#Migrating_your_database_schema_between_minor_versions
+
 = Setup issues =
 ===Why does it keep saying page not found?===
 ===I get an error - Connection Refused===
