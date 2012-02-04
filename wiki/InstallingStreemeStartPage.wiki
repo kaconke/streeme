@@ -13,7 +13,7 @@ To break up the process of setting up Streeme, the setup will comprise of a few 
 
  * [InstallingStreemeHomeServer Audit and try out Streeme using VMWare]
 
-===Custom Installation (Reccomended)===
+===Custom Installation (Recommended)===
 
  * [InstallingStreemeLinux Installing Streeme on Linux >]
 
