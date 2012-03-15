@@ -45,10 +45,9 @@ class ApplicationSetupGenerator
   /**
    * Deploy the indexer tables in mysql
    *
-   * @param options arr: the form values posted on the db setup form
    * @return        bol: true on success
    */
-  public function bootstrapIndexer(array $options)
+  public function bootstrapIndexer()
   {
     exec(sprintf('cd %s && %s mysql initialize --no-confirmation', escapeshellarg(sfConfig::get('sf_root_dir')), escapeshellcmd(sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'symfony')), $results);
   }
@@ -56,10 +55,9 @@ class ApplicationSetupGenerator
   /**
    * Run a media scan to import media into streeme
    *
-   * @param options arr: the form values posted on the db setup form
    * @return        bol: true on success
    */
-  public function runMediaScan(array $options)
+  public function runMediaScan()
   {
     exec(sprintf('cd %s && %s schedule-scan', escapeshellarg(sfConfig::get('sf_root_dir')), escapeshellcmd(sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'symfony')), $results);
   }

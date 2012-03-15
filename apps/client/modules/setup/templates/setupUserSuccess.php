@@ -13,7 +13,7 @@ use_stylesheet( '/css/setup/stylesheet.css' );
   <div class="formarea clearfix">
     <div class="infosection">
       <h1><?php echo __('Account Configuration') ?></h1>
-      <p><?php echo __('Set up your users in the form below. Note that users do not have separate media libraries in Streeme. Any users you add here will be able to access all of your scanned music, playlists and album art, so use this tool wisely.' ) ?></p>
+      <p><?php echo __('Set up your users in the form below. Note that users do not have separate media libraries in Streeme. Any users you add here will be able to access all of your scanned music, playlists and album art, so use this tool wisely. If you want to install Streeme for separate libraries, consider running another streeme instance on a different set of ports.' ) ?></p>
     </div>
     <form method="post" action="<?php echo url_for('@setup_user') ?>" id="accountSetupForm">
       <div class="formsection">

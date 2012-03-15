@@ -22,13 +22,28 @@ use_stylesheet( '/css/setup/stylesheet.css' );
     <form method="post" action="<?php echo url_for('@setup_application') ?>" id="dbSetupForm" onsubmit="return confirm('<?php echo __('Warning: this action will replace your current app.yml file including an custom settings. Proceed with setup?') ?>') ? true : false;">
       <div class="formsection">
         <ul class="form">
+          <?php if($create_error): ?>
+          <li class="delete">
+            <div class="warningbox"><?php echo __('Could not write the config file, please verify that the web server has sufficient access rights to edit apps/client/config/app.yml') ?></div>
+          </li>
+          <?php endif?>
+          <?php if($clear_error): ?>
+          <li class="delete">
+            <div class="warningbox"><?php echo __('Could not clear the application cache, please ensure the web server has sufficient rights to read and write cache and log.') ?></div>
+          </li>
+          <?php endif?>
+         <?php if($bootstrap_error): ?>
+          <li class="delete">
+            <div class="warningbox"><?php echo __('The indexer could not be started. If you have strict permissions set on mysql, please run the command "symfony mysql initialize" from the commandline as a privileged user.') ?></div>
+          </li>
+          <?php endif?>
           <?php include_partial('setup/applicationSetupForm', array('form'=>$form)); ?>
         </ul>
       </div>
       <div class="buttonsection">
         <ul class="buttons">
           <li class="submitbutton"><input type="submit" value="<?php echo __('Finish Setup') ?>"/></li>
-          <li><a>&nbsp;</a></li>
+          <li><a href="<?php echo url_for('@setup_home') ?>">Return to the setup start page</a></li>
         </ul>
       </div>
     </form>
