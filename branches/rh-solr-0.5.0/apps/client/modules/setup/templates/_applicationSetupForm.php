@@ -35,7 +35,7 @@ $(document).ready(function(){
   $('#setup_library_type').trigger('change');
   $('#setup_transcoding').trigger('change');
   <?php
-  if(Doctrine_Manager::getInstance()->getCurrentConnection()->getDriverName() !== 'Mysql')
+  if(!$isMysql)
   {
 	  echo "$('.mysql').hide();\r\n";
   }

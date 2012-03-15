@@ -123,6 +123,10 @@ class setupActions extends sfActions
   public function executeSetupApplication(sfWebRequest $request)
   {
     $this->form = new ApplicationSetupForm();
+    $this->isMysql = (Doctrine_Manager::getInstance()->getCurrentConnection()->getDriverName() === 'Mysql') ? true : false;
+    $this->create_error = false;
+    $this->bootstrap_error = false;
+    $this->clear_error = false;
     
     if ($request->isMethod('post'))
     {
@@ -133,9 +137,41 @@ class setupActions extends sfActions
         $generator = new ApplicationSetupGenerator(new sfYamlDumper);
         if($generator->create(sfConfig::get('sf_root_dir') . '/apps/client/config/app.yml', $options))
         {
-          exit;
+          if($generator->reloadApplication())
+          {
+            if($this->isMysql && $options['database_indexing'])
+            {
+              if(!$generator->bootstrapIndexer())
+              {
+                $this->bootstrap_error = true;
+              }
+            }
+          }
+          else
+          {
+            $this->clear_error = true;
+          }
+        }
+        else
+        {
+          $this->create_error = true;
+        }
+        
+        if(!$this->create_error && !$this->bootstrap_error && !$this->clear_error)
+        {
+          $this->redirect('@setup_scan');
         }
       }
     }
+  }
+  
+  /**
+   * Execute the scan media page
+   *
+   * @param sfRequest $request A request object
+   */
+  public function executeSetupScanMedia(sfWebRequest $request)
+  {
+  
   }
 }

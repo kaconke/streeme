@@ -56,6 +56,10 @@ setup_user:
 setup_application:
   url: /setup/application
   param: { module: setup, action: setupApplication }      
+
+setup_scan:
+  url: /setup/scan
+  param: { module: setup, action: setupScanMedia }  
   
 homepage:
   url: /
