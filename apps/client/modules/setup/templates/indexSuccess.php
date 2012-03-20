@@ -10,7 +10,8 @@ use_stylesheet( '/css/setup/stylesheet.css' );
 <script src="/js/jquery-1.4.2.min.js" type="text/javascript"></script>
 <div class="container">
   <div class="languagecontainer"><?php include_partial('player/languagechooser'); ?></div>
-  <div class="formarea clearfix">
+  <div class="formarea clearfix" style="background: url(/images/setup/setup-header.jpg) #FFF no-repeat top left;">
+    <div style="height: 114px; border-bottom: 1px solid #BBB; clear:both;"></div>
     <div class="infosection">
       <h1><?php echo __('Welcome to Streeme') ?></h1>
       <p>
