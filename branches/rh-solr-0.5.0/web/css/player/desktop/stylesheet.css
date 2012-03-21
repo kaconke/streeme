@@ -357,7 +357,7 @@ a.cboxElement
 }
 .videocontainer{
 	position:relative;
-	margin-right: 156px;
+	margin-right: 190px;
 }
 video{
 	position: absolute;
@@ -407,7 +407,7 @@ audio.firefox{
 .previoussong{
 	position: absolute; 
 	top: 14px;
-	right: 96px;
+	right: 134px;
 	width: 38px;
 	height: 32px;
 	background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
@@ -422,7 +422,7 @@ audio.firefox{
 {
 	position: absolute; 
 	top: 14px;
-	right: 96px;
+	right: 134px;
 	width: 38px;
 	height: 32px;
 	background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
@@ -432,7 +432,7 @@ audio.firefox{
 .nextsong{
 	position: absolute; 
 	top: 14px;
-	right: 59px;
+	right: 97px;
 	width: 37px;
 	height: 32px;
 	background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
@@ -446,7 +446,7 @@ audio.firefox{
 .nextsongdisabled{
 	position: absolute; 
 	top: 14px;
-	right: 59px;
+	right: 97px;
 	width: 37px;
 	height: 32px;
 	background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
@@ -460,8 +460,12 @@ audio.firefox{
 	width: 37px;
 	height: 32px;
 	background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
-	background-position: -77px -35px;
+	background-position: -77px -70px;
 	cursor: pointer;
+}
+.randomsong:hover{
+  background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
+  background-position: -77px -35px;
 }
 .randomsongactive{
 	position: absolute; 
@@ -472,6 +476,41 @@ audio.firefox{
 	background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
 	background-position: -77px 0px;
 	cursor: pointer;
+}
+.repeatsong{
+  position: absolute; 
+  top: 14px;
+  right: 55px;
+  width: 38px;
+  height: 32px;
+  background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
+  background-position: -77px -104px;
+  cursor: pointer;
+}
+.repeatsong:hover{
+  background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
+  background-position: -1px -138px;
+  cursor: pointer;
+}
+.repeatsongall{
+  position: absolute; 
+  top: 14px;
+  right: 56px;
+  width: 38px;
+  height: 32px;
+  background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
+  background-position: 0px -104px;
+  cursor: pointer;
+}
+.repeatsongsingle{
+  position: absolute; 
+  top: 14px;
+  right: 55px;
+  width: 38px;
+  height: 32px;
+  background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
+  background-position: -39px -104px;
+  cursor: pointer;
 }
 .content{
 	position: relative;

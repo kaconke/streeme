@@ -46,6 +46,11 @@ streeme = {
 	random : false,
 
 	/**
+	* Repeat State str: off|all|single;
+	*/
+	repeat : 'off',
+	
+	/**
 	* Record the connection speed in kb/s around when the application loads
 	*/
 	connectionSpeed : 0,
@@ -305,6 +310,10 @@ streeme = {
 		if( $( '#random' ) )
 		{
 			$( '#random' ).click( streeme.playRandom );
+		}
+		if( $( '#repeat' ) )
+		{
+			$( '#repeat' ).click( streeme.playRepeat );
 		}
 		if( $( '#settings' ) )
 		{
@@ -802,6 +811,34 @@ streeme = {
 			}
 			
 			streeme.random = true;
+		}
+	},
+	
+	/**
+	* Update the repeat state for the interface
+	*/
+	playRepeat : function()
+	{
+		switch(streeme.repeat)
+		{
+			case 'all':
+				streeme.repeat = 'single';
+				$( '#repeat' ).addClass( 'repeatsongsingle' );  
+				$( '#repeat' ).removeClass( 'repeatsongall' ); 
+				$( '#repeat' ).removeClass( 'repeatsong' );
+				break;
+			case 'single':
+				streeme.repeat = 'off';
+				$( '#repeat' ).addClass( 'repeatsong' );  
+				$( '#repeat' ).removeClass( 'repeatsongall' ); 
+				$( '#repeat' ).removeClass( 'repeatsongsingle' );
+				break;
+			case 'off':
+				streeme.repeat = 'all';
+				$( '#repeat' ).addClass( 'repeatsongall' );  
+				$( '#repeat' ).removeClass( 'repeatsong' ); 
+				$( '#repeat' ).removeClass( 'repeatsongsingle' );
+				break;
 		}
 	},
 	
