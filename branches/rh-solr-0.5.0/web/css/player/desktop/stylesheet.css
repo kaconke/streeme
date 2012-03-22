@@ -480,8 +480,8 @@ audio.firefox{
 .repeatsong{
   position: absolute; 
   top: 14px;
-  right: 55px;
-  width: 38px;
+  right: 54px;
+  width: 39px;
   height: 32px;
   background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
   background-position: -77px -104px;
@@ -495,8 +495,8 @@ audio.firefox{
 .repeatsongall{
   position: absolute; 
   top: 14px;
-  right: 56px;
-  width: 38px;
+  right: 55px;
+  width: 39px;
   height: 32px;
   background: url("/images/player/desktop/h5-button-transportsprite.png") no-repeat;
   background-position: 0px -104px;

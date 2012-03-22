@@ -277,6 +277,11 @@ streeme = {
 		{
 			streeme.volume = $.cookie('modify_volume');
 		}
+		if( $.cookie( 'repeat') )
+		{
+			streeme.repeat = $.cookie( 'repeat' );
+			streeme.playRepeat();
+		}
 		
 		/**************************************************		
 		 * Register Event listeners for the Streeme class *
@@ -285,7 +290,18 @@ streeme = {
 		if( $( '#musicplayer' ) )
 		{
 			//the song unloaded normally
-			$( '#musicplayer' ).bind( 'ended', streeme.playNextSong );
+			$( '#musicplayer' ).bind( 'ended', function(){
+				if(streeme.repeat === 'single')
+				{
+					var currentSongData = $( '#songlist' ).dataTable().fnGetData( streeme.displayPointer );
+					streeme.playSong( currentSongData[ 0 ], currentSongData[ 1 ], currentSongData[ 2 ], currentSongData[ 3 ], currentSongData[ 8 ], 0 );
+					return true;
+				}
+				else
+				{
+					streeme.playNextSong();
+				}
+			});
 			
 			//check play/paused state
 			$( '#musicplayer' ).bind( 'pause', function(event){ streeme.play=false; } );
@@ -651,6 +667,7 @@ streeme = {
 		{
 			streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ], nextSongData[ 8 ], 0 );
 			streeme.displayPointer++;
+			return true;
 		}
 		else
 		{
@@ -693,14 +710,39 @@ streeme = {
 				}
 
 				//let Javascript get back to work
-				return false;
+				return true;
 			}
 			catch( err )
 			{
-				if( $( '#next' ) )
+				if(streeme.repeat === 'all')
+				{
+					//move to the first
+					$( '#songlist' ).dataTable().fnPageChange( 'first' );
+					
+					//let the page redraw and then update the song pointers
+					setTimeout(function()
+					{ 	
+						nextSongData = $( '#songlist' ).dataTable().fnGetData( 0 );
+
+						if( nextSongData )
+						{
+							streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ], nextSongData[ 8 ], 0 );
+						}
+						streeme.displayPointer = 0;
+					}
+					, 2000);
+					
+					//scroll back to the top of the container
+					if( $( '#songlistcontainer' ) )
+					{
+						$( '#songlistcontainer' ).scrollTo( 0 );
+					}
+	
+				}
+				else
 				{
 				  $( '#next' ).removeClass( 'nextsong' );
-					$( '#next' ).addClass( 'nextsongdisabled' );
+				  $( '#next' ).addClass( 'nextsongdisabled' );
 				}
 			} 
 		}
@@ -762,7 +804,27 @@ streeme = {
 			}
 			catch( err )
 			{
-				if( $( '#previous' ) )
+				if(streeme.repeat === 'all')
+				{
+					//move to the last page
+					$( '#songlist' ).dataTable().fnPageChange( 'last' );
+					
+					//let the page redraw and then update the song pointers
+					setTimeout(function()
+					{ 	
+						nextSongData = $( '#songlist' ).dataTable().fnGetData();
+
+						if( nextSongData )
+						{
+							var position = nextSongData.length - 1;
+							nextSongData = nextSongData[position];
+							streeme.playSong( nextSongData[ 0 ], nextSongData[ 1 ], nextSongData[ 2 ], nextSongData[ 3 ], nextSongData[ 8 ], 0 );
+						}
+						streeme.displayPointer = position;
+					}
+					, 2000);
+				}
+				else
 				{
 					$( '#previous' ).removeClass( 'previoussong' );
 					$( '#previous' ).addClass( 'previoussongdisabled' );
@@ -826,18 +888,21 @@ streeme = {
 				$( '#repeat' ).addClass( 'repeatsongsingle' );  
 				$( '#repeat' ).removeClass( 'repeatsongall' ); 
 				$( '#repeat' ).removeClass( 'repeatsong' );
+				$.cookie( 'repeat', 'all');
 				break;
 			case 'single':
 				streeme.repeat = 'off';
 				$( '#repeat' ).addClass( 'repeatsong' );  
 				$( '#repeat' ).removeClass( 'repeatsongall' ); 
 				$( '#repeat' ).removeClass( 'repeatsongsingle' );
+				$.cookie( 'repeat', 'single');
 				break;
 			case 'off':
 				streeme.repeat = 'all';
 				$( '#repeat' ).addClass( 'repeatsongall' );  
 				$( '#repeat' ).removeClass( 'repeatsong' ); 
 				$( '#repeat' ).removeClass( 'repeatsongsingle' );
+				$.cookie( 'repeat', 'off');
 				break;
 		}
 	},
