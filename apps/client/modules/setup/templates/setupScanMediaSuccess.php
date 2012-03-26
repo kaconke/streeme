@@ -17,6 +17,14 @@ use_stylesheet( '/css/setup/stylesheet.css' );
         <?php echo __('Now that your settings are complete, you may begin scanning your media using the contols below.') ?>
         <?php echo __('If the scan fails to work, you may return to the settings start page to try configuring your app again or check the logs for setup errors. You may also run this process using the commandline by issuing the following commands') ?>
         <span class="code"><?php echo 'symfony schedule-scan' ?></span>
+        <div class="scanstatus">
+          <?php if ($scanSuccess): ?>
+            <img src=""  alt="<?php echo __('Media scanned successfully') ?>" />
+          <?php endif; ?>
+          <?php if ($scanError): ?>
+            <img src=""  alt="<?php echo __('Media could not be scanned') ?>" />
+          <?php endif; ?>
+        </div>
       </p>
     </div>
     <form method="post" action="">

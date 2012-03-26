@@ -22,24 +22,31 @@ class ApplicationSetupGenerator
    *
    * @param file    str: the fully qualified app.yml file path
    * @param options arr: the form values posted on the db setup form
+   * @return        bol: true on success
    */
   public function create($file, array $options)
   {
     $this->log('Generating config file for the applicaiton');
     $data = $this->createApplicationSchema($options);
     $yml_text = $this->yaml->dump($data,20,0);
+    
     return((file_put_contents($file, $yml_text)) ? true : false);
   }
   
   /**
    * Do the required cleanup steps once the app.yml is generated
    *
-   * @param options arr: the form values posted on the db setup form
-   * @return        bol: true on success
+   * @return        bol: true on completion
    */
   public function reloadApplication()
   {
-    exec(sprintf('cd %s && %s cc', escapeshellarg(sfConfig::get('sf_root_dir')), escapeshellcmd(sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'symfony')), $results_clear);
+    exec(sprintf('cd %s && %s cc', escapeshellarg(sfConfig::get('sf_root_dir')), escapeshellcmd(sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'symfony')), $results);
+    foreach ($results as $value)
+    {
+      $this->log($value);
+    }
+    
+    return true;
   }
   
   /**
@@ -50,16 +57,30 @@ class ApplicationSetupGenerator
   public function bootstrapIndexer()
   {
     exec(sprintf('cd %s && %s mysql initialize --no-confirmation', escapeshellarg(sfConfig::get('sf_root_dir')), escapeshellcmd(sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'symfony')), $results);
+    foreach ($results as $value)
+    {
+      $this->log($value);
+    }
+    $val = array_pop($results);
+    
+    return (strpos($val, 'Finished!')) ? true : false;
   }
   
   /**
    * Run a media scan to import media into streeme
    *
-   * @return        bol: true on success
+   * @return        bol: true on completion
    */
   public function runMediaScan()
   {
     exec(sprintf('cd %s && %s schedule-scan', escapeshellarg(sfConfig::get('sf_root_dir')), escapeshellcmd(sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'symfony')), $results);
+    foreach ($results as $value)
+    {
+      $this->log($value);
+    }
+    $val = array_pop($results);
+    
+    return (strpos($val, 'Finished!')) ? true : false;
   }
   
   /**

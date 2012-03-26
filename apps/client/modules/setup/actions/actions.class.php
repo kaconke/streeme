@@ -172,6 +172,20 @@ class setupActions extends sfActions
    */
   public function executeSetupScanMedia(sfWebRequest $request)
   {
-  
+    $this->scanSuccess = false;
+    $this->scanError = false;
+    
+    if ($request->isMethod('post'))
+    {
+      $generator = new ApplicationSetupGenerator(new sfYamlDumper);
+      if($generator->runMediaScan())
+      {
+        $this->scanSuccess = true;
+      }
+      else
+      {
+        $this->scanError = true;
+      }
+    }
   }
 }

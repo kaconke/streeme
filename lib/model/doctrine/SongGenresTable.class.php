@@ -15,9 +15,16 @@ class SongGenresTable extends Doctrine_Table
    */
   public function getList( $alpha = 'all' )
   {
-    $q = Doctrine_Query::create()
-      ->select( 'sg.genre_id, g.name' )
-      ->from( 'SongGenres sg' )
+    $q = Doctrine_Query::create();
+    if(Doctrine_Manager::getInstance()->getCurrentConnection()->getDriverName() === 'Pgsql')
+    {
+      $q->select( 'MAX(sg.genre_id), MAX(g.name)' );
+    }
+    else
+    {
+      $q->select( 'sg.genre_id, g.name' );
+    }
+    $q->from( 'SongGenres sg' )
       ->leftJoin( 'sg.Genre g' )
       ->leftJoin( 'sg.Song s')
       ->where( 'sg.song_id = s.id' )
@@ -54,7 +61,7 @@ class SongGenresTable extends Doctrine_Table
         $song_genres->save();
         $insert_list[] = $genre_id;
         $song_genres->free();
-        unset($song_genres); 
+        unset($song_genres);
       }
     }
     else
