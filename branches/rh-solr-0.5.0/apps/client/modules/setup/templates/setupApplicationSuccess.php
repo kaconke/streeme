@@ -37,7 +37,7 @@ use_stylesheet( '/css/setup/stylesheet.css' );
             <div class="warningbox"><?php echo __('The indexer could not be started. If you have strict permissions set on mysql, please run the command "symfony mysql initialize" from the commandline as a privileged user.') ?></div>
           </li>
           <?php endif?>
-          <?php include_partial('setup/applicationSetupForm', array('form'=>$form)); ?>
+          <?php include_partial('setup/applicationSetupForm', array('form'=>$form, 'isMysql'=>$isMysql)); ?>
         </ul>
       </div>
       <div class="buttonsection">

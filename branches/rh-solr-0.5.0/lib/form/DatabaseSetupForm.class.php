@@ -43,7 +43,7 @@ class DatabaseSetupForm extends BaseForm
     $this->setDefaults(array(
       'database_host'     => 'localhost',
       'database_port'     => '3306',
-      'database_pg_port'  => '5342',
+      'database_pg_port'  => '5432',
       'database_name'     => 'streeme',
       'database_path'     => sfConfig::get('sf_root_dir') .'/data'
     ));
