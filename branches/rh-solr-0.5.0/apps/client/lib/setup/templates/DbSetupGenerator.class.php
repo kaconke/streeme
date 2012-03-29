@@ -46,8 +46,8 @@ class DbSetupGenerator
     }
     
     $yml_text = $this->yaml->dump($data,20,0);
-    
-    return((file_put_contents($file, $yml_text)) ? true : false);
+    umask(0000);
+    return((file_put_contents($file, $yml_text, 0666)) ? true : false);
   }
   
   /**
