@@ -32,7 +32,7 @@ $(document).ready(function(){
 </script>
 <li>
   <?php if($form['_csrf_token']->hasError()): ?>
-    <span class="error_message">__('Form Invalid. Please ensure cookies are turned on.');</span>
+    <span class="error_message"><?php echo __('Form Invalid. Please ensure cookies are turned on.') ?></span>
   <?php endif ?>
   <?php echo $form['_csrf_token']->render() ?>
   <?php if($sf_user->hasFlash('formStatus')): ?>
