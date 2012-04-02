@@ -15,28 +15,26 @@ class SongGenresTable extends Doctrine_Table
    */
   public function getList( $alpha = 'all' )
   {
-    $q = Doctrine_Query::create();
-    if(Doctrine_Manager::getInstance()->getCurrentConnection()->getDriverName() === 'Pgsql')
-    {
-      $q->select( 'MAX(sg.genre_id), MAX(g.name)' );
-    }
-    else
-    {
-      $q->select( 'sg.genre_id, g.name' );
-    }
-    $q->from( 'SongGenres sg' )
-      ->leftJoin( 'sg.Genre g' )
-      ->leftJoin( 'sg.Song s')
-      ->where( 'sg.song_id = s.id' )
-      ->andWhere( 'g.name IS NOT NULL' );
+    $q = Doctrine_Query::create()
+    ->select( 'sg.genre_id, g.name' )
+    ->from( 'SongGenres sg' )
+    ->leftJoin( 'sg.Genre g' )
+    ->leftJoin( 'sg.Song s')
+    ->where( 'sg.song_id = s.id' )
+    ->andWhere( 'g.name IS NOT NULL' );
     if( $alpha !== 'all' )
     {
       $q->andWhere( 'upper( g.name ) LIKE ?', strtoupper( substr( $alpha, 0, 1 ) ) . '%' );
     }
-    $q->groupBy( 'g.name' )
-      ->orderBy( 'g.name ASC' );
-    
-    return $q->fetchArray();
+    $q->orderBy( 'g.name ASC' );
+    $result = $q->fetchArray();
+    $tmp = array();
+    foreach($result as $key=>$value)
+    {
+      $tmp[$value['genre_id']] = $value;
+    }
+    $tmp = array_slice($tmp, 0);
+    return $tmp;
   }
   
   /**
@@ -59,7 +57,7 @@ class SongGenresTable extends Doctrine_Table
         $song_genres->song_id = $song_id;
         $song_genres->genre_id = $genre_id;
         $song_genres->save();
-        $insert_list[] = $genre_id;
+        $insert_list[] = (string) $genre_id;
         $song_genres->free();
         unset($song_genres);
       }
@@ -71,7 +69,7 @@ class SongGenresTable extends Doctrine_Table
       $song_genres->song_id = $song_id;
       $song_genres->genre_id = $genre_id;
       $song_genres->save();
-      $insert_list[] = $genre_id;
+      $insert_list[] = (string) $genre_id;
       $song_genres->free();
       unset($song_genres);
     }

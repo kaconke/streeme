@@ -26,7 +26,7 @@ CREATE INDEX scan_id ON song (scan_id);
 CREATE INDEX isremix_index ON song (isremix);
 CREATE INDEX artist_index ON song (artist_id);
 CREATE INDEX album_index ON song (album_id);
-CREATE INDEX song_index ON song_genres (song_id);
+CREATE INDEX song_id_index ON song_genres (song_id);
 CREATE INDEX is_active_idx ON sf_guard_user (is_active);
 ALTER TABLE sf_guard_group_permission ADD CONSTRAINT sf_guard_group_permission_permission_id_sf_guard_permission_id FOREIGN KEY (permission_id) REFERENCES sf_guard_permission(id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE sf_guard_group_permission ADD CONSTRAINT sf_guard_group_permission_group_id_sf_guard_group_id FOREIGN KEY (group_id) REFERENCES sf_guard_group(id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE;
