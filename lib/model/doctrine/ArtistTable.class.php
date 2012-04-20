@@ -35,7 +35,7 @@ class ArtistTable extends Doctrine_Table
     {
       $retId = $result->id;
       unset($q, $result);
-      return $retId;
+      return (int) $retId;
     }
     else
     {
@@ -46,7 +46,7 @@ class ArtistTable extends Doctrine_Table
       $item->free();
       unset($item, $q, $result);
       
-      return $id;
+      return (int) $id;
     }
   }
     
@@ -66,7 +66,13 @@ class ArtistTable extends Doctrine_Table
       $q->where( 'upper( a.name ) LIKE ?', strtoupper( substr( $alpha, 0, 1 ) ) . '%' );
     }
     $q->orderBy( 'a.name ASC' );
-    return $q->fetchArray();
+    $tmp = $q->fetchArray();
+    foreach($tmp as $key => $value)
+    {
+      $tmp[$key]['id'] = (int) $value['id'];
+    }
+    
+    return $tmp;
   }
   
   /**

@@ -332,8 +332,20 @@ class SongTable extends Doctrine_Table
     }
     
     //search should now be valid keywords, join them with spaces
-    $settings[ 'search' ] = join( ' ', array_map( 'strtolower', $components ) );
-  
+    $driverName = Doctrine_Manager::getInstance()->getCurrentConnection()->getDriverName();
+    if($driverName === 'Mysql' || $driverName === 'Pgsql')
+    {
+      foreach($components as $id => $search_term)
+      {
+        $components[$id] = strtolower(iconv('UTF-8', 'US-ASCII//TRANSLIT//IGNORE', $search_term));
+      }
+      $settings[ 'search' ] = join( ' ', $components);
+    }
+    else
+    {
+      $settings[ 'search' ] = join( ' ', array_map( 'strtolower', $components ) );
+    }
+    
     //this array contains the decoded sort information
     $expression = new Doctrine_Expression( 'random()' );
     $order_by = ( $settings[ 'sortdirection' ] == 'asc' ) ? ' ASC ' : ' DESC ';
