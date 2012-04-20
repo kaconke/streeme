@@ -31,7 +31,7 @@ class PlaylistTable extends Doctrine_Table
     $playlist = new Playlist();
     if($scan_id > 0)
     {
-      $playlist->scan_id = $scan_id;
+      $playlist->scan_id = (int) $scan_id;
     }
     if(strlen($service_name) > 0)
     {
@@ -48,7 +48,7 @@ class PlaylistTable extends Doctrine_Table
     $playlist->free();
     unset($playlist);
     
-    return $id;
+    return (int) $id;
   }
   
   /**
@@ -82,7 +82,13 @@ class PlaylistTable extends Doctrine_Table
       $q->andWhere( 'upper( p.name ) LIKE ?', strtoupper( substr( $alpha, 0, 1 ) ) . '%' );
     }
     $q->orderBy( 'p.name ASC' );
-    return $q->fetchArray();
+    $tmp = $q->fetchArray();
+    foreach($tmp as $key => $value)
+    {
+      $tmp[$key]['id'] = (int) $value['id'];
+    }
+    
+    return $tmp;
   }
   
   /**

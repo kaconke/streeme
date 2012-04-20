@@ -69,7 +69,7 @@ class MediaScan
   public $removed_genres= 0;
 
   /**
-   * obj: table instances 
+   * obj: table instances
    */
   protected $artist_table, $song_table, $album_table, $song_genres_table;
   
@@ -110,7 +110,7 @@ class MediaScan
     $this->total_songs++;
     
     //have we seen this song before?
-    $song = $this->song_table->updateScanId( $filename, $mtime, $this->scan_id );
+    $song = $this->song_table->updateScanId( $filename, (int) $mtime, $this->scan_id );
     if( $song > 0 )
     {
       $this->skipped_songs++;
@@ -157,13 +157,13 @@ class MediaScan
     {
       $this->added_albums[ $album_id ] = 1;
     }
-    $song_id = $this->song_table->addSong( $artist_id, $album_id, $this->scan_id, $song_array );
+    $song_id = $this->song_table->addSong( $artist_id, $album_id, (int) $this->scan_id, $song_array );
     $this->added_songs++;
-    $genre_ids = $this->song_genres_table->addSongGenres($song_id, $song_array['genre_name']);
+    $genre_ids = $this->song_genres_table->addSongGenres((int) $song_id, $song_array['genre_name']);
     
     unset($artist_name, $artist_id, $album_name, $album_id, $song_id, $genre_ids, $song_array );
     
-    return $song_id;
+    return (int) $song_id;
   }
   
   /**

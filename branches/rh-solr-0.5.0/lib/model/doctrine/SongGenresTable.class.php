@@ -31,9 +31,11 @@ class SongGenresTable extends Doctrine_Table
     $tmp = array();
     foreach($result as $key=>$value)
     {
-      $tmp[$value['genre_id']] = $value;
+      $tmp[(int) $value['genre_id']] = $value;
+      $tmp[(int) $value['genre_id']]['Genre']['id'] = (int) $value['Genre']['id'];
     }
     $tmp = array_slice($tmp, 0);
+
     return $tmp;
   }
   

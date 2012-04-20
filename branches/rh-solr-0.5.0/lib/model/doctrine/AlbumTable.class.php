@@ -35,7 +35,7 @@ class AlbumTable extends Doctrine_Table
     {
       $retId = $result->id;
       unset($q, $result);
-      return $retId;
+      return (int) $retId;
     }
     else
     {
@@ -51,7 +51,7 @@ class AlbumTable extends Doctrine_Table
       $item->free();
       unset($item, $q, $result);
       
-      return $id;
+      return (int) $id;
     }
   }
   
@@ -76,7 +76,13 @@ class AlbumTable extends Doctrine_Table
     }
     $q->distinct();
     $q->orderBy( 'a.name ASC' );
-    return $q->fetchArray();
+    $tmp = $q->fetchArray();
+    foreach($tmp as $key => $value)
+    {
+      $tmp[$key]['id'] = (int) $value['id'];
+    }
+    
+    return $tmp;
   }
   
   /**
