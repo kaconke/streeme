@@ -2,6 +2,18 @@
 #labels Phase-Implementation
 
 = CHANGELOG =
+=== Version 0.6.0 ===
+ * Added search indexing for faster searching on large media libraries using mysql
+ * Added Optional support for Solr Indexing - see documentation
+ * Added Latvian language pack - thanks, @kleofass!
+ * Added framework for windows installer setup scripts 
+ * Updated to Jquery Datatables 1.8.2 to help with keyword search issuse and to tighten security
+ * Improved compatibility with postgresql databases
+ * Added a repeat function
+ * Added framework for LDAP support - needs testing! help!
+ * Fixed a bug in pagination returning screwy results
+ * Fixed autoscroll bug on small screens 
+
 === Version 0.5.0 ===
  * THIS VERSION NOW USES A NEW DATABASE SCHEMA. IT IS NOT A CLEAN UPGRADE PATH FROM 0.4.2.
  * Added playlist scanning for iTunes playlists 
