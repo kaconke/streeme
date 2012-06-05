@@ -1,0 +1,23 @@
+Artist:
+  Artist_0:
+    id: 1
+    name: Með suð í eyrum við spilum endalaust
+
+Album:
+  Album_0:
+    name: Meow Remix
+    scan_id: 1
+    mtime: 2002039920
+    amazon_flagged: 0
+    meta_flagged: 0
+    folders_flagged: 0
+    has_art: 0
+    
+Song:
+  Song_0:
+    name: sample
+    scan_id: 1
+    artist_id: 1
+    album_id: 1
+    filename: '<?php echo dirname(__FILE__)."/../../files/sample.mp3"; ?>'
+    mtime: 02030909393 
