@@ -842,3 +842,7 @@ audio.firefox{
 	border-right: 1px solid #E2E2E2;
 	outline: 1px solid #AAA;
 }
+table.songlist > tbody > tr.keycursor
+{
+  background-color: #DFE9D0;
+}
