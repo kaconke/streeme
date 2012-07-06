@@ -31,6 +31,11 @@ streeme = {
 	displayPointer : 0,
 
 	/**
+	 * the index of the curent keyboard selection
+	 */
+	cursorPointer: 0,
+
+	/**
 	* the id of the song that's currently playing
 	*/
 	currentSongId : null,
@@ -392,12 +397,15 @@ streeme = {
 		/* Keyboard Shortcut Listeners */
 		key('shift+alt+left', function(){ streeme.playPreviousSong() } );
 		key('shift+alt+right', function(){ streeme.playNextSong() } );
+		key('shift+alt+down', function(){ streeme.cursorDown() });
+		key('shift+alt+up', function(){ streeme.cursorUp() });
 		key('shift+alt+s', function(){ streeme.playRandom() } );
 		key('shift+alt+r', function(){ streeme.playRepeat() } );
 		key('shift+alt+m', function(){ streeme.toggleMute() } );
 		key('shift+alt+p', function(){ streeme.togglePlaylistsWindow() });
 		key('shift+alt+o', function(){ streeme.toggleSettingsWindow() });
 		key('shift+alt+x', function(){ streeme.togglePlayback() });
+		key('shift+alt+enter', function(){ streeme.playFromCursor() });
 		
 		/**************************************************		
 		 * Run initial setup scripts                      *
@@ -1541,6 +1549,83 @@ streeme = {
 			}
 			
 			streeme.paused = true;
+		}
+	},
+	
+	/**
+	 * Move the keyboard selection up a song
+	 */
+	cursorUp : function()
+	{
+		$('table.songlist tbody tr').removeClass('keycursor');
+		if(streeme.cursorPointer > 0)
+		{
+			streeme.cursorPointer--;
+			$('table.songlist tbody tr:nth-child('+ streeme.cursorPointer +')').addClass('keycursor');
+			streeme.cursorScroll();
+		}
+		else
+		{
+			streeme.cursorPointer = 0;
+			$('table.songlist tbody tr:nth-child('+ (streeme.cursorPointer + 1) +')').addClass('keycursor');
+			streeme.cursorScroll();
+		}
+	},
+	
+	/**
+	 * Move the keyboard selection down a song
+	 */
+	cursorDown : function()
+	{
+		$('table.songlist tbody tr').removeClass('keycursor');
+		if(streeme.cursorPointer < $('table.songlist tbody tr').length)
+		{
+			streeme.cursorPointer++;
+			$('table.songlist tbody tr:nth-child('+ streeme.cursorPointer +')').addClass('keycursor');
+			streeme.cursorScroll();
+		}
+	},
+	
+	/**
+	 * Scroll along with the keyboard selection cursor
+	 */
+	cursorScroll : function()
+	{
+		setTimeout(function()
+			{
+				var trId = 'table.songlist tbody tr:nth-child('+ streeme.cursorPointer +')';
+				var trHeight = $(trId).height();
+				var tblIndex = $(trId).parent().children().index($(trId));
+				for( var i=0; i<=tblIndex; i++ )
+				{
+					trHeight += $('#songlist tbody tr:nth-child(' + i + ')').height();
+				}
+				if(trHeight > 50)
+				{
+					$( '#songlistcontainer' ).scrollTo( {left:0, top: trHeight}, 200 );
+				}
+				else
+				{
+					$( '#songlistcontainer' ).scrollTo( {left:0, top:0}, 200 );
+				}
+			}
+			, 50
+		);
+	},
+	
+	/**
+	 * Play a song from a keyboard cursor selection
+	 */
+	playFromCursor : function()
+	{
+		if(streeme.cursorPointer > 0)
+		{
+			$('table.songlist tbody tr').removeClass('keycursor');
+			
+			var currentSongData = $( '#songlist' ).dataTable().fnGetData( streeme.cursorPointer-1 );
+			streeme.playSong( currentSongData[ 0 ], currentSongData[ 1 ], currentSongData[ 2 ], currentSongData[ 3 ], currentSongData[ 8 ], 0 );
+			streeme.displayPointer = streeme.cursorPointer-1;
+			return true;
 		}
 	},
 	
