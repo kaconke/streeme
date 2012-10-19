@@ -142,11 +142,12 @@ You'll need to download a compiled version of FFMPEG with libmp3 and ogg vorbis
 
 Download and run the file from the following location
 
-[http://www.mtholyoke.edu/lits/18273.shtml Mount Holyoke Audacity Recording Download Instructions]
+[http://ffmpeg.arrozcru.org/builds/ Unofficial FFMPEG Builds - use  revision 16537 shared
+]
 
 download and install the executable in STEP 4 
 
-{{{FFmpeg_2009_01_08_for_Audacity_on_Windows.exe}}}
+{{{ffmpeg.exe}}}
 
 keep the location of the install handy for configuring streeme
 
